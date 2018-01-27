@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
 import {logout} from '../store'
 import Tile from './tile/tile'
+import InterviewBaord from './interview-board/interview-board'
 
 const jobDetails = {
   name: 'Google',
@@ -26,7 +27,8 @@ const Main = (props) => {
 
   return (
     <div>
-      <Tile {...jobDetails} />
+      { /*<Tile {...jobDetails} /> */ }
+      <InterviewBaord />
     </div>
   )
 }
