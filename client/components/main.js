@@ -4,17 +4,17 @@ import {connect} from 'react-redux'
 import {withRouter, Route, Switch, BrowserRouter} from 'react-router-dom'
 import {logout} from '../store'
 import Search from './search/search'
-import InterviewBaord from './interview-board/interview-board'
+import InterviewBoardContainer from './interview-container/interview-board-container'
 import Questions from './questions/questions'
 
 
 const Main = (props) => {
   return (
-    <div id='rootDiv'>
+    <div id = "rootDiv">
       <BrowserRouter>
         <Switch>
-          <Route exact path="/question" render={() => <Questions /> } />
-          <Route exact path="/whiteboard" render={() => <InterviewBaord /> }/>
+          <Route exact path="/questions" render={() => <Questions /> } />
+          <Route exact path="/whiteboard" render={() => <InterviewBoardContainer /> } />
           <Route exact path="/search" render={() => <Search /> } />
         </Switch>
       </BrowserRouter>
