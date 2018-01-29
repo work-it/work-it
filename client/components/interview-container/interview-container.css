@@ -1,0 +1,35 @@
+.interview-board-container {
+  flex-direction: row;
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  padding: 0;
+  margin:0;
+
+}
+
+.sidebar {
+  height: 100%;
+  flex-direction: column;
+  padding: 0;
+}
+
+.video {
+  height: 40%;
+  padding: 0;
+}
+
+.interview {
+  padding: 0;
+}
+
+.questions {
+  height: 60%;
+}
+
+
+.ui.attached.segment {
+  height: 100%;
+  overflow-y: scroll;
+  padding-bottom: 50px;
+}
