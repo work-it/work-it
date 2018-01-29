@@ -26,7 +26,7 @@ const Main = (props) => {
   const {children, handleClick, isLoggedIn} = props
 
   return (
-    <div>
+    <div id='rootDiv'>
       { /*<Tile {...jobDetails} /> */ }
       <InterviewBaord />
     </div>
