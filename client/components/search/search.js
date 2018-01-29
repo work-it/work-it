@@ -1,34 +1,30 @@
-import React, {Component} from 'react'
+import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import { SearchBar, Tile } from '../index'
+import { Button } from 'semantic-ui-react'
 import './search.css'
 
-class Search extends Component {
-  constructor(props) {
-    super(props);
+const Search = (props) => {
+  const {jobs} = props;
 
-    this.state = {
-      advanced: false
-    }
-  }
-
-  render() {
-    const {jobs} = this.props;
-    const {advanced} = this.state;
-
-    return (
-      <div className="search">
-        <SearchBar />
-        {advanced && this.renderAdvanced()}
-        <div className="jobs-wrapper">
-          {jobs && jobs.map(job => {
-            return <Tile {...job} key={job.id} />
-          })}
+  return (
+    <div className="search">
+      <SearchBar />
+      <div className="jobs-wrapper">
+        <div className="col-md-12 text-right sort-btns">
+        <Button.Group>
+          <Button>Relevance</Button>
+          <Button>Date</Button>
+          <Button>Distance</Button>
+        </Button.Group>
         </div>
+        {jobs && jobs.map(job => {
+          return <Tile {...job} key={job.id} />
+        })}
       </div>
-    )
-  }
+    </div>
+  )
 }
 
 /**
@@ -36,8 +32,9 @@ class Search extends Component {
  */
 const mapState = (state) => {
   return {
-    jobs: state.jobs
+    jobs: state.search
   }
 }
+
 
 export default withRouter(connect(mapState)(Search))

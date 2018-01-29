@@ -7,7 +7,6 @@ import Search from './search/search'
 import InterviewBoardContainer from './interview-container/interview-board-container'
 import Questions from './questions/questions'
 
-
 const Main = (props) => {
   return (
     <div id = "rootDiv">

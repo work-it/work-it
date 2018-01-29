@@ -1,9 +1,7 @@
-.advanced {
-  height: 300px;
-  background: #f7f7f7;
-}
-
 .jobs-wrapper {
-  padding-top: 50px;
+  padding-top: 20px;
 }
 
+.sort-btns {
+  padding-bottom: 20px;
+}

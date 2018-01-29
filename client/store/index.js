@@ -4,14 +4,13 @@ import thunkMiddleware from 'redux-thunk'
 import socketMiddleware from './middleware/socketMiddleware'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import user from './user'
-import jobs from './jobs'
+import search from '../components/search/search-reducer'
 import whiteboard from '../components/interview-board/whiteboard-reducer'
 import textarea from '../components/interview-board/textarea-reducer'
 import questions from '../components/questions/questions-reducer'
 import saved from '../components/interview-container/save-state-reducer'
 
-const reducer = combineReducers({user, whiteboard, textarea, jobs, questions, saved})
-
+const reducer = combineReducers({user, whiteboard, textarea, search, questions, saved})
 
 const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,
@@ -23,3 +22,4 @@ const store = createStore(reducer, middleware)
 
 export default store
 export * from './user'
+export * from '../components/search/search-reducer'
