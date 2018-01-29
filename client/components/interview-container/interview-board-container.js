@@ -10,13 +10,13 @@ import './interview-container.css'
 
 function InterviewBoardContainer (props) {
     return (
-        <div className = "interview-board-container row ">
-            <div className = "interview col-sm-8">
+        <div className = "interview-board-container">
+            <div className = "interview ">
                 <button onClick={() => props.save()}>Save</button>
                 <InterviewBoard />
             </div>
 
-            <div className = "sidebar col-sm-4">
+            <div className = "sidebar ">
                 <div className="video">
                     <p>'hiasdkjfhaskdfhalksdhfklasjdhfklj'</p>
                 </div>
