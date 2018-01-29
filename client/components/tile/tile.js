@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Icon, Image } from 'semantic-ui-react'
+import { Card, Icon, Image, Button } from 'semantic-ui-react'
 import renderHTML from 'react-render-html';
 import './tile.css'
 
@@ -16,8 +16,7 @@ export default class Tile extends Component {
   render() {
     const {view} = this.state;
     return (
-      <div>
-        <div className="next" onClick={() => this.handleNextClick()}>Next</div>
+      <div className="tile col-sm-3">
         {!view ? this.renderHomeView() : this.renderDescView()}
       </div>
     );
@@ -29,6 +28,15 @@ export default class Tile extends Component {
       this.setState({view: 0})
     } else {
       this.setState({view: view + 1})
+    }
+  }
+
+  handlePrevClick() {
+    const {view, maxView} = this.state;
+    if (view === 0) {
+      this.setState({view: maxView})
+    } else {
+      this.setState({view: view - 1})
     }
   }
 
@@ -63,10 +71,19 @@ export default class Tile extends Component {
           </Card.Description>
         </Card.Content>
         <Card.Content extra>
-          <a>
-            <Icon name="user" />
-            Favorite
-          </a>
+        <div className="prev" onClick={() => this.handlePrevClick()}>
+          <i className="fa fa-chevron-left" aria-hidden="true"></i>
+        </div>
+        <div className="btn-group-wrapper text-center">
+          <Button.Group className="btn-group">
+            <Button>View</Button>
+            <Button>Apply</Button>
+            <Button>Save</Button>
+          </Button.Group>
+        </div>
+        <div className="next" onClick={() => this.handleNextClick()}>
+          <i className="fa fa-chevron-right" aria-hidden="true"></i>
+        </div>
         </Card.Content>
       </Card>
     )
@@ -115,10 +132,19 @@ export default class Tile extends Component {
           </Card.Description>
         </Card.Content>
         <Card.Content extra>
-          <a>
-            <Icon name="user" />
-            Favorite
-          </a>
+        <div className="prev" onClick={() => this.handlePrevClick()}>
+          <i className="fa fa-chevron-left" aria-hidden="true"></i>
+        </div>
+        <div className="btn-group-wrapper text-center">
+          <Button.Group className="btn-group">
+            <Button>View</Button>
+            <Button>Apply</Button>
+            <Button>Save</Button>
+          </Button.Group>
+        </div>
+        <div className="next" onClick={() => this.handleNextClick()}>
+          <i className="fa fa-chevron-right" aria-hidden="true"></i>
+        </div>
         </Card.Content>
       </Card>
     )

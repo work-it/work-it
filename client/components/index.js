@@ -5,4 +5,7 @@
  */
 export {default as Main} from './main'
 export {default as UserHome} from './user-home'
+export {default as Search} from './search/search'
+export {default as Tile} from './tile/tile'
+export {default as SearchBar} from './search-bar/search-bar'
 export {Login, Signup} from './auth-form'
