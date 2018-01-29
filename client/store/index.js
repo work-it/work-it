@@ -7,14 +7,15 @@ import user from './user'
 import jobs from './jobs'
 import whiteboard from '../components/interview-board/whiteboard-reducer'
 import textarea from '../components/interview-board/textarea-reducer'
+import questions from '../components/questions/questions-reducer'
 
-const reducer = combineReducers({user, whiteboard, textarea, jobs})
+const reducer = combineReducers({user, whiteboard, textarea, jobs, questions})
 
 
 const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,
   socketMiddleware(),
-  createLogger({collapsed: true}) 
+  createLogger({collapsed: true})
 ))
 
 const store = createStore(reducer, middleware)

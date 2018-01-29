@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { Tab } from 'semantic-ui-react'
 import renderHTML from 'react-render-html';
 import './questions.css'
 
-export default class Questions extends Component {
+class Questions extends Component {
   constructor(props) {
     super(props);
 
@@ -11,9 +13,12 @@ export default class Questions extends Component {
       state: 0,
     }
   }
+componentDidMount(){
+  console.log(this.props)
+}
 
   renderQuestion() {
-    const {title, question} = this.props;
+    const {title, question} = this.props.questions;
     return (
       <Tab.Pane key="question">
         <h2>{title}</h2>
@@ -22,7 +27,7 @@ export default class Questions extends Component {
     )
   }
   renderHint() {
-    const {title, hint} = this.props;
+    const {title, hint} = this.props.questions;
     return (
       <Tab.Pane key="hint">
         <h2>{title}</h2>
@@ -31,7 +36,7 @@ export default class Questions extends Component {
     )
   }
   renderSolution() {
-    const {title, solution} = this.props;
+    const {title, solution} = this.props.questions;
     return (
       <Tab.Pane key="solution">
         <h2>{title}</h2>
@@ -41,8 +46,7 @@ export default class Questions extends Component {
   }
 
   render() {
-
-    const panes = [
+    if (this.props.questions) {  const panes = [
       { menuItem: 'Question', render: () => this.renderQuestion() },
       { menuItem: 'Hint', render: () => this.renderHint() },
       { menuItem: 'Solution', render: () => this.renderSolution() }
@@ -52,6 +56,18 @@ export default class Questions extends Component {
         <Tab panes={panes} />
       </div>
     );
+  } else {
+    return null
+  }
+
   }
 
 }
+
+const mapState = (state) => {
+  return {
+    questions: state.questions
+  }
+}
+
+export default withRouter(connect(mapState)(Questions))
