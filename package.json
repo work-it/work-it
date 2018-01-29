@@ -25,8 +25,11 @@
     "body-parser": "^1.16.1",
     "compression": "^1.7.1",
     "connect-session-sequelize": "^4.1.0",
+    "draft-js": "^0.10.5",
     "express": "^4.14.1",
     "express-session": "^1.15.1",
+    "glamor": "^2.20.40",
+    "glamorous": "^4.11.4",
     "history": "^4.6.3",
     "morgan": "^1.8.1",
     "passport": "^0.3.2",
@@ -39,12 +42,15 @@
     "react-redux": "^5.0.2",
     "react-render-html": "^0.6.0",
     "react-router-dom": "^4.1.1",
+    "react-split-pane": "^0.1.74",
+    "react-split-pane-2": "^0.1.36",
     "redux": "^3.6.0",
     "redux-logger": "^2.8.1",
     "redux-thunk": "^2.2.0",
     "semantic-ui-react": "^0.77.2",
     "sequelize": "^4.3.1",
-    "socket.io": "^2.0.3"
+    "socket.io": "^2.0.3",
+    "styled-components": "^3.0.2"
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.9.0",

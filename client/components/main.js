@@ -7,7 +7,11 @@ import {logout} from '../store'
 import Search from './search/search'
 
 import Tile from './tile/tile'
+
+import InterviewBaord from './interview-board/interview-board'
+
 import Questions from './questions/questions'
+
 
 
 
@@ -22,6 +26,10 @@ const questionDetails = {
 
 const Main = (props) => {
   return (
+
+    <div id='rootDiv'>
+      <InterviewBaord />
+
     <div className="container">
       <Search />
     <div>
