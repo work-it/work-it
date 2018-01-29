@@ -1,18 +1,11 @@
-import axios from 'axios'
-import history from '../history'
-
-/**
- * ACTION TYPES
- */
-
-/**
- * INITIAL STATE
- */
-const defaultJobs = [{
-  id: 0,
+export const defaultSearch = [{
+  id: 1,
   name: 'Google',
   position: 'Software Enginer',
   location: 'New York, NY',
+  zip: '10001',
+  experience: 'Entry Level',
+  type: 'Full-time',
   topSkills: ['JavaScript', 'Jasmine', 'Java'],
   salaryRange: {
     min: 110,
@@ -24,10 +17,13 @@ const defaultJobs = [{
   qualifications: '<ul><li>BS degree in Computer Science, similar technical field of study or equivalent practical experience.</li><li>Software development experience in one or more general purpose programming languages.</li><li>Experience working with two or more from the following: web application development, Unix/Linux environments, mobile application development, distributed and parallel systems, machine learning, information retrieval, natural language processing, networking, developing large software systems, and/or security software development.</li><li>Working proficiency and communication skills in verbal and written English.</li></ul>',
   comp: '<ul><li>Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</li><li>Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</li><li>Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.</li><li>Pellentesque fermentum dolor. Aliquam quam lectus, facilisis auctor, ultrices ut, elementum vulputate, nunc.</li></ul>'
 }, {
-  id: 0,
+  id: 2,
   name: 'Amazon',
   position: 'Software Enginer, Web',
   location: 'New York, NY',
+  zip: '10001',
+  experience: 'Mid-Level',
+  type: 'Part-time',
   topSkills: ['JavaScript', 'React', 'Node'],
   salaryRange: {
     min: 100,
@@ -39,10 +35,13 @@ const defaultJobs = [{
   qualifications: '<ul><li>BS degree in Computer Science, similar technical field of study or equivalent practical experience.</li><li>Software development experience in one or more general purpose programming languages.</li><li>Experience working with two or more from the following: web application development, Unix/Linux environments, mobile application development, distributed and parallel systems, machine learning, information retrieval, natural language processing, networking, developing large software systems, and/or security software development.</li><li>Working proficiency and communication skills in verbal and written English.</li></ul>',
   comp: '<ul><li>Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</li><li>Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</li><li>Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.</li><li>Pellentesque fermentum dolor. Aliquam quam lectus, facilisis auctor, ultrices ut, elementum vulputate, nunc.</li></ul>'
 }, {
-  id: 0,
+  id: 3,
   name: 'IBM',
   position: 'Front End Engineer',
   location: 'New York, NY',
+  zip: '10001',
+  experience: 'Senior Level',
+  type: 'Contract',
   topSkills: ['JavaScript', 'React', 'Node'],
   salaryRange: {
     min: 115,
@@ -54,10 +53,13 @@ const defaultJobs = [{
   qualifications: '<ul><li>BS degree in Computer Science, similar technical field of study or equivalent practical experience.</li><li>Software development experience in one or more general purpose programming languages.</li><li>Experience working with two or more from the following: web application development, Unix/Linux environments, mobile application development, distributed and parallel systems, machine learning, information retrieval, natural language processing, networking, developing large software systems, and/or security software development.</li><li>Working proficiency and communication skills in verbal and written English.</li></ul>',
   comp: '<ul><li>Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</li><li>Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</li><li>Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.</li><li>Pellentesque fermentum dolor. Aliquam quam lectus, facilisis auctor, ultrices ut, elementum vulputate, nunc.</li></ul>'
 }, {
-  id: 0,
+  id: 4,
   name: 'LinkedIn',
   position: 'Staff Software Engineer',
   location: 'New York, NY',
+  zip: '10001',
+  experience: 'Mid Level',
+  type: 'Full-time',
   topSkills: ['JavaScript', 'React', 'Node'],
   salaryRange: {
     min: 125,
@@ -69,24 +71,3 @@ const defaultJobs = [{
   qualifications: '<ul><li>BS degree in Computer Science, similar technical field of study or equivalent practical experience.</li><li>Software development experience in one or more general purpose programming languages.</li><li>Experience working with two or more from the following: web application development, Unix/Linux environments, mobile application development, distributed and parallel systems, machine learning, information retrieval, natural language processing, networking, developing large software systems, and/or security software development.</li><li>Working proficiency and communication skills in verbal and written English.</li></ul>',
   comp: '<ul><li>Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</li><li>Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</li><li>Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.</li><li>Pellentesque fermentum dolor. Aliquam quam lectus, facilisis auctor, ultrices ut, elementum vulputate, nunc.</li></ul>'
 }]
-
-/**
- * ACTION CREATORS
- */
-const getUser = user => ({type: GET_USER, user})
-const removeUser = () => ({type: REMOVE_USER})
-
-/**
- * THUNK CREATORS
- */
-
-
-/**
- * REDUCER
- */
-export default function (state = defaultJobs, action) {
-  switch (action.type) {
-    default:
-      return state
-  }
-}

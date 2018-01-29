@@ -41,10 +41,12 @@ export default class Tile extends Component {
   }
 
   renderHomeView() {
-    const {name, position, location, salaryRange, topSkills} = this.props;
+    const {name, position, location, experience, type, salaryRange, topSkills} = this.props;
     return (
       <Card>
-        <Image className="logo" src={this.props.imgUrl} />
+        <div className="logo-wrapper">
+          <Image className="logo" src={this.props.imgUrl} />
+        </div>
         <Card.Content>
           <Card.Header>
             <span className="name">
@@ -63,8 +65,9 @@ export default class Tile extends Component {
             <span className="top-skills">
           {topSkills.map(skill => skill).join(', ')}
             </span>
-          </Card.Description>
-          <Card.Description>
+            <span className="exp-type">
+            {`${experience} - ${type}`}
+            </span>
             <span className="range">
               {`$${salaryRange.min}K - $${salaryRange.max}K`}
             </span>

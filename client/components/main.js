@@ -1,20 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {withRouter, Link} from 'react-router-dom'
+import {withRouter, Route, Switch, BrowserRouter} from 'react-router-dom'
 import {logout} from '../store'
-
 import Search from './search/search'
-
-import Tile from './tile/tile'
-
 import InterviewBaord from './interview-board/interview-board'
-
 import Questions from './questions/questions'
-
-
-
-
 
 const questionDetails = {
   title: 'Cat Years, Dog Years',
@@ -26,26 +17,18 @@ const questionDetails = {
 
 const Main = (props) => {
   return (
-
     <div id='rootDiv'>
-      <InterviewBaord />
-
-    <div className="container">
-      <Search />
-    <div>
-      <div>
-        <Tile {...jobDetails} />
-      </div>
-      <div>
-        <Questions {...questionDetails} />
-      </div>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/question" render={() => <Questions {...questionDetails} /> } />
+          <Route exact path="/whiteboard" render={() => <InterviewBaord /> }/>
+          <Route exact path="/search" render={() => <Search /> } />
+        </Switch>
+      </BrowserRouter>
     </div>
   )
 }
 
-/**
- * CONTAINER
- */
 const mapState = (state) => {
   return {
     isLoggedIn: !!state.user.id
