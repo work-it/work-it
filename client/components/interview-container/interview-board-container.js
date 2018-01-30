@@ -1,6 +1,7 @@
 import React from 'react';
 import InterviewBoard from '../interview-board/interview-board';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom'
 import { saveState } from './save-state-reducer';
 import Questions from '../questions/questions';
 import Video from '../video/video';
@@ -44,5 +45,5 @@ const mergeProps = (state, actions) => ({
     save: () => actions.save(state.text, state.board, state.panesep)
 })
 
-export default connect(mapState, mapDispatch, mergeProps)(InterviewBoardContainer)
+export default withRouter(connect(mapState, mapDispatch, mergeProps)(InterviewBoardContainer))
 

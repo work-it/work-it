@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {withRouter, Route, Switch, BrowserRouter} from 'react-router-dom'
+import {withRouter, Route, Switch} from 'react-router-dom'
 import {logout} from '../store'
 import Search from './search/search'
 import InterviewBoardContainer from './interview-container/interview-board-container'
@@ -9,21 +9,36 @@ import Questions from './questions/questions'
 import SearchBar from './search-bar/search-bar'
 import UserTile from './tile-user/tile-user'
 
+
+import {Login} from './auth-form'
+import { startSoloPractice, startPairPractice } from './interview-container/save-state-reducer'
+import history from './'
 const Main = (props) => {
+  console.log("about to go to page", props.location)
   return (
+   
     <div id = "rootDiv">
       <SearchBar />
-      <BrowserRouter>
+      <div>
+      <Login />
+      <button id='open' onClick={()=> props.openNewRoom()}>Open New Room</button>
+      <button id='join' onClick={()=> joinOpenedRoom()}>Join existing room</button>
+      <button id='solo' onClick={()=> props.soloRoom(props)}>Solo</button>
+    </div>
+      
         <Switch>
           <Route exact path="/questions" render={() => <Questions /> } />
-          <Route exact path="/whiteboard" render={() => <InterviewBoardContainer /> } />
+          <Route exact path="/whiteboard" component= { InterviewBoardContainer } />
           <Route exact path="/search" render={() => <Search /> } />
+
           <Route exact path="/tile-user" render={() => <UserTile /> } />
         </Switch>
-      </BrowserRouter>
+     
     </div>
+   
   )
 }
+
 
 const mapState = (state) => {
   return {
@@ -35,6 +50,14 @@ const mapDispatch = (dispatch) => {
   return {
     handleClick () {
       dispatch(logout())
+    },
+    soloRoom (props) {
+      console.log("solo room props", props)
+      dispatch(startSoloPractice(props.history))
+    },
+    openNewRoom (props) {
+      console.log("starting new room")
+      dispatch (startPairPractice())
     }
   }
 }
