@@ -1,5 +1,6 @@
 const router = require('express').Router()
-const User = require('../db/models/user')
+//const User = require('../db/models/user')
+const firebase = require ('../db')
 module.exports = router
 
 
@@ -19,17 +20,28 @@ router.post('/login', (req, res, next) => {
 
 
 router.post('/signup', (req, res, next) => {
-  User.create(req.body)
-    .then(user => {
-      req.login(user, err => (err ? next(err) : res.json(user)))
-    })
-    .catch(err => {
-      if (err.name === 'SequelizeUniqueConstraintError') {
-        res.status(401).send('User already exists')
-      } else {
-        next(err)
-      }
-    })
+  console.log("got signup", req.body)
+  // User.create(req.body)
+  //   .then(user => {
+  //     req.login(user, err => (err ? next(err) : res.json(user)))
+  //   })
+  //   .catch(err => {
+  //     if (err.name === 'SequelizeUniqueConstraintError') {
+  //       res.status(401).send('User already exists')
+  //     } else {
+  //       next(err)
+  //     }
+  //   })
+  firebase.auth().createUserWithEmailAndPassword(email, password)
+  .then (data => {
+    console.log("auth responds with data", data)
+  })
+  .catch(function(error) {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    // ...
+  });
 })
 
 router.post('/logout', (req, res) => {
