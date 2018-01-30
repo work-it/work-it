@@ -2,9 +2,9 @@
     box-sizing: border-box;
    }
 
-   html, body, #app, #rootDiv, div {
-    height: 100%;
-}
+   #rootDiv, #app {
+     height: 100%;
+   }
 
    .panes-container {
     display: flex;
@@ -29,6 +29,7 @@
 }
 
 .right-pane {
+    height: 49%;
     flex: auto;
     background: #eee;
 }

@@ -51,11 +51,7 @@ componentDidMount(){
       { menuItem: 'Hint', render: () => this.renderHint() },
       { menuItem: 'Solution', render: () => this.renderSolution() }
     ]
-    return (
-      <div>
-        <Tab panes={panes} />
-      </div>
-    );
+    return <Tab panes={panes} />
   } else {
     return null
   }

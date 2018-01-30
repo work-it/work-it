@@ -10,7 +10,6 @@ const Search = (props) => {
 
   return (
     <div className="search">
-      <SearchBar />
       <div className="jobs-wrapper">
         <div className="col-md-12 text-right sort-btns">
         <Button.Group>
