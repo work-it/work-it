@@ -1,6 +1,10 @@
 const router = require('express').Router()
 //const User = require('../db/models/user')
+<<<<<<< Updated upstream
 const firebase = require ('../db')
+=======
+const firebaseAdmin = require ('../db')
+>>>>>>> Stashed changes
 module.exports = router
 
 
@@ -20,7 +24,6 @@ router.post('/login', (req, res, next) => {
 
 
 router.post('/signup', (req, res, next) => {
-  console.log("got signup", req.body)
   // User.create(req.body)
   //   .then(user => {
   //     req.login(user, err => (err ? next(err) : res.json(user)))
@@ -32,15 +35,16 @@ router.post('/signup', (req, res, next) => {
   //       next(err)
   //     }
   //   })
-  firebase.auth().createUserWithEmailAndPassword(email, password)
-  .then (data => {
-    console.log("auth responds with data", data)
-  })
-  .catch(function(error) {
+  console.log("req.body", req.body)
+  firebaseAdmin.auth().createUserWithEmailAndPassword(req.body.email, req.body.password)
+    .then(obj => {
+      console.log("got some object back", obj);
+    })
+    .catch(function(error) {
     // Handle Errors here.
     var errorCode = error.code;
     var errorMessage = error.message;
-    // ...
+    console.log("error", error.code+" "+errorMessage)
   });
 })
 

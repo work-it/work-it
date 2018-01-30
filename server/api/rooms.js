@@ -1,11 +1,5 @@
 const twilio = require('twilio'); 
-const twilioClient = {
-    accountSid: 'AC72ecdf07b809798a2b893a1b5b47d017',
-    authToken: 'ba640c836a721fd876a5d7c8a2b80afd',
-    keySid:'SK8f787afeb5bd3c142ab8f2e54cd960a3',
-    keySecret:'YparFV01d6RKKKFXIwPnTR6IeyDAfgWL',
-    twilioPhone:'+15162070820'
-}
+const twilioClient = require ('../../secrets').twilioClient;
 //const client = new twilio(twilioClient.accountSid, twilioClient.authToken);
 
 const client = new twilio(twilioClient.keySid, twilioClient.keySecret, { accountSid: twilioClient.accountSid });
