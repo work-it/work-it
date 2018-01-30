@@ -3,7 +3,7 @@ import InterviewBoard from '../interview-board/interview-board';
 import { connect } from 'react-redux';
 import { saveState } from './save-state-reducer';
 import Questions from '../questions/questions';
-
+import Video from '../video/video';
 
 
 import './interview-container.css'
@@ -18,7 +18,7 @@ function InterviewBoardContainer (props) {
 
             <div className = "sidebar col-sm-4">
                 <div className="video">
-                    <p>'hiasdkjfhaskdfhalksdhfklasjdhfklj'</p>
+                    <Video />
                 </div>
                 <div className= "questions">
                     <Questions />
