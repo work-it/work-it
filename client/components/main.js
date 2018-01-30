@@ -9,42 +9,33 @@ import Questions from './questions/questions'
 import PracticeContainer from './practice-container/practice-container'
 import SearchBar from './search-bar/search-bar'
 import UserTile from './tile-user/tile-user'
-
-
-import {Login} from './auth-form'
-import { startSoloPractice, startPairPractice } from './interview-container/save-state-reducer'
+import { Login, Signup } from './auth/auth'
 import history from './'
+
 const Main = (props) => {
-  console.log("about to go to page", props.location)
+  const {showAuth, authView, isLoggedIn} = props;
   return (
-   
     <div id = "rootDiv">
       <SearchBar />
-      <div>
-      <Login />
-      <button id='open' onClick={()=> props.openNewRoom()}>Open New Room</button>
-      <button id='join' onClick={()=> joinOpenedRoom()}>Join existing room</button>
-      <button id='solo' onClick={()=> props.soloRoom(props)}>Solo</button>
+      {!isLoggedIn && showAuth && authView === 'signup' && <Signup />}
+      {!isLoggedIn && showAuth && authView === 'login' && <Login />}
+      <Switch>
+        <Route exact path="/practice" render={() => <PracticeContainer /> } />
+        <Route exact path="/questions" render={() => <Questions /> } />
+        <Route exact path="/whiteboard" component= { InterviewBoardContainer } />
+        <Route exact path="/search" render={() => <Search /> } />
+        <Route exact path="/tile-user" render={() => <UserTile /> } />
+      </Switch>
     </div>
-      
-        <Switch>
-          <Route exact path="/practice" render={() => <PracticeContainer /> } />
-          <Route exact path="/questions" render={() => <Questions /> } />
-          <Route exact path="/whiteboard" component= { InterviewBoardContainer } />
-          <Route exact path="/search" render={() => <Search /> } />
-
-          <Route exact path="/tile-user" render={() => <UserTile /> } />
-        </Switch>
-     
-    </div>
-   
   )
 }
 
 
 const mapState = (state) => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    showAuth: state.auth.show,
+    authView: state.auth.view
   }
 }
 
@@ -52,14 +43,6 @@ const mapDispatch = (dispatch) => {
   return {
     handleClick () {
       dispatch(logout())
-    },
-    soloRoom (props) {
-      console.log("solo room props", props)
-      dispatch(startSoloPractice(props.history))
-    },
-    openNewRoom (props) {
-      console.log("starting new room")
-      dispatch (startPairPractice())
     }
   }
 }

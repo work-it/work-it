@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import PracticeMenu from '../practice-menu/practice-menu'
 import PracticeSchedule from '../practice-schedule/practice-schedule'
+import PracticePairs from '../practice-pairs/practice-pairs'
 
 class PracticeContainer extends Component {
   constructor(props) {
@@ -44,7 +45,7 @@ class PracticeContainer extends Component {
   }
 
   renderPairView() {
-    return <div>Pair View</div>
+    return <PracticePairs />
   }
 
   renderScheduleView() {
