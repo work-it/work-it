@@ -6,10 +6,12 @@ import {logout} from '../store'
 import Search from './search/search'
 import InterviewBoardContainer from './interview-container/interview-board-container'
 import Questions from './questions/questions'
+import SearchBar from './search-bar/search-bar'
 
 const Main = (props) => {
   return (
     <div id = "rootDiv">
+      <SearchBar />
       <BrowserRouter>
         <Switch>
           <Route exact path="/questions" render={() => <Questions /> } />
