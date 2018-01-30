@@ -35,7 +35,8 @@ class PaneSeparator extends Component {
     }
 
     handleDrag (topHeight, bottomHeight) {
-        this.props.emitPaneSep(topHeight, bottomHeight);
+        if (this.props.status==='pair_in_room' )
+             this.props.emitPaneSep(topHeight, bottomHeight);
     }
 
     render () {
@@ -85,7 +86,8 @@ class PaneSeparator extends Component {
 
 const mapState = state => ({
     topHeight: state.panesep.topHeight,
-    bottomHeight: state.panesep.bottomHeight
+    bottomHeight: state.panesep.bottomHeight,
+    status: state.saved.practiceStatus
 })
 
 const mapDispatch = dispatch => ({

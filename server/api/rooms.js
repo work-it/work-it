@@ -18,7 +18,20 @@ module.exports = router
 let counter = 0;
 
 router.get('/token', (req, res, next) => {
+    console.log(req)
     const status = req.query.status;
+
+    let roomName
+    if (status === 'join') {
+        roomName = req.query.room;
+        openRooms.delete(roomName);
+    } else if (status === 'start') {
+        roomName = generateRoomName();
+        openRooms.set(roomName, user.req.id)
+    } else {
+        res.json({error: "Invalid status"})
+    }
+
     const accessToken = new AccessToken(
         twilioClient.accountSid,
         twilioClient.keySid,
@@ -33,11 +46,6 @@ router.get('/token', (req, res, next) => {
     accessToken.addGrant(grant);
 
     console.log("access token", accessToken.toJwt())
-    const roomName=generateRoomName();
-
-    if (status === 'start') {
-        openRooms.set(roomName, req.user.id)
-    }
     res.json({
         identity: accessToken.identity,
         token: accessToken.toJwt(),
@@ -45,6 +53,9 @@ router.get('/token', (req, res, next) => {
     })
 })
 
+router.get('/', (req, res, next) => {
+    res.json(openRooms);
+})
 
 
 const first = ['Mobile', 'Awesome','Mysterious', 'Tremendous', 'Creative', 'Agile'];

@@ -12,7 +12,7 @@ class TextArea extends Component {
 
     handleChange (e) {
         console.log("triggered", e.target.value)
-        this.props.emitText(e.target.value)
+        if (this.props.status==='pair_in_room') this.props.emitText(e.target.value)
     }
 
     render () {
@@ -21,7 +21,8 @@ class TextArea extends Component {
 }
 
 const mapState = state => ({
-    text: state.textarea
+    text: state.textarea,
+    status: state.saved.practiceStatus
 })
 
 const mapDispatch = dispatch => ({

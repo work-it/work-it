@@ -58,7 +58,7 @@ class WhiteBoard extends Component {
     
         // If shouldBroadcast is truthy, we will emit a draw event to listeners
         // with the start, end and color data.
-        shouldBroadcast && this.props.emitDraw(start, end, strokeColor);
+        shouldBroadcast && this.props.status==='pair_in_room' && this.props.emitDraw(start, end, strokeColor);
     }
 
     resize() {
@@ -159,4 +159,5 @@ const mapDispatch = (dispatch) => ({
         dispatch (emitDrawEvent(start, end, color))
     }
 })
+
 export default withRouter(connect( mapState, mapDispatch)( WhiteBoard ));
