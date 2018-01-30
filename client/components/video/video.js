@@ -1,8 +1,11 @@
 import React,  { Component } from 'react';
 import getHTMLMediaElement from './getHTMLMediaElement';
 import './getHTMLMediaElement.css'
+import { twilio } from './twilio';
+const { connect, createLocalTracks } = Twilio.Video;
 
-export default class Video extends Component {
+
+export default class Video2 extends Component {
     constructor (props) {
         super (props)
 
@@ -13,24 +16,36 @@ export default class Video extends Component {
     }
 
     componentDidMount () {
-        const connection   = new RTCMultiConnection();
-        console.log("connection", connection)
-        this.setup(connection, this.addEvent, this.afterEach, this.reCheckRoomPresence)
-        console.log("setup done");
 
-        connection.checkPresence("abcdef", function(isRoomExists) {
-            console.log("checking presence")
-            if (isRoomExists) {
-              console.log("JOINING")
-              connection.join("abcdef");
-              //connection1.join("abcdef")
-              //connection1.becomePublicModerator();
-            } else {
-              console.log("OPENING")
-              connection.open ("abcdef", true);
-              //connection1.join("abcdef")
-            }
-          })
+
+        navigator.mediaDevices.enumerateDevices().then(devices => {
+            var videoInput = devices.find(device => device.kind === 'videoinput');
+            return createLocalTracks({ audio: true, video: { deviceId: videoInput.deviceId } });
+          }).then(localTracks => {
+            return connect('my-token', { name: 'my-room-name', tracks: localTracks });
+          }).then(room => {
+            console.log('Connected to room ' + room.name);
+          });
+          
+
+        // const connection   = new RTCMultiConnection();
+        // console.log("connection", connection)
+        // this.setup(connection, this.addEvent, this.afterEach, this.reCheckRoomPresence)
+        // console.log("setup done");
+
+        // connection.checkPresence("abcdef", function(isRoomExists) {
+        //     console.log("checking presence")
+        //     if (isRoomExists) {
+        //       console.log("JOINING")
+        //       connection.join("abcdef");
+        //       //connection1.join("abcdef")
+        //       //connection1.becomePublicModerator();
+        //     } else {
+        //       console.log("OPENING")
+        //       connection.open ("abcdef", true);
+        //       //connection1.join("abcdef")
+        //     }
+        //   })
     }
 
     afterEach(setTimeoutInteval, numberOfTimes, callback, startedTimes) {
@@ -65,11 +80,12 @@ export default class Video extends Component {
           video.srcObject = event.stream;
           console.log("got this far")
           //const width = parseInt(connection.videosContainer.clientWidth/2) -20;
-          //const width = 120;
+          const width = 350;
           //sconsole.log('width', width)
           const mediaElement = getHTMLMediaElement(video, {
             title: event.userid,
             buttons: ['full-screen'],
+            width: width,
             showOnMouseEnter: false
           })
 

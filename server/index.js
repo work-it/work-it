@@ -89,12 +89,12 @@ const startListening = () => {
   const server = app.listen(PORT, () => console.log(`Mixing it up on port ${PORT}`))
 
   // set up our socket control center
-  // const io = socketio(server)
-  // const socket = require('./socket')(io)
+  const io = socketio(server)
+  const socket = require('./socket')(io)
 
-  signalingServer(server, socket => {
-    console.log("index.js, I am callback, any custom events go here")
-  });
+  // signalingServer(server, socket => {
+  //   console.log("index.js, I am callback, any custom events go here")
+  // });
 }
 
 const syncDb = () => db.sync()

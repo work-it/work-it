@@ -3,7 +3,7 @@ import InterviewBoard from '../interview-board/interview-board';
 import { connect } from 'react-redux';
 import { saveState } from './save-state-reducer';
 import Questions from '../questions/questions';
-import Video from '../video/video';
+import Video from '../video/video2';
 
 
 import './interview-container.css'
