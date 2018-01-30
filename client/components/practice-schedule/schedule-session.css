@@ -1,0 +1,17 @@
+.schedule-session {
+  width: 100%;
+  padding: 10px 5px;
+}
+
+.schedule-session.waiting {
+  background: #f1f1f1;
+}
+
+.schedule-session.paired {
+  background: #00ff2673;
+}
+
+.schedule-session.available {
+  background:#00a7ff73;
+}
+
