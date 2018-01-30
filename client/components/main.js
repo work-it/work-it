@@ -6,6 +6,7 @@ import {logout} from '../store'
 import Search from './search/search'
 import InterviewBoardContainer from './interview-container/interview-board-container'
 import Questions from './questions/questions'
+import PracticeContainer from './practice-container/practice-container'
 import SearchBar from './search-bar/search-bar'
 import {Login} from './auth-form'
 import { startSoloPractice, startPairPractice } from './interview-container/save-state-reducer'
@@ -24,6 +25,7 @@ const Main = (props) => {
     </div>
       
         <Switch>
+          <Route exact path="/practice" render={() => <PracticeContainer /> } />
           <Route exact path="/questions" render={() => <Questions /> } />
           <Route exact path="/whiteboard" component= { InterviewBoardContainer } />
           <Route exact path="/search" render={() => <Search /> } />
