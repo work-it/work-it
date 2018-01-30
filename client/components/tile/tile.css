@@ -11,7 +11,7 @@
 }
 
 .content {
-  max-height: 363px;
+  max-height: 368px;
   overflow-y: auto;
 }
 
@@ -20,9 +20,10 @@
   margin-left: 10px !important;
 }
 
-.ui.card {
-  max-height: 455px;
-  height: 455px;
+.jobs-wrapper .ui.card {
+  max-height: 460px;
+  height: 460px;
+  margin-bottom: 50px;
 }
 
 .next {
@@ -40,7 +41,7 @@
   font-size: 30px;
   cursor: pointer;
   color: #fff;
-  text-shadow: 0 0 2px rgba(0,0,0,0.3);
+  text-shadow: 0 0 1px rgba(0,0,0,0.5);
   opacity: 1;
   transition: opacity 0.3s;
   -webkit-transition: opacity 0.3s;
@@ -52,7 +53,7 @@
 
 .next:hover {
   background: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.05));
-  text-shadow: 0 0 2px rgba(0,0,0,0.3);
+  text-shadow: 0 0 1px rgba(0,0,0,0.5);
   opacity: 1;
   transition: opacity 0.3s;
   -webkit-transition: opacity 0.3s;
@@ -77,7 +78,7 @@
   font-size: 30px;
   cursor: pointer;
   color: #fff;
-  text-shadow: 0 0 2px rgba(0,0,0,0.3);
+  text-shadow: 0 0 1px rgba(0,0,0,0.5);
   opacity: 1;
   transition: opacity 0.3s;
   -webkit-transition: opacity 0.3s;
@@ -85,10 +86,14 @@
 
 .prev:hover {
   background: linear-gradient(to left, rgba(0,0,0,0), rgba(0,0,0,0.05));
-  text-shadow: 0 0 2px rgba(0,0,0,0.3);
+  text-shadow: 0 0 1px rgba(0,0,0,0.5);
   opacity: 1;
   transition: all 0.3s;
   -webkit-transition: all 0.3s;
+}
+
+.ui.card {
+  width: 100%;
 }
 
 .ui.card>.extra {
@@ -101,10 +106,22 @@
   padding: 8px;
 }
 
-.ui.buttons .button {
+.tile .ui.buttons .button {
   background: #fff;
 }
 
-.ui.buttons .button:hover {
+.tile .ui.buttons .button:hover {
   background: #f9f9f9;
+}
+
+.logo-wrapper {
+  max-height: 255px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.description span {
+  display: block;
 }

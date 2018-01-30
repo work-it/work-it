@@ -1,10 +1,11 @@
 .interview-board-container {
   flex-direction: row;
   display: flex;
-  height: 100%;
+  height: calc(100% - 60px);
   overflow: hidden;
   padding: 0;
   margin:0;
+  border: 1px black
 
 }
 
@@ -12,6 +13,10 @@
   height: 100%;
   flex-direction: column;
   padding: 0;
+  margin: -1px;
+  min-width: 400px;
+  max-width: 400px;
+  float: right;
 }
 
 .video {
@@ -21,10 +26,17 @@
 
 .interview {
   padding: 0;
+  border: 1px solid lightgray;
+  overflow: hidden;
+
 }
 
 .questions {
   height: 50%;
+}
+
+.questions div {
+  height: 100%;
 }
 
 
