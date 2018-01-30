@@ -11,6 +11,8 @@ const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 8080
 const app = express()
 const socketio = require('socket.io')
+const fs = require ('fs');
+const signalingServer = require ('../node_modules/rtcmulticonnection-v3/Signaling-Server')
 module.exports = app
 
 /**
@@ -87,8 +89,12 @@ const startListening = () => {
   const server = app.listen(PORT, () => console.log(`Mixing it up on port ${PORT}`))
 
   // set up our socket control center
-  const io = socketio(server)
-  require('./socket')(io)
+  // const io = socketio(server)
+  // const socket = require('./socket')(io)
+
+  signalingServer(server, socket => {
+    console.log("index.js, I am callback, any custom events go here")
+  });
 }
 
 const syncDb = () => db.sync()
