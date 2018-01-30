@@ -8,6 +8,9 @@ import InterviewBoardContainer from './interview-container/interview-board-conta
 import Questions from './questions/questions'
 import PracticeContainer from './practice-container/practice-container'
 import SearchBar from './search-bar/search-bar'
+import UserTile from './tile-user/tile-user'
+
+
 import {Login} from './auth-form'
 import { startSoloPractice, startPairPractice } from './interview-container/save-state-reducer'
 import history from './'
@@ -29,7 +32,8 @@ const Main = (props) => {
           <Route exact path="/questions" render={() => <Questions /> } />
           <Route exact path="/whiteboard" component= { InterviewBoardContainer } />
           <Route exact path="/search" render={() => <Search /> } />
-          <Route path='/hitroot' />
+
+          <Route exact path="/tile-user" render={() => <UserTile /> } />
         </Switch>
      
     </div>
