@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import { Input, Dropdown, Button, Icon } from 'semantic-ui-react'
 import { applyFiltersThunk } from '../../store/index'
+import { toggleShow } from '../auth/auth-reducer'
 import './search-bar.css'
 
 const expOptions = [
@@ -73,6 +74,7 @@ class SearchBar extends Component {
 
   render() {
     const { advanced, experience, type, zip, radius, exclude } = this.state;
+    const {handleShowLogin, authShow} = this.props;
     return (
       <div className="search-bar">
         <div className="main-menu row">
@@ -90,7 +92,7 @@ class SearchBar extends Component {
           <div className="col-sm-2">
             <ul className="list-inline menu-icons text-right">
               <li><Icon name='mail outline' size='big' /></li>
-              <li><Icon name='user outline' size='big' /></li>
+              <li onClick={() => handleShowLogin(authShow)}><Icon name='user outline' size='big' /></li>
             </ul>
           </div>
         </div>
@@ -143,7 +145,7 @@ class SearchBar extends Component {
 
 const mapState = (state) => {
   return {
-
+    authShow: state.auth.show
   }
 }
 
@@ -151,6 +153,9 @@ const mapDispatch = (dispatch) => {
   return {
     handleApplyFiltersThunk(filters) {
       dispatch(applyFiltersThunk(filters))
+    },
+    handleShowLogin(authShow) {
+      dispatch(toggleShow(authShow))
     }
   }
 }
