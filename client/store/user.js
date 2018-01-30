@@ -29,7 +29,8 @@ export const me = () =>
       .catch(err => console.log(err))
 
 export const auth = (email, password, method) =>
-  dispatch =>
+  dispatch => {
+    console.log("about to hit axios", email, password, method)
     axios.post(`/auth/${method}`, { email, password })
       .then(res => {
         dispatch(getUser(res.data))
@@ -38,7 +39,7 @@ export const auth = (email, password, method) =>
         dispatch(getUser({error: authError}))
       })
       .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr))
-
+    }
 export const logout = () =>
   dispatch =>
     axios.post('/auth/logout')
