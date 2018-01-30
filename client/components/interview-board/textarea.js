@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { emitTextEvent } from './textarea-reducer'
+import { withRouter } from 'react-router-dom'
 
 class TextArea extends Component {
     constructor (props) {
@@ -31,4 +32,4 @@ const mapDispatch = dispatch => ({
 })
 
 
-export default connect (mapState, mapDispatch) (TextArea);
+export default withRouter(connect (mapState, mapDispatch) (TextArea));

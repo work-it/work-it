@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { emitPaneSepEvent } from './panesep-reducer'
 import './interview-board.css'
 
@@ -91,4 +92,4 @@ const mapDispatch = dispatch => ({
     emitPaneSep: (topHeight, bottomHeight) => dispatch (emitPaneSepEvent(topHeight, bottomHeight))
 })
 
-export default connect (mapState, mapDispatch) (PaneSeparator)
+export default withRouter(connect (mapState, mapDispatch) (PaneSeparator))

@@ -11,8 +11,6 @@ const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 8080
 const app = express()
 const socketio = require('socket.io')
-const fs = require ('fs');
-const signalingServer = require ('../node_modules/rtcmulticonnection-v3/Signaling-Server')
 module.exports = app
 
 /**

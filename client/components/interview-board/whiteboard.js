@@ -7,6 +7,7 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { emitDrawEvent } from './whiteboard-reducer'
 import './interview-board.css'
 
@@ -24,6 +25,7 @@ class WhiteBoard extends Component {
     }
 
     componentDidMount() {
+        console.log("mounting whiteboard")
         this.canvas = document.getElementById('canvas');
         this.ctx = canvas.getContext('2d');
         this.setupCanvas()
@@ -148,7 +150,8 @@ class WhiteBoard extends Component {
     
 }
 const mapState = state => ({
-    board: state.whiteboard
+    board: state.whiteboard,
+    status: state.saved.practiceStatus
 })
 
 const mapDispatch = (dispatch) => ({
@@ -156,4 +159,4 @@ const mapDispatch = (dispatch) => ({
         dispatch (emitDrawEvent(start, end, color))
     }
 })
-export default connect( mapState, mapDispatch)( WhiteBoard );
+export default withRouter(connect( mapState, mapDispatch)( WhiteBoard ));
