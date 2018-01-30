@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
+import { startSoloPractice, startPairPractice } from '../interview-container/save-state-reducer'
 import './practice-menu.css'
 
 const PracticeMenu = (props) => {
@@ -11,7 +12,7 @@ const PracticeMenu = (props) => {
         <ul className="list-inline">
           <li><a onClick={() => changeView('pair')}>Pair</a></li>
           <li><a onClick={() => changeView('schedule')}>Schedule</a></li>
-          <li><a onClick={() => changeView('solo')}>Solo</a></li>
+          <li><a onClick={()=> props.soloRoom(props)}>Solo</a></li>
           <li><a onClick={() => changeView('history')}>History</a></li>
         </ul>
       </div>
@@ -34,7 +35,10 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-
+    soloRoom (props) {
+      console.log("solo room props", props)
+      dispatch(startSoloPractice(props.history))
+    }
   }
 }
 
