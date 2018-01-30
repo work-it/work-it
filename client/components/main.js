@@ -7,6 +7,7 @@ import Search from './search/search'
 import InterviewBoardContainer from './interview-container/interview-board-container'
 import Questions from './questions/questions'
 import SearchBar from './search-bar/search-bar'
+import UserTile from './tile-user/tile-user'
 
 const Main = (props) => {
   return (
@@ -17,6 +18,7 @@ const Main = (props) => {
           <Route exact path="/questions" render={() => <Questions /> } />
           <Route exact path="/whiteboard" render={() => <InterviewBoardContainer /> } />
           <Route exact path="/search" render={() => <Search /> } />
+          <Route exact path="/tile-user" render={() => <UserTile /> } />
         </Switch>
       </BrowserRouter>
     </div>

@@ -9,8 +9,9 @@ import whiteboard from '../components/interview-board/whiteboard-reducer'
 import textarea from '../components/interview-board/textarea-reducer'
 import questions from '../components/questions/questions-reducer'
 import saved from '../components/interview-container/save-state-reducer'
+import userTile from '../components/tile-user/tile-user-reducer'
 
-const reducer = combineReducers({user, whiteboard, textarea, search, questions, saved})
+const reducer = combineReducers({user, whiteboard, textarea, search, questions, saved, userTile})
 
 const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,
