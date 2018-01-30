@@ -1,7 +1,9 @@
 const router = require('express').Router()
 module.exports = router
 
-router.use('/users', require('./users'))
+router.use('/users', require('./users'));
+router.use('/state', require('./state'));
+router.use('/video', require('./video'));
 
 router.use((req, res, next) => {
   const error = new Error('Not Found')

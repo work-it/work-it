@@ -1,3 +1,10 @@
+
+video {
+    width: 300px
+}
+
+
+
 /*
 Last time updated at August 19, 2014, 14:46:23
 
@@ -40,8 +47,8 @@ Demo          - www.WebRTC-Experiment.com/getMediaElement
     background: black;
     border: 1px solid rgb(107, 107, 107);
     margin: 1px;
-    width: 300px;
-    height:200px;
+    /*width: 300px;
+    height:200px;*/
 }
 
 .media-controls, .volume-control {
