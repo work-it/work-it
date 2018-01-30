@@ -7,7 +7,8 @@
 // module.exports = db
 
 const admin = require('firebase-admin');
-
+const firebase = require ('firebase')
+const secrets = require ('../../secrets')
 const serviceAccount = require('../../firebase.json');
 
 admin.initializeApp({
@@ -15,4 +16,9 @@ admin.initializeApp({
     databaseURL: "https://work-it-13fac.firebaseio.com"
   });
 
-module.exports = admin;
+firebase.initializeApp ({
+    apiKey: secrets.firebase.webApiKey,
+    authDomain: "work-it-13fac.firebaseapp.com",
+    databaseURL: "https://work-it-13fac.firebaseio.com"
+})
+module.exports = {admin, firebase};
