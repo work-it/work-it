@@ -1,7 +1,7 @@
 import axios from 'axios'
 import history from '../../history'
 import _ from 'lodash'
-import { defaultSearch } from './default-search'
+import { defaultJobs } from './default-jobs'
 import zipcodes from 'zipcodes'
 
 /**
@@ -26,7 +26,7 @@ const applyFilters = (filtered) => {
 export const applyFiltersThunk = (filters) => {
   return (dispatch, getState) => {
     const { type, radius, zip, experience, exclude} = filters;
-    let filtered = defaultSearch;
+    let filtered = defaultJobs;
     if (type) {
       filtered = filtered.filter(function(job){
         return job.type === type
@@ -54,7 +54,7 @@ export const applyFiltersThunk = (filters) => {
 /**
  * REDUCER
  */
-export default function (state = defaultSearch, action) {
+export default function (state = defaultJobs, action) {
   switch (action.type) {
     case FILTER:
       return action.filtered

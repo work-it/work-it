@@ -1,4 +1,4 @@
-export const defaultSearch = [{
+export const defaultJobs = [{
   id: 1,
   name: 'Google',
   position: 'Software Enginer',
