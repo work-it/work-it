@@ -13,6 +13,7 @@ import { Login, Signup } from './auth/auth'
 import {me} from '../store/user'
 import history from './'
 
+
 class Main extends Component {
   constructor (props) {
     super(props)
@@ -34,13 +35,12 @@ class Main extends Component {
           <Route exact path="/questions" render={() => <Questions /> } />
           <Route exact path="/whiteboard" component= { InterviewBoardContainer } />
           <Route exact path="/search" render={() => <Search /> } />
-          <Route exact path="/tile-user" render={() => <UserTile /> } />
+          <Route exact path="/usertile" render={() => <UserTile /> } />
         </Switch>
       </div>
     )
   }
 }
-
 
 const mapState = (state) => {
   return {

@@ -31,32 +31,32 @@ router.get('/token', (req, res, next) => {
                     err={err: "Room is full"}
                 } else if (room.count===0)  {//If room is empty, let the person in
                     //close any other open room that he might have
-                    if (openRoomsByUserId.has(req.user.uid)) {
-                        const oldRoom = openRoomsByUserId.get(req.user.uid);
+                    if (openRoomsByUserId.has(req.user.id)) {
+                        const oldRoom = openRoomsByUserId.get(req.user.id);
                         openRoomsByRoomName.delete (oldRoom.name);
-                        openRoomsByUserId.delete (req.user.uid);
+                        openRoomsByUserId.delete (req.user.id);
                     }
                     room.count++;
-                    if (room.initiator !== req.user.uid ) {
-                        room.partner = req.user.uid
+                    if (room.initiator !== req.user.id ) {
+                        room.partner = req.user.id
                     }
                     req.user.roomStatus='join'
                 } else { //if there is one person, check if it's the initiator who is already there,  If not, don't let the new user join
                     if (room.partner) {
                         cont = false;
                         err={err: "Room cannot be entered.  Partner is waiting for initiator"}
-                    } else if (room.initiator === req.user.uid || room.partner === req.user.uid) {
+                    } else if (room.initiator === req.user.id || room.partner === req.user.id) {
                         cont = false;
                         err={err: "Room has already been joined"}
                     } else {
                             //close any other open room that he might have
-                        if (openRoomsByUserId.has(req.user.uid)) {
-                            const oldRoom = openRoomsByUserId.get(req.user.uid);
+                        if (openRoomsByUserId.has(req.user.id)) {
+                            const oldRoom = openRoomsByUserId.get(req.user.id);
                             openRoomsByRoomName.delete (oldRoom.name);
-                            openRoomsByUserId.delete (req.user.uid);
+                            openRoomsByUserId.delete (req.user.id);
                         }
                         room.count++;
-                        room.partner = req.user.uid
+                        room.partner = req.user.id
                         req.user.roomStatus='join'
                     }
                 }
@@ -67,15 +67,15 @@ router.get('/token', (req, res, next) => {
             }
         } else if (status === 'start') {
             //1. Check if the user has a room opened.  If so, delete it.
-            if (openRoomsByUserId.has(req.user.uid)) {
-                const openRoom = openRoomsByUserId.get(req.user.uid);
-                openRoomsByUserId.delete(req.user.uid);
+            if (openRoomsByUserId.has(req.user.id)) {
+                const openRoom = openRoomsByUserId.get(req.user.id);
+                openRoomsByUserId.delete(req.user.id);
                 openRoomsByRoomName.delete(openRoom.name)
             }
             roomName = generateRoomName();
-            const room = {name:roomName, initiator:req.user.uid, partner: null, count: 0}
+            const room = {name:roomName, initiator:req.user.id, partner: null, count: 0}
             openRoomsByRoomName.set(roomName, room)
-            openRoomsByUserId.set(req.user.uid, room)
+            openRoomsByUserId.set(req.user.id, room)
             req.user.roomName = roomName;
             req.user.roomStatus='start'
         } else {
@@ -93,9 +93,6 @@ router.get('/token', (req, res, next) => {
             // Set the Identity of this token
             accessToken.identity = ""+(counter++);
 
-            // Grant the access token Twilio Video capabilities.
-            const grant = new VideoGrant();
-            accessToken.addGrant(grant);
 
             console.log("access token", accessToken.toJwt())
 

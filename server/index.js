@@ -7,7 +7,7 @@ const session = require('express-session')
 const passport = require('passport')
 //const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const FirebaseStore = require('connect-session-firebase')(session);
-const firebase = require('./db').admin
+const firebase = require('./db').firebase
 //const sessionStore = new SequelizeStore({db})
 const sessionStore = new FirebaseStore({
   database: firebase.database()
@@ -28,12 +28,15 @@ module.exports = app
 //if (process.env.NODE_ENV !== 'production') require('../secrets')
 
 // passport registration
-passport.serializeUser((user, done) => done(null, user.uid))
-passport.deserializeUser((id, done) =>
-  firebase.auth().getUser(id)
-    .then(user => done(null, user))
-    .catch(done))
-
+passport.serializeUser((user, done) => done(null, user.id))
+passport.deserializeUser((id, done) => firebase.database()
+.ref('/users')
+.orderByKey()
+.equalTo(id)
+.once('value')
+.then (ds => done(null, ds.val()))
+.catch(done));
+  
 const createApp = () => {
   // logging middleware
   app.use(morgan('dev'))
