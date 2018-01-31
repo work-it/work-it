@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { Card, Icon, Image, Button } from 'semantic-ui-react'
 import renderHTML from 'react-render-html';
 import '../tile/tile.css'
 
-export default class UserTile extends Component {
+class UserTile extends Component {
   constructor(props) {
     super(props);
 
@@ -41,11 +43,12 @@ export default class UserTile extends Component {
   }
 
   renderHomeView() {
-    const {name, position, location, experience, type, salaryRange, topSkills} = this.props;
+    console.log('render view', this.props)
+    const {name, position, location, experience, type, salaryRange, imgUrl, topSkills} = this.props.defaultUsers[0];
     return (
       <Card>
         <div className="logo-wrapper">
-          <Image className="logo" src={this.props.imgUrl} />
+          <Image className="logo" src={imgUrl} />
         </div>
         <Card.Content>
           <Card.Header>
@@ -92,28 +95,56 @@ export default class UserTile extends Component {
     )
   }
 
+  roleDesc(roleArr){
+    let rolesDesc = ''
+    roleArr.forEach(function(elem, index) {
+      rolesDesc+= '<h3> ' + elem.employerName + '</h3> <br> <h4> ' + elem.dateRange + '<h4><br><a href="' + elem.companyWebsite + '">'+ elem.companyWebsite + '</a>' + elem.workDesc
+      if(index !== roleArr.length-1){rolesDesc+= '<hr>'}
+    })
+    return rolesDesc
+  }
+
+  projDesc(projArr){
+    let projDesc = ''
+    projArr.forEach(function(elem, index) {
+      projDesc+= '<h3> ' + elem.projName + '</h3> <br> <h4> ' + elem.projDateRange + '<h4><br><a href="' + elem.projWebsite + '">'+ elem.projWebsite + '</a>' + elem.projDesc
+      if(index !== projArr.length-1){projDesc+= '<hr>'}
+    })
+    return projDesc
+  }
+
+  eduDesc(eduArr){
+    let eduDesc = ''
+    eduArr.forEach(function(elem, index) {
+      eduDesc+= '<h3> ' + elem.schoolName + '</h3> <br> <h4> ' + elem.schoolDateRange + '<h4><br><h5>' + elem.degree + '</h5>'
+      if(index !== eduArr.length-1){eduDesc+= '<hr>'}
+    })
+    return eduDesc
+  }
+
   renderDescView() {
-    const {name, companyDesc, roleDesc, qualifications, comp} = this.props;
+    const {name, userDesc, pastEmployers, personalProjects, education} = this.props.defaultUsers[0];
+
     const {view} = this.state;
 
     let title
     let desc
     switch (view) {
       case 1:
-        title = 'User Bio';
+        title = 'Company Description';
         desc = userDesc;
         break;
       case 2:
-        title = 'Role Description';
-        desc = roleDesc;
+        title = 'Past Experience';
+        desc = this.roleDesc(pastEmployers);
         break;
       case 3:
-        title = 'Qualifications';
-        desc = qualifications;
+        title = 'Personal Projects';
+        desc = this.projDesc(personalProjects);
         break;
       default:
-        title = 'Compensation & Benefits';
-        desc = comp;
+        title = 'Education';
+        desc = this.eduDesc(education);
     }
 
     return (
@@ -153,3 +184,12 @@ export default class UserTile extends Component {
     )
   }
 }
+
+
+const mapState = (state) => {
+  return {
+    defaultUsers: state.userTile
+  }
+}
+
+export default withRouter(connect(mapState)(UserTile))
