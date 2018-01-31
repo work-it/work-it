@@ -31,7 +31,7 @@ const Search = (props) => {
  */
 const mapState = (state) => {
   return {
-    jobs: state.search
+    jobs: state.jobs
   }
 }
 

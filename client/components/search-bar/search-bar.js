@@ -74,7 +74,7 @@ class SearchBar extends Component {
 
   render() {
     const { advanced, experience, type, zip, radius, exclude } = this.state;
-    const {handleShowLogin, authShow} = this.props;
+    const { authShow } = this.props;
     return (
       <div className="search-bar">
         <div className="main-menu row">
@@ -92,7 +92,7 @@ class SearchBar extends Component {
           <div className="col-sm-2">
             <ul className="list-inline menu-icons text-right">
               <li><Icon name='mail outline' size='big' /></li>
-              <li onClick={() => handleShowLogin(authShow)}><Icon name='user outline' size='big' /></li>
+              <li onClick={() => this.handleLogin(authShow)}><Icon name='user outline' size='big' /></li>
             </ul>
           </div>
         </div>
@@ -141,11 +141,20 @@ class SearchBar extends Component {
       this.props.handleApplyFiltersThunk(this.state);
     })
   }
+
+  handleLogin(authShow) {
+    if (this.props.isLoggedIn) {
+      this.props.history.push('/user');
+    } else {
+      this.props.handleShowLogin(authShow)
+    }
+  }
 }
 
 const mapState = (state) => {
   return {
-    authShow: state.auth.show
+    authShow: state.auth.show,
+    isLoggedIn: state.user.id
   }
 }
 

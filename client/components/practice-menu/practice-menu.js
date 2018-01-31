@@ -16,13 +16,6 @@ const PracticeMenu = (props) => {
           <li><a onClick={() => changeView('history')}>History</a></li>
         </ul>
       </div>
-      <div className="col-sm-6 text-right">
-        <ul className="list-inline">
-          <li><button onClick={() => changeAvailability()}>Change Availility</button></li>
-          <li>Available: {available ? 'YES' : 'NO'}</li>
-          <li><a onClick={() => changeView('settings')}>Settings</a></li>
-        </ul>
-      </div>
     </div>
   )
 }

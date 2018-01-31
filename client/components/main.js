@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {withRouter, Route, Switch} from 'react-router-dom'
+import {withRouter, Route, Switch, Redirect} from 'react-router-dom'
 import {logout} from '../store'
 import Search from './search/search'
 import InterviewBoardContainer from './interview-container/interview-board-container'
@@ -10,6 +10,8 @@ import PracticeContainer from './practice-container/practice-container'
 import SearchBar from './search-bar/search-bar'
 import UserTile from './tile-user/tile-user'
 import UserProfileForm from './user-profile-form/user-profile-form'
+import UserInProgres from './user-in-progress/user-in-progress'
+import UserContainer from './user-container/user-container'
 import { Login, Signup } from './auth/auth'
 import {me} from '../store/user'
 import history from './'
@@ -28,10 +30,12 @@ class Main extends Component {
     const {showAuth, authView, isLoggedIn} = this.props;
     return (
       <div id = "rootDiv">
-        <SearchBar />
+        <SearchBar history={history} />
         {!isLoggedIn && showAuth && authView === 'signup' && <Signup />}
         {!isLoggedIn && showAuth && authView === 'login' && <Login />}
         <Switch>
+          <Route exact path="/user" render={() => <UserContainer /> } />
+          <Route exact path="/inprogress" render={() => <UserInProgres /> } />
           <Route exact path="/practice" render={() => <PracticeContainer /> } />
           <Route exact path="/questions" render={() => <Questions /> } />
           <Route exact path="/whiteboard" component= { InterviewBoardContainer } />
