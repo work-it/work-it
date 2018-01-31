@@ -29,11 +29,14 @@ module.exports = app
 
 // passport registration
 passport.serializeUser((user, done) => done(null, user.id))
-passport.deserializeUser((id, done) =>done(null, null))
-  // firebase.auth().getUser(id)
-  //   .then(user => done(null, user))
-  //   .catch(done))
-
+passport.deserializeUser((id, done) => firebase.database()
+.ref('/users')
+.orderByKey()
+.equalTo(id)
+.once('value')
+.then (ds => done(null, ds.val()))
+.catch(done));
+  
 const createApp = () => {
   // logging middleware
   app.use(morgan('dev'))
