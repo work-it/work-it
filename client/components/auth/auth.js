@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {auth} from '../../store'
 import {toggleShow, toggleType} from './auth-reducer'
@@ -85,8 +86,8 @@ const mapDispatch = (dispatch) => {
   }
 }
 
-export const Login = connect(mapLogin, mapDispatch)(AuthForm)
-export const Signup = connect(mapSignup, mapDispatch)(AuthForm)
+export const Login = withRouter(connect(mapLogin, mapDispatch)(AuthForm))
+export const Signup = withRouter(connect(mapSignup, mapDispatch)(AuthForm))
 
 /**
  * PROP TYPES

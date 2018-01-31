@@ -1,7 +1,9 @@
 const passport = require('passport')
 const router = require('express').Router()
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
-const {User} = require('../db/models')
+//const {User} = require('../db/models')
+const secrets = require ('../../secrets')
+const firebase = require ('../db').firebase;
 module.exports = router
 
 /**
@@ -18,16 +20,17 @@ module.exports = router
  * process.env.GOOGLE_CALLBACK = '/your/google/callback'
  */
 
-if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
+console.log('secrets', secrets.google)
+
+if (!secrets.google.clientId || !secrets.google.secret) {
 
   console.log('Google client ID / secret not found. Skipping Google OAuth.')
-
 } else {
 
   const googleConfig = {
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.GOOGLE_CALLBACK
+    clientID: secrets.google.clientId,
+    clientSecret: secrets.google.secret,
+    callbackURL: secrets.google.callback
   }
 
   const strategy = new GoogleStrategy(googleConfig, (token, refreshToken, profile, done) => {
@@ -35,22 +38,77 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
     const name = profile.displayName
     const email = profile.emails[0].value
 
-    User.find({where: {googleId}})
-      .then(foundUser => (foundUser
-        ? done(null, foundUser)
-        : User.create({name, email, googleId})
-          .then(createdUser => done(null, createdUser))
-      ))
-      .catch(done)
+    console.log('Google Auth Response profile', token);
+    //We need to register an Observer on Firebase Auth to make sure auth is initialized.
+    const unsubscribe = firebase.auth().onAuthStateChanged(function(firebaseUser) {
+      unsubscribe();
+      // Check if we are already signed-in Firebase with the correct user.
+      if (!isUserEqual(profile, firebaseUser)) {
+        // Build Firebase credential with the Google ID token.
+        const credential = firebase.auth.GoogleAuthProvider.credential(null, token);
+        // Sign in with credential from the Google user.
+        firebase.auth().signInWithCredential(credential)
+        .then(user => {
+          console.log("User signed in with google", user);
+          done( null, user);
+
+        })
+        .catch(function(error) {
+          // Handle Errors here.
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // The email of the user's account used.
+          const email = error.email;
+          // The firebase.auth.AuthCredential type that was used.
+          const credential = error.credential;
+          // ...
+          console.log("error during sign up", error)
+          done (error)
+        });
+      } else {
+        console.log('User already signed-in Firebase.');
+        done(null)
+      }
+    });
+
+
+    // User.find({where: {googleId}})
+    //   .then(foundUser => (foundUser
+    //     ? done(null, foundUser)
+    //     : User.create({name, email, googleId})
+    //       .then(createdUser => done(null, createdUser))
+    //   ))
+    //   .catch(done)
   })
+
+  function isUserEqual(googleUserProfile, firebaseUser) {
+    if (firebaseUser) {
+      var providerData = firebaseUser.providerData;
+      for (var i = 0; i < providerData.length; i++) {
+        if (providerData[i].providerId === firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
+            providerData[i].uid === googleUserProfile.id) {
+          // We don't need to reauth the Firebase connection.
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 
   passport.use(strategy)
 
-  router.get('/', passport.authenticate('google', {scope: 'email'}))
+  router.get('/', (req, res, next) => {
+    console.log("hit the route")
+    passport.authenticate('google', {scope: 'email'})(req, res, next);
+    console.log("passport.authenticate called",)
+  })
 
-  router.get('/callback', passport.authenticate('google', {
-    successRedirect: '/home',
-    failureRedirect: '/login'
-  }))
+  router.get('/callback', (req, res, next) => {
+    console.log("hit the callback")
+    passport.authenticate('google', {
+      successRedirect: '/home',
+      failureRedirect: '/login'
+    })(req,res,next)
+  })
 
 }
