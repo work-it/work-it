@@ -22,3 +22,4 @@ firebase.initializeApp ({
     databaseURL: "https://work-it-13fac.firebaseio.com"
 })
 module.exports = {admin, firebase};
+

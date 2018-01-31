@@ -3,6 +3,7 @@ import axios from 'axios'
 const SAVE_STATE = 'SAVE_STATE'
 const START_SOLO = 'START_SOLO'
 const START_PAIR = 'START_PAIR'
+const JOIN_ROOM = 'JOIN_ROOM'
 
 export const updateSaveState = (saved) => ({
     type: SAVE_STATE, saved
@@ -29,13 +30,30 @@ export const startPair = (roomName, authToken, id) => ({
     roomName, authToken, id
 })
 
-export const startPairPractice = history => dispatch => {
+export const joinRoom = (roomName, authToken, id) => ({
+    type: JOIN_ROOM,
+    roomName, authToken, id
+})
+
+export const startPairPractice = () => dispatch => {
     //1.  get authToken
     axios.get('/api/rooms/token?status=start')
             .then(res => res.data)
             .then ( token => {
                 //2.  set status, room name and auth_token onto the status
                 dispatch (startPair(token.roomName, token.token, token.identity))
+            })
+            .catch(console.log);
+}
+
+export const joinPairPractice= (roomName, history) => dispatch => {
+    //1.  get authToken
+    axios.get(`/api/rooms/token?status=join&room=${roomName}`)
+            .then(res => res.data)
+            .then ( token => {
+                //2.  join room
+                dispatch (joinRoom(token.roomName, token.token, token.identity))
+                //history.push('/whiteboard')
             })
             .catch(console.log);
 }
@@ -55,6 +73,8 @@ export default function (state=defaultState, action) {
             return {...state, practiceStatus: 'solo'}
         case START_PAIR:
             return {...state, practiceStatus: 'pair_started', roomName: action.roomName, id: action.id, authToken: action.authToken}
+        case JOIN_ROOM:
+            return {...state, practiceStatus: 'pair_in_room', roomName: action.roomName, id: action.id, authToken: action.authToken}
         default: return state;
     }
 }
