@@ -1,5 +1,6 @@
 import { updateWhiteboard,  EMIT_DRAW_EVENT} from '../../components/interview-board/whiteboard-reducer';
 import { updateTextarea,  EMIT_TEXT_EVENT} from '../../components/interview-board/textarea-reducer';
+import { JOIN_ROOM, START_PAIR } from '../../components/interview-container/save-state-reducer';
 
 import io from 'socket.io-client';
 const socket = io (window.location.origin);
@@ -30,6 +31,9 @@ export default () => {
                     socket.emit ('text', action.text);
                     store.dispatch(updateTextarea(action.text))
                     break;
+                case JOIN_ROOM:
+                case START_PAIR:
+                    socket.emit('join', roomName);
             }
             next (action);
         }

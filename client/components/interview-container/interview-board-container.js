@@ -32,7 +32,7 @@ function InterviewBoardContainer (props) {
 const mapState = state => ({
     text: state.textarea,
     board: state.whiteboard.history,
-    panesep: state.panesep
+    panesep: state.panesep,
 })
 
 const mapDispatch = dispatch => ({
