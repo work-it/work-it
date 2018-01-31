@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import { startSoloPractice, startPairPractice } from '../interview-container/save-state-reducer'
+import { startSolo } from '../practice-pairs/practice-reducer'
 import './practice-menu.css'
 
 const PracticeMenu = (props) => {
@@ -12,7 +12,10 @@ const PracticeMenu = (props) => {
         <ul className="list-inline">
           <li><a onClick={() => changeView('pair')}>Pair</a></li>
           <li><a onClick={() => changeView('schedule')}>Schedule</a></li>
-          <li><a onClick={()=> props.soloRoom(props)}>Solo</a></li>
+          <li><a onClick={()=>  {
+            props.soloRoom();
+            changeView('solo') 
+          }}>Solo</a></li>
           <li><a onClick={() => changeView('history')}>History</a></li>
         </ul>
       </div>
@@ -27,21 +30,19 @@ const PracticeMenu = (props) => {
   )
 }
 
-const mapState = (state) => {
-  return {
+// const mapState = (state) => {
+//   return {
 
-  }
-}
+//   }
+// }
 
 const mapDispatch = (dispatch) => {
   return {
-    soloRoom (props) {
-      console.log("solo room props", props)
-      dispatch(startSoloPractice(props.history))
+    soloRoom () {
+      dispatch(startSolo())
     }
   }
 }
-
-export default withRouter(connect(mapState, mapDispatch)(PracticeMenu))
+export default withRouter(connect(null, mapDispatch)(PracticeMenu))
 
 

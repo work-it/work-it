@@ -4,6 +4,7 @@ import {withRouter} from 'react-router-dom'
 import PracticeMenu from '../practice-menu/practice-menu'
 import PracticeSchedule from '../practice-schedule/practice-schedule'
 import PracticePairs from '../practice-pairs/practice-pairs'
+import InterviewBoardContainer from '../interview-container/interview-board-container';
 
 class PracticeContainer extends Component {
   constructor(props) {
@@ -57,7 +58,8 @@ class PracticeContainer extends Component {
   }
 
   renderSoloView() {
-    return <div>Solo View</div>
+    //return <div>Solo View</div>
+    return <InterviewBoardContainer />
   }
 
   renderSettingsView() {
@@ -81,7 +83,7 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-
+    startSoloPractice: () => dispatch(startSolo())
   }
 }
 

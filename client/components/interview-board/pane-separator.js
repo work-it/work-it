@@ -87,7 +87,7 @@ class PaneSeparator extends Component {
 const mapState = state => ({
     topHeight: state.panesep.topHeight,
     bottomHeight: state.panesep.bottomHeight,
-    status: state.saved.practiceStatus
+    status: state.practice.practiceStatus
 })
 
 const mapDispatch = dispatch => ({

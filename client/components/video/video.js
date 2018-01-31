@@ -29,12 +29,17 @@ class VideoContainer extends Component {
         this.participantDisconnected = this.participantDisconnected.bind(this)
         this.disconnected = this.disconnected.bind(this);
         this.loadLocalVideo = this.loadLocalVideo.bind(this);
+        this.pause = this.pause.bind(this);
+        this.resume = this.resume.bind(this)
     }
 
     componentDidMount () {
         // When we are about to transition away from this page, disconnect
       // from the room, if joined.
       window.addEventListener('beforeunload', this.leaveRoomIfJoined);
+      window.addEventListener('blur', this.pause);
+      window.addEventListener('focus', this.resume)
+
       console.log("status", this.props)
       if (this.props.status.practiceStatus === 'solo') {
         //only preview yourself
@@ -42,11 +47,25 @@ class VideoContainer extends Component {
         localTracksPromise.then(this.loadLocalVideo, err=>console.log);
       
       } else if (this.props.status.practiceStatus === 'pair_in_room') {
-       // axios.get('/api/video/token')
-       //     .then(res => res.data)
-       //     .then ( this.connect );
         this.connect(this.props.status)
       }  
+    }
+
+    pause () {
+      if (this.previewTracks) {
+        this.previewTracks.forEach(function(track) {
+          track.disable();
+        });
+      }
+    }
+
+    resume () {
+      console.log("resume triggered")
+      if (this.previewTracks) {
+        this.previewTracks.forEach(function(track) {
+          track.enable();
+        });
+      }
     }
 
     loadLocalVideo (tracks) {
@@ -98,6 +117,9 @@ class VideoContainer extends Component {
 
     attachTracks(tracks, container) {
         tracks.forEach(function(track) {
+          
+          track.enable();
+          console.log("appending track", track.isEnabled)
           container.appendChild(track.attach());
         });
     }
@@ -195,13 +217,6 @@ class VideoContainer extends Component {
         // of all Participants, including that of the LocalParticipant.
         room.on('disconnected', () => this.disconnected(room));
       }
-      
-//       // Activity log.
-//   log(message) {
-//     var logDiv = document.getElementById('log');
-//     logDiv.innerHTML += '<p>&gt;&nbsp;' + message + '</p>';
-//     logDiv.scrollTop = logDiv.scrollHeight;
-//   }
   
   // Leave Room.
   leaveRoomIfJoined() {
@@ -223,7 +238,7 @@ class VideoContainer extends Component {
 }
 
 const mapState = state => ({
-  status: state.saved,
+  status: state.practice,
 })
 
 export default withRouter (connect (mapState)(VideoContainer));

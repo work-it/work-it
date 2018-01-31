@@ -12,8 +12,9 @@ import saved from '../components/interview-container/save-state-reducer'
 import userTile from '../components/tile-user/tile-user-reducer'
 import schedule from '../components/practice-schedule/practice-schedule-reducer'
 import auth from '../components/auth/auth-reducer'
+import practice from '../components/practice-pairs/practice-reducer'
 
-const reducer = combineReducers({user, whiteboard, textarea, search, questions, saved, schedule, userTile, auth})
+const reducer = combineReducers({user, whiteboard, textarea, search, questions, saved, schedule, userTile, auth, practice})
 
 const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,

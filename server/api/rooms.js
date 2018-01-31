@@ -13,13 +13,19 @@ module.exports = router
 let counter = 0;
 
 router.get('/token', (req, res, next) => {
-    console.log(req)
     if (req.user) {
+        let user = req.user;
+        if (!user.id) {
+            user = {
+                id: Object.keys(req.user)[0]
+            }
+        }
         const status = req.query.status;
         let roomName
         let cont = true;
         let err = {}
         if (status === 'join') {
+            console.log("joining room", req.query.room)
             roomName = req.query.room;
             //1. check, if the room is open.  if not, send error back
             if (openRoomsByRoomName.has(roomName)) {
@@ -31,32 +37,32 @@ router.get('/token', (req, res, next) => {
                     err={err: "Room is full"}
                 } else if (room.count===0)  {//If room is empty, let the person in
                     //close any other open room that he might have
-                    if (openRoomsByUserId.has(req.user.id)) {
-                        const oldRoom = openRoomsByUserId.get(req.user.id);
+                    if (openRoomsByUserId.has(user.id)) {
+                        const oldRoom = openRoomsByUserId.get(user.id);
                         openRoomsByRoomName.delete (oldRoom.name);
-                        openRoomsByUserId.delete (req.user.id);
+                        openRoomsByUserId.delete (user.id);
                     }
                     room.count++;
-                    if (room.initiator !== req.user.id ) {
-                        room.partner = req.user.id
+                    if (room.initiator !== user.id ) {
+                        room.partner = user.id
                     }
                     req.user.roomStatus='join'
                 } else { //if there is one person, check if it's the initiator who is already there,  If not, don't let the new user join
                     if (room.partner) {
                         cont = false;
                         err={err: "Room cannot be entered.  Partner is waiting for initiator"}
-                    } else if (room.initiator === req.user.id || room.partner === req.user.id) {
+                    } else if (room.initiator === user.id || room.partner === user.id) {
                         cont = false;
                         err={err: "Room has already been joined"}
                     } else {
                             //close any other open room that he might have
-                        if (openRoomsByUserId.has(req.user.id)) {
-                            const oldRoom = openRoomsByUserId.get(req.user.id);
+                        if (openRoomsByUserId.has(user.id)) {
+                            const oldRoom = openRoomsByUserId.get(user.id);
                             openRoomsByRoomName.delete (oldRoom.name);
-                            openRoomsByUserId.delete (req.user.id);
+                            openRoomsByUserId.delete (user.id);
                         }
                         room.count++;
-                        room.partner = req.user.id
+                        room.partner = user.id
                         req.user.roomStatus='join'
                     }
                 }
@@ -67,23 +73,26 @@ router.get('/token', (req, res, next) => {
             }
         } else if (status === 'start') {
             //1. Check if the user has a room opened.  If so, delete it.
-            if (openRoomsByUserId.has(req.user.id)) {
-                const openRoom = openRoomsByUserId.get(req.user.id);
-                openRoomsByUserId.delete(req.user.id);
+            console.log("Room starting...", req.user)
+            if (openRoomsByUserId.has(user.id)) {
+                const openRoom = openRoomsByUserId.get(user.id);
+                openRoomsByUserId.delete(user.id);
                 openRoomsByRoomName.delete(openRoom.name)
             }
             roomName = generateRoomName();
-            const room = {name:roomName, initiator:req.user.id, partner: null, count: 0}
+            console.log("rooms.js Room starting...", roomName)
+            const room = {name:roomName, initiator:user.id, partner: null, count: 0}
             openRoomsByRoomName.set(roomName, room)
-            openRoomsByUserId.set(req.user.id, room)
-            req.user.roomName = roomName;
-            req.user.roomStatus='start'
+            openRoomsByUserId.set(user.id, room)
+            user.roomName = roomName;
+            user.roomStatus='start'
         } else {
             err = {error: "Invalid status"};
             cont = false;
         }
  
         if (cont) {
+            console.log("current rooms are: ", openRoomsByRoomName)
             const accessToken = new AccessToken(
                 twilioClient.accountSid,
                 twilioClient.keySid,
@@ -111,9 +120,12 @@ router.get('/token', (req, res, next) => {
 })
 
 router.get('/', (req, res, next) => {
+    console.log("filtering map", openRoomsByRoomName)
     const newMap = [];
-    openRoomsByRoomName.forEach( (key, value)=> {
+    openRoomsByRoomName.forEach( (value, key)=> {
+        //console.log("key", key, "value", value)
         if (value.count < 2) newMap.push(value)
+        //console.log('newMap', newMap)
     })
     res.json(newMap);
 })
@@ -131,7 +143,7 @@ const generateRoomName = () => {
 }
 const getRandom = arr => {
     const randomIdx = Math.floor(Math.random()*arr.length)
-    console.log("randomIdx", randomIdx)
+    //console.log("randomIdx", randomIdx)
     return arr[randomIdx];
 }
 

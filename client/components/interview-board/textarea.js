@@ -22,7 +22,7 @@ class TextArea extends Component {
 
 const mapState = state => ({
     text: state.textarea,
-    status: state.saved.practiceStatus
+    status: state.practice.practiceStatus
 })
 
 const mapDispatch = dispatch => ({
