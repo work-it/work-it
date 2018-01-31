@@ -9,6 +9,7 @@ import Questions from './questions/questions'
 import PracticeContainer from './practice-container/practice-container'
 import SearchBar from './search-bar/search-bar'
 import UserTile from './tile-user/tile-user'
+import UserProfileForm from './user-profile-form/user-profile-form'
 import { Login, Signup } from './auth/auth'
 import {me} from '../store/user'
 import history from './'
@@ -23,7 +24,7 @@ class Main extends Component {
     this.props.loadInitialData()
   }
 
-  render () { 
+  render () {
     const {showAuth, authView, isLoggedIn} = this.props;
     return (
       <div id = "rootDiv">
@@ -36,6 +37,8 @@ class Main extends Component {
           <Route exact path="/whiteboard" component= { InterviewBoardContainer } />
           <Route exact path="/search" render={() => <Search /> } />
           <Route exact path="/usertile" render={() => <UserTile /> } />
+          <Route exact path="/userprofileform" render={() => <UserProfileForm /> } />
+
         </Switch>
       </div>
     )

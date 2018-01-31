@@ -5,14 +5,17 @@ import { Card, Icon, Image, Button } from 'semantic-ui-react'
 import renderHTML from 'react-render-html';
 import '../tile/tile.css'
 
-class UserTile extends Component {
+class UserProfileForm extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      view: 0,
-      maxView: 4,
+      view: 0
     }
+  }
+
+  componentDidMount(){
+    console.log("My props", this.props.emptyUser)
   }
 
   render() {
@@ -43,6 +46,7 @@ class UserTile extends Component {
   }
 
   renderHomeView() {
+    console.log('render view', this.props)
     const {name, position, location, experience, type, salaryRange, imgUrl, topSkills} = this.props.defaultUsers[0];
     return (
       <Card>
@@ -187,8 +191,8 @@ class UserTile extends Component {
 
 const mapState = (state) => {
   return {
-    defaultUsers: state.userTile
+    emptyUser: state.UserProfileForm
   }
 }
 
-export default withRouter(connect(mapState)(UserTile))
+export default withRouter(connect(mapState)(UserProfileForm))

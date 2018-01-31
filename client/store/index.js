@@ -11,9 +11,11 @@ import questions from '../components/questions/questions-reducer'
 import saved from '../components/interview-container/save-state-reducer'
 import userTile from '../components/tile-user/tile-user-reducer'
 import schedule from '../components/practice-schedule/practice-schedule-reducer'
+import userProfileForm from '../components/user-profile-form/user-profile-form-reducer'
 import auth from '../components/auth/auth-reducer'
 
-const reducer = combineReducers({user, whiteboard, textarea, search, questions, saved, schedule, userTile, auth})
+
+const reducer = combineReducers({user, whiteboard, textarea, search, questions, saved, schedule, userTile, userProfileForm, auth})
 
 const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,
