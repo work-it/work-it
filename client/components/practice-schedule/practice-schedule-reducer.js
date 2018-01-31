@@ -3,38 +3,45 @@ import history from '../../history'
 import _ from 'lodash'
 import moment from 'moment'
 
-
 /**
  * INITIAL STATE
  */
 
 const defaultSchedule = [{
-      date: '2018-01-30',
+      date: '2018-02-02',
       id: 453,
       userOne: 12345,
       userTwo: null,
-      start: '02:00'
+      start: '02:00',
+      recordingURL: 'some-firebase-public-url',
+      status: 'waiting'
       },
       {
-      date: '2018-01-30',
+      date: '2018-02-04',
       id: 444,
       userOne: 55555,
       userTwo: null,
-      start: '03:00'
+      start: '03:00',
+      recordingURL: 'some-firebase-public-url',
+      status: 'waiting'
       },
       {
       date: '2018-01-31',
       id: 235,
       userOne: 12345,
       userTwo: null,
-      start: '01:00'
+      start: '01:00',
+      recordingURL: 'some-firebase-public-url',
+      status: 'paired'
       },
       {
       date: '2018-02-03',
       id: 123,
       userOne: 12345,
       userTwo: null,
-      start: '04:00'
+      start: '04:00',
+      recordingURL: 'some-firebase-public-url',
+      status: 'completed'
       }]
 
 /**
