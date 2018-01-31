@@ -1,6 +1,37 @@
-const db = require('./db')
+const admin = require('firebase-admin');
+const firebaseRegular = require ('firebase')
 
-// register models
-require('./models')
+const secrets = require ('../../secrets')
+const serviceAccount = require('../../firebase.json');
 
-module.exports = db
+
+const getFirebase = (function initFirebase () {
+    let firebase = null;
+
+    function init () {
+        // admin.initializeApp({
+        //     credential: admin.credential.cert(serviceAccount),
+        //     databaseURL: "https://work-it-13fac.firebaseio.com"
+        //     });
+      
+        firebaseRegular.initializeApp ({
+            apiKey: secrets.firebase.webApiKey,
+            authDomain: "work-it-13fac.firebaseapp.com",
+            databaseURL: "https://work-it-13fac.firebaseio.com"
+        })
+
+        return {
+            firebase: firebaseRegular
+        }
+    }
+    return function getInstance () {
+        if (!firebase) {
+            firebase = init();
+        }
+        return firebase;
+    }
+})();
+
+
+
+module.exports = getFirebase();

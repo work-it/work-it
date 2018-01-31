@@ -1,44 +1,64 @@
 const router = require('express').Router()
-const User = require('../db/models/user')
+//const User = require('../db/models/user')
+const {admin, firebase} = require ('../db')
+console.log('in index auth', require ('../db'))
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 module.exports = router
 
 
 router.post('/login', (req, res, next) => {
-  User.findOne({where: {email: req.body.email}})
-    .then(user => {
-      if (!user) {
-        res.status(401).send('User not found')
-      } else if (!user.correctPassword(req.body.password)) {
-        res.status(401).send('Incorrect password')
-      } else {
-        req.login(user, err => (err ? next(err) : res.json(user)))
+  bcrypt.hash(req.body.password, saltRounds)
+  .then(hash => {
+    return firebase.database()
+    .ref('/users')
+    .orderByChild('username')
+    .equalTo(req.body.email)
+    .once('value')
+    .then (ds => {
+      const user = ds.val();
+      if (user && user.password === hash) {
+        delete user.password;
+        user.id = Object.keys(user)[0];
+        req.login(user, err=> (err?next(err) : res.json(user)))
       }
+      console.log(ds.val())
     })
-    .catch(next)
+  }) .catch(function(error) {
+    // Handle Errors here.
+    console.log("error", error)
+    res.status(401).json({err: error})
+  });
 })
 
 
 router.post('/signup', (req, res, next) => {
-  User.create(req.body)
-    .then(user => {
-      req.login(user, err => (err ? next(err) : res.json(user)))
+  //console.log("req.body", req.body)
+  const user = {email: req.body.email};
+  bcrypt.hash(req.body.password, saltRounds)
+  .then(hash => {
+    return firebase.database().ref('users/').push({
+      username: req.body.email,
+      password: hash
     })
-    .catch(err => {
-      if (err.name === 'SequelizeUniqueConstraintError') {
-        res.status(401).send('User already exists')
-      } else {
-        next(err)
-      }
-    })
+  })
+  .then (dbObj => {
+    user.id = dbObj.path.pieces_[1];
+    req.login(user, err=> (err?next(err) : res.json(user)))
+  })
+  .catch(function(error) {
+    console.log("error", error)
+    res.json({err: error})
+  }); 
 })
-
 router.post('/logout', (req, res) => {
-  req.logout()
-  req.session.destroy()
-  res.redirect('/')
+    req.logout()
+    req.session.destroy()
+    res.redirect('/')
 })
 
 router.get('/me', (req, res) => {
+  if (req.user) console.log("user found!!!!!!!!!!!!!!!!!!!")
   res.json(req.user)
 })
 
