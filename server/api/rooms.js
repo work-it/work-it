@@ -21,7 +21,7 @@ router.get('/token', (req, res, next) => {
         openRooms.delete(roomName);
     } else if (status === 'start') {
         roomName = generateRoomName();
-        openRooms.set(roomName, user.req.id)
+        openRooms.set(roomName, req.user.id)
     } else {
         res.json({error: "Invalid status"})
     }
