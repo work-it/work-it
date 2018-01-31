@@ -42,7 +42,6 @@ class Main extends Component {
   }
 }
 
-
 const mapState = (state) => {
   return {
     isLoggedIn: !!state.user.id,
