@@ -30,6 +30,12 @@ router.get('/token', (req, res, next) => {
                     cont = false;
                     err={err: "Room is full"}
                 } else if (room.count===0)  {//If room is empty, let the person in
+                    //close any other open room that he might have
+                    if (openRoomsByUserId.has(req.user.uid)) {
+                        const oldRoom = openRoomsByUserId.get(req.user.uid);
+                        openRoomsByRoomName.delete (oldRoom.name);
+                        openRoomsByUserId.delete (req.user.uid);
+                    }
                     room.count++;
                     if (room.initiator !== req.user.uid ) {
                         room.partner = req.user.uid
@@ -43,6 +49,12 @@ router.get('/token', (req, res, next) => {
                         cont = false;
                         err={err: "Room has already been joined"}
                     } else {
+                            //close any other open room that he might have
+                        if (openRoomsByUserId.has(req.user.uid)) {
+                            const oldRoom = openRoomsByUserId.get(req.user.uid);
+                            openRoomsByRoomName.delete (oldRoom.name);
+                            openRoomsByUserId.delete (req.user.uid);
+                        }
                         room.count++;
                         room.partner = req.user.uid
                         req.user.roomStatus='join'

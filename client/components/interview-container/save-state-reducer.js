@@ -25,14 +25,14 @@ export const startSoloPractice = history => dispatch => {
     history.push('/whiteboard');
 }
 
-export const startPair = (roomName, authToken, id) => ({
+export const startPair = (roomName, authToken, id, err) => ({
     type: START_PAIR,
-    roomName, authToken, id
+    roomName, authToken, id, err
 })
 
-export const joinRoom = (roomName, authToken, id) => ({
+export const joinRoom = (roomName, authToken, id, err) => ({
     type: JOIN_ROOM,
-    roomName, authToken, id
+    roomName, authToken, id, err
 })
 
 export const startPairPractice = () => dispatch => {
@@ -41,7 +41,9 @@ export const startPairPractice = () => dispatch => {
             .then(res => res.data)
             .then ( token => {
                 //2.  set status, room name and auth_token onto the status
-                dispatch (startPair(token.roomName, token.token, token.identity))
+                dispatch (startPair(token.roomName, token.token, token.identity, token.err))
+                
+                
             })
             .catch(console.log);
 }
@@ -52,7 +54,7 @@ export const joinPairPractice= (roomName, history) => dispatch => {
             .then(res => res.data)
             .then ( token => {
                 //2.  join room
-                dispatch (joinRoom(token.roomName, token.token, token.identity))
+                dispatch (joinRoom(token.roomName, token.token, token.identity, token.err))
                 //history.push('/whiteboard')
             })
             .catch(console.log);
@@ -62,7 +64,8 @@ const defaultState = {
     practiceStatus: 'none',
     roomName: '',
     id: '',
-    authToken: ''
+    authToken: '', 
+    err: undefined,
 }
 
 export default function (state=defaultState, action) {
@@ -72,9 +75,9 @@ export default function (state=defaultState, action) {
         case START_SOLO: 
             return {...state, practiceStatus: 'solo'}
         case START_PAIR:
-            return {...state, practiceStatus: 'pair_started', roomName: action.roomName, id: action.id, authToken: action.authToken}
+            return {...state, practiceStatus: 'pair_started', roomName: action.roomName, id: action.id, authToken: action.authToken, err: action.err}
         case JOIN_ROOM:
-            return {...state, practiceStatus: 'pair_in_room', roomName: action.roomName, id: action.id, authToken: action.authToken}
+            return {...state, practiceStatus: 'pair_in_room', roomName: action.roomName, id: action.id, authToken: action.authToken, err: action.err}
         default: return state;
     }
 }
