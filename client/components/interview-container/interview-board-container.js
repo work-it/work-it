@@ -1,19 +1,30 @@
-import React from 'react';
+import React, {Component} from 'react';
 import InterviewBoard from '../interview-board/interview-board';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
-import { saveState } from './save-state-reducer';
+import { saveState} from './save-state-reducer';
+import {fetchPractice, endOpenedRoom } from '../practice-pairs/practice-reducer'
 import Questions from '../questions/questions';
 import Video from '../video/video';
 
 
 import './interview-container.css'
 
-function InterviewBoardContainer (props) {
+class InterviewBoardContainer extends Component {
+    constructor (props) {
+        super (props)
+    }
+
+    componentDidMount () {
+        this.props.loadPracticeState()
+    }
+
+    render () {
     return (
         <div className = "interview-board-container">
             <div className = "interview ">
-                <button onClick={() => props.save()}>Save</button>
+                <button onClick={() => this.props.save()}>Save</button>
+                <button onClick={() => this.props.end(this.props.room)}>End</button>
                 <InterviewBoard />
             </div>
 
@@ -28,15 +39,20 @@ function InterviewBoardContainer (props) {
         </div>
     )
 }
+}
 
 const mapState = state => ({
     text: state.textarea,
     board: state.whiteboard.history,
     panesep: state.panesep,
+    status: state.practice.practiceStatus,
+    room: state.practice.room
 })
 
 const mapDispatch = dispatch => ({
-    save: (text, board, panesep) => dispatch(saveState(text, board, panesep))
+    save: (text, board, panesep) => dispatch(saveState(text, board, panesep)),
+    loadPracticeState: () => dispatch (fetchPractice()),
+    end: room => dispatch (endOpenedRoom(room?room.name:'', 'room'))
 })
 
 const mergeProps = (state, actions) => ({

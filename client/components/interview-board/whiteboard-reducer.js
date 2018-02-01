@@ -1,10 +1,16 @@
 export const EMIT_DRAW_EVENT = 'EMIT_DRAW_EVENT'
 export const UPDATE_DRAW_EVENT = 'UPDATE_DRAW_EVENT';
-
+export const CLEAR_WHITEBOARD = 'CLEAR_WHITEBOARD'
 export const emitDrawEvent = (start, end, color) => {
     return ({
         type: EMIT_DRAW_EVENT,
         start, end, color
+    })
+}
+
+export const clearWhiteboard = () => {
+    return ({
+        type: CLEAR_WHITEBOARD
     })
 }
 
@@ -29,6 +35,8 @@ export default (state = defaultState, action ) => {
                 end: action.end,
                 color: action.color
             })
+        case CLEAR_WHITEBOARD:
+            return defaultState;
         default: return state;
     }
 }

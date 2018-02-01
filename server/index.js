@@ -28,7 +28,10 @@ module.exports = app
 //if (process.env.NODE_ENV !== 'production') require('../secrets')
 
 // passport registration
-passport.serializeUser((user, done) => done(null, user.id))
+passport.serializeUser((user, done) => {
+  console.log("serializing user", user)
+  done(null, user.id)
+})
 passport.deserializeUser((id, done) => firebase.database()
 .ref('/users')
 .orderByKey()
@@ -104,7 +107,7 @@ const startListening = () => {
 
   // set up our socket control center
   const io = socketio(server)
-  const socket = require('./socket')(io)
+  require('./socket')(io)
 
   // signalingServer(server, socket => {
   //   console.log("index.js, I am callback, any custom events go here")

@@ -9,6 +9,8 @@ import Questions from './questions/questions'
 import PracticeContainer from './practice-container/practice-container'
 import SearchBar from './search-bar/search-bar'
 import UserTile from './tile-user/tile-user'
+import UserProfileForm from './user-profile-form/user-profile-form'
+import UserProfileContainer from './user-profile-form/user-profile-container'
 import UserInProgres from './user-in-progress/user-in-progress'
 import UserContainer from './user-container/user-container'
 import UserChat from './user-chat/user-chat'
@@ -38,10 +40,14 @@ class Main extends Component {
           <Route exact path="/user" render={() => <UserContainer /> } />
           <Route exact path="/inprogress" render={() => <UserInProgres /> } />
           <Route exact path="/practice" render={() => <PracticeContainer /> } />
+          <Route path="/practice/:roomName" render={() => <PracticeContainer />}/>
           <Route exact path="/questions" render={() => <Questions /> } />
           <Route exact path="/whiteboard" component= { InterviewBoardContainer } />
           <Route exact path="/search" render={() => <Search /> } />
           <Route exact path="/usertile" render={() => <UserTile /> } />
+          <Route exact path="/userprofileform" render={() => <UserProfileForm /> } />
+          <Route exact path="/userprofilecontainer" render={() => <UserProfileContainer /> } />
+
         </Switch>
       </div>
     )

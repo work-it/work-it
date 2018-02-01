@@ -1,49 +1,84 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import { startSoloPractice, startPairPractice,joinPairPractice } from '../interview-container/save-state-reducer'
-import interviewBoardContainer from '../interview-container/interview-board-container';
+import { startPairPractice,joinPairPractice, loadOpenRooms, endOpenedRoom } from './practice-reducer'
+import InterviewBoardContainer from '../interview-container/interview-board-container';
+import UserTile from '../tile-user/tile-user'
 
-const PracticePairs = (props) => {
-  return (
-    props.status==='pair_in_room'?<interviewBoardContainer/>:(
-    <div className="practice-pairs">
-        <button id='open' onClick={()=> props.openNewRoom()}>Open New Room</button>
-        <form onSubmit={props.joinOpenedRoom}>
-          <input type="text" name="roomName"/>
-        <button id='join' type="submit">Join existing room</button></form>
-    </div>
-    )
-  )
+
+
+class PracticePairs extends Component{
+  constructor (props) {
+    super(props)
+  }
+
+  componentDidMount () {
+    this.props.loadRooms();
+  }
+
+  render () {
+   console.log("-----------should interview container be displayed? does history exist ",this.props.history)
+    return (
+      this.props.userId?
+        (this.props.status==='pair_in_room' || this.props.status ==='solo'?<InterviewBoardContainer/>:(
+        <div className="practice-pairs">
+            { 
+              !this.props.myRoom.name?<button id='open' onClick={()=> this.props.openNewRoom()}>Open New Room</button>:null
+            }
+            {
+              this.props.openRooms.map(room => 
+                  <div key={room.name}>
+                    <UserTile fixedView={true} initView={0}/>
+                    {
+                      this.props.userId === room.initiator? <button id='close' onClick={() => this.props.closeOpenedRoom(room.name)} >Close your room {room.name}</button>
+                      :<button id='join' onClick={() => this.props.joinOpenedRoom(room.name, this.props.history)}>Join existing room {room.name}</button>
+                    }
+                  </div>
+              )
+            }    
+        </div>))
+        : <div></div>
+      )
+    
+  }
 }
-
 const mapState = (state) => {
   return {
-    status: state.saved.practiceStatus
+    status: state.practice.practiceStatus,
+    openRooms: state.practice.rooms,
+    myRoom: state.practice.room,
+    userId: state.user.id
   }
 }
 
 const mapDispatch = (dispatch) => {
   return {
     openNewRoom () {
-      console.log("starting new room")
       dispatch(startPairPractice())
     },
-    joinOpenedRoom (roomName, history) {
-      dispatch(joinPairPractice(roomName, history))
+    joinOpenedRoom (room, history) {
+      //e.preventDefault();
+     // console.log("events", e.target)
+      dispatch(joinPairPractice(room, history))
+    },
+    closeOpenedRoom (room) {
+      dispatch (endOpenedRoom(room, 'all'))
+    },
+    loadRooms () {
+      dispatch(loadOpenRooms());
     }
   }
 }
 
-const mergeDispatch = (state, actions, ownProps) => ({
-  ...state,
-  ...actions,
-  ...ownProps,
-  joinOpenedRoom( e ) {
-    e.preventDefault();
-    actions.joinOpenedRoom(e.target.roomName.value, ownProps.history)
-  }
-})
+// const mergeDispatch = (state, actions, ownProps) => ({
+//   ...state,
+//   ...actions,
+//   ...ownProps,
+//   joinOpenedRoom( e ) {
+//     e.preventDefault();
+//     actions.joinOpenedRoom(e.target.roomName.value, ownProps.history)
+//   }
+// })
 
 export default withRouter(connect(mapState, mapDispatch)(PracticePairs))
 

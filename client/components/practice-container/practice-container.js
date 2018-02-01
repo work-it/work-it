@@ -4,6 +4,7 @@ import {withRouter} from 'react-router-dom'
 import PracticeMenu from '../practice-menu/practice-menu'
 import PracticeSchedule from '../practice-schedule/practice-schedule'
 import PracticePairs from '../practice-pairs/practice-pairs'
+import InterviewBoardContainer from '../interview-container/interview-board-container';
 
 class PracticeContainer extends Component {
   constructor(props) {
@@ -20,9 +21,10 @@ class PracticeContainer extends Component {
 
   render() {
     const { view, available } = this.state;
+    const roomName = this.props.match.params.roomName
     return (
       <div className="practice-container">
-        <PracticeMenu changeView={this.changeView} available={available} changeAvailability={this.changeAvailability} />
+        <PracticeMenu changeView={this.changeView} available={available} changeAvailability={this.changeAvailability} join={roomName}/>
         {this.renderSubView()}
       </div>
     )
@@ -57,7 +59,8 @@ class PracticeContainer extends Component {
   }
 
   renderSoloView() {
-    return <div>Solo View</div>
+    //return <div>Solo View</div>
+    return <InterviewBoardContainer />
   }
 
   renderSettingsView() {
@@ -81,7 +84,7 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-
+    startSoloPractice: () => dispatch(startSolo())
   }
 }
 

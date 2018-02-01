@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
+//import {Link} from 'react-router'
 import { Input, Dropdown, Button, Icon } from 'semantic-ui-react'
 import { applyFiltersThunk } from '../../store/index'
 import { toggleShow } from '../auth/auth-reducer'
@@ -75,7 +76,16 @@ class SearchBar extends Component {
 
   render() {
     const { advanced, experience, type, zip, radius, exclude } = this.state;
-    const { authShow } = this.props;
+    const { authShow, practiceStatus } = this.props;
+    let notice = null;
+    if (practiceStatus === 'pair_started') {
+      notice = <li><a href={`/practice/${this.props.roomName}`}><img src='/yellow.png' width='25px'/></a></li>
+    } else if (practiceStatus === 'waiting') {
+      notice = <li><a href={`/practice/${this.props.roomName}`}><img src='/green.gif' width='25px'/></a></li>
+    }
+
+    console.log(this.props)
+
     return (
       <div className="search-bar">
         <div className="main-menu row">
@@ -155,7 +165,9 @@ class SearchBar extends Component {
 const mapState = (state) => {
   return {
     authShow: state.auth.show,
-    isLoggedIn: state.user.id
+    isLoggedIn: state.user.id,
+    practiceStatus: state.practice.practiceStatus,
+    roomName: state.practice.room?state.practice.room.name:''
   }
 }
 

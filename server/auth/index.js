@@ -1,15 +1,16 @@
 const router = require('express').Router()
 //const User = require('../db/models/user')
 const {admin, firebase} = require ('../db')
-console.log('in index auth', require ('../db'))
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 module.exports = router
 
 
 router.post('/login', (req, res, next) => {
+  console.log("hit logoin")
   bcrypt.hash(req.body.password, saltRounds)
   .then(hash => {
+    console.log('Hashed')
     return firebase.database()
     .ref('/users')
     .orderByChild('username')
@@ -17,12 +18,23 @@ router.post('/login', (req, res, next) => {
     .once('value')
     .then (ds => {
       const user = ds.val();
-      if (user && user.password === hash) {
-        delete user.password;
-        user.id = Object.keys(user)[0];
-        req.login(user, err=> (err?next(err) : res.json(user)))
+      
+      if (user ) {
+        const id = Object.keys(user)[0];
+        console.log("id", id, user[id].password, hash);
+        if (user[id].password === hash) {
+          console.log("password and has are equal")
+          const userObj = {
+            email: user[id].username,
+            id
+          }
+          req.login(userObj, err=> (err?next(err) : res.json(userObj)))
+        } else {
+          res.json({err: "Username or password does not match"})
+        }
+      } else {
+        res.json({err: "User not found"})
       }
-      console.log(ds.val())
     })
   }) .catch(function(error) {
     // Handle Errors here.
@@ -58,8 +70,16 @@ router.post('/logout', (req, res) => {
 })
 
 router.get('/me', (req, res) => {
-  if (req.user) console.log("user found!!!!!!!!!!!!!!!!!!!")
-  res.json(req.user)
+  if (req.user) console.log("user found!!!!!!!!!!!!!!!!!!!", req.user)
+  let user = req.user;
+  if (!req.user.id) {
+    const id = Object.keys(user)[0];
+    user = {
+      email: user[id].username,
+      id
+    }
+  }
+  res.json(user)
 })
 
 router.use('/google', require('./google'))
