@@ -18,7 +18,7 @@ router.post('/login', (req, res, next) => {
     .once('value')
     .then (ds => {
       const user = ds.val();
-      
+
       if (user ) {
         const id = Object.keys(user)[0];
         console.log("id", id, user[id].password, hash);
@@ -61,7 +61,7 @@ router.post('/signup', (req, res, next) => {
   .catch(function(error) {
     console.log("error", error)
     res.json({err: error})
-  }); 
+  });
 })
 router.post('/logout', (req, res) => {
     req.logout()
@@ -78,8 +78,8 @@ router.get('/me', (req, res) => {
       email: user[id].username,
       id
     }
-  } 
-  
+  }
+
   res.json(user)
 })
 

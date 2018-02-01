@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch, Redirect} from 'react-router-dom'
-import {logout} from '../store'
+import {logout, getProfileThunk} from '../store'
 import Search from './search/search'
 import InterviewBoardContainer from './interview-container/interview-board-container'
 import Questions from './questions/questions'
@@ -68,7 +68,10 @@ const mapDispatch = (dispatch) => {
       dispatch(logout())
     },
     loadInitialData() {
-      dispatch(me())
+      new Promise((resolve, reject) => {
+        return dispatch(me())
+      })
+      .then(() => dispatch(getProfileThunk()))
     },
     handleLogout() {
       dispatch(logout())

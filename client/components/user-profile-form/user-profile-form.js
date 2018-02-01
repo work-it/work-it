@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
-// import {connect} from 'react-redux'
+import {connect} from 'react-redux'
 // import {withRouter} from 'react-router-dom'
 import { TextArea, Form, Button, Input, Dropdown} from 'semantic-ui-react'
+import { updateProfileThunk } from '../../store'
 import './user-profile-form.css'
 
 
@@ -46,8 +47,15 @@ class UserProfileForm extends Component {
     })
   }
 
+  componentWillMount() {
+    if (this.props.profile) {
+      this.setState(this.props.profile);
+    }
+  }
+
   render() {
     const { firstName, lastName, position, location, experience, type, minSalary, maxSalary, imgUrl, videoUrl, userDesc } = this.state;
+    const {nextClick, prevClick} = this.props;
 
     return (
       <div className="userProfileForm row">
@@ -74,9 +82,35 @@ class UserProfileForm extends Component {
 
             <TextArea className="userDesc" placeholder="Personal Bio" value={userDesc} onChange={(evt) => this.handleStringChange('userDesc', evt.target.value)} />
           </Form>
+          <Button onClick={prevClick}>Prev</Button>
+          <Button onClick={() => this.handleNextClick()}>Next</Button>
       </div>
     )
   }
+
+  handleNextClick() {
+    // increment the step in the parent
+    this.props.nextClick();
+    // call the thunk
+    let data = this.state;
+    data.step = this.props.step;
+
+    this.props.handleProfileFormThunk(data);
+  }
 }
 
-export default UserProfileForm
+const mapState = (state, ownProps) => {
+  return {
+    profile: state.profile
+  }
+}
+
+const mapDispatch = (dispatch) => {
+  return {
+    handleProfileFormThunk(data) {
+      dispatch(updateProfileThunk(data))
+    }
+  }
+}
+
+export default connect(mapState, mapDispatch)(UserProfileForm)
