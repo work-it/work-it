@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {withRouter, Route, Switch, Redirect} from 'react-router-dom'
-import {logout, getProfileThunk} from '../store'
+import {withRouter, Route, Switch} from 'react-router-dom'
+import {logout} from '../store'
 import Search from './search/search'
 import InterviewBoardContainer from './interview-container/interview-board-container'
 import Questions from './questions/questions'
@@ -22,6 +22,8 @@ import history from './'
 class Main extends Component {
   constructor (props) {
     super(props)
+
+    this.state = {}
   }
 
   componentDidMount() {
