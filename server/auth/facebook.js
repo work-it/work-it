@@ -28,6 +28,7 @@ if (!facebook.appId || !facebook.appSecret) {
         if (user) {
           console.log ("User found!!!", user)
           const id = Object.keys(user)[0]
+          user = user[id]
           user.id = id;
           if (user.facebookId) {
             if (user.facebookId !== facebookId) //cancel login, googleIds do not match

@@ -5,6 +5,9 @@ module.exports = router
 
 router.put('/:id', (req, res, next) => {
  // create object in firebase from req.body
+ if (req.body.img) {
+   console.log ("recording image")
+ }
  firebase.database()
     .ref('profiles/' + req.params.id)
     .set(req.body)
