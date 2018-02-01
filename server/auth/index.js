@@ -66,15 +66,9 @@ router.post('/signup', (req, res, next) => {
   }).catch(function(error) {
     console.log("error", error)
     res.json({err: error})
-<<<<<<< HEAD
   });
-||||||| merged common ancestors
-  });
-=======
-  });
-
->>>>>>> master
 })
+
 router.post('/logout', (req, res) => {
     req.logout()
     req.session.destroy()

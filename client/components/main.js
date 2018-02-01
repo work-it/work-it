@@ -68,10 +68,7 @@ const mapDispatch = (dispatch) => {
       dispatch(logout())
     },
     loadInitialData() {
-      new Promise((resolve, reject) => {
-        return dispatch(me())
-      })
-      .then(() => dispatch(getProfileThunk()))
+      dispatch(me())
     },
     handleLogout() {
       dispatch(logout())
