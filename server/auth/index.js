@@ -11,6 +11,7 @@ router.post('/login', (req, res, next) => {
   bcrypt.hash(req.body.password, saltRounds)
   .then(hash => {
     console.log('Hashed')
+
     return findUser(req.body.email, 'username')
       .then (user => {
       if (user ) {
@@ -65,8 +66,14 @@ router.post('/signup', (req, res, next) => {
   }).catch(function(error) {
     console.log("error", error)
     res.json({err: error})
+<<<<<<< HEAD
   });
-   
+||||||| merged common ancestors
+  });
+=======
+  });
+
+>>>>>>> master
 })
 router.post('/logout', (req, res) => {
     req.logout()
@@ -83,8 +90,8 @@ router.get('/me', (req, res) => {
       email: user[id].username,
       id
     }
-  } 
-  
+  }
+
   res.json(user)
 })
 

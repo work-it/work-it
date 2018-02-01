@@ -15,9 +15,10 @@ import userProfileForm from '../components/user-profile-form/user-profile-form-r
 import auth from '../components/auth/auth-reducer'
 import applications from '../components/user-in-progress/applications-reducer'
 import practice from '../components/practice-pairs/practice-reducer'
+import profile from './profile'
 
 
-const reducer = combineReducers({user, whiteboard, textarea, jobs, questions, saved, schedule, userTile, auth, applications,practice ,userProfileForm})
+const reducer = combineReducers({user, whiteboard, textarea, jobs, questions, saved, schedule, userTile, auth, applications, practice, userProfileForm, profile})
 
 const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,
@@ -30,3 +31,4 @@ const store = createStore(reducer, middleware)
 export default store
 export * from './user'
 export * from '../components/search/jobs-reducer'
+export * from './profile'

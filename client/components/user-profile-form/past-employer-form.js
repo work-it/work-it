@@ -26,6 +26,7 @@ class PastEmployerForm extends Component {
 
   render() {
     const { employerName, startDate, endDate, companyWebsite, workDesc } = this.state;
+    const {nextClick, prevClick} = this.props;
 
     return (
       <div className="PastEmployerForm row">
@@ -42,7 +43,8 @@ class PastEmployerForm extends Component {
 
             <Button circular icon="plus" className="add-btn" onClick={() => this.addExperience()} />
           </Form>
-
+          <Button onClick={prevClick}>Prev</Button>
+          <Button onClick={nextClick}>Next</Button>
       </div>
     )
   }

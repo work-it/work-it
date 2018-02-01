@@ -26,6 +26,7 @@ class ProjectForm extends Component {
 
   render() {
     const { projName, startDate, endDate, projWebsite, projDesc } = this.state;
+    const {nextClick,prevClick} = this.props;
 
     return (
       <div className="PastEmployerForm row">
@@ -42,7 +43,8 @@ class ProjectForm extends Component {
 
             <Button circular icon="plus" className="add-btn" onClick={() => this.addProject()} />
           </Form>
-
+          <Button onClick={prevClick}>Prev</Button>
+          <Button onClick={nextClick}>Next</Button>
       </div>
     )
   }

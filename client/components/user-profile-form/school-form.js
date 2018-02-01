@@ -25,6 +25,7 @@ class SchoolForm extends Component {
 
   render() {
     const { schoolName, startDate, endDate, degree } = this.state;
+    const {prevClick} = this.props;
 
     return (
       <div className="SchoolForm row">
@@ -39,7 +40,7 @@ class SchoolForm extends Component {
 
             <Button circular icon="plus" className="add-btn" onClick={() => this.addSchool()} />
           </Form>
-
+          <Button onClick={prevClick}>Prev</Button>
       </div>
     )
   }

@@ -24,6 +24,7 @@ class SkillForm extends Component {
 
   render() {
     const { skillName, skillRank } = this.state;
+    const {nextClick, prevClick} = this.props;
 
     return (
       <div className="SkillForm row">
@@ -33,7 +34,8 @@ class SkillForm extends Component {
             <Input className="skillRank" placeholder="Skill Rank" value={skillRank} onChange={(evt) => this.handleStringChange('skillRank', evt.target.value)} />
             <Button circular icon="plus" className="add-btn" onClick={() => this.addSkill()} />
           </Form>
-
+          <Button onClick={prevClick}>Prev</Button>
+          <Button onClick={nextClick}>Next</Button>
       </div>
     )
   }
