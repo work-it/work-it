@@ -8,6 +8,7 @@ import zipcodes from 'zipcodes'
  * ACTION TYPES
  */
 const FILTER = 'FILTER';
+const FETCH_FAVORITES = 'FETCH_FAVORITES'
 
 /**
  * INITIAL STATE
@@ -19,6 +20,8 @@ const FILTER = 'FILTER';
 const applyFilters = (filtered) => {
   return {type: FILTER, filtered }
 }
+
+const fetchFavoriteJobs = favoritesJobs => ({type: FETCH_FAVORITES, favoritesJobs})
 /**
  * THUNK CREATORS
  */
@@ -51,11 +54,21 @@ export const applyFiltersThunk = (filters) => {
   }
 }
 
+export const fetchFavoriteJobsThunk = (favorites) => {
+  return (dispatch, getState) => {
+    // Fetch jobs from server based on favorites array
+    let favoritesJobs = getState().jobs;
+    dispatch(fetchFavoriteJobs(favoritesJobs));
+  }
+}
+
 /**
  * REDUCER
  */
 export default function (state = defaultJobs, action) {
   switch (action.type) {
+    case FETCH_FAVORITES:
+      return action.favoritesJobs
     case FILTER:
       return action.filtered
     default:

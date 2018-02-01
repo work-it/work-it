@@ -11,6 +11,7 @@ import SearchBar from './search-bar/search-bar'
 import UserTile from './tile-user/tile-user'
 import UserInProgres from './user-in-progress/user-in-progress'
 import UserContainer from './user-container/user-container'
+import UserChat from './user-chat/user-chat'
 import { Login, Signup } from './auth/auth'
 import {me} from '../store/user'
 import history from './'
@@ -33,6 +34,7 @@ class Main extends Component {
         {!isLoggedIn && showAuth && authView === 'signup' && <Signup />}
         {!isLoggedIn && showAuth && authView === 'login' && <Login />}
         <Switch>
+          <Route exact path="/messages" render={() => <UserChat /> } />
           <Route exact path="/user" render={() => <UserContainer /> } />
           <Route exact path="/inprogress" render={() => <UserInProgres /> } />
           <Route exact path="/practice" render={() => <PracticeContainer /> } />
