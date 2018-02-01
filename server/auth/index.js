@@ -72,13 +72,14 @@ router.post('/logout', (req, res) => {
 router.get('/me', (req, res) => {
   if (req.user) console.log("user found!!!!!!!!!!!!!!!!!!!", req.user)
   let user = req.user;
-  if (!req.user.id) {
+  if (user && !user.id) {
     const id = Object.keys(user)[0];
     user = {
       email: user[id].username,
       id
     }
-  }
+  } 
+  
   res.json(user)
 })
 
