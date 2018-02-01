@@ -1,29 +1,24 @@
 const router = require('express').Router()
 //const User = require('../db/models/user')
 const {admin, firebase} = require ('../db')
+const findUser = require ('./util')
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 module.exports = router
-
 
 router.post('/login', (req, res, next) => {
   console.log("hit logoin")
   bcrypt.hash(req.body.password, saltRounds)
   .then(hash => {
     console.log('Hashed')
-    return firebase.database()
-    .ref('/users')
-    .orderByChild('username')
-    .equalTo(req.body.email)
-    .once('value')
-    .then (ds => {
-      const user = ds.val();
 
+    return findUser(req.body.email, 'username')
+      .then (user => {
       if (user ) {
         const id = Object.keys(user)[0];
-        console.log("id", id, user[id].password, hash);
+        console.log("id", id, user[id].password, hash, req.body.password);
         if (user[id].password === hash) {
-          console.log("password and has are equal")
+          console.log("password and hash are equal")
           const userObj = {
             email: user[id].username,
             id
@@ -46,22 +41,39 @@ router.post('/login', (req, res, next) => {
 
 router.post('/signup', (req, res, next) => {
   //console.log("req.body", req.body)
-  const user = {email: req.body.email};
-  bcrypt.hash(req.body.password, saltRounds)
-  .then(hash => {
-    return firebase.database().ref('users/').push({
-      username: req.body.email,
-      password: hash
-    })
-  })
-  .then (dbObj => {
-    user.id = dbObj.path.pieces_[1];
-    req.login(user, err=> (err?next(err) : res.json(user)))
-  })
-  .catch(function(error) {
+  findUser(req.body.email, 'username')
+  .then (user => {
+    if (user) {
+      res.json({err: 'Username/email already exists'})
+    } else {
+      user = {email: req.body.email};
+      bcrypt.hash(req.body.password, saltRounds)
+      .then(hash => {
+        console.log("signup Hash", hash, req.body.password)
+        return firebase.database().ref('users/').push({
+          username: req.body.email,
+          password: hash
+        })
+      })
+      .then (dbObj => {
+        user.id = dbObj.path.pieces_[1];
+        req.login(user, err=> (err?next(err) : res.json(user)))
+      }).catch(function(error) {
+        console.log("error", error)
+        res.json({err: error})
+      });
+    }
+  }).catch(function(error) {
     console.log("error", error)
     res.json({err: error})
+<<<<<<< HEAD
   });
+||||||| merged common ancestors
+  });
+=======
+  });
+
+>>>>>>> master
 })
 router.post('/logout', (req, res) => {
     req.logout()
@@ -84,3 +96,5 @@ router.get('/me', (req, res) => {
 })
 
 router.use('/google', require('./google'))
+router.use('/facebook', require ('./facebook'))
+router.use('/github', require ('./github'))
