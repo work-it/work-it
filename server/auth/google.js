@@ -4,6 +4,7 @@ const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 //const {User} = require('../db/models')
 const secrets = require ('../../secrets')
 const firebase = require ('../db').firebase;
+const findUser = require ('./util')
 module.exports = router
 
 /**
@@ -40,59 +41,39 @@ if (!secrets.google.clientId || !secrets.google.secret) {
 
     console.log('Google Auth Response profile', token);
 
-    const user = {username: email, name, googleId};
-
-    firebase.database().ref('users/').push(user)
-    .then (dbObj => {
-      user.id = dbObj.path.pieces_[1];
-      done(null, user)
-    })
+    findUser(email, 'username')
+    .then (user => {
+      if (user) {
+        console.log ("User found!!!", user)
+        const id = Object.keys(user)[0]
+        user.id = id;
+        if (user.googleId) {
+          if (user.googleId !== googleId) //cancel login, googleIds do not match
+            return null
+          return user;
+        } else {
+          const key = `/users/${id}/googleId`;
+          const updates = {};
+          updates[key] = googleId;
+          firebase.database().ref().update(updates)
+          .then (data => user)
+        }
+      }else {
+      return firebase.database().ref('users/').push({username:email, name, googleId})
+      .then(user => {
+        user.id = user.path.pieces_[1];
+        return user;
+      })
+    
+    }})
+    .then (user =>  done(null, user))
     .catch(function(error) {
       console.log("error", error)
       done({err: error}, null)
-    });
+    })
 
-
-    //We need to register an Observer on Firebase Auth to make sure auth is initialized.
-    // const unsubscribe = firebase.auth().onAuthStateChanged(function(firebaseUser) {
-    //   unsubscribe();
-    //   // Check if we are already signed-in Firebase with the correct user.
-    //   if (!isUserEqual(profile, firebaseUser)) {
-    //     // Build Firebase credential with the Google ID token.
-    //     const credential = firebase.auth.GoogleAuthProvider.credential(null, token);
-    //     // Sign in with credential from the Google user.
-    //     firebase.auth().signInWithCredential(credential)
-    //     .then(user => {
-    //       console.log("User signed in with google", user);
-    //       done( null, user);
-
-    //     })
-    //     .catch(function(error) {
-    //       // Handle Errors here.
-    //       const errorCode = error.code;
-    //       const errorMessage = error.message;
-    //       // The email of the user's account used.
-    //       const email = error.email;
-    //       // The firebase.auth.AuthCredential type that was used.
-    //       const credential = error.credential;
-    //       // ...
-    //       console.log("error during sign up", error)
-    //       done (error)
-    //     });
-    //   } else {
-    //     console.log('User already signed-in Firebase.');
-    //     done(null)
-    //   }
-    // });
-
-    // User.find({where: {googleId}})
-    //   .then(foundUser => (foundUser
-    //     ? done(null, foundUser)
-    //     : User.create({name, email, googleId})
-    //       .then(createdUser => done(null, createdUser))
-    //   ))
-    //   .catch(done)
   })
+
 
   passport.use(strategy)
 
