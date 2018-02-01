@@ -35,13 +35,12 @@ const getProfile = data => ({type: GET_PROFILE, data})
  */
 export const getProfileThunk = () => {
   return (dispatch, getState) => {
-    const state = getState();
-    console.log('STATE', state);
+    const userId = getState().user.id;
 
-    // axios.get(`/api/profiles/${userId}`)
-    //   .then(res => {
-    //     dispatch(getProfile(res.data));
-    //   })
+    axios.get(`/api/profiles/${userId}`)
+      .then(res => {
+        dispatch(getProfile(res.data));
+      })
   }
 }
 

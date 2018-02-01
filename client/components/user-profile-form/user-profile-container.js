@@ -28,6 +28,10 @@ class userProfileContainer extends Component {
     if (nextProps && nextProps.step !== 1) {
       this.setState({step: nextProps.step})
     }
+
+    if (!this.props.isLoggedIn && nextProps.isLoggedIn) {
+      this.props.fetchProfile();
+    }
   }
 
   render() {
@@ -75,13 +79,16 @@ class userProfileContainer extends Component {
 
 const mapState = (state, ownProps) => {
   return {
-    step: state.profile ? state.profile.step : 1
+    step: state.profile ? state.profile.step : 1,
+    isLoggedIn: !!state.user.id
   }
 }
 
 const mapDispatch = (dispatch) => {
   return {
-
+    fetchProfile() {
+      dispatch(getProfileThunk())
+    }
   }
 }
 
