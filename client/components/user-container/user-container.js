@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import UserInProgress from '../user-in-progress/user-in-progress'
+import UserFavorites from '../user-favorites/user-favorites'
 
 class UserContainer extends Component {
   constructor(props) {
@@ -20,7 +21,7 @@ class UserContainer extends Component {
             <ul className="list-inline">
               <li><a onClick={() => this.changeView('profile')}>Profile</a></li>
               <li><a onClick={() => this.changeView('in-progress')}>In Progress</a></li>
-              <li><a onClick={()=> this.changeView('favorites')}>Favorites</a></li>
+              <li><a onClick={()=> this.changeView('favorites')}>Saved</a></li>
               <li><a onClick={() => this.changeView('archived')}>Archived</a></li>
             </ul>
           </div>
@@ -49,7 +50,7 @@ class UserContainer extends Component {
       case 'in-progress':
         return <UserInProgress type="in-progress" />
       case 'favorites':
-        return <div>favorites</div>;
+        return <UserFavorites />;
       case 'archived':
         return <UserInProgress type="archived" />
       case 'settings':

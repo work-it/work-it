@@ -2,16 +2,19 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {Progress, TextArea, Form, Button} from 'semantic-ui-react'
-import {updateNotesMiddleware, archiveMiddleware} from '../user-in-progress/applications-reducer'
+import {updateNotesMiddleware, archiveMiddleware, addMessageMiddleware} from '../user-in-progress/applications-reducer'
+import renderHTML from 'react-render-html';
 import Tile from '../tile/tile'
 import './user-application.css'
+import UserChatBox from '../user-chat/user-chat-box'
 
 class UserApplication extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      notes: ''
+      notes: '',
+      newMessage: ''
     }
   }
 
@@ -26,8 +29,8 @@ class UserApplication extends Component {
   }
 
   render() {
-    const { type, job, application, handleSaveNotes, handleArchive } = this.props;
-    const { notes } = this.state;
+    const { job, application, handleSaveNotes, handleArchive } = this.props;
+    const { notes, newMessage } = this.state;
     let barPercent;
 
     switch (application.status) {
@@ -58,9 +61,16 @@ class UserApplication extends Component {
             <li>Offer</li>
             <li>Hired!</li>
           </ul>
-          <Form>
-            <TextArea className="notes" placeholder="Notes" value={this.state.notes} onChange={(evt, {value}) => this.handleNotesChange(evt, value)} />
-          </Form>
+          <div className="chat-note-wrapper">
+            <UserChatBox application={application} showHeader={true} />
+            <div className="notes">
+              <h2>Notes</h2>
+              <Form>
+                <TextArea className="notes" placeholder="Notes" value={this.state.notes} onChange={(evt, {value}) => this.handleNotesChange(evt, value)} />
+              </Form>
+            </div>
+          </div>
+
           {
             !application.archived &&
             <Button className="archive-btn" size="big" onClick={() => handleArchive(application.id)}>Archive</Button>
@@ -73,6 +83,18 @@ class UserApplication extends Component {
 
   handleNotesChange(evt, notes) {
     this.setState({notes})
+  }
+
+  handleChatUpdate(evt, newMessage) {
+    this.setState({newMessage})
+  }
+
+  handleSubmitNewMessage(evt) {
+    if (evt.charCode === 13) {
+      evt.preventDefault();
+      this.setState({newMessage: ''});
+      this.props.handleAddNewMessage(this.props.application.id, this.state.newMessage);
+    }
   }
 }
 
@@ -89,6 +111,9 @@ const mapDispatch = (dispatch) => {
     },
     handleArchive(applicationId) {
       dispatch(archiveMiddleware(applicationId))
+    },
+    handleAddNewMessage(applicaitonId, message) {
+      dispatch(addMessageMiddleware(applicaitonId, message))
     }
   }
 }

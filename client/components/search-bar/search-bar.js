@@ -5,6 +5,7 @@ import {withRouter} from 'react-router-dom'
 import { Input, Dropdown, Button, Icon } from 'semantic-ui-react'
 import { applyFiltersThunk } from '../../store/index'
 import { toggleShow } from '../auth/auth-reducer'
+import history from '../../history'
 import './search-bar.css'
 
 const expOptions = [
@@ -101,8 +102,7 @@ class SearchBar extends Component {
           </div>
           <div className="col-sm-2">
             <ul className="list-inline menu-icons text-right">
-              {notice?notice:null}
-              <li><Icon name='mail outline' size='big' /></li>
+              <li><Icon name='mail outline' size='big' onClick={() => this.props.history.push('/messages')} /></li>
               <li onClick={() => this.handleLogin(authShow)}><Icon name='user outline' size='big' /></li>
             </ul>
           </div>
