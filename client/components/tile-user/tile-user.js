@@ -43,7 +43,6 @@ class UserTile extends Component {
   }
 
   renderHomeView() {
-    console.log('render view', this.props)
     const {name, position, location, experience, type, salaryRange, imgUrl, topSkills} = this.props.defaultUsers[0];
     return (
       <Card>
