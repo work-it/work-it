@@ -29,12 +29,13 @@ class Main extends Component {
   }
 
   render () {
-    const {showAuth, authView, isLoggedIn} = this.props;
+    const {showAuth, authView, isLoggedIn, handleLogout} = this.props;
     return (
       <div id = "rootDiv">
         <SearchBar history={history} />
         {!isLoggedIn && showAuth && authView === 'signup' && <Signup />}
         {!isLoggedIn && showAuth && authView === 'login' && <Login />}
+        {isLoggedIn && <a onClick={() => handleLogout()}>Logout</a>}
         <Switch>
           <Route exact path="/messages" render={() => <UserChat /> } />
           <Route exact path="/user" render={() => <UserContainer /> } />
@@ -47,7 +48,6 @@ class Main extends Component {
           <Route exact path="/usertile" render={() => <UserTile /> } />
           <Route exact path="/userprofileform" render={() => <UserProfileForm /> } />
           <Route exact path="/userprofilecontainer" render={() => <UserProfileContainer /> } />
-
         </Switch>
       </div>
     )
@@ -69,6 +69,9 @@ const mapDispatch = (dispatch) => {
     },
     loadInitialData() {
       dispatch(me())
+    },
+    handleLogout() {
+      dispatch(logout())
     }
   }
 }

@@ -22,7 +22,7 @@ const AuthForm = (props) => {
             <input name="email" type="text" />
           </div>
           <div>
-            <label htmlFor="password"><small>Password</small></label>
+            <label htmlFor="password"><small>Password (min 6 characters)</small></label>
             <input name="password" type="password" />
           </div>
           <div>
