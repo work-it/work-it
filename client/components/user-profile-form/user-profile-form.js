@@ -55,7 +55,7 @@ class UserProfileForm extends Component {
 
   render() {
     const { firstName, lastName, position, location, experience, type, minSalary, maxSalary, imgUrl, videoUrl, userDesc } = this.state;
-    const {nextClick, prevClick} = this.props;
+    const { prevClick} = this.props;
 
     return (
       <div className="userProfileForm row">
@@ -91,15 +91,15 @@ class UserProfileForm extends Component {
   handleNextClick() {
     // increment the step in the parent
     this.props.nextClick();
-    // call the thunk
+    // consolidate data
     let data = this.state;
     data.step = this.props.step;
-
+    // call the thunk to update profile in firebase
     this.props.handleProfileFormThunk(data);
   }
 }
 
-const mapState = (state, ownProps) => {
+const mapState = (state) => {
   return {
     profile: state.profile
   }
