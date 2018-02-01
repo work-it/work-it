@@ -10,10 +10,7 @@ const REMOVE_USER = 'REMOVE_USER'
 /**
  * INITIAL STATE
  */
-const defaultUser = {
-  id: 1,
-  favorites: [1, 2, 3, 4]
-}
+const defaultUser = {}
 
 /**
  * ACTION CREATORS
