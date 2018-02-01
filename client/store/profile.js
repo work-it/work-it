@@ -10,19 +10,7 @@ const GET_PROFILE = 'GET_PROFILE'
 /**
  * INITIAL STATE
  */
-const defaultProfile = {
-  firstName: '',
-  lastName: '',
-  position: '',
-  location: '',
-  experience: '',
-  type: '',
-  minSalary: '',
-  maxSalary: '',
-  imgUrl: '',
-  videoUrl: '',
-  userDesc: ''
-}
+const defaultProfile = {}
 
 /**
  * ACTION CREATORS
@@ -44,14 +32,20 @@ export const getProfileThunk = () => {
   }
 }
 
+// DONT MODIFY, IT SHOULD WORK WITH WHATEVER IS PASSED IN!
 export const updateProfileThunk = (data) => {
   return (dispatch, getState) => {
+    // Get user from the current redux store
     const userId = getState().user.id;
+    const profile = Object.assign({}, getState().profile, data);
 
-    axios.put(`/api/profiles/${userId}`, data)
+    // Get profile for the current logged in user
+    axios.put(`/api/profiles/${userId}`, profile)
       .then(res => {
        if (res.status === 200) {
-        dispatch(updateProfile(data));
+
+        // Dispatch action creator to update the local redux store
+        dispatch(updateProfile(profile));
        }
       })
   }
@@ -63,8 +57,10 @@ export const updateProfileThunk = (data) => {
 export default function (state = defaultProfile, action) {
   switch (action.type) {
     case UPDATE_PROFILE:
+      // Create a copy of the current profiles store state and update key/value pairs
       return Object.assign({}, state, action.data);
     case GET_PROFILE:
+      // Replace the current profile store state with the profile retrieved from Firebase
       return action.data
     default:
       return state

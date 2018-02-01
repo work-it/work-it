@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 // import {withRouter} from 'react-router-dom'
-import { Form, Button, Input } from 'semantic-ui-react'
 import {getProfileThunk} from '../../store'
 import UserProfileForm from './user-profile-form'
 import UserImageForm from './user-image-form'
@@ -17,7 +16,7 @@ class userProfileContainer extends Component {
     super(props);
 
     this.state = {
-      step: 1
+      step: null
     }
 
     this.nextClick = this.nextClick.bind(this);
@@ -25,7 +24,7 @@ class userProfileContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps && nextProps.step !== 1) {
+    if (nextProps && !this.state.step) {
       this.setState({step: nextProps.step})
     }
 
@@ -77,7 +76,7 @@ class userProfileContainer extends Component {
   }
 }
 
-const mapState = (state, ownProps) => {
+const mapState = (state) => {
   return {
     step: state.profile ? state.profile.step : 1,
     isLoggedIn: !!state.user.id
