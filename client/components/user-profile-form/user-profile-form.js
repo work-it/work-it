@@ -1,198 +1,82 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import { Card, Icon, Image, Button } from 'semantic-ui-react'
-import renderHTML from 'react-render-html';
-import '../tile/tile.css'
+import React, {Component} from 'react'
+// import {connect} from 'react-redux'
+// import {withRouter} from 'react-router-dom'
+import { TextArea, Form, Button, Input, Dropdown} from 'semantic-ui-react'
+import './user-profile-form.css'
+
+
+const experienceOptions = [
+  {text: 'Junior', value: 'Junior'},
+  {text: 'Mid-Level', value: 'Mid-Level'},
+  {text: 'Senior', value: 'Senior'},
+]
+
+const typeOptions = [
+  {text: 'Full-time', value: 'Full-time'},
+  {text: 'Part-time', value: 'Part-time'},
+  {text: 'Contract', value: 'Contract'},
+]
 
 class UserProfileForm extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      view: 0
-    }
+        firstName: '',
+        lastName: '',
+        position: '',
+        location: '',
+        experience: '',
+        type: '',
+        minSalary: '',
+        maxSalary: '',
+        imgUrl: '',
+        videoUrl: '',
+        userDesc: '',
+      }
   }
 
-  componentDidMount(){
-    console.log("My props", this.props.emptyUser)
+  handleStringChange(key, val){
+    this.setState({[key]:val})
+  }
+
+  handleSelect(filterType, value) {
+    this.setState({[filterType]: value}, () => {
+      console.log(this.state);
+    })
   }
 
   render() {
-    const {view} = this.state;
+    const { firstName, lastName, position, location, experience, type, minSalary, maxSalary, imgUrl, videoUrl, userDesc } = this.state;
+
     return (
-      <div className="tile col-sm-3">
-        {!view ? this.renderHomeView() : this.renderDescView()}
+      <div className="userProfileForm row">
+          <Form>
+            <Input className="firstName" placeholder="First Name" value={firstName} onChange={(evt) => this.handleStringChange('firstName', evt.target.value)} />
+
+            <Input className="lastName" placeholder="Last Name" value={lastName} onChange={(evt) => this.handleStringChange('lastName', evt.target.value)} />
+
+            <Input className="position" placeholder="Position" value={position} onChange={(evt) => this.handleStringChange('position', evt.target.value)} />
+
+            <Input className="location" placeholder="Location" value={location} onChange={(evt) => this.handleStringChange('location', evt.target.value)} />
+
+            <Dropdown className="experience" placeholder="Experience Level" options ={experienceOptions} selection value={experience} onChange={(evt, { value }) => this.handleSelect('experience', value)} />
+
+            <Dropdown className="type" placeholder="Job Type" options={typeOptions} selection value={type}onChange={(evt, { value }) => this.handleSelect('type', value)} />
+
+            <Input className="minSalary" placeholder="Minimum Salary" value={minSalary} onChange={(evt) => this.handleStringChange('minSalary', evt.target.value)} />
+
+            <Input className="maxSalary" placeholder="Max Salary" value={maxSalary} onChange={(evt) => this.handleStringChange('maxSalary', evt.target.value)} />
+
+            <Input className="imgUrl" placeholder="Add a photo" value={imgUrl} onChange={(evt) => this.handleStringChange('imgUrl', evt.target.value)} />
+
+            <Input className="videoUrl" placeholder="Add a video" value={videoUrl} onChange={(evt) => this.handleStringChange('videoUrl', evt.target.value)} />
+
+            <TextArea className="userDesc" placeholder="Personal Bio" value={userDesc} onChange={(evt) => this.handleStringChange('userDesc', evt.target.value)} />
+          </Form>
       </div>
-    );
-  }
-
-  handleNextClick() {
-    const {view, maxView} = this.state;
-    if (view === maxView) {
-      this.setState({view: 0})
-    } else {
-      this.setState({view: view + 1})
-    }
-  }
-
-  handlePrevClick() {
-    const {view, maxView} = this.state;
-    if (view === 0) {
-      this.setState({view: maxView})
-    } else {
-      this.setState({view: view - 1})
-    }
-  }
-
-  renderHomeView() {
-    console.log('render view', this.props)
-    const {name, position, location, experience, type, salaryRange, imgUrl, topSkills} = this.props.defaultUsers[0];
-    return (
-      <Card>
-        <div className="logo-wrapper">
-          <Image className="logo" src={imgUrl} />
-        </div>
-        <Card.Content>
-          <Card.Header>
-            <span className="name">
-              {name}
-            </span>
-            <span className="position">
-              {position}
-            </span>
-          </Card.Header>
-          <Card.Meta>
-            <span className="location">
-              {location}
-            </span>
-          </Card.Meta>
-          <Card.Description>
-            <span className="top-skills">
-          {topSkills.map(skill => skill).join(', ')}
-            </span>
-            <span className="exp-type">
-            {`${experience} - ${type}`}
-            </span>
-            <span className="range">
-              {`$${salaryRange.min}K - $${salaryRange.max}K`}
-            </span>
-          </Card.Description>
-        </Card.Content>
-        <Card.Content extra>
-        <div className="prev" onClick={() => this.handlePrevClick()}>
-          <i className="fa fa-chevron-left" aria-hidden="true"></i>
-        </div>
-        <div className="btn-group-wrapper text-center">
-          <Button.Group className="btn-group">
-            <Button>View</Button>
-            <Button>Apply</Button>
-            <Button>Save</Button>
-          </Button.Group>
-        </div>
-        <div className="next" onClick={() => this.handleNextClick()}>
-          <i className="fa fa-chevron-right" aria-hidden="true"></i>
-        </div>
-        </Card.Content>
-      </Card>
-    )
-  }
-
-  roleDesc(roleArr){
-    let rolesDesc = ''
-    roleArr.forEach(function(elem, index) {
-      rolesDesc+= '<h3> ' + elem.employerName + '</h3> <br> <h4> ' + elem.dateRange + '<h4><br><a href="' + elem.companyWebsite + '">'+ elem.companyWebsite + '</a>' + elem.workDesc
-      if(index !== roleArr.length-1){rolesDesc+= '<hr>'}
-    })
-    return rolesDesc
-  }
-
-  projDesc(projArr){
-    let projDesc = ''
-    projArr.forEach(function(elem, index) {
-      projDesc+= '<h3> ' + elem.projName + '</h3> <br> <h4> ' + elem.projDateRange + '<h4><br><a href="' + elem.projWebsite + '">'+ elem.projWebsite + '</a>' + elem.projDesc
-      if(index !== projArr.length-1){projDesc+= '<hr>'}
-    })
-    return projDesc
-  }
-
-  eduDesc(eduArr){
-    let eduDesc = ''
-    eduArr.forEach(function(elem, index) {
-      eduDesc+= '<h3> ' + elem.schoolName + '</h3> <br> <h4> ' + elem.schoolDateRange + '<h4><br><h5>' + elem.degree + '</h5>'
-      if(index !== eduArr.length-1){eduDesc+= '<hr>'}
-    })
-    return eduDesc
-  }
-
-  renderDescView() {
-    const {name, userDesc, pastEmployers, personalProjects, education} = this.props.defaultUsers[0];
-
-    const {view} = this.state;
-
-    let title
-    let desc
-    switch (view) {
-      case 1:
-        title = 'Company Description';
-        desc = userDesc;
-        break;
-      case 2:
-        title = 'Past Experience';
-        desc = this.roleDesc(pastEmployers);
-        break;
-      case 3:
-        title = 'Personal Projects';
-        desc = this.projDesc(personalProjects);
-        break;
-      default:
-        title = 'Education';
-        desc = this.eduDesc(education);
-    }
-
-    return (
-      <Card>
-        <Image className="small-logo" src={this.props.imgUrl} />
-        <Card.Content>
-          <Card.Header>
-          <span className="name">
-              {name}
-            </span>
-            <span className="title">
-              {title}
-            </span>
-          </Card.Header>
-          <Card.Description>
-            <span className="description">
-              {renderHTML(desc)}
-            </span>
-          </Card.Description>
-        </Card.Content>
-        <Card.Content extra>
-        <div className="prev" onClick={() => this.handlePrevClick()}>
-          <i className="fa fa-chevron-left" aria-hidden="true"></i>
-        </div>
-        <div className="btn-group-wrapper text-center">
-          <Button.Group className="btn-group">
-            <Button>View</Button>
-            <Button>Apply</Button>
-            <Button>Save</Button>
-          </Button.Group>
-        </div>
-        <div className="next" onClick={() => this.handleNextClick()}>
-          <i className="fa fa-chevron-right" aria-hidden="true"></i>
-        </div>
-        </Card.Content>
-      </Card>
     )
   }
 }
 
-
-const mapState = (state) => {
-  return {
-    emptyUser: state.UserProfileForm
-  }
-}
-
-export default withRouter(connect(mapState)(UserProfileForm))
+export default UserProfileForm

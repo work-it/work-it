@@ -27,6 +27,7 @@ const school = {
   schoolDateRange: '',
   degree: ''
 }
+
 const skill = {
   skillName: '',
   skillRank: ''
@@ -47,6 +48,7 @@ const emptyUser = {
     max: 1000
   },
   imgUrl: '',
+  videoUrl: '',
   userDesc: '',
   pastEmployers: [ ],
   personalProjects: [ ],
