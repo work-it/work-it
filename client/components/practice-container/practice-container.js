@@ -21,9 +21,10 @@ class PracticeContainer extends Component {
 
   render() {
     const { view, available } = this.state;
+    const roomName = this.props.match.params.roomName
     return (
       <div className="practice-container">
-        <PracticeMenu changeView={this.changeView} available={available} changeAvailability={this.changeAvailability} />
+        <PracticeMenu changeView={this.changeView} available={available} changeAvailability={this.changeAvailability} join={roomName}/>
         {this.renderSubView()}
       </div>
     )

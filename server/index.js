@@ -107,7 +107,7 @@ const startListening = () => {
 
   // set up our socket control center
   const io = socketio(server)
-  const socket = require('./socket')(io)
+  require('./socket')(io)
 
   // signalingServer(server, socket => {
   //   console.log("index.js, I am callback, any custom events go here")

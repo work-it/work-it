@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { emitTextEvent } from './textarea-reducer'
+import { emitTextEvent, updateTextarea } from './textarea-reducer'
 import { withRouter } from 'react-router-dom'
 
 class TextArea extends Component {
@@ -13,6 +13,7 @@ class TextArea extends Component {
     handleChange (e) {
         console.log("triggered", e.target.value)
         if (this.props.status==='pair_in_room') this.props.emitText(e.target.value)
+        else this.props.updateText(e.target.value)
     }
 
     render () {
@@ -29,6 +30,9 @@ const mapDispatch = dispatch => ({
     emitText: text => {
         console.log("on text triggered", text);
         dispatch (emitTextEvent(text))
+    },
+    updateText: text => {
+        dispatch(updateTextarea(text))
     }
 })
 

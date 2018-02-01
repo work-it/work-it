@@ -7,7 +7,6 @@ export const updateSaveState = (saved) => ({
     type: SAVE_STATE, saved
 })
 
-
 export const saveState = (text, board, panesep) => dispatch => {
     axios.post('/api/state', {text, board, panesep})
     .then(res => res.data)
