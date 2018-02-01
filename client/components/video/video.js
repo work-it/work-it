@@ -29,24 +29,57 @@ class VideoContainer extends Component {
         this.participantDisconnected = this.participantDisconnected.bind(this)
         this.disconnected = this.disconnected.bind(this);
         this.loadLocalVideo = this.loadLocalVideo.bind(this);
+        this.pause = this.pause.bind(this);
+        this.resume = this.resume.bind(this)
     }
+
+    shouldComponentUpdate() {
+      console.log("SHOULD COMP UPDATE TRIGGERED")
+      return true;
+    }
+
+
 
     componentDidMount () {
         // When we are about to transition away from this page, disconnect
       // from the room, if joined.
       window.addEventListener('beforeunload', this.leaveRoomIfJoined);
+      window.addEventListener('blur', this.pause);
+      window.addEventListener('focus', this.resume)
+
       console.log("status", this.props)
-      if (this.props.status.practiceStatus === 'solo') {
+      if (this.props.practiceStatus === 'pair_in_room') {
+        console.log("Connecting joint practice")
+        this.connect(this.props.status)
+      }  else {
         //only preview yourself
+        console.log("I SHOULD BE LEAVING THE ROOM")
+        this.leaveRoomIfJoined();
         const localTracksPromise = this.previewTracks?Promise.resolve(previewTracks) : Video.createLocalTracks()
         localTracksPromise.then(this.loadLocalVideo, err=>console.log);
       
-      } else if (this.props.status.practiceStatus === 'pair_in_room') {
-       // axios.get('/api/video/token')
-       //     .then(res => res.data)
-       //     .then ( this.connect );
-        this.connect(this.props.status)
-      }  
+      } 
+    }
+
+    componentWillUnmount () {
+      this.leaveRoomIfJoined();
+    }
+
+    pause () {
+      if (this.previewTracks) {
+        this.previewTracks.forEach(function(track) {
+          track.disable();
+        });
+      }
+    }
+
+    resume () {
+      console.log("resume triggered")
+      if (this.previewTracks) {
+        this.previewTracks.forEach(function(track) {
+          track.enable();
+        });
+      }
     }
 
     loadLocalVideo (tracks) {
@@ -59,45 +92,48 @@ class VideoContainer extends Component {
 
     connect (data) {
         console.log("got data", data)
-        this.identity = data.id;
-        //document.getElementById('videos-container').style.display = 'block';
-      
-        // Bind button to join Room.
-        //document.getElementById('button-join').onclick = function() {
-        this.roomName = data.roomName;
-        //   if (!roomName) {
-        //     alert('Please enter a room name.');
-        //     return;
-        //   }
-      
-        console.log("Joining room '" + this.roomName + "'...");
-          const connectOptions = {
-            name: this.roomName,
-          //  logLevel: 'debug'
-          };
-      
-        //   if (previewTracks) {
-        //     connectOptions.tracks = previewTracks;
-        //   }
-      
-          // Join the Room with the token from the server and the
-          // LocalParticipant's Tracks.
-          console.log("connecting to twilio with token", data.authToken)
-          Video.connect(data.authToken, connectOptions).then(this.roomJoined, function(error) {
-            console.log('Could not connect to Twilio: ' + error.message);
-          });
-     //   };
-      
-        // Bind button to leave Room.
-        // document.getElementById('button-leave').onclick = function() {
-        //   log('Leaving room...');
-        //   activeRoom.disconnect();
-        // };
+        if (data.room) {
+          this.identity = data.id;
+          //document.getElementById('videos-container').style.display = 'block';
+        
+          // Bind button to join Room.
+          //document.getElementById('button-join').onclick = function() {
+          this.roomName = data.room.name;
+          //   if (!roomName) {
+          //     alert('Please enter a room name.');
+          //     return;
+          //   }
+        
+          console.log("Joining room '" + this.roomName + "'...");
+            const connectOptions = {
+              name: this.roomName,
+            //  logLevel: 'debug'
+            };
+        
+          //   if (previewTracks) {
+          //     connectOptions.tracks = previewTracks;
+          //   }
+        
+            // Join the Room with the token from the server and the
+            // LocalParticipant's Tracks.
+            console.log("connecting to twilio with token", data.authToken)
+            Video.connect(data.authToken, connectOptions).then(this.roomJoined, function(error) {
+              console.log('Could not connect to Twilio: ' + error.message);
+            });
+      //   };
+        
+          // Bind button to leave Room.
+          // document.getElementById('button-leave').onclick = function() {
+          //   log('Leaving room...');
+          //   activeRoom.disconnect();
+          // };
+          }
       }
 
 
     attachTracks(tracks, container) {
         tracks.forEach(function(track) {
+          console.log("appending track", track.isEnabled)
           container.appendChild(track.attach());
         });
     }
@@ -195,19 +231,12 @@ class VideoContainer extends Component {
         // of all Participants, including that of the LocalParticipant.
         room.on('disconnected', () => this.disconnected(room));
       }
-      
-//       // Activity log.
-//   log(message) {
-//     var logDiv = document.getElementById('log');
-//     logDiv.innerHTML += '<p>&gt;&nbsp;' + message + '</p>';
-//     logDiv.scrollTop = logDiv.scrollHeight;
-//   }
   
   // Leave Room.
   leaveRoomIfJoined() {
       console.log("Leave room called")
-    if (activeRoom) {
-      activeRoom.disconnect();
+    if (this.activeRoom) {
+      this.activeRoom.disconnect();
     }
   }
 
@@ -223,7 +252,8 @@ class VideoContainer extends Component {
 }
 
 const mapState = state => ({
-  status: state.saved,
+  status: state.practice,
+  practiceStatus: state.practice.practiceStatus
 })
 
 export default withRouter (connect (mapState)(VideoContainer));

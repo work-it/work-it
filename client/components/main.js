@@ -38,6 +38,7 @@ class Main extends Component {
           <Route exact path="/user" render={() => <UserContainer /> } />
           <Route exact path="/inprogress" render={() => <UserInProgres /> } />
           <Route exact path="/practice" render={() => <PracticeContainer /> } />
+          <Route path="/practice/:roomName" render={() => <PracticeContainer />}/>
           <Route exact path="/questions" render={() => <Questions /> } />
           <Route exact path="/whiteboard" component= { InterviewBoardContainer } />
           <Route exact path="/search" render={() => <Search /> } />

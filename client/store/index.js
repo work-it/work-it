@@ -14,10 +14,10 @@ import schedule from '../components/practice-schedule/practice-schedule-reducer'
 import userProfileForm from '../components/user-profile-form/user-profile-form-reducer'
 import auth from '../components/auth/auth-reducer'
 import applications from '../components/user-in-progress/applications-reducer'
+import practice from '../components/practice-pairs/practice-reducer'
 
 
-const reducer = combineReducers({user, whiteboard, textarea, jobs, questions, saved, schedule, userTile, auth, userProfileForm, applications})
-
+const reducer = combineReducers({user, whiteboard, textarea, jobs, questions, saved, schedule, userTile, auth, applications,practice ,userProfileForm})
 
 const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,

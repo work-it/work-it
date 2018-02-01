@@ -15,6 +15,12 @@ class UserTile extends Component {
     }
   }
 
+  componentDidMount () {
+    if (this.props.fixedView) {
+      this.setState({view:this.props.initView, maxView:4})
+    }
+  }
+
   render() {
     const {view} = this.state;
     return (
@@ -43,6 +49,7 @@ class UserTile extends Component {
   }
 
   renderHomeView() {
+  
     const {name, position, location, experience, type, salaryRange, imgUrl, topSkills} = this.props.defaultUsers[0];
     return (
       <Card>
@@ -76,9 +83,13 @@ class UserTile extends Component {
           </Card.Description>
         </Card.Content>
         <Card.Content extra>
-        <div className="prev" onClick={() => this.handlePrevClick()}>
-          <i className="fa fa-chevron-left" aria-hidden="true"></i>
-        </div>
+       
+        {
+          !this.props.fixedView? (
+            <div className="prev" onClick={() => this.handlePrevClick()}>
+              <i className="fa fa-chevron-left" aria-hidden="true"></i>
+            </div>) : null
+        }
         <div className="btn-group-wrapper text-center">
           <Button.Group className="btn-group">
             <Button>View</Button>
@@ -86,9 +97,13 @@ class UserTile extends Component {
             <Button>Save</Button>
           </Button.Group>
         </div>
-        <div className="next" onClick={() => this.handleNextClick()}>
+        
+        {
+          !this.props.fixedView? (
+           <div className="next" onClick={() => this.handleNextClick()}>
           <i className="fa fa-chevron-right" aria-hidden="true"></i>
-        </div>
+        </div>):null
+          }
         </Card.Content>
       </Card>
     )
@@ -166,8 +181,9 @@ class UserTile extends Component {
         </Card.Content>
         <Card.Content extra>
         <div className="prev" onClick={() => this.handlePrevClick()}>
-          <i className="fa fa-chevron-left" aria-hidden="true"></i>
-        </div>
+        <i className="fa fa-chevron-left" aria-hidden="true"></i>
+      </div>
+        
         <div className="btn-group-wrapper text-center">
           <Button.Group className="btn-group">
             <Button>View</Button>
