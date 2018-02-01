@@ -17,8 +17,9 @@ if (!github.appId || !github.appSecret) {
       profileFields: ['id', 'emails', 'name'] 
     }
     const strategy = new FacebookStrategy(githubConfig, (token, refreshToken, profile, done) => {
-      const github = profile.id
+      const githubId = profile.id
       const name = profile.displayName
+      console.log('github', profile)
       const email = profile.emails[0].value
   
       console.log('Github Auth Response profile', token);
@@ -28,6 +29,7 @@ if (!github.appId || !github.appSecret) {
         if (user) {
           console.log ("User found!!!", user)
           const id = Object.keys(user)[0]
+          user = user[id]
           user.id = id;
           if (user.githubId) {
             if (user.githubId !== githubId) //cancel login, googleIds do not match
@@ -58,7 +60,7 @@ if (!github.appId || !github.appSecret) {
   
     passport.use(strategy)
   
-    router.get('/', passport.authenticate('github', {scope: 'email'}))
+    router.get('/', passport.authenticate('github', {scope: '[users:email]'}))
   
     router.get('/callback', passport.authenticate('github', {
       successRedirect: '/home',

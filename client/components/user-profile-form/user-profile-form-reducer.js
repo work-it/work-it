@@ -1,4 +1,5 @@
 import axios from 'axios'
+import store from '../../store'
 //import history from '../history'
 
 /**
@@ -66,6 +67,12 @@ const emptyUser = {
  * THUNK CREATORS
  */
 
+ export const saveProfilePhoto = img => dispatch => {
+   const id = store.getState().user.id
+   axios.post(`/api/profiles/${id}`, {img})
+   .then (res => res.data)
+   .then (console.log)
+ }
 
 /**
  * REDUCER
