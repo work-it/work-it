@@ -1,7 +1,7 @@
 'use strict';
 
 import React,  { Component } from 'react';
-const Video = require('twilio-video');
+import Video from 'twilio-video';
 import axios from 'axios'
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'

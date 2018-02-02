@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const compression = require('compression')
 const session = require('express-session')
 const passport = require('passport')
+const busboy = require('connect-busboy');;
 //const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const FirebaseStore = require('connect-session-firebase')(session);
 const firebase = require('./db').firebase
@@ -44,12 +45,16 @@ const createApp = () => {
   // logging middleware
   app.use(morgan('dev'))
 
+    //parse files
+    app.use(busboy())
   // body parsing middleware
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: true }))
 
   // compression middleware
   app.use(compression())
+
+
 
   // session middleware with passport
   // app.use(session({
