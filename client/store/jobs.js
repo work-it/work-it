@@ -48,9 +48,16 @@ export const jobSearchThunk = (term, location) => {
 
 export const loadJobThunk = (id) => dispatch => {
   axios.get(`/api/jobs/${id}`)
-  .then (res => res.data )
-  .then (job => dispatch (loadJob(job)))
-  .catch (console.log)
+  .then(res => res.data )
+  .then(job => {
+    for (let key in job) {
+      if (job.hasOwnProperty(key)) {
+        console.log('Job Thunk', job[key])
+        dispatch(loadJob(job[key]))
+      }
+    }
+  })
+  .catch(console.log)
 }
 
 export const saveJobThunk = (id) => {

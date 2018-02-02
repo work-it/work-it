@@ -15,16 +15,11 @@ class JobView extends Component {
     }
 
     render () {
-       const jobObj = this.props.job
-       let job
-       if (jobObj) {
-        const key = Object.keys(jobObj)[0];
-        job = jobObj[key]
-       }
+       if (!this.props.job) return null;
 
-       if (!job) return null;
+       console.log('props', this.props)
 
-       const {comp, companyDesc, employerId, experience, imgUrl, location, name, position, qualifications, roleDesc, salaryRange, savedBy, topSkills, type, zip} = job
+       const {comp, companyDesc, employerId, experience, imgUrl, location, name, position, qualifications, roleDesc, salaryRange, savedBy, topSkills, type, zip} = this.props.job
 
         return (
 
@@ -35,7 +30,7 @@ class JobView extends Component {
                         <Image src={imgUrl} />
                     </Grid.Column>
                     <Grid.Column width={8}>
-                        
+
                             <Grid.Row>
                                 <Grid.Column width={8}><Header size='large'>{name}</Header></Grid.Column>
                             </Grid.Row>
@@ -49,19 +44,15 @@ class JobView extends Component {
                             </Grid.Row>
                             <Grid.Row>
                                 <Grid.Column width={8}>
-                                    <TextArea readOnly autoHeight rows={6} defaultValue={companyDesc} style={{width: '100%'}}/>
+                                    <div style={{width: '100%'}}>{renderHTML(companyDesc)}</div>
                                 </Grid.Column>
                             </Grid.Row>
-                       
+
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>
-
                 <Grid.Column width={4}>
                     <Button fluid>Apply</Button>
-                </Grid.Column>
-                <Grid.Column width={4}>
-                    <Button fluid>Message</Button>
                 </Grid.Column>
                 <Grid.Column width={4}>
                     <Button fluid>Save</Button>
@@ -87,7 +78,7 @@ class JobView extends Component {
                     <Grid.Column width={12}><div>{renderHTML(comp)}</div></Grid.Column>
                 </Grid.Row>
             </Grid>
-           
+
         )
     }
 }
