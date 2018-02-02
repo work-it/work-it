@@ -8,34 +8,32 @@ module.exports = router
 
 router.post('/login', (req, res, next) => {
   console.log("hit logoin")
-  bcrypt.hash(req.body.password, saltRounds)
-  .then(hash => {
-    console.log('Hashed')
-
-    return findUser(req.body.email, 'username')
-      .then (user => {
+  findUser(req.body.email, 'username')
+    .then (user => {
       if (user ) {
         const id = Object.keys(user)[0];
-        console.log("id", id, user[id].password, hash, req.body.password);
-        if (user[id].password === hash) {
+
+        bcrypt.compare(req.body.password, user[id].password)
+        .then(() => {
           console.log("password and hash are equal")
           const userObj = {
             email: user[id].username,
             id
           }
           req.login(userObj, err=> (err?next(err) : res.json(userObj)))
-        } else {
+        })
+        .catch(() => {
           res.json({err: "Username or password does not match"})
-        }
+        })
       } else {
         res.json({err: "User not found"})
       }
     })
-  }) .catch(function(error) {
-    // Handle Errors here.
-    console.log("error", error)
-    res.status(401).json({err: error})
-  });
+    .catch(function(error) {
+      // Handle Errors here.
+      console.log("error", error)
+      res.status(401).json({err: error})
+    });
 })
 
 

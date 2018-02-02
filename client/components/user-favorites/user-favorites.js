@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {fetchFavoriteJobsThunk} from '../search/jobs-reducer'
+import {fetchFavoriteJobsThunk} from '../../store'
 import Tile from '../tile/tile'
 
 class UserFavorites extends Component {
