@@ -43,7 +43,7 @@ class UserInProgress extends Component {
 
 const mapState = (state, ownProps) => {
   return {
-    jobs: state.jobs,
+    jobs: state.jobs.all,
     applications: state.applications
   }
 }

@@ -1,35 +1,40 @@
 import axios from 'axios'
-import history from '../../history'
 import _ from 'lodash'
-import { defaultJobs } from './default-jobs'
 import zipcodes from 'zipcodes'
 
 /**
  * ACTION TYPES
  */
 const FILTER = 'FILTER';
+const SEARCH = 'SEARCH';
 const FETCH_FAVORITES = 'FETCH_FAVORITES'
+const CLEAR_FILTER = 'CLEAR_FILTER'
 
 /**
  * INITIAL STATE
  */
-
+const defaultJobs = {};
 /**
  * ACTION CREATORS
  */
-const applyFilters = (filtered) => {
-  return {type: FILTER, filtered }
-}
-
+const applyFilters = (filtered) => ({type: FILTER, filtered });
+const search = jobs => ({type: SEARCH, jobs})
 const fetchFavoriteJobs = favoritesJobs => ({type: FETCH_FAVORITES, favoritesJobs})
+export const clearFilters = () => ({type: CLEAR_FILTER})
 /**
  * THUNK CREATORS
  */
+export const jobSearchThunk = (term, location) => {
+  return (dispatch) => {
+    axios.get(`/api/jobs/search/${location}/${term}`)
+      .then(res => dispatch(search(res.data)))
+  }
+}
 
 export const applyFiltersThunk = (filters) => {
   return (dispatch, getState) => {
     const { type, radius, zip, experience, exclude} = filters;
-    let filtered = defaultJobs;
+    let filtered = getState().jobs.all;
     if (type) {
       filtered = filtered.filter(function(job){
         return job.type === type
@@ -46,9 +51,6 @@ export const applyFiltersThunk = (filters) => {
         return surroundingZips.includes(job.zip);
       });
     }
-    if (exclude) {
-      // What do we want to exclude on??
-    }
 
     dispatch(applyFilters(filtered));
   }
@@ -62,15 +64,33 @@ export const fetchFavoriteJobsThunk = (favorites) => {
   }
 }
 
+export const saveJobThunk = (id) => {
+  return (dispatch, getState) => {
+    const userId = getState().user.id;
+    console.log('id', id, 'userId', userId);
+    axios.put('/api/jobs/save', {userId, id})
+    .then(res => {
+      if (res === 200) {
+        // dispatch
+        // update job object on store with userId
+      }
+    })
+  }
+}
+
 /**
  * REDUCER
  */
 export default function (state = defaultJobs, action) {
   switch (action.type) {
+    case CLEAR_FILTER:
+      return Object.assign({}, state, {filtered: []})
+    case SEARCH:
+      return Object.assign({}, state, {all: action.jobs})
     case FETCH_FAVORITES:
       return action.favoritesJobs
     case FILTER:
-      return action.filtered
+      return Object.assign({}, state, {filtered: action.filtered})
     default:
       return state
   }

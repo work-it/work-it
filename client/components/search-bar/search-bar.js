@@ -3,9 +3,8 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 //import {Link} from 'react-router'
 import { Input, Dropdown, Button, Icon } from 'semantic-ui-react'
-import { applyFiltersThunk } from '../../store/index'
+import { applyFiltersThunk, clearFilters } from '../../store'
 import { toggleShow } from '../auth/auth-reducer'
-import history from '../../history'
 import './search-bar.css'
 
 const expOptions = [
@@ -57,12 +56,13 @@ const typeOptions = [
 ]
 
 const defaultState = {
+  term: '',
+  location: '',
   advanced: false,
   type: '',
   experience: '',
-  radius: '',
-  zip: '08648',
-  exclude: ''
+  radius: 25,
+  zip: ''
 }
 
 class SearchBar extends Component {
@@ -74,17 +74,34 @@ class SearchBar extends Component {
     this.toggleAdvanced = this.toggleAdvanced.bind(this);
   }
 
+  componentWillMount() {
+    const URLparams = new URLSearchParams(this.props.location.search);
+    const term = URLparams.get('term');
+    const location = URLparams.get('location');
+    if (term && location) {
+      this.setState({ term, location });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const nextURLterm = new URLSearchParams(nextProps.location.search).get('term');
+    const URLterm = new URLSearchParams(this.props.location.search).get('term');
+    const nextURLlocation = new URLSearchParams(nextProps.location.search).get('location');
+    const URLlocation = new URLSearchParams(this.props.location.search).get('location');
+    if ((nextURLterm !== URLterm) || (nextURLlocation !== URLlocation)) {
+      this.setState({term: nextURLterm, location: nextURLlocation});
+    }
+  }
+
   render() {
     const { advanced, experience, type, zip, radius, exclude } = this.state;
     const { authShow, practiceStatus } = this.props;
-    let notice = null;
+
     if (practiceStatus === 'pair_started') {
       notice = <li><a href={`/practice/${this.props.roomName}`}><img src='/yellow.png' width='25px'/></a></li>
     } else if (practiceStatus === 'waiting') {
       notice = <li><a href={`/practice/${this.props.roomName}`}><img src='/green.gif' width='25px'/></a></li>
     }
-
-    console.log(this.props)
 
     return (
       <div className="search-bar">
@@ -93,11 +110,24 @@ class SearchBar extends Component {
             <h1 className="logo">WorkIt</h1>
           </div>
           <div className="col-sm-5 search-input-wrapper">
-            <Input className="search-input" placeholder="Search our jobs..." />
-            <Input className="search-input" placeholder="City, State or Zip" />
+            <Input
+              className="search-input"
+              placeholder="Search our jobs..."
+              value={this.state.term}
+              onChange={(evt, {value}) => this.setState({term: value})}
+            />
+            <Input
+              className="search-input"
+              placeholder="City, State or Zip"
+              value={this.state.location}
+              onChange={(evt, {value}) => this.setState({location: value})}
+            />
           </div>
           <div className="col-sm-3 search-btns-wrapper">
-            <Button className="search-btn">Search</Button>
+            <Button
+              className="search-btn"
+              onClick={() => this.hanldeSearch()}
+            >Search</Button>
             <Button basic className="advanced-btn" onClick={() => this.toggleAdvanced()}>Filter</Button>
           </div>
           <div className="col-sm-2">
@@ -116,9 +146,6 @@ class SearchBar extends Component {
           </div>
           <div className="col-sm-2 advanced-col">
             <Dropdown className="dd-exp" placeholder='Job Type' selection value={type} options={typeOptions} onChange={(evt, { value }) => this.handleSelect('type', value)} />
-          </div>
-          <div className="col-sm-2 advanced-col">
-            <Input className="input-zip" placeholder='Exlude (Comma Seperated)' value={exclude} onChange={(evt, { value }) => this.handleSelect('exclude', value)} />
           </div>
           <div className="col-sm-2 advanced-col">
             <Button color="blue" className="apply-filters-btn" onClick={() => this.handleApplyFilters()} >Apply</Button>
@@ -143,7 +170,7 @@ class SearchBar extends Component {
     let newState = defaultState;
     newState.advanced = true;
     this.setState(newState, () => {
-      this.handleApplyFilters();
+      this.props.handleClearFilters();
     });
   }
 
@@ -159,6 +186,11 @@ class SearchBar extends Component {
     } else {
       this.props.handleShowLogin(authShow)
     }
+  }
+
+  hanldeSearch() {
+    const searchString = `/search/?term=${this.state.term}&location=${this.state.location}`;
+    this.props.history.push(searchString);
   }
 }
 
@@ -178,6 +210,9 @@ const mapDispatch = (dispatch) => {
     },
     handleShowLogin(authShow) {
       dispatch(toggleShow(authShow))
+    },
+    handleClearFilters() {
+      dispatch(clearFilters())
     }
   }
 }

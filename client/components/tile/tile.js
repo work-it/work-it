@@ -1,9 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import {connect} from 'react-redux'
+import {withRouter} from 'react-router-dom'
+import { saveJobThunk } from '../../store'
 import { Card, Icon, Image, Button } from 'semantic-ui-react'
-import renderHTML from 'react-render-html';
+import renderHTML from 'react-render-html'
 import './tile.css'
 
-export default class Tile extends Component {
+class Tile extends Component {
   constructor(props) {
     super(props);
 
@@ -41,7 +44,7 @@ export default class Tile extends Component {
   }
 
   renderHomeView() {
-    const {name, position, location, experience, type, salaryRange, topSkills} = this.props;
+    const {userId, id, savedBy, name, position, location, experience, type, salaryRange, topSkills, handleSaveJob} = this.props;
     return (
       <Card>
         <div className="logo-wrapper">
@@ -81,7 +84,12 @@ export default class Tile extends Component {
           <Button.Group className="btn-group">
             <Button>View</Button>
             <Button>Apply</Button>
-            <Button>Save</Button>
+            {
+              savedBy && savedBy.includes(userId) ?
+              <Button >Unsave</Button> :
+              <Button onClick={() => handleSaveJob(id)}>Save</Button>
+            }
+
           </Button.Group>
         </div>
         <div className="next" onClick={() => this.handleNextClick()}>
@@ -93,7 +101,7 @@ export default class Tile extends Component {
   }
 
   renderDescView() {
-    const {name, companyDesc, roleDesc, qualifications, comp} = this.props;
+    const {savedBy, userId, id, name, companyDesc, roleDesc, qualifications, comp, handleSaveJob} = this.props;
     const {view} = this.state;
 
     let title
@@ -142,7 +150,11 @@ export default class Tile extends Component {
           <Button.Group className="btn-group">
             <Button>View</Button>
             <Button>Apply</Button>
-            <Button>Save</Button>
+            {
+              savedBy && savedBy.includes(userId) ?
+              <Button >Unsave</Button> :
+              <Button onClick={() => handleSaveJob(id)}>Save</Button>
+            }
           </Button.Group>
         </div>
         <div className="next" onClick={() => this.handleNextClick()}>
@@ -153,3 +165,19 @@ export default class Tile extends Component {
     )
   }
 }
+
+const mapState = (state) => {
+  return {
+    userId: state.user.id
+  }
+}
+
+const mapDispatch = (dispatch) => {
+  return {
+    handleSaveJob(id) {
+      dispatch(saveJobThunk(id))
+    }
+  }
+}
+
+export default connect(mapState, mapDispatch)(Tile)
