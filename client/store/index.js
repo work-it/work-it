@@ -4,7 +4,7 @@ import thunkMiddleware from 'redux-thunk'
 import socketMiddleware from './middleware/socketMiddleware'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import user from './user'
-import jobs from '../components/search/jobs-reducer'
+import jobs from './jobs'
 import whiteboard from '../components/interview-board/whiteboard-reducer'
 import textarea from '../components/interview-board/textarea-reducer'
 import questions from '../components/questions/questions-reducer'
@@ -30,5 +30,5 @@ const store = createStore(reducer, middleware)
 
 export default store
 export * from './user'
-export * from '../components/search/jobs-reducer'
 export * from './profile'
+export * from './jobs'

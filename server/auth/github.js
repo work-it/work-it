@@ -7,21 +7,21 @@ module.exports = router
 
 if (!github.appId || !github.appSecret) {
     console.log('Facebook client ID / secret not found. Skipping Facebook OAuth.')
-  
+
   } else {
-  
+
     const githubConfig = {
       clientID: github.appId,
       clientSecret: github.appSecret,
       callbackURL: github.callback,
-      profileFields: ['id', 'emails', 'name'] 
+      profileFields: ['id', 'emails', 'name']
     }
     const strategy = new FacebookStrategy(githubConfig, (token, refreshToken, profile, done) => {
       const githubId = profile.id
       const name = profile.displayName
       console.log('github', profile)
       const email = profile.emails[0].value
-  
+
       console.log('Github Auth Response profile', token);
 
       findUser(email, 'username')
@@ -48,24 +48,23 @@ if (!github.appId || !github.appSecret) {
           user.id = user.path.pieces_[1];
           return user;
         })
-      
+
       }})
       .then (user =>  done(null, user))
       .catch(function(error) {
         console.log("error", error)
         done({err: error}, null)
       })
-  
+
     })
-  
+
     passport.use(strategy)
-  
+
     router.get('/', passport.authenticate('github', {scope: '[users:email]'}))
-  
+
     router.get('/callback', passport.authenticate('github', {
       successRedirect: '/home',
       failureRedirect: '/login'
     }))
-  
+
   }
-  
