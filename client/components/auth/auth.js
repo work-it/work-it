@@ -32,7 +32,8 @@ const AuthForm = (props) => {
         </form>
         <a href="/auth/google">{displayName} with Google</a><br/>
         <a href="/auth/facebook">{displayName} with Facebook</a><br/>
-        <a href="/auth/github">{displayName} with GitHub</a><br/>
+       {//} <a href="/auth/github">{displayName} with GitHub</a><br/>
+  }
 
         {
           name === 'login' ?

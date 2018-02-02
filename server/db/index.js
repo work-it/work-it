@@ -9,10 +9,10 @@ const getFirebase = (function initFirebase () {
     let firebase = null;
 
     function init () {
-        // admin.initializeApp({
-        //     credential: admin.credential.cert(serviceAccount),
-        //     databaseURL: "https://work-it-13fac.firebaseio.com"
-        //     });
+        admin.initializeApp({
+            credential: admin.credential.cert(serviceAccount),
+            storageBucket: 'work-it-13fac.appspot.com'
+            });
       
         firebaseRegular.initializeApp ({
             apiKey: secrets.firebase.webApiKey,
@@ -21,7 +21,7 @@ const getFirebase = (function initFirebase () {
         })
 
         return {
-            firebase: firebaseRegular
+            firebase: firebaseRegular, admin
         }
     }
     return function getInstance () {

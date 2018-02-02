@@ -1,8 +1,9 @@
-
+const fs = require ('fs')
 const socketInit = (function initSocket ()  {
   const openRoomsByRoomName = new Map();
   const openRoomsBySocketId = new Map();
   const openRoomsByUserId = new Map()
+  const Files = {}
 
   let object = null;
   function init(io) {
@@ -101,6 +102,82 @@ const socketInit = (function initSocket ()  {
         if(room) socket.leave(room.name)
         
       })
+
+
+      socket.on('start-file-upload', function (data) { //data contains the variables that we passed through in the html file
+        const Name = data['name'];
+        Files[Name] = {  //Create a new Entry in The Files Variable
+            FileSize : data['size'],
+            Data     : "",
+            Downloaded : 0
+        }
+        var Place = 0;
+        let Stat
+        try{
+            Stat = fs.statSync(__dirname+'/../../tempImages/' +  Name);
+            if(Stat.isFile())
+            {
+                Files[Name]['Downloaded'] = Stat.size;
+                Place = Stat.size / 524288;
+            } else {
+              console.log("Is Stat a file: (socket.io)", Stat)
+            }
+        }
+        catch(er){} //It's a New File
+        console.log("wrote some file", Name, (Stat?Stat.size:Stat), data.size)
+        if (Stat && Stat.size >= data.size) {
+          socket.emit('more-data', {percent: 100})
+        } else {
+          fs.open(__dirname+'/../../tempImages/' +  Name, "a", 0755, function(err, fd){
+            if(err)
+            {
+                console.log(err);
+            }
+            else
+            {
+                Files[Name]['Handler'] = fd; //We store the file handler so we can write to it later
+                socket.emit('more-data', { place : Place, percent : 0 });
+                console.log("Sent more data request to server", Place)
+            }
+        });
+        }
+        
+        socket.on('upload-video', function (data){
+          //console.log ("got upload video", data)
+          var Name = data['name'];
+          Files[Name]['Downloaded'] += data['data'].length;
+          Files[Name]['Data'] += data['data'];
+          if(Files[Name]['Downloaded'] == Files[Name]['FileSize']) //If File is Fully Uploaded
+          {
+              fs.write(Files[Name]['Handler'], Files[Name]['Data'], null, 'Binary', function(err, Writen){
+                  //Get Thumbnail Here
+              });
+              
+              socket.emit('more-data', {percent: 100})
+              
+              //console.log("File is FULLY DOWNLOADED")
+          }
+          else if(Files[Name]['Data'].length > 10485760){ //If the Data Buffer reaches 10MB
+              fs.write(Files[Name]['Handler'], Files[Name]['Data'], null, 'Binary', function(err, Writen){
+                  Files[Name]['Data'] = ""; //Reset The Buffer
+                  var Place = Files[Name]['Downloaded'] / 524288;
+                  var Percent = (Files[Name]['Downloaded'] / Files[Name]['FileSize']) * 100;
+                  console.log("percent", Percent)
+                  socket.emit('more-data', { place : Place, percent :  Percent});
+              });
+          }
+          else
+          {
+              var Place = Files[Name]['Downloaded'] / 524288;
+              var Percent = (Files[Name]['Downloaded'] / Files[Name]['FileSize']) * 100;
+              console.log("percent", Percent)
+              socket.emit('more-data', { place : Place, percent :  Percent});
+          }
+      });
+});
+
+
+
 
     })}
 
