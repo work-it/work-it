@@ -17,6 +17,7 @@ import UserChat from './user-chat/user-chat'
 import { Login, Signup } from './auth/auth'
 import {me} from '../store/user'
 import history from './'
+import UserFavorites from './user-favorites/user-favorites';
 
 
 class Main extends Component {
@@ -50,6 +51,7 @@ class Main extends Component {
           <Route exact path="/usertile" render={() => <UserTile /> } />
           <Route exact path="/userprofileform" render={() => <UserProfileForm /> } />
           <Route exact path="/userprofilecontainer" render={() => <UserProfileContainer /> } />
+          <Route exact path="/user/saved" render={() => <UserFavorites /> } />
         </Switch>
       </div>
     )

@@ -47,7 +47,7 @@ class Search extends Component {
           </div> */}
           {
             !!jobsToShow && jobsToShow.map(job => {
-            return <Tile {...job} key={job.id} />
+            return <Tile {...job} key={job.id} jobs={jobs} />
           })}
         </div>
       </div>

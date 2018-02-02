@@ -8,6 +8,7 @@ import zipcodes from 'zipcodes'
 const SEARCH = 'SEARCH';
 const SAVE_JOB = 'SAVE_JOB';
 const REMOVE_SAVED_JOB = 'REMOVE_SAVED_JOB';
+const FETCH_SAVED = 'FETCH_SAVED';
 
 /**
  * INITIAL STATE
@@ -19,9 +20,22 @@ const defaultJobs = [];
 const search = jobs => ({type: SEARCH, jobs})
 const saveJob = updatedJobs => ({type: SAVE_JOB, updatedJobs})
 const removeSavedJob = updatedJobs => ({type: REMOVE_SAVED_JOB, updatedJobs})
+const fetchSavedJobs = savedJobs => ({type: FETCH_SAVED, savedJobs})
 /**
  * THUNK CREATORS
  */
+// Fetch all jobs with the userId in the savedBy array on the job.
+export const fetchSavedJobsThunk = (userId) => {
+  return (dispatch) => {
+    // Fetch jobs from server based on favorites array
+    axios.get(`/api/jobs/saved/${userId}`)
+    .then(res => {
+      dispatch(fetchSavedJobs(res.data));
+    })
+  }
+}
+
+
 export const jobSearchThunk = (term, location) => {
   return (dispatch) => {
     axios.get(`/api/jobs/search/${location}/${term}`)
@@ -29,6 +43,7 @@ export const jobSearchThunk = (term, location) => {
   }
 }
 
+// Add userId to the savedBy array in the jobs store.
 export const saveJobThunk = (id) => {
   return (dispatch, getState) => {
     // Get the user id.
@@ -53,6 +68,7 @@ export const saveJobThunk = (id) => {
   }
 }
 
+// Remove userId from the savedBy array on the job in the job store
 export const removeSavedJobThunk = (id) => {
   return (dispatch, getState) => {
     // Get the user id.
@@ -67,7 +83,7 @@ export const removeSavedJobThunk = (id) => {
       return job;
     })
 
-    axios.delete('/api/jobs/save', {userId, id})
+    axios.delete(`/api/jobs/saved/${id}/${userId}`)
     .then(res => {
       if (res.status === 200) {
         dispatch(removeSavedJob(allJobsUpdate))
@@ -81,6 +97,8 @@ export const removeSavedJobThunk = (id) => {
  */
 export default function (state = defaultJobs, action) {
   switch (action.type) {
+    case FETCH_SAVED:
+      return action.savedJobs;
     case SAVE_JOB:
       return action.updatedJobs;
     case REMOVE_SAVED_JOB:

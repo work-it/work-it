@@ -11,8 +11,10 @@ class UserFavorites extends Component {
     this.state = {}
   }
 
-  componentDidMount() {
-    this.props.handleFetchSavedJobs(this.props.userId);
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.userId && nextProps.userId) {
+      this.props.handleFetchSavedJobs(nextProps.userId);
+    }
   }
 
   render() {
@@ -31,7 +33,8 @@ class UserFavorites extends Component {
 const mapState = (state) => {
   return {
     userId: state.user.id,
-    savedJobs: state.savedJobs
+    jobs: state.jobs,
+    savedJobs: state.jobs.filter(job => job.savedBy.includes(state.user.id))
   }
 }
 
