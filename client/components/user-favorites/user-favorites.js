@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {fetchFavoriteJobsThunk} from '../../store'
+import {fetchSavedJobsThunk} from '../../store'
 import Tile from '../tile/tile'
 
 class UserFavorites extends Component {
@@ -12,15 +12,15 @@ class UserFavorites extends Component {
   }
 
   componentDidMount() {
-    this.props.handleFetchFavoriteJobs(this.props.favorites);
+    this.props.handleFetchSavedJobs(this.props.userId);
   }
 
   render() {
-    const { jobs } = this.props;
+    const { savedJobs } = this.props;
 
     return (
       <div>
-        {!!jobs.length && jobs.map(job => {
+        {!!savedJobs.length && savedJobs.map(job => {
             return <Tile {...job} key={job.id} />
           })}
       </div>
@@ -30,19 +30,17 @@ class UserFavorites extends Component {
 
 const mapState = (state) => {
   return {
-    jobs: state.jobs,
-    favorites: state.user.favorites
+    userId: state.user.id,
+    savedJobs: state.savedJobs
   }
 }
 
 const mapDispatch = (dispatch) => {
   return {
-    handleFetchFavoriteJobs(favorites) {
-      dispatch(fetchFavoriteJobsThunk(favorites))
+    handleFetchSavedJobs(userId) {
+      dispatch(fetchSavedJobsThunk(userId))
     }
   }
 }
 
 export default withRouter(connect(mapState, mapDispatch)(UserFavorites))
-
-
