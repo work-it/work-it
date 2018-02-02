@@ -7,8 +7,9 @@ import zipcodes from 'zipcodes'
  */
 const FILTER = 'FILTER';
 const SEARCH = 'SEARCH';
-const FETCH_FAVORITES = 'FETCH_FAVORITES'
-const CLEAR_FILTER = 'CLEAR_FILTER'
+const FETCH_FAVORITES = 'FETCH_FAVORITES';
+const CLEAR_FILTER = 'CLEAR_FILTER';
+const SAVE_JOB = 'SAVE_JOB';
 
 /**
  * INITIAL STATE
@@ -21,6 +22,7 @@ const applyFilters = (filtered) => ({type: FILTER, filtered });
 const search = jobs => ({type: SEARCH, jobs})
 const fetchFavoriteJobs = favoritesJobs => ({type: FETCH_FAVORITES, favoritesJobs})
 export const clearFilters = () => ({type: CLEAR_FILTER})
+const saveJob = updatedJobs => ({type: SAVE_JOB, updatedJobs})
 /**
  * THUNK CREATORS
  */
@@ -66,13 +68,36 @@ export const fetchFavoriteJobsThunk = (favorites) => {
 
 export const saveJobThunk = (id) => {
   return (dispatch, getState) => {
+    // Get the user id.
     const userId = getState().user.id;
-    console.log('id', id, 'userId', userId);
+    // Get all of the current jobs from store.
+    const allJobs = [...getState().jobs.all];
+    console.log('allJobs', allJobs)
+    // Get filtered jobs from store.
+    const filteredJobs = getState().jobs.filtered && [...getState().jobs.filtered];
+    console.log('filteredJobs', filteredJobs);
+    const allJobsUpdate = allJobs.map(job => {
+      if (job.id === id) {
+        if (job.savedBy) job.savedBy.push(userId);
+        else job.savedBy = [userId];
+      }
+      return job;
+    })
+
+    // If there are jobs in the filtered array, update them too.
+    const filteredJobsUpdate = filteredJobs && filteredJobs.map(job => {
+      if (job.id === id) {
+        job.savedBy.push(userId);
+      }
+      return job;
+    })
+
+    const updatedJobs = {all: allJobsUpdate, filtered: filteredJobsUpdate};
+
     axios.put('/api/jobs/save', {userId, id})
     .then(res => {
-      if (res === 200) {
-        // dispatch
-        // update job object on store with userId
+      if (res.status === 200) {
+        dispatch(saveJob(updatedJobs))
       }
     })
   }
@@ -83,6 +108,8 @@ export const saveJobThunk = (id) => {
  */
 export default function (state = defaultJobs, action) {
   switch (action.type) {
+    case SAVE_JOB:
+      return action.updatedJobs;
     case CLEAR_FILTER:
       return Object.assign({}, state, {filtered: []})
     case SEARCH:

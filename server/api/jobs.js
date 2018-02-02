@@ -47,10 +47,7 @@ router.put('/save', (req, res, next) => {
         .child('savedBy')
         .set(currentlySaved)
     })
-    .then(() => {
-      res.sendStatus(200);
-    })
-
+    .then(() => res.sendStatus(200))
 })
 
 router.get('/search/:location/:term', (req, res, next) => {
