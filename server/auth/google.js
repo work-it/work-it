@@ -46,10 +46,14 @@ if (!secrets.google.clientId || !secrets.google.secret) {
       if (user) {
         console.log ("User found!!!", user)
         const id = Object.keys(user)[0]
+        user = user[id]
         user.id = id;
         if (user.googleId) {
-          if (user.googleId !== googleId) //cancel login, googleIds do not match
+          if (user.googleId !== googleId) {//cancel login, googleIds do not match
+            console.log("googleId not found!")
             return null
+          }
+          console.log("USER in googleId", user)
           return user;
         } else {
           const key = `/users/${id}/googleId`;
@@ -66,7 +70,10 @@ if (!secrets.google.clientId || !secrets.google.secret) {
       })
     
     }})
-    .then (user =>  done(null, user))
+    .then (user =>  {
+      console.log("GOT USER", user)
+      done(null, user)
+    })
     .catch(function(error) {
       console.log("error", error)
       done({err: error}, null)

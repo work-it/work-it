@@ -1,7 +1,7 @@
 'use strict';
 
 import React,  { Component } from 'react';
-const Video = require('twilio-video');
+import Video from 'twilio-video';
 import axios from 'axios'
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
@@ -32,14 +32,6 @@ class VideoContainer extends Component {
         this.pause = this.pause.bind(this);
         this.resume = this.resume.bind(this)
     }
-
-    shouldComponentUpdate() {
-      console.log("SHOULD COMP UPDATE TRIGGERED")
-      return true;
-    }
-
-
-
     componentDidMount () {
         // When we are about to transition away from this page, disconnect
       // from the room, if joined.

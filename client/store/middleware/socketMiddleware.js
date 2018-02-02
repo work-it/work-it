@@ -1,9 +1,11 @@
 import { updateWhiteboard,  clearWhiteboard, EMIT_DRAW_EVENT} from '../../components/interview-board/whiteboard-reducer';
 import { updateTextarea, clearTextarea,  EMIT_TEXT_EVENT} from '../../components/interview-board/textarea-reducer';
+import { videoUploaded, UPLOAD_VIDEO, START_FILE_UPLOAD, VIDEO_UPLOADED, pushVideoToFirebase} from '../../components/user-profile-form/user-profile-form-reducer'
 import { JOIN_ROOM, START_PAIR, loadOpenRooms, CLOSE_ROOM, START_SOLO, continueSolo, roomWaiting, endOpenedRoom, LEAVE_ROOM, roomClosed } from '../../components/practice-pairs/practice-reducer';
 
 import io from 'socket.io-client';
 const socket = io (window.location.origin);
+let SelectedFile, reader
 
 export default () => {
     socket.on ('connect', function () {
@@ -44,8 +46,28 @@ export default () => {
             store.dispatch(roomWaiting())
             store.dispatch(loadOpenRooms())
         })
+
+        socket.on('more-data', function (data){
+            //UpdateBar(data['Percent']);
+            if (data.percent === 100) {
+                store.dispatch(videoUploaded(SelectedFile.name))
+            } else {
+                var place = data['place'] * 524288; //The Next Blocks Starting Position
+                var NewFile; //The Variable that will hold the new Block of Data
+                if(SelectedFile.webkitSlice) 
+                    NewFile = SelectedFile.webkitSlice(place, place + Math.min(524288, (SelectedFile.size-place)));
+                else if (SelectedFile.mozSlice)
+                    NewFile = SelectedFile.mozSlice(place, place + Math.min(524288, (SelectedFile.size-place)));
+                else 
+                    NewFile = SelectedFile.slice(place, place + Math.min(524288, (SelectedFile.size-place)));
+                console.log("Got NewFile to read", NewFile, place)
+                reader.readAsBinaryString(NewFile);
+            }
+        });
+
         //handle events to server
         return next => action => {
+            console.log("action in middleware", action.type)
             switch (action.type) {
                 case EMIT_DRAW_EVENT:
                     socket.emit ('draw', action.start, action.end, action.color);
@@ -76,6 +98,20 @@ export default () => {
                     socket.emit('solo-mode')
                     if (action.room) store.dispatch(endOpenRoom(action.room.name))
                     break;
+                case UPLOAD_VIDEO:
+                    socket.emit('upload-video', action.info);
+                    console.log("Upload video event emitted")
+                    break;
+                case START_FILE_UPLOAD:
+                    SelectedFile = action.file;
+                    console.log('SelFi', SelectedFile, SelectedFile.name)
+                    reader = action.reader
+                    socket.emit ('start-file-upload', action.info)
+                    break;
+                case VIDEO_UPLOADED:
+                    console.log("action in video uploaded", action.name)
+                    store.dispatch(pushVideoToFirebase(action.name))
+                    break
 
             }
             next (action);
