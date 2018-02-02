@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import {withRouter} from 'react-router-dom'
+import {withRouter, Link} from 'react-router-dom'
 import { saveJobThunk, addSavedToFilteredThunk, removeSavedJobThunk } from '../../store'
 import { Card, Icon, Image, Button } from 'semantic-ui-react'
 import renderHTML from 'react-render-html'
