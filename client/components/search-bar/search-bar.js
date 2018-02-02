@@ -102,6 +102,7 @@ class SearchBar extends Component {
     } else if (practiceStatus === 'waiting') {
       notice = <li><a href={`/practice/${this.props.roomName}`}><img src='/green.gif' width='25px'/></a></li>
     }
+    <Icon loading name='certificate' />
 
     return (
       <div className="search-bar">
@@ -132,6 +133,7 @@ class SearchBar extends Component {
           </div>
           <div className="col-sm-2">
             <ul className="list-inline menu-icons text-right">
+              <li><Icon name='code' size='big' onClick={() => this.props.history.push('/practice')}/></li>
               <li><Icon name='mail outline' size='big' onClick={() => this.props.history.push('/messages')} /></li>
               <li onClick={() => this.handleLogin(authShow)}><Icon name='user outline' size='big' /></li>
             </ul>
