@@ -9,6 +9,7 @@ import { loadavg } from 'os';
 const SEARCH = 'SEARCH';
 const SAVE_JOB = 'SAVE_JOB';
 const REMOVE_SAVED_JOB = 'REMOVE_SAVED_JOB';
+const LOAD_JOB = 'LOAD_JOB'
 
 /**
  * INITIAL STATE
@@ -20,6 +21,7 @@ const defaultJobs = [];
 const search = jobs => ({type: SEARCH, jobs})
 const saveJob = updatedJobs => ({type: SAVE_JOB, updatedJobs})
 const removeSavedJob = updatedJobs => ({type: REMOVE_SAVED_JOB, updatedJobs})
+const loadJob = job => ({type: LOAD_JOB, job})
 /**
  * THUNK CREATORS
  */
@@ -28,6 +30,13 @@ export const jobSearchThunk = (term, location) => {
     axios.get(`/api/jobs/search/${location}/${term}`)
       .then(res => dispatch(search(res.data)))
   }
+}
+
+export const loadJobThunk = (id) => dispatch => {
+  axios.get(`/api/jobs/${id}`)
+  .then (res => res.data )
+  .then (job => dispatch (loadJob(job)))
+  .catch (console.log)
 }
 
 export const saveJobThunk = (id) => {
@@ -75,13 +84,6 @@ export const removeSavedJobThunk = (id) => {
       }
     })
   }
-
-  export const loadJobs = () => dispatch => {
-    axios.get('/api/jobs')
-    .then (res => res.data)
-    .then (jobs => dispatch(loadJobs(jobs)))
-    .catch (console.log)
-  }
 }
 
 /**
@@ -95,6 +97,8 @@ export default function (state = defaultJobs, action) {
       return action.updatedJobs;
     case SEARCH:
       return action.jobs;
+    case LOAD_JOB:
+      return [...state, action.job]
     default:
       return state
   }
