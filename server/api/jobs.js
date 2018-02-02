@@ -50,6 +50,19 @@ router.put('/save', (req, res, next) => {
     .then(() => res.sendStatus(200))
 })
 
+router.get('/:id', (req, res, next) => {
+  firebase.database().ref('/jobs')
+  .orderByKey()
+    .equalTo(req.params.id)
+    .once('value')
+    .then (ds => ds.val())
+    .then (job => {
+      console.log("got job back", job)
+      res.json (job);
+    })
+    .catch (console.log)
+})
+
 router.get('/search/:location/:term', (req, res, next) => {
   console.log(req.params);
   let term = req.params.term;

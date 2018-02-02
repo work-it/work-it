@@ -25,6 +25,8 @@ class Tile extends Component {
     );
   }
 
+
+
   handleNextClick() {
     const {view, maxView} = this.state;
     if (view === maxView) {
@@ -82,7 +84,7 @@ class Tile extends Component {
         </div>
         <div className="btn-group-wrapper text-center">
           <Button.Group className="btn-group">
-            <Button>View</Button>
+            <Link to={`/job/${id}`}><Button >View</Button></Link>
             <Button>Apply</Button>
             {
               savedBy && savedBy.includes(userId) ?
@@ -148,7 +150,7 @@ class Tile extends Component {
         </div>
         <div className="btn-group-wrapper text-center">
           <Button.Group className="btn-group">
-            <Button>View</Button>
+          <Link to={`/job/${id}`}><Button >View</Button></Link>
             <Button>Apply</Button>
             {
               savedBy && savedBy.includes(userId) ?

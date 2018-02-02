@@ -2,14 +2,14 @@ import React, {Component} from 'react'
  import {connect} from 'react-redux'
  import {withRouter} from 'react-router-dom'
 import { TextArea, Form, Button, Input, Dropdown} from 'semantic-ui-react'
-import { saveProfilePhoto, saveProfileVideo, uploadVideo } from './user-profile-form-reducer'
+import { saveProfilePhoto, saveProfileVideo, uploadVideo } from '../../store'
 import './user-profile-form.css'
 
 class UserImageForm extends Component {
   constructor(props) {
     super(props);
 
-   
+    console.log("props", props)
     this.width=200
     this.height=200;
     this.video = document.createElement('video');
@@ -183,7 +183,7 @@ getClickEvent (e) {
   render() {
     const {imgUrl, videoUrl} = this.state;
     const {nextClick} = this.props;
-
+    console.log("got next click", nextClick, this.props)
     return (
       <div className="userProfileForm row">
           <Form id='form'>

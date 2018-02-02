@@ -1,6 +1,7 @@
 import axios from 'axios'
 import _ from 'lodash'
 import zipcodes from 'zipcodes'
+import { loadavg } from 'os';
 
 /**
  * ACTION TYPES
@@ -9,6 +10,7 @@ const SEARCH = 'SEARCH';
 const SAVE_JOB = 'SAVE_JOB';
 const REMOVE_SAVED_JOB = 'REMOVE_SAVED_JOB';
 const FETCH_SAVED = 'FETCH_SAVED';
+const LOAD_JOB = 'LOAD_JOB'
 
 /**
  * INITIAL STATE
@@ -21,6 +23,7 @@ const search = jobs => ({type: SEARCH, jobs})
 const saveJob = updatedJobs => ({type: SAVE_JOB, updatedJobs})
 const removeSavedJob = updatedJobs => ({type: REMOVE_SAVED_JOB, updatedJobs})
 const fetchSavedJobs = savedJobs => ({type: FETCH_SAVED, savedJobs})
+const loadJob = job => ({type: LOAD_JOB, job})
 /**
  * THUNK CREATORS
  */
@@ -43,7 +46,13 @@ export const jobSearchThunk = (term, location) => {
   }
 }
 
-// Add userId to the savedBy array in the jobs store.
+export const loadJobThunk = (id) => dispatch => {
+  axios.get(`/api/jobs/${id}`)
+  .then (res => res.data )
+  .then (job => dispatch (loadJob(job)))
+  .catch (console.log)
+}
+
 export const saveJobThunk = (id) => {
   return (dispatch, getState) => {
     // Get the user id.
@@ -105,6 +114,8 @@ export default function (state = defaultJobs, action) {
       return action.updatedJobs;
     case SEARCH:
       return action.jobs;
+    case LOAD_JOB:
+      return [...state, action.job]
     default:
       return state
   }
