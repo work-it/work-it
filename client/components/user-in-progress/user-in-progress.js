@@ -17,20 +17,22 @@ class UserInProgress extends Component {
     const { type, jobs, applications} = this.props;
     let filteredApplications;
 
-    if (type === 'in-progress') {
-      filteredApplications = applications.filter(application => {
-        return !application.archived;
-      })
-    } else if (type === 'archived') {
-      filteredApplications = applications.filter(application => {
-        return application.archived;
-      })
+    if (applications) {
+      if (type === 'in-progress') {
+        filteredApplications = applications.filter(application => {
+          return !application.archived;
+        })
+      } else if (type === 'archived') {
+        filteredApplications = applications.filter(application => {
+          return application.archived;
+        })
+      }
     }
 
     return (
       <div className="user-in-progress">
         {
-          !!filteredApplications.length &&
+          !!filteredApplications.length && jobs &&
           filteredApplications.map(application => {
             const job = jobs[application.jobId];
               return <UserApplication key={application.id} job={job} application={application} notes={application.notes} />
