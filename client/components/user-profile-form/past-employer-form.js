@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import { updateProfileThunk } from '../../store'
 // import {withRouter} from 'react-router-dom'
-import { Form, Button, Input, Dropdown, Icon} from 'semantic-ui-react'
+import { TextArea, Form, Button, Input, Icon} from 'semantic-ui-react'
 import './user-profile-form.css'
 
 
@@ -56,7 +56,7 @@ class PastEmployerForm extends Component {
                   <li>
                   {`${pastEmployer.jobTitle}`}
                   </li>
-                  <li>{`${pastEmployer.startDate - pastEmployer.endDate }`} </li>
+                  <li>{pastEmployer.startDate + ' - ' + pastEmployer.endDate} </li>
                   <li>
                     {`${pastEmployer.companyWebsite}`}
                   </li>
@@ -84,7 +84,7 @@ class PastEmployerForm extends Component {
 
           <Input className="companyWebsite" placeholder="Company Website" value={companyWebsite} onChange={(evt) => this.handleStringChange('companyWebsite', evt.target.value)} />
 
-          <Input className="workDesc" placeholder="Description" value={workDesc} onChange={(evt) => this.handleStringChange('workDesc', evt.target.value)} />
+          <TextArea className="workDesc" placeholder="Description" value={workDesc} onChange={(evt) => this.handleStringChange('workDesc', evt.target.value)} />
 
           {
             /* If editing is true, show the pencil icon and call the updatePastEmployer function if the button is clicked
