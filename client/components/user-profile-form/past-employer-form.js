@@ -64,8 +64,8 @@ class PastEmployerForm extends Component {
                     {`${pastEmployer.workDesc}`}
                   </li>
                   <li>
-                    <Button onClick={() => this.removePastEmployer(idx)}><Icon name='trash' /></Button>
-                    <Button onClick={() => this.editPastEmployer(idx)}><Icon name='pencil' /></Button>
+                    <Button circular icon="trash" className="remove-btn" onClick={() => this.removePastEmployer(idx)} />
+                    <Button circular icon="pencil" className="edit-btn" onClick={() => this.editPastEmployer(idx)} />
                   </li>
                 </ul>
               )
