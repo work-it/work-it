@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import {withRouter} from 'react-router-dom'
-import { saveJobThunk } from '../../store'
+import {withRouter, Link} from 'react-router-dom'
+import { saveJobThunk, updateFilteredJobsThunk } from '../../store'
 import { Card, Icon, Image, Button } from 'semantic-ui-react'
 import renderHTML from 'react-render-html'
 import './tile.css'
@@ -24,6 +24,8 @@ class Tile extends Component {
       </div>
     );
   }
+
+ 
 
   handleNextClick() {
     const {view, maxView} = this.state;
@@ -82,7 +84,7 @@ class Tile extends Component {
         </div>
         <div className="btn-group-wrapper text-center">
           <Button.Group className="btn-group">
-            <Button>View</Button>
+            <Link to={`/job/${id}`}><Button >View</Button></Link>
             <Button>Apply</Button>
             {
               savedBy && savedBy.includes(userId) ?
@@ -148,7 +150,7 @@ class Tile extends Component {
         </div>
         <div className="btn-group-wrapper text-center">
           <Button.Group className="btn-group">
-            <Button>View</Button>
+          <Link to={`/job/${id}`}><Button >View</Button></Link>
             <Button>Apply</Button>
             {
               savedBy && savedBy.includes(userId) ?
@@ -176,6 +178,7 @@ const mapDispatch = (dispatch) => {
   return {
     handleSaveJob(id) {
       dispatch(saveJobThunk(id))
+      // dispatch(updateFilteredJobsThunk(id))
     }
   }
 }

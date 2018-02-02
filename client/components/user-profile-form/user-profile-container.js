@@ -49,6 +49,7 @@ class userProfileContainer extends Component {
 
   nextClick() {
     this.setState({step: this.state.step + 1})
+    console.log("next click called")
   }
 
   prevClick() {
@@ -57,7 +58,7 @@ class userProfileContainer extends Component {
 
   renderSubView() {
     const {step} = this.state;
-
+    console.log("nextClick in parent",this.nextClick)
     switch (step) {
       case 1:
         return <UserImageForm nextClick={this.nextClick} step={step} />
