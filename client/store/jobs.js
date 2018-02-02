@@ -1,6 +1,7 @@
 import axios from 'axios'
 import _ from 'lodash'
 import zipcodes from 'zipcodes'
+import { loadavg } from 'os';
 
 /**
  * ACTION TYPES
@@ -9,7 +10,7 @@ const FILTER = 'FILTER';
 const SEARCH = 'SEARCH';
 const FETCH_FAVORITES = 'FETCH_FAVORITES'
 const CLEAR_FILTER = 'CLEAR_FILTER'
-
+const LOAD = 'LOAD'
 /**
  * INITIAL STATE
  */
@@ -18,6 +19,7 @@ const defaultJobs = {};
  * ACTION CREATORS
  */
 const applyFilters = (filtered) => ({type: FILTER, filtered });
+const loadJobs = (jobs) => ({type: LOAD, jobs})
 const search = jobs => ({type: SEARCH, jobs})
 const fetchFavoriteJobs = favoritesJobs => ({type: FETCH_FAVORITES, favoritesJobs})
 export const clearFilters = () => ({type: CLEAR_FILTER})
@@ -76,6 +78,13 @@ export const saveJobThunk = (id) => {
       }
     })
   }
+
+  export const loadJobs = () => dispatch => {
+    axios.get('/api/jobs')
+    .then (res => res.data)
+    .then (jobs => dispatch(loadJobs(jobs)))
+    .catch (console.log)
+  }
 }
 
 /**
@@ -91,6 +100,8 @@ export default function (state = defaultJobs, action) {
       return action.favoritesJobs
     case FILTER:
       return Object.assign({}, state, {filtered: action.filtered})
+    case LOAD:
+      return Object.assign({}, state, {all: action.jobs})
     default:
       return state
   }

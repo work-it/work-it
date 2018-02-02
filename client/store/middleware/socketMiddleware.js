@@ -1,6 +1,6 @@
 import { updateWhiteboard,  clearWhiteboard, EMIT_DRAW_EVENT} from '../../components/interview-board/whiteboard-reducer';
 import { updateTextarea, clearTextarea,  EMIT_TEXT_EVENT} from '../../components/interview-board/textarea-reducer';
-import { videoUploaded, UPLOAD_VIDEO, START_FILE_UPLOAD, VIDEO_UPLOADED, pushVideoToFirebase} from '../../components/user-profile-form/user-profile-form-reducer'
+import { videoUploaded, UPLOAD_VIDEO, START_FILE_UPLOAD, VIDEO_UPLOADED, pushVideoToFirebase} from '../index'
 import { JOIN_ROOM, START_PAIR, loadOpenRooms, CLOSE_ROOM, START_SOLO, continueSolo, roomWaiting, endOpenedRoom, LEAVE_ROOM, roomClosed } from '../../components/practice-pairs/practice-reducer';
 
 import io from 'socket.io-client';
