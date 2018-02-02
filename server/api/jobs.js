@@ -133,3 +133,30 @@ router.get('/saved/:userid', (req, res, next) => {
     })
 
 })
+
+router.delete('/saved/:jobid/:userid', (req, res, next) => {
+
+  let userId = req.params.userid;
+  let jobId = req.params.jobid;
+
+  firebase.database()
+    .ref('jobs/' + jobId)
+    .once('value')
+    .then(ds => {
+      const job = ds.val();
+      let newSavedBy = [];
+      job.savedBy.forEach(savedUserId => {
+        if (savedUserId !== userId) {
+          newSavedBy.push(savedUserId);
+        }
+      })
+
+      return firebase.database()
+        .ref('jobs/' + jobId)
+        .child('savedBy')
+        .set(newSavedBy)
+    })
+    .then(() => res.sendStatus(200))
+
+})
+

@@ -7,7 +7,8 @@ import zipcodes from 'zipcodes'
  */
 const FILTER = 'FILTER';
 const CLEAR_FILTER = 'CLEAR_FILTER';
-const SAVE_JOB = 'SAVE_JOB';
+const ADD_SAVED_JOB_TO_FITLERED = 'ADD_SAVED_JOB_TO_FITLERED';
+const REMOVE_SAVED_JOB_FROM_FILTERED = 'REMOVE_SAVED_JOB_FROM_FILTERED';
 
 /**
  * INITIAL STATE
@@ -18,7 +19,8 @@ const defaultJobs = [];
  */
 const applyFilters = (filtered) => ({type: FILTER, filtered });
 export const clearFilters = () => ({type: CLEAR_FILTER})
-const saveJob = updatedJobs => ({type: SAVE_JOB, updatedJobs})
+const saveJob = updatedJobs => ({type: ADD_SAVED_JOB_TO_FITLERED, updatedJobs})
+const removeSavedJob = updatedJobs => ({type: REMOVE_SAVED_JOB_FROM_FILTERED, updatedJobs})
 /**
  * THUNK CREATORS
  */
@@ -47,7 +49,7 @@ export const applyFiltersThunk = (filters) => {
   }
 }
 
-export const updateFilteredJobsThunk = (id) => {
+export const addSavedToFilteredThunk = (id) => {
   return (dispatch, getState) => {
     // Get the user id.
     const userId = getState().user.id;
@@ -69,12 +71,33 @@ export const updateFilteredJobsThunk = (id) => {
   }
 }
 
+// Remove userId from the savedBy array on the job in the job store
+export const removeSavedFromFilteredThunk = (id) => {
+  return (dispatch, getState) => {
+    // Get the user id.
+    const userId = getState().user.id;
+    // Get all of the current jobs from store.
+    const filteredJobs = [...getState().filteredJobs];
+    // Get filtered jobs from store.
+    const filteredJobsUpdate = filteredJobs.map(job => {
+      if (job.id === id && job.savedBy) {
+        job.savedBy = job.savedBy.filter(savedUserId => savedUserId !== userId)
+      }
+      return job;
+    })
+
+    dispatch(removeSavedJob(filteredJobsUpdate))
+  }
+}
+
 /**
  * REDUCER
  */
 export default function (state = defaultJobs, action) {
   switch (action.type) {
-    case SAVE_JOB:
+    case REMOVE_SAVED_JOB_FROM_FILTERED:
+      return action.updatedJobs;
+    case ADD_SAVED_JOB_TO_FITLERED:
       return action.updatedJobs
     case CLEAR_FILTER:
       return defaultJobs
