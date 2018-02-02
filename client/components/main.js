@@ -48,8 +48,7 @@ class Main extends Component {
           <Route exact path="/whiteboard" component= { InterviewBoardContainer } />
           <Route exact path="/search" render={() => <Search /> } />
           <Route exact path="/usertile" render={() => <UserTile /> } />
-          <Route exact path="/userprofileform" render={() => <UserProfileForm /> } />
-          <Route exact path="/userprofilecontainer" render={() => <UserProfileContainer /> } />
+          <Route exact path="/userprofilecontainer" render={() => <UserProfileContainer history={history} /> } />
         </Switch>
       </div>
     )

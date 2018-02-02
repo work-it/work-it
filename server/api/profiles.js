@@ -14,8 +14,17 @@ const metadata = {
 const token = '4148436AE4D4AAD5A6A02DB2E79C01FAC1B0DCF5E0160A58366ADCE568606481'
 module.exports = router
 
-router.put('/:id', (req, res, next) => {
+router.get('/:id', (req, res, next) => {
+  firebase.database()
+    .ref('profiles/' + req.body.id)
+    .once('value')
+    .then(snapshot => {
+       res.send(snapshot.val())
+    })
+})
 
+
+router.put('/:id', (req, res, next) => {
    console.log("recording body", req.body)
   firebase.database()
     .ref('profiles/' + req.params.id)
@@ -23,7 +32,7 @@ router.put('/:id', (req, res, next) => {
     .then(() => {
       res.sendStatus(200);
     })
- 
+
 })
 
 router.put('/upload/photo/:id', (req, res, next) => {
@@ -34,13 +43,13 @@ router.put('/upload/photo/:id', (req, res, next) => {
             const fullpath = __dirname + '/../../tempImages/'+req.params.id + filename
             fstream = fs.createWriteStream(fullpath);
             file.pipe(fstream);
-            fstream.on('close', function () {    
-                console.log("Upload Finished of " + filename);              
+            fstream.on('close', function () {
+                console.log("Upload Finished of " + filename);
                 dataBucket.upload(fullpath, metadata)
               .then(data => {
                 const url = 'https://firebasestorage.googleapis.com/v0/b/work-it-13fac.appspot.com/o/'+req.params.id+filename+'?alt=media&token='+token
                 console.log("user url"+url)
-                
+
                 firebase.database()
                 .ref('profiles/'+req.params.id)
                 .update({imgUrl:url})
