@@ -52,7 +52,7 @@ class SkillForm extends Component {
         {/* If showTopSkillsWarning is true, show the warning */}
         {showTopSkillWarning && <h3>Only 3 Top Skills Allowed. Remove A Top Skill To Add Another.</h3>}
         {/* If showDupSkillsWarning is true, show the warning */}
-        {showDupSkillWarning && <h3>You've Already Added This Skill.</h3>}
+        {showDupSkillWarning && <h3>You Already Added This Skill.</h3>}
         <ul>
           {
             /* Map over the skillsArr and only return the skills that match the condition in the if statement */
