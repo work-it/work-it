@@ -47,10 +47,7 @@ router.put('/save', (req, res, next) => {
         .child('savedBy')
         .set(currentlySaved)
     })
-    .then(() => {
-      res.sendStatus(200);
-    })
-
+    .then(() => res.sendStatus(200))
 })
 
 router.get('/search/:location/:term', (req, res, next) => {
@@ -87,6 +84,33 @@ router.get('/search/:location/:term', (req, res, next) => {
             job.roleDesc.includes(term)) &&
             surroundingZips.includes(job.zip)
           ) {
+            matchedJobs.push(job);
+          }
+        }
+      }
+
+      res.send(matchedJobs);
+    })
+
+})
+
+router.get('/saved/:userid', (req, res, next) => {
+
+  let userId = req.params.userid;
+
+  firebase.database()
+    .ref('/jobs')
+    .once('value')
+    .then(ds => {
+      const jobs = ds.val();
+
+      let matchedJobs = [];
+      for (let key in jobs) {
+        if (jobs.hasOwnProperty(key)) {
+          const job = jobs[key];
+          // Match jobs that include the term in the position name, skills or
+          // role description.
+          if (job.savedBy && job.savedBy.includes(userId)) {
             matchedJobs.push(job);
           }
         }

@@ -60,8 +60,8 @@ class Search extends Component {
  */
 const mapState = (state) => {
   return {
-    jobs: state.jobs.all,
-    filtered: state.jobs.filtered
+    jobs: state.jobs,
+    filtered: state.filteredJobs
   }
 }
 
