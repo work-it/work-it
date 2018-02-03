@@ -2,47 +2,13 @@ import axios from 'axios'
 import history from '../../history'
 import _ from 'lodash'
 import moment from 'moment'
+import { create } from 'domain';
 
 /**
  * INITIAL STATE
  */
 
-// const defaultSchedule = [{
-//       date: '2018-02-02',
-//       id: 453,
-//       userOne: 12345,
-//       userTwo: null,
-//       start: '02:00',
-//       recordingURL: 'some-firebase-public-url',
-//       status: 'waiting'
-//       },
-//       {
-//       date: '2018-02-04',
-//       id: 444,
-//       userOne: 55555,
-//       userTwo: null,
-//       start: '03:00',
-//       recordingURL: 'some-firebase-public-url',
-//       status: 'waiting'
-//       },
-//       {
-//       date: '2018-01-31',
-//       id: 235,
-//       userOne: 12345,
-//       userTwo: null,
-//       start: '01:00',
-//       recordingURL: 'some-firebase-public-url',
-//       status: 'paired'
-//       },
-//       {
-//       date: '2018-02-03',
-//       id: 123,
-//       userOne: 12345,
-//       userTwo: null,
-//       start: '04:00',
-//       recordingURL: 'some-firebase-public-url',
-//       status: 'completed'
-//       }]
+
 
 /**
  * ACTION TYPES
@@ -59,22 +25,16 @@ const LOAD_SESSIONS = 'LOAD_SESSIONS';
  const addSession = (updatedSchedule) => ({type: ADD_SESSION , updatedSchedule})
  const loadSessions = (sessions) => ({type: LOAD_SESSIONS, sessions})
 
- export const createPairMiddleware = (date, session) => {
+ export const createPairMiddleware = (session) => {
    return (dispatch, getState) => {
-    console.log("Got session to pair", session)
-    axios.put('/api/schedule', {sessionId})
-
-    // let updatedSchedule = [...getState().schedule];
-    // updatedSchedule = updatedSchedule.map(session => {
-    //   if (session.id === sessionId) {
-    //     session.userTwo = getState().user.id;
-    //     return session;
-    //   } else {
-    //     return session;
-    //   }
-    // })
-
-    dispatch(createPair(updatedSchedule))
+    axios.put('/api/schedule', session)
+    .then(res => res.data)
+    .then(res => {
+      if (!res.err) {
+        console.log("res", res[session.id]);
+        dispatch(createPair(res[session.id]))
+      }
+    })
    }
  }
 
@@ -122,7 +82,12 @@ export const fetchSchedule = () => dispatch => {
 export default function (state = [], action) {
   switch (action.type) {
     case CREATE_PAIR:
-      return action.updatedSchedule
+      const newState = [...state];
+      const sess = state.find (sched => {
+        return sched.id === action.updatedSchedule.id
+      })
+      sess.userTwo = action.updatedSchedule.userTwo;
+      return newState
     case ADD_SESSION:
       return [...state, ...action.updatedSchedule]
     case LOAD_SESSIONS:

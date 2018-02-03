@@ -9,28 +9,30 @@ const renderDetails = (type, start, userOne, userTwo, testUser) => {
   const startLocal = moment.utc(start, 'HH:mm').local().format('HH:mm');
   const startLocalTwelveHour = times.filter(time => time.value === startLocal)[0].text
 
-  console.log(startLocalTwelveHour)
+  //console.log(startLocalTwelveHour)
 
   switch (type) {
     case 'available':
       return (
         <div>
-          <h4>{userOne} is available</h4>
           <h4>{startLocalTwelveHour}</h4>
+          <h4>available</h4>
         </div>
       )
     case 'waiting':
       return (
         <div>
-          <h4>I am available</h4>
           <h4>{startLocalTwelveHour}</h4>
+          <h4>I am available</h4>
+          
         </div>
       )
     case 'paired':
       return (
         <div>
-          <h4>Paired with {userOne === testUser.id ? userTwo : userOne}</h4>
           <h4>{startLocalTwelveHour}</h4>
+          <h4>Paired</h4>
+          
         </div>
       )
     default:
@@ -39,7 +41,7 @@ const renderDetails = (type, start, userOne, userTwo, testUser) => {
 }
 
 const ScheduleSession = (props) => {
-  console.log('props', props)
+  //console.log('props', props)
   const { id, userOne, start, date, userTwo } = props.session;
   let type;
   let classFortype = 'schedule-session ';
@@ -69,7 +71,8 @@ paired: YOU and ANOTHER USER have been paired together for that time. It doesnâ€
 
 const mapState = (state) => {
   return {
-    myUserId: state.user?state.user.id:null
+    myUserId: state.user?state.user.id:null,
+    sched: state.schedule
   }
 }
 

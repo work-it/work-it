@@ -109,6 +109,7 @@ class PracticeSchedule extends Component {
   }
 
   handleSessionClick(type, session) {
+    console.log("handling click", session)
     const {handleCreatePair} = this.props;
     if (type === 'available') {
       handleCreatePair(session);
@@ -140,8 +141,8 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    handleCreatePair(userId, date, sessionId) {
-      dispatch(createPairMiddleware(userId, date, sessionId));
+    handleCreatePair(session) {
+      dispatch(createPairMiddleware(session));
     },
     handleAddSession(date, userId, start, end) {
       dispatch(addSessionMiddleware(date, userId, start, end))
