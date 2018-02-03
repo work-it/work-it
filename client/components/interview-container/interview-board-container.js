@@ -3,7 +3,7 @@ import InterviewBoard from '../interview-board/interview-board';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 import { saveState} from './save-state-reducer';
-import {fetchPractice, endOpenedRoom } from '../practice-pairs/practice-reducer'
+import {fetchPractice, endOpenedRoom, leaveRoom } from '../practice-pairs/practice-reducer'
 import Questions from '../questions/questions';
 import Video from '../video/video';
 
@@ -20,11 +20,11 @@ class InterviewBoardContainer extends Component {
     }
 
     render () {
+        console.log("practice status: "+this.props.status)
     return (
         <div className = "interview-board-container">
             <div className = "interview ">
-                <button onClick={() => this.props.save()}>Save</button>
-                <button onClick={() => this.props.end(this.props.room)}>End</button>
+                <button onClick={() => this.props.status==='solo'?this.props.exitRoom(null):this.props.endRoom(this.props.room)}>End</button>
                 <InterviewBoard />
             </div>
 
@@ -52,13 +52,21 @@ const mapState = state => ({
 const mapDispatch = dispatch => ({
     save: (text, board, panesep) => dispatch(saveState(text, board, panesep)),
     loadPracticeState: () => dispatch (fetchPractice()),
-    end: room => dispatch (endOpenedRoom(room?room.name:'', 'room'))
+    end: room => dispatch (endOpenedRoom(room?room.name:'', 'room')),
+    exitPracticeRoom: () => dispatch (leaveRoom())
 })
 
 const mergeProps = (state, actions) => ({
     ...state,
     ...actions,
-    save: () => actions.save(state.text, state.board, state.panesep)
+    endRoom: room => {
+        actions.save(state.text, state.board, state.panesep);
+        actions.end(room);
+    },
+    exitRoom: () => { 
+        actions.save(state.text, state.board, state.panesep);
+        actions.exitPracticeRoom()
+    }
 })
 
 export default withRouter(connect(mapState, mapDispatch, mergeProps)(InterviewBoardContainer))
