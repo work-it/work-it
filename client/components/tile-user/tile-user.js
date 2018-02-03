@@ -91,11 +91,18 @@ class UserTile extends Component {
             </div>) : null
         }
         <div className="btn-group-wrapper text-center">
+        {
+          this.props.footer?<Button onClick={(e)=>{
+            e.preventDefault();
+            this.props.footer();
+          }}>{this.props.footerText}</Button>:
           <Button.Group className="btn-group">
-            <Button>View</Button>
-            <Button>Apply</Button>
-            <Button>Save</Button>
-          </Button.Group>
+          <Button>View</Button>
+          <Button>Apply</Button>
+          <Button>Save</Button>
+        </Button.Group>
+        }
+          
         </div>
         
         {

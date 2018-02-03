@@ -1,4 +1,5 @@
 import axios from 'axios'
+import store from '../../store'
 
 export const START_SOLO = 'START_SOLO'
 export const START_PAIR = 'START_PAIR'
@@ -10,7 +11,9 @@ export const CONTINUE_SOLO = 'CONTINUE_SOLO'
 export const ROOM_WAITING = 'ROOM_WAITING'
 export const LOAD_PRACTICE = 'LOAD_PRACTICE'
 export const LEAVE_ROOM = 'LEAVE ROOM'
+const LOAD_HISTORY = 'LOAD_HISTORY'
 
+const loadHistory = history => ({type: LOAD_HISTORY, history})
 export const startSolo = () => ({
     type: START_SOLO
 })
@@ -56,6 +59,16 @@ const updatedRooms = (rooms) => ({
     type: UPDATE_ROOMS, rooms
 })
 
+export const fetchHistory = () => (dispatch, getState) => {
+    axios.get(`/api/history`)
+    .then(res => res.data)
+    .then(res => {
+        console.log('got history', res)
+        dispatch (loadHistory(res))
+    })
+    .catch (console.log)
+  }
+
 export const fetchPractice = () => dispatch => {
     axios.get(`/api/rooms/token?status=fetch`)
     .then (res => res.data)
@@ -98,24 +111,23 @@ export const joinPairPractice= (roomName, history) => dispatch => {
                 //2.  join room
                 token.err?dispatch (joinRoom({}, '', '', token.err))
                 :dispatch (joinRoom(token.room, token.token, token.identity, token.err))
-                history.push('/practice')
+                //history.push('/practice')
             })
             .catch(console.log);
 }
 
 export const endOpenedRoom= (roomName, target) => dispatch => {
     //1.  get authToken
-    console.log("CALLING END ROOM", roomName)
-    axios.get(`/api/rooms/token?status=close&room=${roomName}`)
+        axios.get(`/api/rooms/token?status=close&room=${roomName}`)
             .then(res => res.data)
             .then ( token => {
                 //2.  close room
                 console.log('got room to close', token)
                 dispatch (closeRoom(token.room, target))
                 dispatch(loadOpenRooms());
-                //history.push('/whiteboard')
             })
             .catch(console.log);
+    
 }
 
 export const loadOpenRooms = () => dispatch => {
@@ -133,7 +145,9 @@ const defaultState = {
     id: '',
     authToken: '', 
     err: undefined,
-    rooms: []
+    rooms: [],
+    waiting: false,
+    history:{}
 }
 
 export default function (state=defaultState, action) {
@@ -145,7 +159,10 @@ export default function (state=defaultState, action) {
         case JOIN_ROOM:
             return {...state, practiceStatus: action.err?"none":'pair_in_room', room: action.room, id: action.id, authToken: action.authToken, err: action.err}
         case UPDATE_ROOMS:
-            return {...state, rooms: action.rooms}
+            const myRoom = action.rooms.find(room => room.initiator === store.getState().user.id )
+            const newState = {...state, rooms: action.rooms}
+            if (myRoom) newState.room = myRoom;
+            return newState
         case CLOSE_ROOM: 
         case ROOM_CLOSED:
             return {...state, practiceStatus: 'none', room: {}, id: '', authToken: '', err:action.err }
@@ -153,10 +170,12 @@ export default function (state=defaultState, action) {
             return {...state, practiceStatus: 'solo', room: {}, id: '', authToken: '', err: action.err}
         case ROOM_WAITING:
             if (state.practiceStatus!=='pair_in_room') //do not update the state, already in room
-                return {...state, practiceStatus: 'waiting'}
+                return {...state, waiting: 'true'}
             else return state;
         case LEAVE_ROOM:
             return {...state, practiceStatus: 'none', room: {}, id: '', authToken: '', err: action.err}
+        case LOAD_HISTORY:
+            return {...state, history:action.history}
         default: return state;
     }
 }

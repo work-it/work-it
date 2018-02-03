@@ -4,6 +4,7 @@ import {withRouter} from 'react-router-dom'
 import PracticeMenu from '../practice-menu/practice-menu'
 import PracticeSchedule from '../practice-schedule/practice-schedule'
 import PracticePairs from '../practice-pairs/practice-pairs'
+import PracticeHistory from '../practice-history/practice-history'
 import InterviewBoardContainer from '../interview-container/interview-board-container';
 
 class PracticeContainer extends Component {
@@ -17,6 +18,11 @@ class PracticeContainer extends Component {
 
     this.changeView = this.changeView.bind(this)
     this.changeAvailability = this.changeAvailability.bind(this);
+  }
+
+  componentWillReceiveProps (newProps) {
+    if (this.props.status !== 'solo' && newProps.status === 'solo') 
+      this.setState({view: 'pair'})
   }
 
   render() {
@@ -55,7 +61,7 @@ class PracticeContainer extends Component {
   }
 
   renderHistoryView() {
-    return <div>History View</div>
+    return <PracticeHistory />
   }
 
   renderSoloView() {
@@ -78,7 +84,7 @@ class PracticeContainer extends Component {
 
 const mapState = (state) => {
   return {
-
+    status: state.practice.practiceStatus
   }
 }
 

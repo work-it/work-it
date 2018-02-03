@@ -11,14 +11,13 @@ import questions from '../components/questions/questions-reducer'
 import saved from '../components/interview-container/save-state-reducer'
 import userTile from '../components/tile-user/tile-user-reducer'
 import schedule from '../components/practice-schedule/practice-schedule-reducer'
-import userProfileForm from '../components/user-profile-form/user-profile-form-reducer'
 import auth from '../components/auth/auth-reducer'
 import applications from '../components/user-in-progress/applications-reducer'
 import practice from '../components/practice-pairs/practice-reducer'
 import profile from './profile'
 import filteredJobs from './filtered-jobs'
 
-const reducer = combineReducers({user, whiteboard, textarea, jobs, questions, saved, schedule, userTile, auth, applications, practice, userProfileForm, profile, filteredJobs})
+const reducer = combineReducers({user, whiteboard, textarea, jobs, questions, saved, schedule, userTile, auth, applications, practice, profile, filteredJobs})
 
 const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,

@@ -8,7 +8,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { emitDrawEvent } from './whiteboard-reducer'
+import { emitDrawEvent, updateHistory } from './whiteboard-reducer'
 import './interview-board.css'
 
 class WhiteBoard extends Component {
@@ -34,7 +34,7 @@ class WhiteBoard extends Component {
     componentDidUpdate () {
         const board = this.props.board;
         if (board && board.start && board.end && board.color) {
-            this.draw (board.start, board.end, board.color, false)
+            this.draw (board.start, board.end, board.color, false, true)
         }
     }
 
@@ -46,7 +46,7 @@ class WhiteBoard extends Component {
      * @param {String} strokeColor color of the line
      * @param {bool} shouldBroadcast whether to emit an event for this draw
      */
-    draw(start, end, strokeColor='black', shouldBroadcast=true) {
+    draw(start, end, strokeColor='black', shouldBroadcast=true, skipPushHistory) {
         // Draw the line between the start and end positions
         // that is colored with the given color.
         this.ctx.beginPath();
@@ -59,6 +59,8 @@ class WhiteBoard extends Component {
         // If shouldBroadcast is truthy, we will emit a draw event to listeners
         // with the start, end and color data.
         shouldBroadcast && this.props.status==='pair_in_room' && this.props.emitDraw(start, end, strokeColor);
+        //save history
+        if (!skipPushHistory) this.props.pushHistory(start, end, strokeColor)
     }
 
     resize() {
@@ -152,11 +154,15 @@ class WhiteBoard extends Component {
 const mapState = state => ({
     board: state.whiteboard,
     status: state.practice.practiceStatus
+
 })
 
 const mapDispatch = (dispatch) => ({
     emitDraw: (start, end, color) => {
         dispatch (emitDrawEvent(start, end, color))
+    },
+    pushHistory: (start, end, color) => {
+        dispatch (updateHistory(start, end, color))
     }
 })
 
