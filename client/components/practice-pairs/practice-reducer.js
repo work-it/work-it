@@ -12,6 +12,7 @@ export const ROOM_WAITING = 'ROOM_WAITING'
 export const LOAD_PRACTICE = 'LOAD_PRACTICE'
 export const LEAVE_ROOM = 'LEAVE ROOM'
 const LOAD_HISTORY = 'LOAD_HISTORY'
+const SET_STATE_FROM_HIST = 'SET_STATE_FROM_HIST'
 
 const loadHistory = history => ({type: LOAD_HISTORY, history})
 export const startSolo = () => ({
@@ -20,6 +21,10 @@ export const startSolo = () => ({
 
 export const loadPractice = practice => ({
     type: LOAD_PRACTICE, practice
+})
+
+export const setStateFromHist = practice => ({
+    type: SET_STATE_FROM_HIST, practice
 })
 
 export const leaveRoom = room => ({
@@ -176,6 +181,7 @@ export default function (state=defaultState, action) {
             return {...state, practiceStatus: 'none', room: {}, id: '', authToken: '', err: action.err}
         case LOAD_HISTORY:
             return {...state, history:action.history}
+
         default: return state;
     }
 }

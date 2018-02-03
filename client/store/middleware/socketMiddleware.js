@@ -69,7 +69,6 @@ export default () => {
 
         //handle events to server
         return next => action => {
-            console.log("action in middleware", action.type)
             switch (action.type) {
                 case EMIT_DRAW_EVENT:
                     socket.emit ('draw', action.start, action.end, action.color);
