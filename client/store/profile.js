@@ -40,6 +40,7 @@ export const getProfileThunk = () => {
 
     axios.get(`/api/profiles/${userId}`)
       .then(res => {
+        console.log('data', res.data)
         dispatch(getProfile(res.data));
       })
   }
@@ -51,12 +52,12 @@ const startFileUpload = (info,file, reader) => ({
 })
 
 export const saveProfileVideo = (name, file) => (dispatch, getState) => {
-  
+
   //console.log("got video to upload", name);
  // name=name.
  if(!file.name) file.name = 'videoProfile.webm'
   name = getState().user.id+file.name
-  
+
   const reader = new FileReader();
    reader.onload = evnt => dispatch(uploadVideo( { name, data : evnt.target.result }))
    dispatch (startFileUpload({name, size:file.size}, file, reader))

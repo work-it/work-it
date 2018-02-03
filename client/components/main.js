@@ -15,6 +15,7 @@ import UserInProgres from './user-in-progress/user-in-progress'
 import UserContainer from './user-container/user-container'
 import UserChat from './user-chat/user-chat'
 import JobView from './job-view/jobview'
+import UserProfile from './user-profile-form/user-profile'
 import { Login, Signup } from './auth/auth'
 import {me} from '../store/user'
 import history from './'
@@ -42,7 +43,8 @@ class Main extends Component {
         {isLoggedIn && <a onClick={() => handleLogout()}>Logout</a>}
         <Switch>
           <Route exact path="/messages" render={() => <UserChat /> } />
-          <Route path="/job/:id" render={()=><JobView />}/>
+          <Route path="/job/:id" render={()=><JobView />} />
+          <Route path="/user/:id" render={()=><UserProfile />} />
           <Route exact path="/user" render={() => <UserContainer /> } />
           <Route exact path="/inprogress" render={() => <UserInProgres /> } />
           <Route exact path="/practice" render={() => <PracticeContainer /> } />
@@ -51,7 +53,6 @@ class Main extends Component {
           <Route exact path="/whiteboard" component= { InterviewBoardContainer } />
           <Route exact path="/search" render={() => <Search /> } />
           <Route exact path="/usertile" render={() => <UserTile /> } />
-          <Route exact path="/userprofileform" render={() => <UserProfileForm /> } />
           <Route exact path="/userprofilecontainer" render={() => <UserProfileContainer /> } />
           <Route exact path="/user/saved" render={() => <UserFavorites /> } />
         </Switch>

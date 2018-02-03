@@ -62,9 +62,9 @@ class SkillForm extends Component {
                 return (
                 <li key={skill.name}>
                   {`${skill.name} - ${skill.rank}`}
-                  <Button onClick={() => this.removeFromTop(idx)}><Icon name='star' /></Button>
-                  <Button onClick={() => this.removeSkill(idx)}><Icon name='trash' /></Button>
-                  <Button onClick={() => this.editSkill(idx)}><Icon name='pencil' /></Button>
+                  <Button circular icon="star" className="remtop-btn" onClick={() => this.removeFromTop(idx)} />
+                  <Button circular icon="trash" className="remove-btn" onClick={() => this.removeSkill(idx)} />
+                  <Button circular icon="pencil" className="edit-btn" onClick={() => this.editSkill(idx)} />
                 </li>
               )
               }
@@ -81,9 +81,10 @@ class SkillForm extends Component {
                 return (
                   <li key={skill.name}>
                   {`${skill.name} - ${skill.rank}`}
-                  <Button onClick={() => this.addToTop(idx)}><Icon name='empty star' /></Button>
-                  <Button onClick={() => this.removeSkill(idx)}><Icon name='trash' /></Button>
-                  <Button onClick={() => this.editSkill(idx)}><Icon name='pencil' /></Button></li>
+                  <Button circular icon="empty star" className="addtop-btn" onClick={() => this.addToTop(idx)} />
+                  <Button circular icon="trash" className="remove-btn" onClick={() => this.removeSkill(idx)} />
+                  <Button circular icon="pencil" className="edit-btn" onClick={() => this.editSkill(idx)} />
+                  </li>
                 )
               }
             })
@@ -98,9 +99,9 @@ class SkillForm extends Component {
                 return (
                   <li key={skill.name}>
                     {`${skill.name} - ${skill.rank}`}
-                    <Button onClick={() => this.addToTop(idx)}><Icon name='empty star' /></Button>
-                    <Button onClick={() => this.removeSkill(idx)}><Icon name='trash' /></Button>
-                    <Button onClick={() => this.editSkill(idx)}><Icon name='pencil' /></Button>
+                    <Button circular icon="empty star" className="addtop-btn" onClick={() => this.addToTop(idx)} />
+                    <Button circular icon="trash" className="remove-btn" onClick={() => this.removeSkill(idx)} />
+                    <Button circular icon="pencil" className="edit-btn" onClick={() => this.editSkill(idx)} />
                   </li>
                 )
               }
@@ -116,9 +117,10 @@ class SkillForm extends Component {
                 return (
                   <li key={skill.name}>
                   {`${skill.name} - ${skill.rank}`}
-                  <Button onClick={() => this.addToTop(idx)}><Icon name='empty star' /></Button>
-                  <Button onClick={() => this.removeSkill(idx)}><Icon name='trash' /></Button>
-                  <Button onClick={() => this.editSkill(idx)}><Icon name='pencil' /></Button>
+                  <Button circular icon="empty star" className="addtop-btn" onClick={() => this.addToTop(idx)} />
+                  <Button circular icon="trash" className="remove-btn" onClick={() => this.removeSkill(idx)} />
+                  <Button circular icon="pencil" className="edit-btn" onClick={() => this.editSkill(idx)} />
+
                   </li>
                 )
               }

@@ -8,6 +8,7 @@ import SkillForm from './skill-form'
 import PastEmployerForm from './past-employer-form'
 import ProjectForm from './project-form'
 import SchoolForm from './school-form'
+import UserProfile from './user-profile'
 import './user-profile-form.css'
 
 
@@ -70,7 +71,7 @@ class userProfileContainer extends Component {
       case 5:
         return <ProjectForm nextClick={this.nextClick} prevClick={this.prevClick} step={step} />
       case 6:
-        return <SchoolForm  prevClick={this.prevClick} step={step} />
+        return <SchoolForm  prevClick={this.prevClick} history={this.props.history} step={step} />
       default:
         return <UserImageForm />
     }

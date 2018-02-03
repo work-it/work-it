@@ -56,7 +56,7 @@ class UserContainer extends Component {
       case 'settings':
         return <div>settings</div>;
       default:
-        return <UserInProgress type="in-progress"/>;
+        return <UserInProgress type="in-progress" />;
     }
   }
 }
