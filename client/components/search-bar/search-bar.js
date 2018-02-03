@@ -95,12 +95,13 @@ class SearchBar extends Component {
 
   render() {
     const { advanced, experience, type, zip, radius, exclude } = this.state;
-    const { authShow, practiceStatus } = this.props;
-
-    if (practiceStatus === 'pair_started') {
-      notice = <li><a href={`/practice/${this.props.roomName}`}><img src='/yellow.png' width='25px'/></a></li>
-    } else if (practiceStatus === 'waiting') {
-      notice = <li><a href={`/practice/${this.props.roomName}`}><img src='/green.gif' width='25px'/></a></li>
+    const { authShow, room, waiting, isLoggedIn } = this.props;
+    let notice = null;
+    const pairStarted = room&&room.initiator===isLoggedIn && !room.initiatorIn
+    if (pairStarted && !waiting) {
+      notice = <li><a href={`/practice/${room?room.name:''}`}><img src='/yellow.png' width='25px'/></a></li>
+    } else if (waiting) {
+      notice = <li><a href={`/practice/${room?room.name:''}`}><img src='/green.gif' width='25px'/></a></li>
     }
     <Icon loading name='certificate' />
 
@@ -133,6 +134,7 @@ class SearchBar extends Component {
           </div>
           <div className="col-sm-2">
             <ul className="list-inline menu-icons text-right">
+             { notice }
               <li><Icon name='code' size='big' onClick={() => this.props.history.push('/practice')}/></li>
               <li><Icon name='mail outline' size='big' onClick={() => this.props.history.push('/messages')} /></li>
               <li onClick={() => this.handleLogin(authShow)}><Icon name='user outline' size='big' /></li>
@@ -200,8 +202,8 @@ const mapState = (state) => {
   return {
     authShow: state.auth.show,
     isLoggedIn: state.user.id,
-    practiceStatus: state.practice.practiceStatus,
-    roomName: state.practice.room?state.practice.room.name:''
+    waiting: state.practice.waiting,
+    room: state.practice.room
   }
 }
 

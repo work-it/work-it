@@ -76,10 +76,6 @@ class UserProfileForm extends Component {
 
             <Input className="maxSalary" placeholder="Max Salary" value={maxSalary} onChange={(evt) => this.handleStringChange('maxSalary', evt.target.value)} />
 
-            <Input className="imgUrl" placeholder="Add a photo" value={imgUrl} onChange={(evt) => this.handleStringChange('imgUrl', evt.target.value)} />
-
-            <Input className="videoUrl" placeholder="Add a video" value={videoUrl} onChange={(evt) => this.handleStringChange('videoUrl', evt.target.value)} />
-
             <TextArea className="userDesc" placeholder="Personal Bio" value={userDesc} onChange={(evt) => this.handleStringChange('userDesc', evt.target.value)} />
           </Form>
           <Button onClick={prevClick}>Prev</Button>
