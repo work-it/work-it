@@ -62,3 +62,12 @@
 .chat-view .ui.form {
   height: calc(100% - 260px);
 }
+
+.message-select {
+  cursor: pointer;
+}
+
+.message-select.selected {
+  cursor: pointer;
+  background: #f1f1f1;
+}

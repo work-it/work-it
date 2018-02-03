@@ -8,24 +8,32 @@ module.exports = router
 router.post('/', (req, res, next) => {
   // create object in firebase from req.body
   firebase.database()
-  .ref('applications/')
-  .push(req.body.application)
-  .then((snapshot) => {
-    return snapshot.getKey()
-  })
-  .then(key => {
-    return firebase.database()
-    .ref('users/' + req.body.userId)
-    .once('value')
-    .then(snapshot => {
-      let updatedApplications;
-      let currentApplications = snapshot.val().applications;
-      if (currentApplications) {
-        updatedApplications = [...currentApplications, key]
-      } else {
-        updatedApplications = [key];
-      }
-      return updatedApplications
+    .ref('applications/')
+    .push(req.body.application)
+    .then((snapshot) => {
+      return snapshot.getKey()
+    })
+    .then(key => {
+      return firebase.database()
+      .ref('applications/' + key)
+      .update({id: key})
+      .then(() => {
+        return key;
+      })
+    })
+    .then(key => {
+      return firebase.database()
+      .ref('users/' + req.body.userId)
+      .once('value')
+      .then(snapshot => {
+        let updatedApplications;
+        let currentApplications = snapshot.val().applications;
+        if (currentApplications) {
+          updatedApplications = [...currentApplications, key]
+        } else {
+          updatedApplications = [key];
+        }
+        return updatedApplications
     })
     .then(updatedApplications => {
       return firebase.database()
@@ -70,3 +78,38 @@ router.get('/:userid', (req, res, next) => {
       }
     })
 })
+
+router.put('/:applicationId/notes', (req, res, next) => {
+  let applicationId = req.params.applicationId;
+  console.log('application id', applicationId)
+
+  firebase.database()
+    .ref('applications/' + applicationId)
+    .update({notes: req.body.notes})
+    .then(() => {
+      res.sendStatus(200);
+    })
+})
+
+router.put('/:applicationId/message', (req, res, next) => {
+  let applicationId = req.params.applicationId;
+
+  firebase.database()
+    .ref('applications/' + applicationId)
+    .update({chat: req.body.message})
+    .then(() => {
+      res.sendStatus(200);
+    })
+})
+
+router.put('/:applicationId/archive', (req, res, next) => {
+  let applicationId = req.params.applicationId;
+
+  firebase.database()
+    .ref('applications/' + applicationId)
+    .update({archived: true})
+    .then(() => {
+      res.sendStatus(200);
+    })
+})
+
