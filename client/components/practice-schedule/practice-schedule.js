@@ -7,7 +7,7 @@ import moment from 'moment'
 import 'react-datepicker/dist/react-datepicker.css'
 import ScheduleDay from './schedule-day'
 import './practice-schedule.css'
-import {createPairMiddleware, addSessionMiddleware} from './practice-schedule-reducer'
+import {createPairMiddleware, addSessionMiddleware, fetchSchedule} from './practice-schedule-reducer'
 import {times} from './times'
 
 const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -29,6 +29,7 @@ class PracticeSchedule extends Component {
   }
 
   componentDidMount() {
+    this.props.loadSchedule();
     this.buildDateArray();
   }
 
@@ -41,43 +42,45 @@ class PracticeSchedule extends Component {
   }
 
   render() {
-    const { schedule, testUser, handleAddSession} = this.props;
-    const { startDate, daysToShow, selectedDate, selectedTimeStart, selectedTimeEnd } = this.state;
-    const start = this.state.startDate.clone().format('MMM Do YYYY');
-    const end = this.state.startDate.clone().add(6, 'days').format('MMM Do YYYY');
+    if (this.props.isLoggedIn)  {
+      const { schedule, handleAddSession} = this.props;
+      const { startDate, daysToShow, selectedDate, selectedTimeStart, selectedTimeEnd } = this.state;
+      const start = this.state.startDate.clone().format('MMM Do YYYY');
+      const end = this.state.startDate.clone().add(6, 'days').format('MMM Do YYYY');
+      console.log(schedule)
+      return (
+        <div className="practice-schedule">
+          <h1>Available Times {`(${start} - ${end})`}</h1>
+          <div className="calendar-wrapper">
+            {
+              daysToShow.map(day => {
+                let sessions = schedule.filter(session => {
+                  return session.date === day.date;
+                })
 
-    return (
-      <div className="practice-schedule">
-        <h1>Available Times {`(${start} - ${end})`}</h1>
-        <div className="calendar-wrapper">
-          {
-            daysToShow.map(day => {
-              let sessions = schedule.filter(session => {
-                return session.date === day.date;
+                return <ScheduleDay key={day.date} {...day} sessions={sessions} handleClick={this.handleSessionClick} />
               })
-
-              return <ScheduleDay key={day.date} {...day} sessions={sessions} handleClick={this.handleSessionClick} />
-            })
-          }
+            }
+          </div>
+          <div className="calendar-nav">
+            {(startDate.format('YYYYMMDD') !== moment().format('YYYYMMDD')) &&
+              <button onClick={() => this.handlePrevClick()}>Prev Week</button>}
+            <button onClick={() => this.handleNextClick()}>Next Week</button>
+          </div>
+          <div className="form-wrapper">
+            <h1>Schedule A Time</h1>
+            <DatePicker
+              selected={this.state.selectedDate}
+              onChange={this.handleDateSelect}
+            />
+            <p>Scheduled practice sessions are 1 hour long. We will add 1 hour time blocks between your selected available start and end times.</p>
+            <Dropdown placeholder="Start Time" fluid selection value={selectedTimeStart} options={times} onChange={(evt, { value }) => this.handleTimeSelect('selectedTimeStart', value)} />
+            <Dropdown placeholder="End Time" fluid selection value={selectedTimeEnd} options={times} onChange={(evt, { value }) => this.handleTimeSelect('selectedTimeEnd', value)} />
+            <button onClick={() => handleAddSession(selectedDate, selectedTimeStart, selectedTimeEnd)} >Add Time</button>
+          </div>
         </div>
-        <div className="calendar-nav">
-          {(startDate.format('YYYYMMDD') !== moment().format('YYYYMMDD')) &&
-            <button onClick={() => this.handlePrevClick()}>Prev Week</button>}
-          <button onClick={() => this.handleNextClick()}>Next Week</button>
-        </div>
-        <div className="form-wrapper">
-          <h1>Schedule A Time</h1>
-          <DatePicker
-            selected={this.state.selectedDate}
-            onChange={this.handleDateSelect}
-          />
-          <p>Scheduled practice sessions are 1 hour long. We will add 1 hour time blocks between your selected available start and end times.</p>
-          <Dropdown placeholder="Start Time" fluid selection value={selectedTimeStart} options={times} onChange={(evt, { value }) => this.handleTimeSelect('selectedTimeStart', value)} />
-          <Dropdown placeholder="End Time" fluid selection value={selectedTimeEnd} options={times} onChange={(evt, { value }) => this.handleTimeSelect('selectedTimeEnd', value)} />
-          <button onClick={() => handleAddSession(selectedDate, testUser.id, selectedTimeStart, selectedTimeEnd)} >Add Time</button>
-        </div>
-      </div>
-    )
+      )
+    } else return <div>Must be logged in to see schedule</div>;
   }
 
   buildDateArray() {
@@ -105,10 +108,10 @@ class PracticeSchedule extends Component {
     this.setState({selectedDate}, () => { console.log(this.state)})
   }
 
-  handleSessionClick(type, date, sessionId) {
-    const {handleCreatePair, testUser} = this.props;
+  handleSessionClick(type, session) {
+    const {handleCreatePair} = this.props;
     if (type === 'available') {
-      handleCreatePair(testUser.id, date, sessionId);
+      handleCreatePair(session);
     }
   }
 
@@ -130,7 +133,8 @@ class PracticeSchedule extends Component {
 const mapState = (state) => {
   return {
     schedule: state.schedule,
-    testUser: {id: 55555}
+    isLoggedIn: !!state.user.id
+
   }
 }
 
@@ -141,6 +145,9 @@ const mapDispatch = (dispatch) => {
     },
     handleAddSession(date, userId, start, end) {
       dispatch(addSessionMiddleware(date, userId, start, end))
+    },
+    loadSchedule () {
+      dispatch (fetchSchedule())
     }
   }
 }

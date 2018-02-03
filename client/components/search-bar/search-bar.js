@@ -97,7 +97,7 @@ class SearchBar extends Component {
     const { advanced, experience, type, zip, radius, exclude } = this.state;
     const { authShow, room, waiting, isLoggedIn } = this.props;
     let notice = null;
-    const pairStarted = room&&room.initiator===isLoggedIn && !room.initiatorIn
+    const pairStarted = isLoggedIn && room&&room.initiator===isLoggedIn && !room.initiatorIn
     if (pairStarted && !waiting) {
       notice = <li><a href={`/practice/${room?room.name:''}`}><img src='/yellow.png' width='25px'/></a></li>
     } else if (waiting) {

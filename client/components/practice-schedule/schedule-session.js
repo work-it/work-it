@@ -39,14 +39,20 @@ const renderDetails = (type, start, userOne, userTwo, testUser) => {
 }
 
 const ScheduleSession = (props) => {
-  const { id, userOne, userTwo, start, testUser, date } = props;
+  console.log('props', props)
+  const { id, userOne, start, date, userTwo } = props.session;
   let type;
   let classFortype = 'schedule-session ';
-
-  if (userOne === testUser.id && !userTwo) {
+  const myUserId = props.myUserId;
+  /*
+waiting: YOU have set those times as available and you are waiting for a partner.
+available: ANOTHER USER has set those times as available and you can choose to pair with them.
+paired: YOU and ANOTHER USER have been paired together for that time. It doesn’t show paired partners if you aren’t one of the pairs.
+  */
+  if (userOne===myUserId && !userTwo) {
     type = 'waiting';
     classFortype += type;
-  } else if (userOne === testUser.id || userTwo === testUser.id) {
+  } else if (userOne===myUserId || userTwo===myUserId) {
     type = 'paired';
     classFortype += type;
   } else {
@@ -55,15 +61,15 @@ const ScheduleSession = (props) => {
   }
 
   return (
-    <div className={classFortype} onClick={() => props.handleClick(type, date, id )}>
-      {renderDetails(type, start, userOne, userTwo, testUser)}
+    <div className={classFortype} onClick={() => props.handleClick(type, props.session)}>
+      {renderDetails(type, start, userOne, userTwo, myUserId)}
     </div>
   )
 }
 
 const mapState = (state) => {
   return {
-    testUser: {id: 55555}
+    myUserId: state.user?state.user.id:null
   }
 }
 
