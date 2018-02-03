@@ -10,6 +10,7 @@ class UserChat extends Component {
     super(props);
 
     this.state = {
+      currentAppIdx: 0
     }
   }
 
@@ -32,12 +33,18 @@ class UserChat extends Component {
           <ul>
             {
             !!applications.length && !!jobs.length &&
-            applications.map(application => {
+            applications.map((application, idx) => {
               const jobToDisplay = jobs.filter(job => job.id === application.jobId)[0];
               const name = jobToDisplay.name;
               const logo = jobToDisplay.imgUrl;
+              let liClass;
+              if (this.state.currentAppIdx === idx) {
+                liClass = "message-select selected"
+              } else {
+                liClass = "message-select"
+              }
               return (
-              <li key={`chat-${application.id}`}>
+              <li className={liClass} onClick={() => this.handleChangeAppIdx(idx)} key={`chat-${application.id}`}>
                 <img className="logo" src={logo} />
                 <h3 className="name">{name}</h3>
               </li>
@@ -48,11 +55,15 @@ class UserChat extends Component {
         <div className="chat-box-wrapper">
           {
             !!applications.length && !!jobs.length &&
-            <UserChatBox application={applications[0]} showHeader={false} />
+            <UserChatBox application={applications[this.state.currentAppIdx]} showHeader={false} />
           }
         </div>
       </div>
     )
+  }
+
+  handleChangeAppIdx(newIdx){
+    this.setState({currentAppIdx: newIdx})
   }
 }
 
