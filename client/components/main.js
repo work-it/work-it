@@ -44,6 +44,7 @@ class Main extends Component {
         {!isLoggedIn && showAuth && authView === 'login' && <Login />}
         {isLoggedIn && <a onClick={() => handleLogout()}>Logout</a>}
         <Switch>
+          <Route exact path="/user/applications" render={() => <UserInProgress type="in-progress" />} />
           <Route exact path="/messages" render={() => <UserChat /> } />
           <Route path="/job/:id" render={()=><JobView />} />
           <Route path="/apply/:id" render={()=><Apply history={history} />} />
@@ -58,7 +59,6 @@ class Main extends Component {
           <Route exact path="/usertile" render={() => <UserTile /> } />
           <Route exact path="/userprofilecontainer" render={() => <UserProfileContainer /> } />
           <Route exact path="/user/saved" render={() => <UserFavorites /> } />
-          <Route exact path="/user/applications" render={() => <UserInProgress type="in-progress" />} />
         </Switch>
       </div>
     )

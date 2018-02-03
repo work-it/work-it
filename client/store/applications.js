@@ -6,16 +6,22 @@ import _ from 'lodash'
  */
 const APPLY = 'APPLY';
 const FETCH_APPLICTIONS = 'FETCH_APPLICATIONS'
+const UPDATE_NOTES = 'UPDATE_NOTES';
+const ADD_MESSAGE = 'ADD_MESSAGE';
+const ARCHIVE = 'ARCHIVE';
 
 /**
  * INITIAL STATE
  */
-const defaultJobs = [];
+const defaultApplications = [];
 /**
  * ACTION CREATORS
  */
 const apply = updateApplications => ({type: APPLY, updateApplications})
 const fetchApplications = applications => ({type: FETCH_APPLICTIONS, applications})
+const archive = updatedApplications => ({type: ARCHIVE, updatedApplications})
+const updateNotes = updatedApplications => ({type: UPDATE_NOTES, updatedApplications})
+const addMessage = updatedApplications => ({type: ADD_MESSAGE, updatedApplications})
 
 /**
  * THUNK CREATORS
@@ -60,12 +66,62 @@ export const applyThunk = (id, coverLetter) => {
   }
 }
 
+export const updateNotesMiddleware = (applicationId, notes) => {
+  return (dispatch, getState) => {
+    let updatedApplications = [...getState().applications].map(application => {
+      if (application.id === applicationId) {
+        application.notes = notes;
+      }
+      return application;
+    })
+
+   axios.put(`/api/applications/${applicationId}/notes`, {notes})
+    .then(() =>  dispatch(updateNotes(updatedApplications)));
+  }
+}
+
+export const archiveMiddleware = applicationId => {
+  return (dispatch, getState) => {
+    let updatedApplications = [...getState().applications].map(application => {
+      if (application.id === applicationId) {
+        application.archived = true;
+      }
+      return application;
+    })
+
+    axios.put(`/api/applications/${applicationId}/archive`)
+    .then(() => dispatch(archive(updatedApplications)));
+  }
+}
+
+export const addMessageMiddleware = (applicationId, message) => {
+  return (dispatch, getState) => {
+    let updatedMessage;
+    let updatedApplications = [...getState().applications].map(application => {
+      if (application.id === applicationId) {
+        application.chat += `<strong>Me: </strong> ${message}<br/>`;
+        updatedMessage = application.chat;
+      }
+      return application;
+    })
+
+    axios.put(`/api/applications/${applicationId}/message`, {message: updatedMessage})
+    .then(() => dispatch(addMessage(updatedApplications)));
+  }
+}
+
 
 /**
  * REDUCER
  */
-export default function (state = defaultJobs, action) {
+export default function (state = defaultApplications, action) {
   switch (action.type) {
+    case ADD_MESSAGE:
+      return action.updatedApplications
+    case ARCHIVE:
+      return action.updatedApplications
+    case UPDATE_NOTES:
+      return action.updatedApplications
     case APPLY:
       return action.updateApplications
     case FETCH_APPLICTIONS:
