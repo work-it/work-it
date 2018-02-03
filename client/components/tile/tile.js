@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
-import { saveJobThunk, updateFilteredJobsThunk } from '../../store'
+import { saveJobThunk, addSavedToFilteredThunk, removeSavedJobThunk } from '../../store'
 import { Card, Icon, Image, Button } from 'semantic-ui-react'
 import renderHTML from 'react-render-html'
 import './tile.css'
@@ -25,7 +25,7 @@ class Tile extends Component {
     );
   }
 
- 
+
 
   handleNextClick() {
     const {view, maxView} = this.state;
@@ -46,7 +46,7 @@ class Tile extends Component {
   }
 
   renderHomeView() {
-    const {userId, id, savedBy, name, position, location, experience, type, salaryRange, topSkills, handleSaveJob} = this.props;
+    const {userId, id, savedBy, name, position, location, experience, type, salaryRange, topSkills, handleSaveJob, handleRemoveSavedJob} = this.props;
     return (
       <Card>
         <div className="logo-wrapper">
@@ -88,7 +88,7 @@ class Tile extends Component {
             <Button>Apply</Button>
             {
               savedBy && savedBy.includes(userId) ?
-              <Button >Unsave</Button> :
+              <Button onClick={() => handleRemoveSavedJob(id)}>Unsave</Button> :
               <Button onClick={() => handleSaveJob(id)}>Save</Button>
             }
 
@@ -103,7 +103,7 @@ class Tile extends Component {
   }
 
   renderDescView() {
-    const {savedBy, userId, id, name, companyDesc, roleDesc, qualifications, comp, handleSaveJob} = this.props;
+    const {savedBy, userId, id, name, companyDesc, roleDesc, qualifications, comp, handleSaveJob, handleRemoveSavedJob} = this.props;
     const {view} = this.state;
 
     let title
@@ -154,7 +154,7 @@ class Tile extends Component {
             <Button>Apply</Button>
             {
               savedBy && savedBy.includes(userId) ?
-              <Button >Unsave</Button> :
+              <Button onClick={() => handleRemoveSavedJob(id)}>Unsave</Button> :
               <Button onClick={() => handleSaveJob(id)}>Save</Button>
             }
           </Button.Group>
@@ -178,7 +178,10 @@ const mapDispatch = (dispatch) => {
   return {
     handleSaveJob(id) {
       dispatch(saveJobThunk(id))
-      // dispatch(updateFilteredJobsThunk(id))
+      dispatch(addSavedToFilteredThunk(id))
+    },
+    handleRemoveSavedJob(id) {
+      dispatch(removeSavedJobThunk(id))
     }
   }
 }

@@ -16,9 +16,8 @@ import applications from '../components/user-in-progress/applications-reducer'
 import practice from '../components/practice-pairs/practice-reducer'
 import profile from './profile'
 import filteredJobs from './filtered-jobs'
-import savedJobs from './saved-jobs'
 
-const reducer = combineReducers({user, whiteboard, textarea, jobs, questions, saved, schedule, userTile, auth, applications, practice, profile, filteredJobs, savedJobs})
+const reducer = combineReducers({user, whiteboard, textarea, jobs, questions, saved, schedule, userTile, auth, applications, practice, profile, filteredJobs})
 
 const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,
@@ -33,4 +32,3 @@ export * from './user'
 export * from './profile'
 export * from './jobs'
 export * from './filtered-jobs'
-export * from './saved-jobs'
