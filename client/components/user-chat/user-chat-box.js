@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {TextArea, Form} from 'semantic-ui-react'
-import {addMessageMiddleware} from '../user-in-progress/applications-reducer'
+import {addMessageMiddleware} from '../../store'
 import renderHTML from 'react-render-html';
 
 class UserChatBox extends Component {

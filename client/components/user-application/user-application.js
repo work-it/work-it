@@ -2,8 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {Progress, TextArea, Form, Button} from 'semantic-ui-react'
-import {updateNotesMiddleware, archiveMiddleware, addMessageMiddleware} from '../user-in-progress/applications-reducer'
-import renderHTML from 'react-render-html';
+import {updateNotesMiddleware, archiveMiddleware, addMessageMiddleware} from '../../store';
 import Tile from '../tile/tile'
 import './user-application.css'
 import UserChatBox from '../user-chat/user-chat-box'
