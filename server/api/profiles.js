@@ -74,10 +74,7 @@ router.put('/upload/video/:id', (req, res, next) => {
     })
 })
 
-
-
 router.get('/:id', (req, res, next) => {
-
   console.log('id', req.params.id);
   firebase.database()
     .ref('profiles/' + req.params.id)

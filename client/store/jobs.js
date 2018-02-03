@@ -7,10 +7,9 @@ import { loadavg } from 'os';
  * ACTION TYPES
  */
 const SEARCH = 'SEARCH';
-const SAVE_JOB = 'SAVE_JOB';
-const REMOVE_SAVED_JOB = 'REMOVE_SAVED_JOB';
 const FETCH_SAVED = 'FETCH_SAVED';
 const LOAD_JOB = 'LOAD_JOB'
+const FETCH_APPLIED = 'FETCH_APPLIED';
 
 /**
  * INITIAL STATE
@@ -20,10 +19,9 @@ const defaultJobs = [];
  * ACTION CREATORS
  */
 const search = jobs => ({type: SEARCH, jobs})
-const saveJob = updatedJobs => ({type: SAVE_JOB, updatedJobs})
-const removeSavedJob = updatedJobs => ({type: REMOVE_SAVED_JOB, updatedJobs})
 const fetchSavedJobs = savedJobs => ({type: FETCH_SAVED, savedJobs})
 const loadJob = job => ({type: LOAD_JOB, job})
+const fetchApplied = appliedJobs => ({type: FETCH_APPLIED, appliedJobs})
 /**
  * THUNK CREATORS
  */
@@ -34,6 +32,16 @@ export const fetchSavedJobsThunk = (userId) => {
     axios.get(`/api/jobs/saved/${userId}`)
     .then(res => {
       dispatch(fetchSavedJobs(res.data));
+    })
+  }
+}
+
+export const fetchAppliedJobsThunk = (userId) => {
+  return (dispatch) => {
+    // Fetch jobs from server based on favorites array
+    axios.get(`/api/jobs/applied/${userId}`)
+    .then(res => {
+      dispatch(fetchApplied(res.data));
     })
   }
 }
@@ -60,65 +68,15 @@ export const loadJobThunk = (id) => dispatch => {
   .catch(console.log)
 }
 
-export const saveJobThunk = (id) => {
-  return (dispatch, getState) => {
-    // Get the user id.
-    const userId = getState().user.id;
-    // Get all of the current jobs from store.
-    const allJobs = [...getState().jobs];
-    // Get filtered jobs from store.
-    const allJobsUpdate = allJobs.map(job => {
-      if (job.id === id) {
-        if (job.savedBy) job.savedBy.push(userId);
-        else job.savedBy = [userId];
-      }
-      return job;
-    })
-
-    axios.put('/api/jobs/save', {userId, id})
-    .then(res => {
-      if (res.status === 200) {
-        dispatch(saveJob(allJobsUpdate))
-      }
-    })
-  }
-}
-
-// Remove userId from the savedBy array on the job in the job store
-export const removeSavedJobThunk = (id) => {
-  return (dispatch, getState) => {
-    // Get the user id.
-    const userId = getState().user.id;
-    // Get all of the current jobs from store.
-    const allJobs = [...getState().jobs];
-    // Get filtered jobs from store.
-    const allJobsUpdate = allJobs.map(job => {
-      if (job.id === id && job.savedBy) {
-        job.savedBy = job.savedBy.filter(savedUserId => savedUserId !== userId)
-      }
-      return job;
-    })
-
-    axios.delete(`/api/jobs/saved/${id}/${userId}`)
-    .then(res => {
-      if (res.status === 200) {
-        dispatch(removeSavedJob(allJobsUpdate))
-      }
-    })
-  }
-}
-
 /**
  * REDUCER
  */
 export default function (state = defaultJobs, action) {
   switch (action.type) {
+    case FETCH_APPLIED:
+      return action.appliedJobs;
     case FETCH_SAVED:
       return action.savedJobs;
-    case SAVE_JOB:
-      return action.updatedJobs;
-    case REMOVE_SAVED_JOB:
-      return action.updatedJobs;
     case SEARCH:
       return action.jobs;
     case LOAD_JOB:

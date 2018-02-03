@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
+import { fetchApplicationsThunk, fetchAppliedJobsThunk } from '../../store'
 import UserApplication from '../user-application/user-application'
 import './user-in-progress.css'
 
@@ -11,10 +12,19 @@ class UserInProgress extends Component {
     this.state = {}
   }
 
-  // TODO: Fetch jobs from an array of jobIds off the applications store...
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.userId && nextProps.userId) {
+      this.props.fetchApplications(nextProps.userId);
+      this.props.fetchAppliedJobs(nextProps.userId);
+    }
+    if (this.props.applications.length !== nextProps.applications.length) {
+      this.props.fetchApplications(nextProps.userId);
+      this.props.fetchAppliedJobs(nextProps.userId);
+    }
+  }
 
   render() {
-    const { type, jobs, applications} = this.props;
+    const { type, jobs, applications, userId } = this.props;
     let filteredApplications;
 
     if (applications) {
@@ -32,10 +42,10 @@ class UserInProgress extends Component {
     return (
       <div className="user-in-progress">
         {
-          !!filteredApplications.length && jobs &&
+          !!applications.length && !!jobs.length &&
           filteredApplications.map(application => {
-            const job = jobs[application.jobId];
-              return <UserApplication key={application.id} job={job} application={application} notes={application.notes} />
+            const jobToDisplay = jobs.filter(job => job.id === application.jobId)[0];
+            return <UserApplication key={`${application.id}-${userId}`} job={jobToDisplay} application={application} notes={application.notes} />
           })
         }
       </div>
@@ -45,6 +55,7 @@ class UserInProgress extends Component {
 
 const mapState = (state, ownProps) => {
   return {
+    userId: state.user.id,
     jobs: state.jobs,
     applications: state.applications
   }
@@ -52,7 +63,12 @@ const mapState = (state, ownProps) => {
 
 const mapDispatch = (dispatch) => {
   return {
-
+    fetchApplications(userId){
+      dispatch(fetchApplicationsThunk(userId))
+    },
+    fetchAppliedJobs(userId){
+      dispatch(fetchAppliedJobsThunk(userId))
+    }
   }
 }
 

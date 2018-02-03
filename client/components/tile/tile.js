@@ -25,8 +25,6 @@ class Tile extends Component {
     );
   }
 
-
-
   handleNextClick() {
     const {view, maxView} = this.state;
     if (view === maxView) {
@@ -46,7 +44,7 @@ class Tile extends Component {
   }
 
   renderHomeView() {
-    const {userId, id, savedBy, name, position, location, experience, type, salaryRange, topSkills, handleSaveJob, handleRemoveSavedJob} = this.props;
+    const {userId, user, id, savedBy, name, position, location, experience, type, salaryRange, topSkills, handleSaveJob, handleRemoveSavedJob} = this.props;
     return (
       <Card>
         <div className="logo-wrapper">
@@ -85,9 +83,9 @@ class Tile extends Component {
         <div className="btn-group-wrapper text-center">
           <Button.Group className="btn-group">
             <Link to={`/job/${id}`}><Button >View</Button></Link>
-            <Button>Apply</Button>
+            <Link to={`/apply/${id}`}><Button>Apply</Button></Link>
             {
-              savedBy && savedBy.includes(userId) ?
+              user.saved && user.saved.includes(id) ?
               <Button onClick={() => handleRemoveSavedJob(id)}>Unsave</Button> :
               <Button onClick={() => handleSaveJob(id)}>Save</Button>
             }
@@ -103,7 +101,7 @@ class Tile extends Component {
   }
 
   renderDescView() {
-    const {savedBy, userId, id, name, companyDesc, roleDesc, qualifications, comp, handleSaveJob, handleRemoveSavedJob} = this.props;
+    const {savedBy, userId, user, id, name, companyDesc, roleDesc, qualifications, comp, handleSaveJob, handleRemoveSavedJob} = this.props;
     const {view} = this.state;
 
     let title
@@ -151,9 +149,9 @@ class Tile extends Component {
         <div className="btn-group-wrapper text-center">
           <Button.Group className="btn-group">
           <Link to={`/job/${id}`}><Button >View</Button></Link>
-            <Button>Apply</Button>
+          <Link to={`/apply/${id}`}><Button>Apply</Button></Link>
             {
-              savedBy && savedBy.includes(userId) ?
+              user.saved && user.saved.includes(id) ?
               <Button onClick={() => handleRemoveSavedJob(id)}>Unsave</Button> :
               <Button onClick={() => handleSaveJob(id)}>Save</Button>
             }
@@ -170,7 +168,8 @@ class Tile extends Component {
 
 const mapState = (state) => {
   return {
-    userId: state.user.id
+    userId: state.user.id,
+    user: state.user
   }
 }
 

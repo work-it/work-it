@@ -18,7 +18,9 @@ router.post('/login', (req, res, next) => {
           console.log("password and hash are equal")
           const userObj = {
             email: user[id].username,
-            id
+            id,
+            saved: user[id].saved,
+            applications: user[id].applications
           }
           req.login(userObj, err=> (err?next(err) : res.json(userObj)))
         })
@@ -76,11 +78,14 @@ router.post('/logout', (req, res) => {
 router.get('/me', (req, res) => {
   if (req.user) console.log("user found!!!!!!!!!!!!!!!!!!!", req.user)
   let user = req.user;
+  console.log('USER', user);
   if (user && !user.id) {
     const id = Object.keys(user)[0];
     user = {
       email: user[id].username,
-      id
+      id,
+      saved: user[id].saved,
+      applications: user[id].applications
     }
   }
 
