@@ -1,5 +1,6 @@
 import { updateWhiteboard,  clearWhiteboard, EMIT_DRAW_EVENT} from '../../components/interview-board/whiteboard-reducer';
 import { updateTextarea, clearTextarea,  EMIT_TEXT_EVENT} from '../../components/interview-board/textarea-reducer';
+import { saveState } from '../../components/interview-container/save-state-reducer'
 import { videoUploaded, UPLOAD_VIDEO, START_FILE_UPLOAD, VIDEO_UPLOADED, pushVideoToFirebase} from '../index'
 import { JOIN_ROOM, START_PAIR, loadOpenRooms, CLOSE_ROOM, START_SOLO, continueSolo, roomWaiting, endOpenedRoom, LEAVE_ROOM, roomClosed } from '../../components/practice-pairs/practice-reducer';
 
@@ -31,6 +32,7 @@ export default () => {
         socket.on('room-closed', (room, target) => {
             console.log("on room closed")
             if(target !== 'all') {
+                store.dispatch(saveState())
                 store.dispatch(roomClosed(room))
                 store.dispatch(clearTextarea())
                 store.dispatch(clearWhiteboard())
@@ -91,7 +93,7 @@ export default () => {
                     break;
                 case START_SOLO:
                     socket.emit('solo-mode')
-                    if (store.getState().practice.room.name)
+                    if (store.getState().practice.room.name && store.getState().practice.practiceStatus==='pair_in_room')
                         store.dispatch(endOpenedRoom(store.getState().practice.room.name))
                     break;
                 case LEAVE_ROOM:

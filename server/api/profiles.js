@@ -27,6 +27,7 @@ router.put('/:id', (req, res, next) => {
 })
 
 router.put('/upload/photo/:id', (req, res, next) => {
+  console.log("uploading video for id: ", req.params.id)
   req.pipe(req.busboy);
   let fstream;
         req.busboy.on('file', function (fieldname, file, filename) {
@@ -56,6 +57,7 @@ router.put('/upload/photo/:id', (req, res, next) => {
 })
 
 router.put('/upload/video/:id', (req, res, next) => {
+  console.log("uploading video for id: ", req.params.id)
   const fullpath = __dirname + '/../../tempImages/'+req.params.id + req.body.name
   dataBucket.upload(fullpath, metadata)
    .then(data => {

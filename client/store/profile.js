@@ -9,6 +9,7 @@ const GET_PROFILE = 'GET_PROFILE'
 export const UPLOAD_VIDEO = 'UPLOAD_VIDEO'
 export const VIDEO_UPLOADED = 'VIDEO_UPLOADED'
 export const START_FILE_UPLOAD = 'START_FILE_UPLOAD'
+
 /**
  * INITIAL STATE
  */
@@ -18,6 +19,7 @@ const defaultProfile = {}
  * ACTION CREATORS
  */
 const updateProfile = data => ({type: UPDATE_PROFILE, data})
+
 const getProfile = data => ({type: GET_PROFILE, data})
 export const uploadVideo = info => ({
   type: UPLOAD_VIDEO,
@@ -80,6 +82,8 @@ export const pushVideoToFirebase = name => (dispatch, getState) => {
      .then (res => dispatch(updateProfile({videoUrl: res.videoUrl})))
 
 }
+
+
 
 // DONT MODIFY, IT SHOULD WORK WITH WHATEVER IS PASSED IN!
 export const updateProfileThunk = (data) => {
