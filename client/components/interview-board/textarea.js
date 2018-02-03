@@ -6,7 +6,6 @@ import { withRouter } from 'react-router-dom'
 class TextArea extends Component {
     constructor (props) {
         super (props);
-
         this.handleChange = this.handleChange.bind(this)
     }
 
@@ -17,6 +16,7 @@ class TextArea extends Component {
     }
 
     render () {
+        console.log("Text in text area", this.props.text)
         return <textarea className="texty" value={this.props.text} onChange={this.handleChange}></textarea>
     }
 }

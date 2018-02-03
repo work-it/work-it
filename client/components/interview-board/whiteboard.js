@@ -25,11 +25,24 @@ class WhiteBoard extends Component {
     }
 
     componentDidMount() {
-        console.log("mounting whiteboard")
+        console.log("mounting whiteboard", this.props)
         this.canvas = document.getElementById('canvas');
         this.ctx = canvas.getContext('2d');
         this.setupCanvas()
+        const history = this.props.board.history
+        if( history && history.length) {
+            history.forEach (step => {
+                this.draw(step.start, step.end, step.color, false, true)
+            })
+        }
     }
+
+    // componentWillMount () {
+    //     const board = this.props.board;
+    //     if (board && board.start && board.end && board.color) {
+    //         this.draw (board.start, board.end, board.color, false, true)
+    //     }
+    // }
 
     componentDidUpdate () {
         const board = this.props.board;
