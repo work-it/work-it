@@ -110,53 +110,73 @@ router.get('/search/:location/:term', (req, res, next) => {
 router.get('/saved/:userid', (req, res, next) => {
 
   let userId = req.params.userid;
+  let jobsToReturn = [];
 
   firebase.database()
-    .ref('/jobs')
+    .ref('users/' + userId)
     .once('value')
-    .then(ds => {
-      const jobs = ds.val();
-
-      let matchedJobs = [];
-      for (let key in jobs) {
-        if (jobs.hasOwnProperty(key)) {
-          const job = jobs[key];
-          // Match jobs that include the term in the position name, skills or
-          // role description.
-          if (job.savedBy && job.savedBy.includes(userId)) {
-            matchedJobs.push(job);
-          }
-        }
-      }
-
-      res.send(matchedJobs);
+    .then(snapshot => {
+      return snapshot.val().saved;
     })
-
-})
-
-router.delete('/saved/:jobid/:userid', (req, res, next) => {
-
-  let userId = req.params.userid;
-  let jobId = req.params.jobid;
-
-  firebase.database()
-    .ref('jobs/' + jobId)
-    .once('value')
-    .then(ds => {
-      const job = ds.val();
-      let newSavedBy = [];
-      job.savedBy.forEach(savedUserId => {
-        if (savedUserId !== userId) {
-          newSavedBy.push(savedUserId);
-        }
+    .then(savedIdsArr => {
+      // Loop through ids and fetch job by each key and return to client
+      savedIdsArr.forEach(savedKey => {
+        firebase.database()
+          .ref('jobs/' + savedKey)
+          .once('value')
+          .then(snapshot => {
+            jobsToReturn.push(snapshot.val())
+            // Once we have pushed all the jobs into the return array, send to client
+            if (jobsToReturn.length === savedIdsArr.length) {
+              res.send(jobsToReturn);
+            }
+          })
       })
-
-      return firebase.database()
-        .ref('jobs/' + jobId)
-        .child('savedBy')
-        .set(newSavedBy)
     })
-    .then(() => res.sendStatus(200))
-
 })
 
+router.get('/applied/:userid', (req, res, next) => {
+  let userId = req.params.userid;
+  let jobsToLookup = [];
+  let jobsToReturn = [];
+
+  firebase.database()
+    .ref('users/' + userId)
+    .once('value')
+    .then(snapshot => {
+      return snapshot.val().applications;
+    })
+    .then(applicationsArr => {
+      // Loop through ids and fetch job by each key and return to client
+      return new Promise((resolve) => {
+        if (!applicationsArr.length) return resolve(jobsToLookup)
+        applicationsArr.forEach(applicationKey => {
+          firebase.database()
+            .ref('applications/' + applicationKey)
+            .once('value')
+            .then(snapshot => {
+              jobsToLookup.push(snapshot.val().jobId)
+              // Once we have pushed all the jobs into the return array, send to client
+              if (jobsToLookup.length === applicationsArr.length) {
+                return resolve(jobsToLookup);
+              }
+            })
+        })
+      })
+    })
+    .then(jobsToLookUp => {
+      if (!jobsToLookUp.length) res.send([]);
+      jobsToLookUp.forEach(jobKey => {
+        firebase.database()
+          .ref('jobs/' + jobKey)
+          .once('value')
+          .then(snapshot => {
+            jobsToReturn.push(snapshot.val())
+            // Once we have pushed all the jobs into the return array, send to client
+            if (jobsToReturn.length === jobsToLookUp.length) {
+              res.send(jobsToReturn);
+            }
+          })
+      })
+    })
+})

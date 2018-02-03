@@ -19,6 +19,8 @@ import { Login, Signup } from './auth/auth'
 import {me} from '../store/user'
 import history from './'
 import UserFavorites from './user-favorites/user-favorites';
+import Apply from './apply/apply'
+import UserInProgress from './user-in-progress/user-in-progress';
 
 
 class Main extends Component {
@@ -42,11 +44,12 @@ class Main extends Component {
         {isLoggedIn && <a onClick={() => handleLogout()}>Logout</a>}
         <Switch>
           <Route exact path="/messages" render={() => <UserChat /> } />
-          <Route path="/job/:id" render={()=><JobView />}/>
+          <Route path="/job/:id" render={()=><JobView />} />
+          <Route path="/apply/:id" render={()=><Apply history={history} />} />
           <Route exact path="/user" render={() => <UserContainer /> } />
           <Route exact path="/inprogress" render={() => <UserInProgres /> } />
           <Route exact path="/practice" render={() => <PracticeContainer /> } />
-          <Route path="/practice/:roomName" render={() => <PracticeContainer />}/>
+          <Route path="/practice/:roomName" render={() => <PracticeContainer />} />
           <Route exact path="/questions" render={() => <Questions /> } />
           <Route exact path="/whiteboard" component= { InterviewBoardContainer } />
           <Route exact path="/search" render={() => <Search /> } />
@@ -54,6 +57,7 @@ class Main extends Component {
           <Route exact path="/userprofileform" render={() => <UserProfileForm /> } />
           <Route exact path="/userprofilecontainer" render={() => <UserProfileContainer /> } />
           <Route exact path="/user/saved" render={() => <UserFavorites /> } />
+          <Route exact path="/user/applications" render={() => <UserInProgress type="in-progress" />} />
         </Switch>
       </div>
     )

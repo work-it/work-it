@@ -32,9 +32,9 @@ class UserFavorites extends Component {
 
 const mapState = (state) => {
   return {
+    user: state.user,
     userId: state.user.id,
-    jobs: state.jobs,
-    savedJobs: state.jobs.filter(job => job.savedBy.includes(state.user.id))
+    savedJobs: state.jobs.filter(job => state.user.saved.includes(job.id))
   }
 }
 
