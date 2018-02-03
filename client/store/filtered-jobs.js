@@ -27,7 +27,7 @@ const removeSavedJob = updatedJobs => ({type: REMOVE_SAVED_JOB_FROM_FILTERED, up
 export const applyFiltersThunk = (filters) => {
   return (dispatch, getState) => {
     const { type, radius, zip, experience} = filters;
-    let filtered = getState().jobs.all;
+    let filtered = getState().jobs;
     if (type) {
       filtered = filtered.filter(function(job){
         return job.type === type
@@ -102,7 +102,7 @@ export default function (state = defaultJobs, action) {
     case CLEAR_FILTER:
       return defaultJobs
     case FILTER:
-      return action.updatedJobs
+      return action.filtered
     default:
       return state
   }
