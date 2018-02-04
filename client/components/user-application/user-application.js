@@ -18,11 +18,11 @@ class UserApplication extends Component {
   }
 
   componentWillMount() {
-    this.setState({notes: this.props.application.notes})
+    this.setState({notes: this.props.application.applicantNotes})
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.notes !== this.props.notes) {
+    if (nextProps.applicantNotes !== this.props.applicantNotes) {
       alert('Notes Saved!');
     }
   }

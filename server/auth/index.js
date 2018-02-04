@@ -20,7 +20,8 @@ router.post('/login', (req, res, next) => {
             email: user[id].username,
             id,
             saved: user[id].saved,
-            applications: user[id].applications
+            applications: user[id].applications,
+            name: user[id].name
           }
           req.login(userObj, err=> (err?next(err) : res.json(userObj)))
         })
@@ -85,7 +86,8 @@ router.get('/me', (req, res) => {
       email: user[id].username,
       id,
       saved: user[id].saved,
-      applications: user[id].applications
+      applications: user[id].applications,
+      name: user[id].name
     }
   }
 
