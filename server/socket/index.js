@@ -57,8 +57,8 @@ const socketInit = (function initSocket ()  {
         }
       })
 
-      socket.on('join', (room, userId) => {
-        console.log ('---join received---', openRoomsByRoomName, room, userId)
+      socket.on('join', (room, userId, schedToken) => {
+        console.log ('---socket join received---', openRoomsByRoomName, room, userId, schedToken)
         if (room && (!openRoomsByRoomName.has(room.name) || openRoomsByRoomName.get(room.name).length <= 2)) {
           console.log('room not there or less than two participants')
           socket.join(room.name);

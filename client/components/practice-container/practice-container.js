@@ -28,9 +28,13 @@ class PracticeContainer extends Component {
   render() {
     const { view, available } = this.state;
     const roomName = this.props.match.params.roomName
+    const tokenSearch = this.props.location.search
+    const tokenArr = tokenSearch?tokenSearch.split('?')[1].split("="):[];
+    let token;
+    if (tokenArr[0]==='token') token = tokenArr[1];
     return (
       <div className="practice-container">
-        <PracticeMenu changeView={this.changeView} available={available} changeAvailability={this.changeAvailability} join={roomName}/>
+        <PracticeMenu changeView={this.changeView} available={available} changeAvailability={this.changeAvailability} join={roomName} token={token}/>
         {this.renderSubView()}
       </div>
     )
@@ -38,8 +42,12 @@ class PracticeContainer extends Component {
 
   renderSubView() {
     const { view } = this.state;
+    console.log(this.props)
+    if (this.props.match.params.roomName && view !== 'solo')
+        this.props.history.push('/practice')
     switch (view) {
       case 'schedule':
+        
         return this.renderScheduleView();
       case 'solo':
         return this.renderSoloView();

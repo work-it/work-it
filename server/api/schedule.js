@@ -2,6 +2,7 @@ const router = require('express').Router()
 const {firebase} = require ('../db')
 const nodemailer = require ('nodemailer');
 const moment = require ('moment')
+const generateRoomName = require ('./roomnameGenerator');
 module.exports = router
 
 router.get('/', (req, res, next) => {
@@ -85,11 +86,17 @@ router.put('/', (req, res, next) => {
 //used to add a new schedule to DB
 router.post('/', (req, res, next) => {
     const userId = req.user? (req.user.id?req.user.id:Object.keys(req.user)[0]):null;
+    const roomName = generateRoomName ();
     if (userId) {
         const ref = firebase.database().ref('schedule/');
         const batch = {};
         const sessions = req.body;
-        sessions.forEach (session => batch[session.id] = session)
+        sessions.forEach (session => {
+            session.roomName = roomName;
+            session.token = Date.now();
+            batch[session.id] = session
+
+        })
 
         ref.update(batch)
         .then(() => {
@@ -143,5 +150,5 @@ const sendEmail = (userEmail, subject, session) => {
   const formatText = (session) => {
         let localTime = moment.utc(session.start, 'HH:mmm').toDate();
         localTime = moment(localTime).format('HH:mm')
-        return `You have a practice session coming up on ${session.date} at ${localTime} for 1 hour.  Please, be on time!`
+        return `You have a practice session coming up on ${session.date} at ${localTime} for 1 hour. \n You may access your pracitce sesstion at http://localhost:8080/practice/${session.roomName}?token=${session.token}  \n Please, be on time!`
   }
