@@ -1,7 +1,7 @@
 const twilio = require('twilio'); 
 const twilioClient = require ('../../secrets').twilioClient;
 //const client = new twilio(twilioClient.accountSid, twilioClient.authToken);
-
+const generateRoomName = require ('./roomnameGenerator')
 const client = new twilio(twilioClient.keySid, twilioClient.keySecret, { accountSid: twilioClient.accountSid });
 var AccessToken = require('twilio').jwt.AccessToken;
 var VideoGrant = AccessToken.VideoGrant;
@@ -28,8 +28,9 @@ router.get('/token', (req, res, next) => {
         if (status === 'join') {
             console.log("joining room", req.query.room)
             roomName = req.query.room;
+            const schedToken = req.query.token;
             //1. check, if the room is open.  if not, send error back
-            if (openRoomsByRoomName.has(roomName) || openRoomsInProgress.has(roomName)) {
+            if (!schedToken && (openRoomsByRoomName.has(roomName) || openRoomsInProgress.has(roomName))) {
                 //get the room
                 room = openRoomsByRoomName.has(roomName)?openRoomsByRoomName.get(roomName):openRoomsInProgress.get(roomName)
             
@@ -91,7 +92,28 @@ router.get('/token', (req, res, next) => {
                     }
                 }
                      
-            } else {
+            } if (schedToken) {
+                if (openRoomsByUserId.has(user.id)) {
+                    const openRoom = openRoomsByUserId.get(user.id);
+                    openRoomsByUserId.delete(user.id);
+                    openRoomsByRoomName.delete(openRoom.name)
+                }
+                //case 1:  first user, room is not there yet
+                if (!openRoomsInProgress.has(roomName)){
+                    room = {name:roomName, initiator:user.id, partner: null, count: 1, initiatorIn: true, partnerIn: false}
+                    openRoomsInProgress.set(roomName, room)
+                    
+                } else {
+                     //case 2: second user, room is there already
+                    room = openRoomsInProgress.get(roomName);
+                    room.partner = user.id;
+                    room.partnerIn = true;
+                    room.count++;
+                }            
+                user.roomName = roomName;
+                user.roomStatus='joined' 
+                user.schedToken=schedToken 
+            }else {
                 err = {err: "Room is not open"}
                 cont = false;
             }
@@ -175,20 +197,4 @@ router.get('/', (req, res, next) => {
     res.json(newMap);
 })
 
-const first = ['Mobile', 'Awesome','Mysterious', 'Tremendous', 'Creative', 'Agile'];
-const second =['Blue', 'Black', 'Pink', 'Green', 'Purple', 'Red', 'Lavander'];
-const third = ['Owl', 'Lion', 'Tiger', 'Wolf', 'Deer', 'Bear', 'Dolphin'];
-const generateRoomName = () => {
-    let roomName
-    do {
-        roomName = `${getRandom(first)}${getRandom(second)}${getRandom(third)}`;
-    }  while (openRoomsByRoomName.has(roomName)) 
-
-    return roomName
-}
-const getRandom = arr => {
-    const randomIdx = Math.floor(Math.random()*arr.length)
-    //console.log("randomIdx", randomIdx)
-    return arr[randomIdx];
-}
 

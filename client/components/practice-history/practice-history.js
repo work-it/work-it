@@ -67,7 +67,7 @@ const mapDispatch = (dispatch) => {
     setPracticeState (practice) {
       dispatch (startSolo())
       dispatch(setWhiteboard(practice.board))
-      dispatch(textarea(practice.text))
+      dispatch(setTextarea(practice.text))
       dispatch(updatePaneSep(practice.panesep.topHeight, practice.panesep.bottomHeight))
     }
   }
