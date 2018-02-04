@@ -28,9 +28,13 @@ class PracticeContainer extends Component {
   render() {
     const { view, available } = this.state;
     const roomName = this.props.match.params.roomName
+    const tokenSearch = this.props.location.search
+    const tokenArr = tokenSearch?tokenSearch.split('?')[1].split("="):[];
+    let token;
+    if (tokenArr[0]==='token') token = tokenArr[1];
     return (
       <div className="practice-container">
-        <PracticeMenu changeView={this.changeView} available={available} changeAvailability={this.changeAvailability} join={roomName}/>
+        <PracticeMenu changeView={this.changeView} available={available} changeAvailability={this.changeAvailability} join={roomName} token={token}/>
         {this.renderSubView()}
       </div>
     )

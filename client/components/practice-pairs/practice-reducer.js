@@ -46,9 +46,9 @@ export const startPair = (room, authToken, id, err) => ({
     room, authToken, id, err
 })
 
-export const joinRoom = (room, authToken, id, err) => {
+export const joinRoom = (room, authToken, id, err, token) => {
     return ({type: JOIN_ROOM,
-    room, authToken, id, err})
+    room, authToken, id, err, token})
 }
 
 export const roomWaiting = () => {
@@ -108,14 +108,14 @@ export const startPairPractice = () => dispatch => {
             .catch(console.log);
 }
 
-export const joinPairPractice= (roomName, history) => dispatch => {
+export const joinPairPractice= (roomName, history, schedToken) => dispatch => {
     //1.  get authToken
-    axios.get(`/api/rooms/token?status=join&room=${roomName}`)
+    axios.get(`/api/rooms/token?status=join&room=${roomName}&token=${schedToken}`)
             .then(res => res.data)
             .then ( token => {
                 //2.  join room
                 token.err?dispatch (joinRoom({}, '', '', token.err))
-                :dispatch (joinRoom(token.room, token.token, token.identity, token.err))
+                :dispatch (joinRoom(token.room, token.token, token.identity, token.err, schedToken))
                 //history.push('/practice')
             })
             .catch(console.log);

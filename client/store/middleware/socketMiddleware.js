@@ -79,7 +79,10 @@ export default () => {
                     break;
                 case JOIN_ROOM:
                     console.log("joining...", action)
-                    socket.emit('join', action.room, store.getState().user.id);
+                    //the only time user id might not exist is if the user is accessing the room through the link
+                    //in this case joining takes place before the user state updated, so we're hacking it a bit
+                    const userId = store.getState().user.id?store.getState().user.id:action.room.initiator
+                    socket.emit('join', action.room, userId, action.token);
                     break;
                 case START_PAIR:
                     console.log('-----------------emitting start-room', action)
