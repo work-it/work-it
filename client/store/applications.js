@@ -7,8 +7,10 @@ import _ from 'lodash'
 const APPLY = 'APPLY';
 const FETCH_APPLICTIONS = 'FETCH_APPLICATIONS'
 const UPDATE_NOTES = 'UPDATE_NOTES';
+const UPDATE_EMPLOYER_NOTES = 'UPDATE_EMPLOYER_NOTES';
 const ADD_MESSAGE = 'ADD_MESSAGE';
 const ARCHIVE = 'ARCHIVE';
+const FETCH_APP_W_PROFILE = 'FETCH_APP_W_PROFILE';
 
 /**
  * INITIAL STATE
@@ -22,10 +24,22 @@ const fetchApplications = applications => ({type: FETCH_APPLICTIONS, application
 const archive = updatedApplications => ({type: ARCHIVE, updatedApplications})
 const updateNotes = updatedApplications => ({type: UPDATE_NOTES, updatedApplications})
 const addMessage = updatedApplications => ({type: ADD_MESSAGE, updatedApplications})
+const fetchAppsWithProfiles = applications => ({type: FETCH_APP_W_PROFILE, applications})
+const updateEmployerNotes = updatedApplications => ({type: UPDATE_EMPLOYER_NOTES, updatedApplications})
 
 /**
  * THUNK CREATORS
  */
+export const fetchAppsWithProfilesThunk = (employerId) => {
+  return (dispatch) => {
+    // Fetch jobs from server based on favorites array
+    axios.get(`/api/applications/employer/${employerId}`)
+    .then(res => {
+      dispatch(fetchAppsWithProfiles(res.data));
+    })
+  }
+}
+
 export const fetchApplicationsThunk = (userId) => {
   return (dispatch) => {
     // Fetch jobs from server based on favorites array
@@ -37,7 +51,7 @@ export const fetchApplicationsThunk = (userId) => {
 }
 
 
-export const applyThunk = (id, coverLetter) => {
+export const applyThunk = (id, coverLetter, employerId) => {
   return (dispatch, getState) => {
     // Get the user id.
     const userId = getState().user.id;
@@ -47,7 +61,8 @@ export const applyThunk = (id, coverLetter) => {
       jobId: id,
       status: 'apply',
       archived: false,
-      notes: '',
+      employerNotes: '',
+      applicantNotes: '',
       chat: '',
       coverLetter: coverLetter
     }
@@ -56,7 +71,7 @@ export const applyThunk = (id, coverLetter) => {
     const allApplications = [...getState().applications, newApplication];
 
     // Post request to server to add application to Firebase
-    axios.post('/api/applications/', {application: newApplication, userId})
+    axios.post('/api/applications/', {application: newApplication, userId, employerId})
     .then(res => {
       if (res.status === 200) {
         // Call action creator to update the redux store on successful post.
@@ -70,13 +85,27 @@ export const updateNotesMiddleware = (applicationId, notes) => {
   return (dispatch, getState) => {
     let updatedApplications = [...getState().applications].map(application => {
       if (application.id === applicationId) {
-        application.notes = notes;
+        application.applicantNotes = notes;
       }
       return application;
     })
 
    axios.put(`/api/applications/${applicationId}/notes`, {notes})
     .then(() =>  dispatch(updateNotes(updatedApplications)));
+  }
+}
+
+export const updateEmployerNotesMiddleware = (applicationId, notes) => {
+  return (dispatch, getState) => {
+    let updatedApplications = [...getState().applications].map(application => {
+      if (application.id === applicationId) {
+        application.employerNotes = notes;
+      }
+      return application;
+    })
+
+   axios.put(`/api/applications/${applicationId}/employer/notes`, {notes})
+    .then(() =>  dispatch(updateEmployerNotes(updatedApplications)));
   }
 }
 
@@ -97,9 +126,10 @@ export const archiveMiddleware = applicationId => {
 export const addMessageMiddleware = (applicationId, message) => {
   return (dispatch, getState) => {
     let updatedMessage;
+    let name = getState().user.name;
     let updatedApplications = [...getState().applications].map(application => {
       if (application.id === applicationId) {
-        application.chat += `<strong>Me: </strong> ${message}<br/>`;
+        application.chat += `<strong>${name}: </strong> ${message}<br/>`;
         updatedMessage = application.chat;
       }
       return application;
@@ -122,9 +152,13 @@ export default function (state = defaultApplications, action) {
       return action.updatedApplications
     case UPDATE_NOTES:
       return action.updatedApplications
+    case UPDATE_EMPLOYER_NOTES:
+      return action.updatedApplications
     case APPLY:
       return action.updateApplications
     case FETCH_APPLICTIONS:
+      return action.applications
+    case FETCH_APP_W_PROFILE:
       return action.applications
     default:
       return state

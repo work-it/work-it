@@ -1,0 +1,70 @@
+.ui.progress, .ui.progress .bar {
+  height: 50px;
+}
+
+.application {
+  padding-bottom: 50px;
+}
+
+.progress-labels {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  padding: 5px 100px;
+  font-size: 28px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.notes {
+  min-height: 100px;
+}
+
+.archive-btn {
+  float: right;
+  position: relative;
+  top: 10px;
+}
+
+.ui.form textarea {
+  font-size: 14px;
+}
+
+.chat {
+  width: 60%;
+  margin: 0;
+  padding-right: 30px;
+}
+
+.notes {
+  width: 40%;
+  margin: 0;
+  height: 343px;
+}
+
+.chat-box {
+  width: 100%;
+  margin: 0;
+  height: 283px;
+  border: 1px solid #ccc;
+  pointer-events: none;
+  line-height: 24px !important;
+  font-size: 14px;
+  padding: 10px 15px;
+}
+
+.chat-box:focus {
+  outline: none;
+}
+
+.chat-note-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.new-message {
+  height: 60px;
+  font-size: 14px;
+}

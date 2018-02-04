@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {auth} from '../../store'
+import { Icon } from 'semantic-ui-react'
+import { FacebookLoginButton, GoogleLoginButton } from 'react-social-login-buttons'
 import {toggleShow, toggleType} from './auth-reducer'
 import './auth.css'
 
@@ -11,11 +13,14 @@ import './auth.css'
  */
 const AuthForm = (props) => {
   const {name, displayName, handleSubmit, error, handleHideLogin, authShow, handleToggleType, authView} = props
+  let displayGoogle =  <a href='/auth/google'> <GoogleLoginButton text={`${displayName} with Google`}/></a>
+  let displayFB = <a href='/auth/facebook'><FacebookLoginButton text={`${displayName} with Facebook`}/></a>
+
 
   return (
     <div className="login">
       <div className="login-panel">
-        <a onClick={() => handleHideLogin(authShow)}>close</a>
+       <Icon name='x' size='large' onClick={() => handleHideLogin(authShow)}/>
         <form onSubmit={handleSubmit} name={name}>
           <div>
             <label htmlFor="email"><small>Email</small></label>
@@ -30,11 +35,9 @@ const AuthForm = (props) => {
           </div>
           {error && error.response && <div> {error.response.data} </div>}
         </form>
-        <a href="/auth/google">{displayName} with Google</a><br/>
-        <a href="/auth/facebook">{displayName} with Facebook</a><br/>
-       {//} <a href="/auth/github">{displayName} with GitHub</a><br/>
-  }
 
+              {displayGoogle}
+              {displayFB}
         {
           name === 'login' ?
           <button onClick={() => handleToggleType(authView)}>Sign Up</button> :
@@ -44,6 +47,8 @@ const AuthForm = (props) => {
     </div>
   )
 }
+
+
 
 /**
  * CONTAINER

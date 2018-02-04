@@ -34,15 +34,15 @@ class Apply extends Component {
             <Form>
               <TextArea className="cover-letter" value={this.state.coverLetter} onChange={(evt, {value}) => this.setState({coverLetter: value})} placeholder="Statement of Interest / Cover Letter" />
             </Form>
-            <Button className="apply-btn text-center" size="big" onClick={() => this.handleApplyClick(job.id)}>Apply</Button>
+            <Button className="apply-btn text-center" size="big" onClick={() => this.handleApplyClick(job.id, job.employerId)}>Apply</Button>
           </div>
         </div>
       )
 
     }
 
-    handleApplyClick(id) {
-      this.props.applyToJob(id, this.state.coverLetter);
+    handleApplyClick(id, employerId) {
+      this.props.applyToJob(id, this.state.coverLetter, employerId);
       this.props.history.push('/user/applications');
     }
 }
@@ -53,7 +53,7 @@ const mapState = state => ({
 
 const mapDispatch = (dispatch) => ({
     fetchJob: (id) => dispatch(loadJobThunk(id)),
-    applyToJob: (id, coverLetter) => dispatch(applyThunk(id, coverLetter))
+    applyToJob: (id, coverLetter, employerId) => dispatch(applyThunk(id, coverLetter, employerId))
 })
 
 

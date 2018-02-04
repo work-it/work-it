@@ -42,8 +42,12 @@ class PracticeContainer extends Component {
 
   renderSubView() {
     const { view } = this.state;
+    console.log(this.props)
+    if (this.props.match.params.roomName && view !== 'solo')
+        this.props.history.push('/practice')
     switch (view) {
       case 'schedule':
+        
         return this.renderScheduleView();
       case 'solo':
         return this.renderSoloView();

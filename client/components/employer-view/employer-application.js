@@ -2,12 +2,12 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {Progress, TextArea, Form, Button} from 'semantic-ui-react'
-import {updateNotesMiddleware, archiveMiddleware, addMessageMiddleware} from '../../store';
-import Tile from '../tile/tile'
-import './user-application.css'
+import {updateEmployerNotesMiddleware, archiveMiddleware, addMessageMiddleware} from '../../store';
+import UserTile from '../tile-user/tile-user'
+import './employer-application.css'
 import UserChatBox from '../user-chat/user-chat-box'
 
-class UserApplication extends Component {
+class EmployerApplication extends Component {
   constructor(props) {
     super(props);
 
@@ -18,17 +18,17 @@ class UserApplication extends Component {
   }
 
   componentWillMount() {
-    this.setState({notes: this.props.application.applicantNotes})
+    this.setState({notes: this.props.application.employerNotes})
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.applicantNotes !== this.props.applicantNotes) {
+    if (nextProps.employerNotes !== this.props.employerNotes) {
       alert('Notes Saved!');
     }
   }
 
   render() {
-    const { job, application, handleSaveNotes, handleArchive } = this.props;
+    const { job, application, handleSaveEmployerNotes, handleArchive, profile } = this.props;
     const { notes, newMessage } = this.state;
     let barPercent;
 
@@ -50,7 +50,7 @@ class UserApplication extends Component {
     }
     return (
       <div className="application row">
-        <Tile {...job} key={job.id} />
+        <UserTile {...profile} key={`profile-${profile.id}`} />
         <div className="col-sm-9">
           <Progress percent={barPercent} />
           <ul className="list-inline progress-labels">
@@ -74,7 +74,7 @@ class UserApplication extends Component {
             !application.archived &&
             <Button className="archive-btn" size="big" onClick={() => handleArchive(application.id)}>Archive</Button>
           }
-          <Button className="archive-btn" size="big" onClick={() => handleSaveNotes(application.id, notes)}>Save Notes</Button>
+          <Button className="archive-btn" size="big" onClick={() => handleSaveEmployerNotes(application.id, notes)}>Save Notes</Button>
         </div>
       </div>
     )
@@ -105,8 +105,8 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    handleSaveNotes(applicationId, notes) {
-      dispatch(updateNotesMiddleware(applicationId, notes))
+    handleSaveEmployerNotes(applicationId, notes) {
+      dispatch(updateEmployerNotesMiddleware(applicationId, notes))
     },
     handleArchive(applicationId) {
       dispatch(archiveMiddleware(applicationId))
@@ -117,4 +117,4 @@ const mapDispatch = (dispatch) => {
   }
 }
 
-export default withRouter(connect(mapState, mapDispatch)(UserApplication))
+export default withRouter(connect(mapState, mapDispatch)(EmployerApplication))
