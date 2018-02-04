@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 import { saveState} from './save-state-reducer';
 import {fetchPractice, endOpenedRoom, leaveRoom } from '../practice-pairs/practice-reducer'
-import Questions from '../questions/questions';
+import Questions from '../questions/questions-container';
 import Video from '../video/video';
 
 
@@ -63,7 +63,7 @@ const mergeProps = (state, actions) => ({
         actions.save(state.text, state.board, state.panesep);
         actions.end(room);
     },
-    exitRoom: () => { 
+    exitRoom: () => {
         actions.save(state.text, state.board, state.panesep);
         actions.exitPracticeRoom()
     }

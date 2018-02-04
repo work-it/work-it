@@ -5,7 +5,7 @@ import { Tab } from 'semantic-ui-react'
 import renderHTML from 'react-render-html';
 import './questions.css'
 
-class Questions extends Component {
+class Question extends Component {
   constructor(props) {
     super(props);
 
@@ -18,7 +18,7 @@ componentDidMount(){
 }
 
   renderQuestion() {
-    const {title, question} = this.props.questions;
+    const {title, question} = this.props.question;
     return (
       <Tab.Pane key="question">
         <h2>{title}</h2>
@@ -27,7 +27,7 @@ componentDidMount(){
     )
   }
   renderHint() {
-    const {title, hint} = this.props.questions;
+    const {title, hint} = this.props.question;
     return (
       <Tab.Pane key="hint">
         <h2>{title}</h2>
@@ -36,7 +36,7 @@ componentDidMount(){
     )
   }
   renderSolution() {
-    const {title, solution} = this.props.questions;
+    const {title, solution} = this.props.question;
     return (
       <Tab.Pane key="solution">
         <h2>{title}</h2>
@@ -46,7 +46,7 @@ componentDidMount(){
   }
 
   render() {
-    if (this.props.questions) {  const panes = [
+    if (this.props.question) {  const panes = [
       { menuItem: 'Question', render: () => this.renderQuestion() },
       { menuItem: 'Hint', render: () => this.renderHint() },
       { menuItem: 'Solution', render: () => this.renderSolution() }
@@ -62,8 +62,8 @@ componentDidMount(){
 
 const mapState = (state) => {
   return {
-    questions: state.questions
+
   }
 }
 
-export default withRouter(connect(mapState)(Questions))
+export default withRouter(connect(mapState)(Question))

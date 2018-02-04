@@ -5,11 +5,11 @@ import {withRouter, Route, Switch} from 'react-router-dom'
 import {logout} from '../store'
 import Search from './search/search'
 import InterviewBoardContainer from './interview-container/interview-board-container'
-import Questions from './questions/questions'
+import Questions from './questions/questions-container'
+import Question from './questions/question'
 import PracticeContainer from './practice-container/practice-container'
 import SearchBar from './search-bar/search-bar'
 import UserTile from './tile-user/tile-user'
-import UserProfileForm from './user-profile-form/user-profile-form'
 import UserProfileContainer from './user-profile-form/user-profile-container'
 import UserContainer from './user-container/user-container'
 import UserChat from './user-chat/user-chat'
@@ -18,7 +18,7 @@ import UserProfile from './user-profile-form/user-profile'
 import { Login, Signup } from './auth/auth'
 import {me} from '../store/user'
 import history from './'
-import UserFavorites from './user-favorites/user-favorites';
+import UserFavorites from './user-favorites/user-favorites'
 import Apply from './apply/apply'
 import UserInProgress from './user-in-progress/user-in-progress';
 import EmployerView from './employer-view/employer-view'
@@ -53,7 +53,8 @@ class Main extends Component {
           <Route exact path="/user" render={() => <UserContainer /> } />
           <Route exact path="/inprogress" render={() => <UserInProgres /> } />
           <Route exact path="/practice" render={() => <PracticeContainer /> } />
-          <Route path="/practice/:roomName" render={() => <PracticeContainer />} />
+          <Route path="/practice/:roomName" render={() => <PracticeContainer />}/>
+          <Route exact path="/questions/:id" render={() => <Question /> } />
           <Route exact path="/questions" render={() => <Questions /> } />
           <Route exact path="/whiteboard" component= { InterviewBoardContainer } />
           <Route exact path="/search" render={() => <Search /> } />
