@@ -52,7 +52,7 @@ class EmployerView extends Component {
           !!jobs.length &&
           jobs.map(job => {
             return (
-            <div key={`job-${job.id}`}>
+            <div key={`job-${job.id}`} className="row" style={{margin: 0}}>
               <h2>{job.position}</h2>
               <h4>{job.location}</h4>
               <h5>Job ID: {job.id}</h5>
@@ -82,7 +82,7 @@ class EmployerView extends Component {
         <h2>{job.position}</h2>
         <h4>{job.location}</h4>
         <h5>Job ID: {job.id}</h5>
-        <EmployerApplication key={`app-${application.id}`} profile={application.profile} application={application} notes={application.notes} />
+        <EmployerApplication key={`app-${application.id}`} profile={application.profile} application={application} employerNotes={application.employerNotes} />
       </div>
 
     )

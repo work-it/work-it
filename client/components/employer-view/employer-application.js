@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {Progress, TextArea, Form, Button} from 'semantic-ui-react'
-import {updateNotesMiddleware, archiveMiddleware, addMessageMiddleware} from '../../store';
+import {updateEmployerNotesMiddleware, archiveMiddleware, addMessageMiddleware} from '../../store';
 import UserTile from '../tile-user/tile-user'
 import './employer-application.css'
 import UserChatBox from '../user-chat/user-chat-box'
@@ -18,17 +18,17 @@ class EmployerApplication extends Component {
   }
 
   componentWillMount() {
-    this.setState({notes: this.props.application.notes})
+    this.setState({notes: this.props.application.employerNotes})
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.notes !== this.props.notes) {
+    if (nextProps.employerNotes !== this.props.employerNotes) {
       alert('Notes Saved!');
     }
   }
 
   render() {
-    const { job, application, handleSaveNotes, handleArchive, profile } = this.props;
+    const { job, application, handleSaveEmployerNotes, handleArchive, profile } = this.props;
     const { notes, newMessage } = this.state;
     let barPercent;
 
@@ -74,7 +74,7 @@ class EmployerApplication extends Component {
             !application.archived &&
             <Button className="archive-btn" size="big" onClick={() => handleArchive(application.id)}>Archive</Button>
           }
-          <Button className="archive-btn" size="big" onClick={() => handleSaveNotes(application.id, notes)}>Save Notes</Button>
+          <Button className="archive-btn" size="big" onClick={() => handleSaveEmployerNotes(application.id, notes)}>Save Notes</Button>
         </div>
       </div>
     )
@@ -105,8 +105,8 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    handleSaveNotes(applicationId, notes) {
-      dispatch(updateNotesMiddleware(applicationId, notes))
+    handleSaveEmployerNotes(applicationId, notes) {
+      dispatch(updateEmployerNotesMiddleware(applicationId, notes))
     },
     handleArchive(applicationId) {
       dispatch(archiveMiddleware(applicationId))

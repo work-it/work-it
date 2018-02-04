@@ -45,7 +45,7 @@ class UserInProgress extends Component {
           !!applications.length && !!jobs.length &&
           filteredApplications.map(application => {
             const jobToDisplay = jobs.filter(job => job.id === application.jobId)[0];
-            return <UserApplication key={`${application.id}-${userId}`} job={jobToDisplay} application={application} notes={application.notes} />
+            return <UserApplication key={`${application.id}-${userId}`} job={jobToDisplay} application={application} applicantNotes={application.applicantNotes} />
           })
         }
       </div>

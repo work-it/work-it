@@ -85,11 +85,24 @@ router.put('/:applicationId/notes', (req, res, next) => {
 
   firebase.database()
     .ref('applications/' + applicationId)
-    .update({notes: req.body.notes})
+    .update({applicantNotes: req.body.notes})
     .then(() => {
       res.sendStatus(200);
     })
 })
+
+router.put('/:applicationId/employer/notes', (req, res, next) => {
+  let applicationId = req.params.applicationId;
+  console.log('application id', applicationId)
+
+  firebase.database()
+    .ref('applications/' + applicationId)
+    .update({employerNotes: req.body.notes})
+    .then(() => {
+      res.sendStatus(200);
+    })
+})
+
 
 router.put('/:applicationId/message', (req, res, next) => {
   let applicationId = req.params.applicationId;

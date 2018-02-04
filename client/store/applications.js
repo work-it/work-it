@@ -7,6 +7,7 @@ import _ from 'lodash'
 const APPLY = 'APPLY';
 const FETCH_APPLICTIONS = 'FETCH_APPLICATIONS'
 const UPDATE_NOTES = 'UPDATE_NOTES';
+const UPDATE_EMPLOYER_NOTES = 'UPDATE_EMPLOYER_NOTES';
 const ADD_MESSAGE = 'ADD_MESSAGE';
 const ARCHIVE = 'ARCHIVE';
 const FETCH_APP_W_PROFILE = 'FETCH_APP_W_PROFILE';
@@ -24,6 +25,7 @@ const archive = updatedApplications => ({type: ARCHIVE, updatedApplications})
 const updateNotes = updatedApplications => ({type: UPDATE_NOTES, updatedApplications})
 const addMessage = updatedApplications => ({type: ADD_MESSAGE, updatedApplications})
 const fetchAppsWithProfiles = applications => ({type: FETCH_APP_W_PROFILE, applications})
+const updateEmployerNotes = updatedApplications => ({type: UPDATE_EMPLOYER_NOTES, updatedApplications})
 
 /**
  * THUNK CREATORS
@@ -59,7 +61,8 @@ export const applyThunk = (id, coverLetter, employerId) => {
       jobId: id,
       status: 'apply',
       archived: false,
-      notes: '',
+      employerNotes: '',
+      applicantNotes: '',
       chat: '',
       coverLetter: coverLetter
     }
@@ -82,13 +85,27 @@ export const updateNotesMiddleware = (applicationId, notes) => {
   return (dispatch, getState) => {
     let updatedApplications = [...getState().applications].map(application => {
       if (application.id === applicationId) {
-        application.notes = notes;
+        application.applicantNotes = notes;
       }
       return application;
     })
 
    axios.put(`/api/applications/${applicationId}/notes`, {notes})
     .then(() =>  dispatch(updateNotes(updatedApplications)));
+  }
+}
+
+export const updateEmployerNotesMiddleware = (applicationId, notes) => {
+  return (dispatch, getState) => {
+    let updatedApplications = [...getState().applications].map(application => {
+      if (application.id === applicationId) {
+        application.employerNotes = notes;
+      }
+      return application;
+    })
+
+   axios.put(`/api/applications/${applicationId}/employer/notes`, {notes})
+    .then(() =>  dispatch(updateEmployerNotes(updatedApplications)));
   }
 }
 
@@ -109,9 +126,10 @@ export const archiveMiddleware = applicationId => {
 export const addMessageMiddleware = (applicationId, message) => {
   return (dispatch, getState) => {
     let updatedMessage;
+    let name = getState().user.name;
     let updatedApplications = [...getState().applications].map(application => {
       if (application.id === applicationId) {
-        application.chat += `<strong>Me: </strong> ${message}<br/>`;
+        application.chat += `<strong>${name}: </strong> ${message}<br/>`;
         updatedMessage = application.chat;
       }
       return application;
@@ -133,6 +151,8 @@ export default function (state = defaultApplications, action) {
     case ARCHIVE:
       return action.updatedApplications
     case UPDATE_NOTES:
+      return action.updatedApplications
+    case UPDATE_EMPLOYER_NOTES:
       return action.updatedApplications
     case APPLY:
       return action.updateApplications
