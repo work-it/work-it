@@ -13,14 +13,14 @@ import './auth.css'
  */
 const AuthForm = (props) => {
   const {name, displayName, handleSubmit, error, handleHideLogin, authShow, handleToggleType, authView} = props
-  let displayGoogle = <GoogleLoginButton  onClick={() => this.props.history.push('/auth/google')} text={`${displayName} with Google`}/>
-  let displayFB = <FacebookLoginButton onClick={() => this.props.history.push('/auth/facebook')} text={`${displayName} with Facebook`}/>
+  let displayGoogle =  <a href='/auth/google'> <GoogleLoginButton text={`${displayName} with Google`}/></a>
+  let displayFB = <a href='/auth/facebook'><FacebookLoginButton text={`${displayName} with Facebook`}/></a>
 
 
   return (
     <div className="login">
       <div className="login-panel">
-       <Icon name='x' size='medium' onClick={() => handleHideLogin(authShow)}/>
+       <Icon name='x' size='large' onClick={() => handleHideLogin(authShow)}/>
         <form onSubmit={handleSubmit} name={name}>
           <div>
             <label htmlFor="email"><small>Email</small></label>
