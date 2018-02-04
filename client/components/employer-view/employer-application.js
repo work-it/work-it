@@ -6,6 +6,7 @@ import {updateEmployerNotesMiddleware, archiveMiddleware, addMessageMiddleware} 
 import UserTile from '../tile-user/tile-user'
 import './employer-application.css'
 import UserChatBox from '../user-chat/user-chat-box'
+import PracticeSchedue from '../practice-schedule/practice-schedule'
 
 class EmployerApplication extends Component {
   constructor(props) {
@@ -13,7 +14,8 @@ class EmployerApplication extends Component {
 
     this.state = {
       notes: '',
-      newMessage: ''
+      newMessage: '',
+      view: 'application'
     }
   }
 
@@ -48,6 +50,8 @@ class EmployerApplication extends Component {
       default:
         barPercent = 20;
     }
+
+    console.log("view: ", this.state.view)
     return (
       <div className="application row">
         <UserTile {...profile} key={`profile-${profile.id}`} />
@@ -60,24 +64,35 @@ class EmployerApplication extends Component {
             <li>Offer</li>
             <li>Hired!</li>
           </ul>
-          <div className="chat-note-wrapper">
-            <UserChatBox application={application} showHeader={true} />
-            <div className="notes">
-              <h2>Notes</h2>
-              <Form>
-                <TextArea className="notes" placeholder="Notes" value={this.state.notes} onChange={(evt, {value}) => this.handleNotesChange(evt, value)} />
-              </Form>
-            </div>
-          </div>
-
           {
-            !application.archived &&
-            <Button className="archive-btn" size="big" onClick={() => handleArchive(application.id)}>Archive</Button>
+            this.state.view === 'application' ? this.getApplicationView(application) : this.getSchedulerView(application)
+              
           }
-          <Button className="archive-btn" size="big" onClick={() => handleSaveEmployerNotes(application.id, notes)}>Save Notes</Button>
+          
+          {
+            this.state.view === 'application' ? this.showApplicationButtons(application) : this.showSchedulerButtons()
+          }
+
+          
         </div>
       </div>
     )
+  }
+
+  showApplicationButtons (application) {
+    return <div>
+      {
+        !application.archived &&
+        <Button className="archive-btn" size="big" onClick={() => handleArchive(application.id)}>Archive</Button>
+      }
+      <Button className="archive-btn" size="big" onClick={() => handleSaveEmployerNotes(application.id, notes)}>Save Notes</Button>
+
+      <Button className="archive-btn" size="big" onClick={() => this.handleScheduleInterview(application.id)}>Schedule An Interview</Button>
+    </div>
+  }
+
+  showSchedulerButtons() {
+    return <Button className='archive-btn' size='big' onClick={() => this.setState({view: 'application'})}>Done</Button>
   }
 
   handleNotesChange(evt, notes) {
@@ -88,6 +103,10 @@ class EmployerApplication extends Component {
     this.setState({newMessage})
   }
 
+  handleScheduleInterview(applicaitonId) {
+    this.setState({view: 'scheduler'})
+  }
+
   handleSubmitNewMessage(evt) {
     if (evt.charCode === 13) {
       evt.preventDefault();
@@ -95,8 +114,24 @@ class EmployerApplication extends Component {
       this.props.handleAddNewMessage(this.props.application.id, this.state.newMessage);
     }
   }
-}
 
+
+  getApplicationView (application) {
+    return <div className="chat-note-wrapper">
+                <UserChatBox application={application} showHeader={true} />
+                <div className="notes">
+                  <h2>Notes</h2>
+                  <Form>
+                    <TextArea className="notes" placeholder="Notes" value={this.state.notes} onChange={(evt, {value}) => this.handleNotesChange(evt, value)} />
+                  </Form>
+                </div>
+              </div> 
+  }
+
+  getSchedulerView (application) {
+    return <PracticeSchedue employerId={application.employerId} userId={application.userId}/>
+  }
+}
 const mapState = (state) => {
   return {
 

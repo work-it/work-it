@@ -38,7 +38,7 @@ const LOAD_SESSIONS = 'LOAD_SESSIONS';
    }
  }
 
- export const addSessionMiddleware = (date, start, end) => {
+ export const addSessionMiddleware = (date, start, end, intervieweeId) => {
   return (dispatch, getState) => {
     
     const formattedDate = date.format('YYYY-MM-DD');
@@ -55,7 +55,9 @@ const LOAD_SESSIONS = 'LOAD_SESSIONS';
         userOne: getState().user.id,
         userTwo: null,
         id: getState().user.id+formattedDate+startTimeUTC,
-        start: startTimeUTC
+        start: startTimeUTC,
+        intervieweeId: intervieweeId
+
       }
       newSessions.push(newSession);
     }
