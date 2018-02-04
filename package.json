@@ -58,6 +58,7 @@
     "react-render-html": "^0.6.0",
     "react-router-dom": "^4.1.1",
     "react-router-redux": "^5.0.0-alpha.9",
+    "react-social-login-buttons": "^1.3.5",
     "react-split-pane": "^0.1.74",
     "react-split-pane-2": "^0.1.36",
     "redux": "^3.6.0",

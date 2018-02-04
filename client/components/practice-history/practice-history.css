@@ -1,0 +1,12 @@
+#history-table{
+    width: 100%;
+    margin: auto;
+    min-width: 310px;
+}
+
+#table-container {
+    height: 70vh;
+    width: 50%;
+    margin: auto;
+    overflow-y: scroll;
+}
