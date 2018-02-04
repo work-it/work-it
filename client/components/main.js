@@ -11,7 +11,6 @@ import SearchBar from './search-bar/search-bar'
 import UserTile from './tile-user/tile-user'
 import UserProfileForm from './user-profile-form/user-profile-form'
 import UserProfileContainer from './user-profile-form/user-profile-container'
-import UserInProgres from './user-in-progress/user-in-progress'
 import UserContainer from './user-container/user-container'
 import UserChat from './user-chat/user-chat'
 import JobView from './job-view/jobview'
@@ -22,6 +21,7 @@ import history from './'
 import UserFavorites from './user-favorites/user-favorites';
 import Apply from './apply/apply'
 import UserInProgress from './user-in-progress/user-in-progress';
+import EmployerView from './employer-view/employer-view'
 
 
 class Main extends Component {
@@ -44,6 +44,7 @@ class Main extends Component {
         {!isLoggedIn && showAuth && authView === 'login' && <Login />}
         {isLoggedIn && <a onClick={() => handleLogout()}>Logout</a>}
         <Switch>
+          <Route exact path="/employer/:id" render={() => <EmployerView type="in-progress"/>} />
           <Route exact path="/user/applications" render={() => <UserInProgress type="in-progress" />} />
           <Route exact path="/messages" render={() => <UserChat /> } />
           <Route path="/job/:id" render={()=><JobView />} />

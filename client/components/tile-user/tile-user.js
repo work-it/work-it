@@ -49,8 +49,8 @@ class UserTile extends Component {
   }
 
   renderHomeView() {
-  
-    const {name, position, location, experience, type, salaryRange, imgUrl, topSkills} = this.props.defaultUsers[0];
+
+    const {name, position, location, experience, type, minSalary, maxSalary, imgUrl, skillsArr, handleViewClick, appId, jobId} = this.props;
     return (
       <Card>
         <div className="logo-wrapper">
@@ -72,18 +72,20 @@ class UserTile extends Component {
           </Card.Meta>
           <Card.Description>
             <span className="top-skills">
-          {topSkills.map(skill => skill).join(', ')}
+          {skillsArr
+            .filter(skill => skill.topSkill === true)
+            .map(skill => skill.name).join(', ')}
             </span>
             <span className="exp-type">
             {`${experience} - ${type}`}
             </span>
             <span className="range">
-              {`$${salaryRange.min}K - $${salaryRange.max}K`}
+              {`$${minSalary}K - $${maxSalary}K`}
             </span>
           </Card.Description>
         </Card.Content>
         <Card.Content extra>
-       
+
         {
           !this.props.fixedView? (
             <div className="prev" onClick={() => this.handlePrevClick()}>
@@ -96,15 +98,11 @@ class UserTile extends Component {
             e.preventDefault();
             this.props.footer();
           }}>{this.props.footerText}</Button>:
-          <Button.Group className="btn-group">
-          <Button>View</Button>
-          <Button>Apply</Button>
-          <Button>Save</Button>
-        </Button.Group>
+          <Button onClick={() => handleViewClick(appId, jobId)}>View Application</Button>
         }
-          
+
         </div>
-        
+
         {
           !this.props.fixedView? (
            <div className="next" onClick={() => this.handleNextClick()}>
@@ -144,7 +142,7 @@ class UserTile extends Component {
   }
 
   renderDescView() {
-    const {name, userDesc, pastEmployers, personalProjects, education} = this.props.defaultUsers[0];
+    const {name, userDesc, pastEmployersArr, ProjectsArr, SchoolArr, appId, jobId, handleViewClick} = this.props;
 
     const {view} = this.state;
 
@@ -152,20 +150,20 @@ class UserTile extends Component {
     let desc
     switch (view) {
       case 1:
-        title = 'Company Description';
+        title = 'Summary';
         desc = userDesc;
         break;
       case 2:
         title = 'Past Experience';
-        desc = this.roleDesc(pastEmployers);
+        desc = this.roleDesc(pastEmployersArr);
         break;
       case 3:
         title = 'Personal Projects';
-        desc = this.projDesc(personalProjects);
+        desc = this.projDesc(ProjectsArr);
         break;
       default:
         title = 'Education';
-        desc = this.eduDesc(education);
+        desc = this.eduDesc(SchoolArr);
     }
 
     return (
@@ -190,13 +188,9 @@ class UserTile extends Component {
         <div className="prev" onClick={() => this.handlePrevClick()}>
         <i className="fa fa-chevron-left" aria-hidden="true"></i>
       </div>
-        
+
         <div className="btn-group-wrapper text-center">
-          <Button.Group className="btn-group">
-            <Button>View</Button>
-            <Button>Apply</Button>
-            <Button>Save</Button>
-          </Button.Group>
+            <Button onClick={() => handleViewClick(appId, jobId)}>View Application</Button>
         </div>
         <div className="next" onClick={() => this.handleNextClick()}>
           <i className="fa fa-chevron-right" aria-hidden="true"></i>
@@ -207,11 +201,4 @@ class UserTile extends Component {
   }
 }
 
-
-const mapState = (state) => {
-  return {
-    defaultUsers: state.userTile
-  }
-}
-
-export default withRouter(connect(mapState)(UserTile))
+export default UserTile
