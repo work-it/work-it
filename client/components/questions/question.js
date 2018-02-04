@@ -5,7 +5,7 @@ import { Tab } from 'semantic-ui-react'
 import renderHTML from 'react-render-html';
 import './questions.css'
 
-class Questions extends Component {
+class Question extends Component {
   constructor(props) {
     super(props);
 
@@ -66,4 +66,4 @@ const mapState = (state) => {
   }
 }
 
-export default withRouter(connect(mapState)(Questions))
+export default withRouter(connect(mapState)(Question))
