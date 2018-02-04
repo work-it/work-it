@@ -5,6 +5,30 @@ const defaultJobs = require('./jobs-seed');
 const zipcodes = require('zipcodes');
 module.exports = router
 
+router.get('/employer/:id', (req, res, next) => {
+
+  let employerId = req.params.id;
+
+  firebase.database()
+    .ref('jobs/')
+    .orderByChild('employerId')
+    .equalTo(employerId)
+    .once('value')
+    .then(snapshot => {
+      return snapshot.val();
+    })
+    .then(jobs => {
+      let jobsToReturn = [];
+      for (let key in jobs) {
+        if (jobs.hasOwnProperty(key)) {
+          // Destructure object full of jobs into a useable array
+          jobsToReturn.push(jobs[key]);
+        }
+      }
+      res.send(jobsToReturn);
+    })
+})
+
 router.get('/seed', (req, res, next) => {
 
   // create object in firebase from req.body

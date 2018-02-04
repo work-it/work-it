@@ -9,6 +9,7 @@ const FETCH_APPLICTIONS = 'FETCH_APPLICATIONS'
 const UPDATE_NOTES = 'UPDATE_NOTES';
 const ADD_MESSAGE = 'ADD_MESSAGE';
 const ARCHIVE = 'ARCHIVE';
+const FETCH_APP_W_PROFILE = 'FETCH_APP_W_PROFILE';
 
 /**
  * INITIAL STATE
@@ -22,10 +23,21 @@ const fetchApplications = applications => ({type: FETCH_APPLICTIONS, application
 const archive = updatedApplications => ({type: ARCHIVE, updatedApplications})
 const updateNotes = updatedApplications => ({type: UPDATE_NOTES, updatedApplications})
 const addMessage = updatedApplications => ({type: ADD_MESSAGE, updatedApplications})
+const fetchAppsWithProfiles = applications => ({type: FETCH_APP_W_PROFILE, applications})
 
 /**
  * THUNK CREATORS
  */
+export const fetchAppsWithProfilesThunk = (employerId) => {
+  return (dispatch) => {
+    // Fetch jobs from server based on favorites array
+    axios.get(`/api/applications/employer/${employerId}`)
+    .then(res => {
+      dispatch(fetchAppsWithProfiles(res.data));
+    })
+  }
+}
+
 export const fetchApplicationsThunk = (userId) => {
   return (dispatch) => {
     // Fetch jobs from server based on favorites array
@@ -37,7 +49,7 @@ export const fetchApplicationsThunk = (userId) => {
 }
 
 
-export const applyThunk = (id, coverLetter) => {
+export const applyThunk = (id, coverLetter, employerId) => {
   return (dispatch, getState) => {
     // Get the user id.
     const userId = getState().user.id;
@@ -56,7 +68,7 @@ export const applyThunk = (id, coverLetter) => {
     const allApplications = [...getState().applications, newApplication];
 
     // Post request to server to add application to Firebase
-    axios.post('/api/applications/', {application: newApplication, userId})
+    axios.post('/api/applications/', {application: newApplication, userId, employerId})
     .then(res => {
       if (res.status === 200) {
         // Call action creator to update the redux store on successful post.
@@ -125,6 +137,8 @@ export default function (state = defaultApplications, action) {
     case APPLY:
       return action.updateApplications
     case FETCH_APPLICTIONS:
+      return action.applications
+    case FETCH_APP_W_PROFILE:
       return action.applications
     default:
       return state

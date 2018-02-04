@@ -106,7 +106,15 @@
   padding: 8px;
 }
 
+.btn-group-wrapper .ui.button {
+  background: #fff;
+}
+
 .tile .ui.buttons .button {
+  background: #fff;
+}
+
+.btn-group-wrapper .ui.button:hover {
   background: #fff;
 }
 

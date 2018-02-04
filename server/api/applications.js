@@ -16,7 +16,7 @@ router.post('/', (req, res, next) => {
     .then(key => {
       return firebase.database()
       .ref('applications/' + key)
-      .update({id: key})
+      .update({id: key, userId: req.body.userId, employerId: req.body.employerId})
       .then(() => {
         return key;
       })
@@ -110,6 +110,48 @@ router.put('/:applicationId/archive', (req, res, next) => {
     .update({archived: true})
     .then(() => {
       res.sendStatus(200);
+    })
+})
+
+router.get('/employer/:employerId', (req, res, next) => {
+  let employerId = req.params.employerId;
+
+  firebase.database()
+    .ref('applications/')
+    .orderByChild('employerId')
+    .equalTo(employerId)
+    .once('value')
+    .then(snapshot => {
+      console.log('SNAPSHOT', snapshot.val())
+      return snapshot.val();
+    })
+    .then(applications => {
+      let applicationsToReturn = [];
+
+      if (applications ) {
+        for (let key in applications) {
+          if (applications.hasOwnProperty(key)) {
+            // Destructure object full of jobs into a useable array
+            let application = applications[key];
+            const userId = application.userId;
+
+            firebase.database()
+              .ref('profiles/' + userId)
+              .once('value')
+              .then(snapshot => {
+                const profile = snapshot.val();
+                application.profile = profile;
+                applicationsToReturn.push(application);
+                console.log('LENGTHS', applicationsToReturn.length, application.length)
+                // If all the applications & profiles have been pushed, send to client.
+                if (applicationsToReturn.length === Object.keys(applications).length) {
+                  console.log('DONE')
+                  return res.send(applicationsToReturn);
+                }
+              })
+          }
+        }
+      }
     })
 })
 
