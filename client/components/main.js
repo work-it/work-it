@@ -19,7 +19,8 @@ import UserProfile from './user-profile-form/user-profile'
 import { Login, Signup } from './auth/auth'
 import {me} from '../store/user'
 import history from './'
-import UserFavorites from './user-favorites/user-favorites';
+import UserFavorites from './user-favorites/user-favorites'
+import Apply from './apply/apply'
 
 
 class Main extends Component {
@@ -42,8 +43,10 @@ class Main extends Component {
         {!isLoggedIn && showAuth && authView === 'login' && <Login />}
         {isLoggedIn && <a onClick={() => handleLogout()}>Logout</a>}
         <Switch>
+          <Route exact path="/user/applications" render={() => <UserInProgress type="in-progress" />} />
           <Route exact path="/messages" render={() => <UserChat /> } />
           <Route path="/job/:id" render={()=><JobView />} />
+          <Route path="/apply/:id" render={()=><Apply history={history} />} />
           <Route path="/user/:id" render={()=><UserProfile />} />
           <Route exact path="/user" render={() => <UserContainer /> } />
           <Route exact path="/inprogress" render={() => <UserInProgres /> } />

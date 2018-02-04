@@ -12,6 +12,7 @@ export const ROOM_WAITING = 'ROOM_WAITING'
 export const LOAD_PRACTICE = 'LOAD_PRACTICE'
 export const LEAVE_ROOM = 'LEAVE ROOM'
 const LOAD_HISTORY = 'LOAD_HISTORY'
+const SET_STATE_FROM_HIST = 'SET_STATE_FROM_HIST'
 
 const loadHistory = history => ({type: LOAD_HISTORY, history})
 export const startSolo = () => ({
@@ -20,6 +21,10 @@ export const startSolo = () => ({
 
 export const loadPractice = practice => ({
     type: LOAD_PRACTICE, practice
+})
+
+export const setStateFromHist = practice => ({
+    type: SET_STATE_FROM_HIST, practice
 })
 
 export const leaveRoom = room => ({
@@ -41,9 +46,9 @@ export const startPair = (room, authToken, id, err) => ({
     room, authToken, id, err
 })
 
-export const joinRoom = (room, authToken, id, err) => {
+export const joinRoom = (room, authToken, id, err, token) => {
     return ({type: JOIN_ROOM,
-    room, authToken, id, err})
+    room, authToken, id, err, token})
 }
 
 export const roomWaiting = () => {
@@ -103,14 +108,14 @@ export const startPairPractice = () => dispatch => {
             .catch(console.log);
 }
 
-export const joinPairPractice= (roomName, history) => dispatch => {
+export const joinPairPractice= (roomName, history, schedToken) => dispatch => {
     //1.  get authToken
-    axios.get(`/api/rooms/token?status=join&room=${roomName}`)
+    axios.get(`/api/rooms/token?status=join&room=${roomName}&token=${schedToken}`)
             .then(res => res.data)
             .then ( token => {
                 //2.  join room
                 token.err?dispatch (joinRoom({}, '', '', token.err))
-                :dispatch (joinRoom(token.room, token.token, token.identity, token.err))
+                :dispatch (joinRoom(token.room, token.token, token.identity, token.err, schedToken))
                 //history.push('/practice')
             })
             .catch(console.log);
@@ -176,6 +181,7 @@ export default function (state=defaultState, action) {
             return {...state, practiceStatus: 'none', room: {}, id: '', authToken: '', err: action.err}
         case LOAD_HISTORY:
             return {...state, history:action.history}
+
         default: return state;
     }
 }

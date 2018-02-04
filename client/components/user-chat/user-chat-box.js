@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {TextArea, Form} from 'semantic-ui-react'
-import {addMessageMiddleware} from '../user-in-progress/applications-reducer'
+import {addMessageMiddleware} from '../../store'
 import renderHTML from 'react-render-html';
 
 class UserChatBox extends Component {
@@ -21,7 +21,7 @@ class UserChatBox extends Component {
       <div className="chat">
         {showHeader && <h2>Message</h2>}
         <Form>
-          <div contentEditable="true" className="chat-box" >
+          <div className="chat-box" >
             {application.chat ? renderHTML(application.chat) : 'No chat started...'}
           </div>
           <TextArea className="new-message" placeholder="Type to start message. Press Enter to send." value={newMessage} onChange={(evt, {value}) => this.handleChatUpdate(evt, value)} onKeyPress={evt => this.handleSubmitNewMessage(evt)} />

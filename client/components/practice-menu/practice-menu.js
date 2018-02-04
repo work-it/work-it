@@ -12,8 +12,10 @@ class PracticeMenu extends Component{
   componentDidMount () {
     if (this.props.join) {
       const roomName = this.props.join;
-      this.props.joinPair(roomName, this.props.history)
+      const token = this.props.token;
+      this.props.joinPair(roomName, this.props.history, token)
     }
+    console.log("practice status", this.props.status)
   }
  
 
@@ -61,8 +63,8 @@ const mapDispatch = (dispatch) => {
     openNewRoom () {
       dispatch(startPairPractice())
     },
-    joinPair ( roomName, history) {
-      dispatch(joinPairPractice(roomName, history))
+    joinPair ( roomName, history, token) {
+      dispatch(joinPairPractice(roomName, history, token))
     },
     exitRoom (roomName) {
       //dispatch(leaveRoom(roomName))

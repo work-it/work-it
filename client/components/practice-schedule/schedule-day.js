@@ -14,7 +14,7 @@ const ScheduleDay = (props) => {
       <h5>{moment(date).format('MMM Do YYYY')}</h5>
       {
         !!sessions.length && sessions.map(session => {
-          return <ScheduleSession key={session.id} {...session} date={date} handleClick={props.handleClick} />
+          return <ScheduleSession key={session.id} session={session} date={date} handleClick={props.handleClick} />
         })
       }
     </div>
