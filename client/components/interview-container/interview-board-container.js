@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 import { saveState} from './save-state-reducer';
 import {fetchPractice, endOpenedRoom, leaveRoom } from '../practice-pairs/practice-reducer'
-import Question from '../questions/question';
+import Questions from '../questions/questions-container';
 import Video from '../video/video';
 
 
@@ -33,7 +33,7 @@ class InterviewBoardContainer extends Component {
                     <Video />
                 </div>
                 <div className= "questions">
-                    <Question />
+                    <Questions />
                 </div>
             </div>
         </div>

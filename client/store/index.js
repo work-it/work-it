@@ -7,7 +7,7 @@ import user from './user'
 import jobs from './jobs'
 import whiteboard from '../components/interview-board/whiteboard-reducer'
 import textarea from '../components/interview-board/textarea-reducer'
-import question from '../components/questions/questions-reducer'
+//import question from './questions'
 import panesep from '../components/interview-board/panesep-reducer'
 import saved from '../components/interview-container/save-state-reducer'
 import userTile from '../components/tile-user/tile-user-reducer'
@@ -19,7 +19,7 @@ import profile from './profile'
 import questions from './questions'
 import filteredJobs from './filtered-jobs'
 
-const reducer = combineReducers({user, whiteboard, textarea, panesep, jobs, questions, question, saved, schedule, userTile, auth, applications, practice, profile, filteredJobs})
+const reducer = combineReducers({user, whiteboard, textarea, panesep, jobs, questions, saved, schedule, userTile, auth, applications, practice, profile, filteredJobs})
 
 const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,

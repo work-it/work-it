@@ -4,6 +4,7 @@ import { getQuestionsThunk } from '../../store'
 // import {withRouter} from 'react-router-dom'
 import { Tab } from 'semantic-ui-react'
 import renderHTML from 'react-render-html'
+import Question from './question'
 
 
 class Questions extends Component {
@@ -11,7 +12,7 @@ class Questions extends Component {
     super(props);
 
     this.state = {
-      count: 0,
+      index: 0,
     }
   }
 
@@ -19,31 +20,38 @@ class Questions extends Component {
     this.props.fetchQuestions()
   }
 
+  handleNext() {
+    if (this.state.index === this.props.questions.length - 1){
+      this.setState({index: 0})
+    } else {
+      let nextIndex = this.state.index + 1
+      this.setState({index: nextIndex})
+    }
+  }
+
+  handlePrevious() {
+    if (this.state.index === 0){
+      this.setState({index: this.props.questions.length - 1})
+    } else {
+      let previousIndex = this.state.index - 1
+      this.setState({index: previousIndex})
+    }
+  }
 
   render() {
     const { questions } = this.props;
-      if (questions){
+    console.log(questions)
+      if (questions.length){
         return (
           <div>
             {
-              questions.map((question) => {
-                return (
-                  <div key={question.id}>
-                    <Tab.Pane key="question.id">
-                      <h2>{question.title}</h2>
-                      {renderHTML(question.question)}
-                    </Tab.Pane>
-                    <Tab.Pane key="question.hint">
-                      <h2>{question.title}</h2>
-                      {renderHTML(question.hint)}
-                    </Tab.Pane>
-                    <Tab.Pane key="question.solution">
-                      <h2>{question.title}</h2>
-                      {renderHTML(question.solution)}
-                    </Tab.Pane>
-                  </div>
-                )
-              })
+              <div key={questions[this.state.index].id}>
+                  <Question question={questions[this.state.index]} />
+                  <button onClick={() => this.handlePrevious()}>Previous</button>
+                  <button onClick={() => this.handleNext()}>Next</button>
+              </div>
+
+
             }
           </div>
         )
