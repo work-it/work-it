@@ -6,6 +6,7 @@ router.use('/state', require('./state'));
 router.use('/rooms', require('./rooms'));
 router.use('/profiles', require('./profiles'))
 router.use('/jobs', require('./jobs'));
+router.use('/questions', require('./questions'))
 router.use('/applications', require('./applications'))
 router.use('/history', require ('./history'))
 router.use('/schedule', require ('./schedule'))

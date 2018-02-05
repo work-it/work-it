@@ -15,3 +15,11 @@
   background:#00a7ff73;
 }
 
+.schedule-session.interviewProposed {
+  background: orange;
+}
+
+.schedule-session.interviewPaired {
+  background: red;
+}
+
