@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import { joinPairPractice, loadOpenRooms, endOpenedRoom } from './practice-reducer'
+import { loadAllUsers } from '../../store'
 import InterviewBoardContainer from '../interview-container/interview-board-container';
 import UserTile from '../tile-user/tile-user'
 
@@ -14,26 +15,30 @@ class PracticePairs extends Component{
 
   componentDidMount () {
     this.props.loadRooms();
+    this.props.loadUsers();
   }
 
   render () {
-   console.log("-----------should interview container be displayed? does history exist ",this.props.history)
-  
+   //console.log("-----------should interview container be displayed? does history exist ",this.props.history)
+    console.log('allProfiles', this.props.allProfiles)
     return (
-      this.props.userId?
+      this.props.userId && this.props.allProfiles?
         (this.props.status==='pair_in_room' || this.props.status ==='solo'?<InterviewBoardContainer/>:(
         <div className="practice-pairs">
 
             {
-              this.props.openRooms.map(room => 
-                  <div key={room.name}>
+              this.props.openRooms.map(room => {
+                const user = this.props.allProfiles[room.initiator];
+                console.log("room.initiator", room.initiator)
+                  return <div key={room.name}>
                     
-                  <a href={`/practice/${room.name}`}><UserTile fixedView={true} initView={0} footerText={this.getFooterText(room)} footer={this.getFooterFunction(room)}/></a>
+                  <a href={`/practice/${room.name}`}><UserTile fixedView={true} initView={0} footerText={this.getFooterText(room)} footer={this.getFooterFunction(room)} userId={room.initiator} {...user} /></a>
                     {
                  // this.props.userId === room.initiator? <button id='close' onClick={() => this.props.closeOpenedRoom(room.name)} >Close your room {room.name}</button>
            //       :<button id='join' onClick={() => this.props.joinOpenedRoom(room.name, this.props.history)}>Join existing room {room.name}</button>
                     }
                   </div>
+                  }
               )
             }    
         </div>))
@@ -57,7 +62,8 @@ const mapState = (state) => {
     status: state.practice.practiceStatus,
     openRooms: state.practice.rooms,
     myRoom: state.practice.room,
-    userId: state.user.id
+    userId: state.user.id,
+    allProfiles: state.profile.allProfiles
   }
 }
 
@@ -74,6 +80,9 @@ const mapDispatch = (dispatch) => {
     },
     loadRooms () {
       dispatch(loadOpenRooms());
+    },
+    loadUsers() {
+      dispatch(loadAllUsers())
     }
   }
 }
