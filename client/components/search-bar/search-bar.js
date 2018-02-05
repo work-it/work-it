@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {withRouter} from 'react-router-dom'
+import {withRouter, Link} from 'react-router-dom'
 //import {Link} from 'react-router'
 import { Input, Dropdown, Button, Icon } from 'semantic-ui-react'
 import { applyFiltersThunk, clearFilters } from '../../store'
@@ -108,10 +108,10 @@ class SearchBar extends Component {
     return (
       <div className="search-bar">
         <div className="main-menu row">
-          <div className="col-sm-2">
-            <h1 className="logo">WorkIt</h1>
+          <div className="logo-wrapper">
+            <Link to="/"><img className="logo" src="/workit-logo3.png" /></Link>
           </div>
-          <div className="col-sm-5 search-input-wrapper">
+          <div className="search-input-wrapper">
             <Input
               className="search-input"
               placeholder="Search our jobs..."
@@ -124,21 +124,25 @@ class SearchBar extends Component {
               value={this.state.location}
               onChange={(evt, {value}) => this.setState({location: value})}
             />
-          </div>
-          <div className="col-sm-3 search-btns-wrapper">
             <Button
               className="search-btn"
+              color='blue'
               onClick={() => this.hanldeSearch()}
             >Search</Button>
-            <Button basic className="advanced-btn" onClick={() => this.toggleAdvanced()}>Filter</Button>
+            <Button
+              className="advanced-btn"
+              color='black'
+              onClick={() => this.toggleAdvanced()}>
+              Filter
+            </Button>
           </div>
-          <div className="col-sm-2">
-            <ul className="list-inline menu-icons text-right">
+          <div className="links-wrapper">
              { notice }
-              <li><Icon name='code' size='big' onClick={() => this.props.history.push('/practice')}/></li>
-              <li><Icon name='mail outline' size='big' onClick={() => this.props.history.push('/messages')} /></li>
-              <li onClick={() => this.handleLogin(authShow)}><Icon name='user outline' size='big' /></li>
-            </ul>
+              {
+                isLoggedIn ?
+                this.renderLoggedInLinks() :
+                this.renderLoggedOutLinks()
+              }
           </div>
         </div>
         <div className={advanced ? 'advanced active row' : 'advanced row'}>
@@ -157,6 +161,26 @@ class SearchBar extends Component {
           </div>
         </div>
       </div>
+    )
+  }
+
+  renderLoggedInLinks() {
+    return (
+      <ul className="list-inline menu-icons text-right">
+        <li onClick={() => this.props.logout()}><Icon name='sign out' size='big' /><span className="link-text">Logout</span></li>
+        <li><Icon name='code' size='big' onClick={() => this.props.history.push('/practice')}/><span className="link-text">Practice</span></li>
+        <li><Icon name='mail outline' size='big' onClick={() => this.props.history.push('/messages')} /><span className="link-text">Message</span></li>
+        <li onClick={() => this.handleLogin(authShow)}><Icon name='user outline' size='big' /><span className="link-text">Profile</span></li>
+      </ul>
+    )
+  }
+
+  renderLoggedOutLinks() {
+    const { authShow } = this.props;
+    return (
+      <ul className="list-inline menu-icons text-right">
+        <li onClick={() => this.handleLogin(authShow)}><Icon name='sign in' size='big' /><span className="link-text">Login</span></li>
+      </ul>
     )
   }
 

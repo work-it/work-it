@@ -9,17 +9,44 @@
     left: 0;
     background: rgba(0,0,0,0.8);
     z-index: 1000;
+    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif !important;
 }
 
 .login-panel {
+  padding: 35px;
   width: 400px;
-  height: 400px;
   background: #f7f7f7;
+  border: 1px solid #333;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
 }
 
-#google {
-  width:200px;
-  height: 40px;
-  color: white;
-  background-color: red;
+.login .ui.form input[type=text], .login .ui.form input[type=password] {
+  height: 38px;
+  font-size: 16px;
+}
+
+.login .login-btn-wrapper {
+  margin: 10px;
+  width: 308px;
+}
+
+.login .login-btn {
+  width: 100%;
+  background: #333;
+  color: #fff;
+  font-size: 20px;
+  padding: 15px 0;
+  font-weight: 200;
+}
+
+.or {
+  width: 100%;
+  text-align: center;
+  padding-bottom: 5px;
+}
+
+.sign-up-link {
+  padding-top: 10px;
+  padding-left: 5px;
 }

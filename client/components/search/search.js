@@ -36,7 +36,7 @@ class Search extends Component {
     console.log('jobs to show', jobsToShow);
     return (
       <div className="search">
-        <div className="jobs-wrapper">
+        <div className="jobs-wrapper row">
           {/* If time, add these back in... */}
           {/* <div className="col-md-12 text-right sort-btns">
           <Button.Group>

@@ -1,7 +1,14 @@
 .jobs-wrapper {
-  padding-top: 20px;
+  padding: 50px 35px;
+  display: flex;
 }
 
 .sort-btns {
   padding-bottom: 20px;
+}
+
+.search {
+  background-image: url('/back3.jpg');
+  background-repeat: repeat;
+  height: 100%;
 }

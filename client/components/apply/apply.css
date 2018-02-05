@@ -1,8 +1,9 @@
-.cover-letter {
+.ui.form textarea.cover-letter {
   height: 250px;
+  margin-top: 20px;
 }
 
-.apply-btn {
+.apply-btn.ui.blue.button {
   position: relative;
   margin-top: 20px;
 }

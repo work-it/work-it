@@ -1,9 +1,11 @@
 .main-menu {
-  border-bottom: 1px solid #f1f1f1;
+  margin: 0;
   padding: 10px 0;
   position: relative;
   z-index: 100;
   background: #fff;
+  display: flex;
+  box-shadow: 0 0 5px rgba(0,0,0,0.2);
 }
 
 .search-input {
@@ -26,12 +28,24 @@
   padding-right: 15px;
 }
 
-.advanced-btn {
+.search-input-wrapper .advanced-btn {
   height: 38px;
+  font-size: 16px;
+  padding: 0 16px;
 }
 
-.logo {
-  margin-left: 20px;
+.search-bar .logo {
+  width: 100px;
+}
+
+.search-bar .logo-wrapper {
+  width: 20%;
+  padding-left: 35px;
+}
+
+.links-wrapper {
+  width: 20%;
+  padding-right: 35px;
 }
 
 .advanced.active {
@@ -91,13 +105,38 @@
 }
 
 .search-input-wrapper {
-  padding-right: 0;
+  width: 60%;
+  display: flex;
+  justify-content: center;
+}
+
+.search-input {
+  width: 300px;
+  height: 38px;
+  margin-right: 5px;
+  padding: 0;
+  font-size: 16px;
 }
 
 .search-btns-wrapper {
   padding-left: 0;
 }
 
-.search-btn {
+.search-input-wrapper .search-btn {
   height: 38px;
+  font-size: 16px;
+  padding: 0 16px;
+}
+
+.link-text {
+  font-size: 16px;
+  padding-top: 5px;
+  position: relative;
+  top: 4px;
+  left: 4px;
+  color: #1b1c1d;
+}
+
+.menu-icons li {
+  cursor: pointer;
 }
