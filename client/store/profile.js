@@ -9,6 +9,7 @@ const GET_PROFILE = 'GET_PROFILE'
 export const UPLOAD_VIDEO = 'UPLOAD_VIDEO'
 export const VIDEO_UPLOADED = 'VIDEO_UPLOADED'
 export const START_FILE_UPLOAD = 'START_FILE_UPLOAD'
+const GOT_ALL_USERS = 'GOT_ALL_USERS'
 
 /**
  * INITIAL STATE
@@ -19,12 +20,19 @@ const defaultProfile = {}
  * ACTION CREATORS
  */
 const updateProfile = data => ({type: UPDATE_PROFILE, data})
-
+const gotAllUsers = allUsers => ({type: GOT_ALL_USERS, allUsers})
 const getProfile = data => ({type: GET_PROFILE, data})
 export const uploadVideo = info => ({
   type: UPLOAD_VIDEO,
   info
 })
+
+export const loadAllUsers = () => dispatch => {
+  axios.get('/api/profiles')
+  .then(res => res.data)
+  .then(res => dispatch (gotAllUsers(res)))
+  .catch (console.log)
+}
 
 export const videoUploaded = name => ({
   type: VIDEO_UPLOADED,
@@ -114,6 +122,8 @@ export default function (state = defaultProfile, action) {
     case GET_PROFILE:
       // Replace the current profile store state with the profile retrieved from Firebase
       return action.data
+    case GOT_ALL_USERS:
+      return Object.assign({}, state, {allProfiles:action.allUsers})
     default:
       return state
   }

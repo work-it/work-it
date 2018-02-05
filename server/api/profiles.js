@@ -85,3 +85,12 @@ router.get('/:id', (req, res, next) => {
       res.json(user);
     })
 })
+
+router.get('/', (req, res, next) => {
+  firebase.database()
+  .ref('profiles')
+  .once('value')
+  .then(ds => ds.val())
+  .then (obj => res.json(obj))
+  .catch(console.log)
+})
