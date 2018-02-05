@@ -165,14 +165,52 @@ class SearchBar extends Component {
   }
 
   renderLoggedInLinks() {
+    const trigger = (
+      <span>
+        <Icon name='content' size='big'/> Menu
+      </span>
+    )
+
+    const options = [
+      {
+        key: 'user',
+        text: <span>Signed in as <strong>{this.props.email}</strong></span>,
+        disabled: true,
+      },
+      { key: 'code', text: 'Practice', icon: 'code', value: 'practice' },
+      { key: 'mail', text: 'Message', icon: 'mail outline', value: 'message' },
+      { key: 'profile', text: 'Profile', icon: 'user outline', value: 'profile' },
+      { key: 'logout', text: 'Logout', icon: 'sign out', value: 'logout' },
+ 
+    ]
+
     return (
       <ul className="list-inline menu-icons text-right">
-        <li onClick={() => this.props.logout()}><Icon name='sign out' size='big' /><span className="link-text">Logout</span></li>
-        <li><Icon name='code' size='big' onClick={() => this.props.history.push('/practice')}/><span className="link-text">Practice</span></li>
-        <li><Icon name='mail outline' size='big' onClick={() => this.props.history.push('/messages')} /><span className="link-text">Message</span></li>
-        <li onClick={() => this.handleLogin(authShow)}><Icon name='user outline' size='big' /><span className="link-text">Profile</span></li>
+      {
+        // <li onClick={() => this.props.logout()}><Icon name='sign out' size='big' /><span className="link-text">Logout</span></li>
+        // <li><Icon name='code' size='big' onClick={() => this.props.history.push('/practice')}/><span className="link-text">Practice</span></li>
+        // <li><Icon name='mail outline' size='big' onClick={() => this.props.history.push('/messages')} /><span className="link-text">Message</span></li>
+        // <li onClick={() => this.handleLogin(authShow)}><Icon name='user outline' size='big' /><span className="link-text">Profile</span></li>
+      }
+          
+        <li>
+          <Dropdown trigger={trigger} options={options} pointing='top left' icon={null} openOnFocus={true} onChange={(event, data) => this.handleDropdown(event, data)}/>
+        </li>
       </ul>
     )
+  }
+
+  handleDropdown (event, data) {
+    console.log("Handle DropDown", data.value);
+    const value = data.value
+    if (value==='logout')
+      this.props.logout()
+    else if (value ==='practice')
+      this.props.history.push('/practice')
+    else if (value ==='message')
+      this.props.history.push('/messages')
+    else 
+      this.handleLogin(this.props.authShow)
   }
 
   renderLoggedOutLinks() {
@@ -226,6 +264,7 @@ const mapState = (state) => {
   return {
     authShow: state.auth.show,
     isLoggedIn: state.user.id,
+    email: state.user.email,
     waiting: state.practice.waiting,
     room: state.practice.room
   }
