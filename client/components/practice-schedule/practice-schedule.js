@@ -43,20 +43,21 @@ class PracticeSchedule extends Component {
 
   render() {
     if (this.props.isLoggedIn)  {
-      const { schedule, handleAddSession} = this.props;
+      const { schedule, handleAddSession, employerId, userId} = this.props;
       const { startDate, daysToShow, selectedDate, selectedTimeStart, selectedTimeEnd } = this.state;
       const start = this.state.startDate.clone().format('MMM Do YYYY');
       const end = this.state.startDate.clone().add(6, 'days').format('MMM Do YYYY');
-      console.log(schedule)
+
+      console.log("employerId", employerId)
+      const filterFunc = employerId?this.employerSchedFilter:this.userSchedFilter;
       return (
         <div className="practice-schedule">
           <h1>Available Times {`(${start} - ${end})`}</h1>
           <div className="calendar-wrapper">
             {
+              
               daysToShow.map(day => {
-                let sessions = schedule.filter(session => {
-                  return session.date === day.date;
-                })
+                let sessions = schedule.filter(session => filterFunc(session, day, employerId))
 
                 return <ScheduleDay key={day.date} {...day} sessions={sessions} handleClick={this.handleSessionClick} />
               })
@@ -76,11 +77,19 @@ class PracticeSchedule extends Component {
             <p>Scheduled practice sessions are 1 hour long. We will add 1 hour time blocks between your selected available start and end times.</p>
             <Dropdown placeholder="Start Time" fluid selection value={selectedTimeStart} options={times} onChange={(evt, { value }) => this.handleTimeSelect('selectedTimeStart', value)} />
             <Dropdown placeholder="End Time" fluid selection value={selectedTimeEnd} options={times} onChange={(evt, { value }) => this.handleTimeSelect('selectedTimeEnd', value)} />
-            <button onClick={() => handleAddSession(selectedDate, selectedTimeStart, selectedTimeEnd)} >Add Time</button>
+            <button onClick={() => handleAddSession(selectedDate, selectedTimeStart, selectedTimeEnd, userId)} >Add Time</button>
           </div>
         </div>
       )
     } else return <div>Must be logged in to see schedule</div>;
+  }
+
+  userSchedFilter (session, day) {
+    return session.date === day.date
+  }
+
+  employerSchedFilter (session, day, employerId) {
+    return session.date === day.date && session.userOne === employerId && session.intervieweeId
   }
 
   buildDateArray() {
@@ -111,7 +120,7 @@ class PracticeSchedule extends Component {
   handleSessionClick(type, session) {
     console.log("handling click", session)
     const {handleCreatePair} = this.props;
-    if (type === 'available') {
+    if (type === 'available' || type=='interviewProposed') {
       handleCreatePair(session);
     }
   }
@@ -144,8 +153,8 @@ const mapDispatch = (dispatch) => {
     handleCreatePair(session) {
       dispatch(createPairMiddleware(session));
     },
-    handleAddSession(date, userId, start, end) {
-      dispatch(addSessionMiddleware(date, userId, start, end))
+    handleAddSession(date, start, end, intervieweeId) {
+      dispatch(addSessionMiddleware(date, start, end, intervieweeId))
     },
     loadSchedule () {
       dispatch (fetchSchedule())

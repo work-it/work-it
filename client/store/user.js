@@ -9,6 +9,7 @@ const REMOVE_USER = 'REMOVE_USER'
 const SAVE_JOB = 'SAVE_JOB';
 const REMOVE_SAVED_JOB = 'REMOVE_SAVED_JOB';
 
+
 /**
  * INITIAL STATE
  */
@@ -21,6 +22,7 @@ const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
 const saveJob = saved => ({type: SAVE_JOB, saved})
 const removeSavedJob = saved => ({type: REMOVE_SAVED_JOB, saved})
+
 
 /**
  * THUNK CREATORS
@@ -109,6 +111,7 @@ export default function (state = defaultUser, action) {
       return action.user
     case REMOVE_USER:
       return defaultUser
+
     default:
       return state
   }
