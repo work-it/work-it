@@ -39,10 +39,9 @@ class Main extends Component {
     const {showAuth, authView, isLoggedIn, handleLogout} = this.props;
     return (
       <div id = "rootDiv">
-        <SearchBar history={history} />
+        <SearchBar history={history} logout={handleLogout} />
         {!isLoggedIn && showAuth && authView === 'signup' && <Signup />}
         {!isLoggedIn && showAuth && authView === 'login' && <Login />}
-        {isLoggedIn && <a onClick={() => handleLogout()}>Logout</a>}
         <Switch>
           <Route exact path="/employer/:id" render={() => <EmployerView type="in-progress"/>} />
           <Route exact path="/user/applications" render={() => <UserInProgress type="in-progress" />} />

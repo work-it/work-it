@@ -68,7 +68,7 @@ if (!secrets.google.clientId || !secrets.google.secret) {
         user.id = user.path.pieces_[1];
         return user;
       })
-    
+
     }})
     .then (user =>  {
       console.log("GOT USER", user)
@@ -93,7 +93,7 @@ if (!secrets.google.clientId || !secrets.google.secret) {
   router.get('/callback', (req, res, next) => {
     console.log("hit the callback")
     passport.authenticate('google', {
-      successRedirect: '/home',
+      successRedirect: '/',
       failureRedirect: '/login'
     })(req,res,next)
   })

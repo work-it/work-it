@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {auth} from '../../store'
-import { Icon } from 'semantic-ui-react'
+import { Icon, Input, Label, Button, Form } from 'semantic-ui-react'
 import { FacebookLoginButton, GoogleLoginButton } from 'react-social-login-buttons'
 import {toggleShow, toggleType} from './auth-reducer'
 import './auth.css'
@@ -20,27 +20,22 @@ const AuthForm = (props) => {
   return (
     <div className="login">
       <div className="login-panel">
-       <Icon name='x' size='large' onClick={() => handleHideLogin(authShow)}/>
-        <form onSubmit={handleSubmit} name={name}>
-          <div>
-            <label htmlFor="email"><small>Email</small></label>
-            <input name="email" type="text" />
-          </div>
-          <div>
-            <label htmlFor="password"><small>Password (min 6 characters)</small></label>
-            <input name="password" type="password" />
-          </div>
-          <div>
-            <button type="submit">{displayName}</button>
+       <div className="close" icon='x' size='large' onClick={() => handleHideLogin(authShow)} />
+        <Form onSubmit={handleSubmit} name={name}>
+          <Input name="email" placeholder="Email" fluid big type="text" />
+          <Input name="password" placeholder="Password (min 6 characters)" fluid big type="password" />
+          <div className="login-btn-wrapper ">
+            <Button type="submit" className="login-btn">{displayName}</Button>
           </div>
           {error && error.response && <div> {error.response.data} </div>}
-        </form>
+        </Form>
+        <div className="or">or</div>
 
               {displayGoogle}
               {displayFB}
         {
           name === 'login' ?
-          <button onClick={() => handleToggleType(authView)}>Sign Up</button> :
+          <div className="sign-up-link">Don't Have An Account? <a onClick={() => handleToggleType(authView)}>Sign Up</a></div> :
           <button onClick={() => handleToggleType(authView)}>Login</button>
         }
       </div>

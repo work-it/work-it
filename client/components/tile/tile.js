@@ -19,7 +19,7 @@ class Tile extends Component {
   render() {
     const {view} = this.state;
     return (
-      <div className="tile col-sm-3">
+      <div className="tile">
         {!view ? this.renderHomeView() : this.renderDescView()}
       </div>
     );

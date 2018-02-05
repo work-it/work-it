@@ -1,0 +1,44 @@
+.job-view {
+  height: 100%;
+  padding: 50px 35px;
+  background-image: url('/back3.jpg');
+  background-repeat: repeat;
+}
+
+.job-view .row {
+  margin: 0;
+}
+
+.job-view ul {
+  padding-left: 15px;
+}
+
+.job-panel.ui.card {
+  width: 1100px;
+  margin: auto;
+  padding: 35px;
+}
+
+.name.ui.header {
+  font-size: 24px;
+  display: block;
+  color: #333;
+}
+
+.position.ui.header, .title.ui.header, .location.ui.header {
+  display: block;
+  font-size: 18px;
+  padding-top: 5px;
+  color: #2185d0;
+}
+
+.company-desc p {
+  padding: 15px 0;
+}
+
+.ui.left.aligned.header {
+  padding-top: 20px;
+  padding-bottom: 5px;
+  font-size: 18px;
+  color: #555;
+}
