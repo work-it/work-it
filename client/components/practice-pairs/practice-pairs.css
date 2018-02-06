@@ -31,5 +31,9 @@
 }
 
 .room-link {
-  width: 100%;
+  width: 25%;
+}
+
+.room-link .tile {
+  width: 100% !important;
 }

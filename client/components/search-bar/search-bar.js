@@ -99,7 +99,8 @@ class SearchBar extends Component {
     let notice = null;
     const pairStarted = isLoggedIn && room&&room.initiator===isLoggedIn && !room.initiatorIn
     if (pairStarted && !waiting) {
-      notice = <li><a href={`/practice/${room?room.name:''}`}><img src='/yellow.png' width='25px'/></a></li>
+      notice = <a className="paired-warning"href={`/practice/${room?room.name:''}`}>
+      <p>Waiting to be Paired. Click to Join Room.</p></a>
     } else if (waiting) {
       notice = <li><a href={`/practice/${room?room.name:''}`}><img src='/green.gif' width='25px'/></a></li>
     }

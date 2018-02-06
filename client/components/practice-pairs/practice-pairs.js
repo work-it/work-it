@@ -33,7 +33,7 @@ class PracticePairs extends Component{
               this.props.openRooms.map(room => {
                 const user = this.props.allProfiles[room.initiator];
                   return (
-                    <a key={room.name} className="room-link" href={`/practice/${room.name}`}><UserTile fixedView={true} initView={0} footerText={this.getFooterText(room)} footer={this.getFooterFunction(room)} userId={room.initiator} {...user} /></a>
+                    <a key={room.name} className="room-link" href={`/practice/${room.name}`}><UserTile style={{width: '100%'}} fixedView={true} initView={0} footerText={this.getFooterText(room)} footer={this.getFooterFunction(room)} userId={room.initiator} {...user} /></a>
                     );
                   }) :
                   this.renderNoOpenRoomsMessage()
