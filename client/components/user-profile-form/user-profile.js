@@ -1,15 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-// import {withRouter} from 'react-router-dom'
 import {getProfileThunk} from '../../store'
-import UserProfileForm from './user-profile-form'
-import UserImageForm from './user-image-form'
-import SkillForm from './skill-form'
-import PastEmployerForm from './past-employer-form'
-import ProjectForm from './project-form'
-import SchoolForm from './school-form'
-import UserProfile from './user-profile'
-import {Card, Grid, Image, Button, Header, TextArea, Divider, Label, Icon, Segment, Container} from 'semantic-ui-react'
+import {Card, Image, Header, Divider, Label, Icon, Segment} from 'semantic-ui-react'
 import './user-profile-form.css'
 
 
