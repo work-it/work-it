@@ -48,8 +48,8 @@ class Questions extends Component {
               <div key={questions[this.state.index].id}>
                   <Question question={questions[this.state.index]} />
                   <div className="question-buttons">
-                    <Button size="large" onClick={() => this.handlePrevious()}>Previous</Button>
-                    <Button size="large" onClick={() => this.handleNext()}>Next</Button>
+                    <Button size="medium" onClick={() => this.handlePrevious()}>Previous</Button>
+                    <Button size="medium" onClick={() => this.handleNext()}>Next</Button>
                   </div>
               </div>
             }

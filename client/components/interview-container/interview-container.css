@@ -19,7 +19,7 @@ video {
 }
 
 .sidebar {
-  height: 100%;
+  height: calc(100% - 50px);
   flex-direction: column;
   padding: 0;
   margin: -1px;
@@ -31,7 +31,7 @@ video {
 .video {
   height: 187px;
   padding: 0;
-  background: linear-gradient(#2d2d2d, #292929);
+  background: #111;
   overflow: hidden;
 }
 
@@ -48,7 +48,7 @@ video {
 }
 
 .questions div {
-  height: calc(100% - 15px);
+  height: 100%;
 }
 
 .ui.tabular.menu .active.item {
@@ -57,19 +57,24 @@ video {
 
 .ui.attached.segment {
   border-bottom: none;
-  height: calc(100% - 15px);
+  height: 100%;
   overflow-y: scroll;
   padding: 35px 35px 50px 35px;
 }
 
 .question-buttons {
+  position: relative;
+  float: left;
   display: flex;
   justify-content: center;
-  height: 50px !important;
-  padding-top: 15px;
-  background: rgba(255,255,255,0);
+  height: 41px !important;
+  right: -1px;
+  padding: 5px 0;
+  background: #fff;
+  width: calc(100% - 12px);
+  top: -42px;
 }
 
 .question-buttons .ui.large.button {
-  margin: 0 5px;
+  margin: 5px 10px;
 }
