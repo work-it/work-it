@@ -33,6 +33,7 @@ router.get('/seed', (req, res, next) => {
 
   // create object in firebase from req.body
   defaultJobs.forEach(job => {
+    console.log("seeding", job.employerId)
   firebase.database()
     .ref('jobs/')
     .push(job)
@@ -116,16 +117,16 @@ router.get('/search/:location/:term', (req, res, next) => {
           // Match jobs that include the term in the position name, skills or
           // role description.
           if (
-            (job.position.includes(term) ||
-            job.topSkills.includes(term) ||
-            job.roleDesc.includes(term)) &&
-            surroundingZips.includes(job.zip)
+            ( (job.position && job.position.includes(term)) ||
+            (job.topSkills && job.topSkills.includes(term)) ||
+            (job.roleDesc && job.roleDesc.includes(term))) &&
+            (surroundingZips && surroundingZips.includes(job.zip))
           ) {
             matchedJobs.push(job);
           }
         }
       }
-
+      console.log("matched jobs in api/jobs", matchedJobs.length)
       res.send(matchedJobs);
     })
 
