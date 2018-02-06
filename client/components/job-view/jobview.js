@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
-import {loadJobThunk} from '../../store'
+import {withRouter, Link} from 'react-router-dom';
+import {loadJobThunk, saveJobThunk, addSavedToFilteredThunk, removeSavedJobThunk }  from '../../store'
 import renderHTML from 'react-render-html';
 import {Grid, Image, Button, Header, TextArea, Divider, Card} from 'semantic-ui-react'
 import './jobview.css'
@@ -17,11 +17,12 @@ class JobView extends Component {
     }
 
     render () {
-       if (!this.props.job) return null;
+       if (!this.props.job || !this.props.user) return null;
+       const {user, handleSaveJob, handleRemoveSavedJob} = this.props;
 
        console.log('props', this.props)
 
-       const {comp, companyDesc, employerId, experience, imgUrl, location, name, position, qualifications, roleDesc, salaryRange, savedBy, topSkills, type, zip} = this.props.job
+       const {comp, companyDesc, employerId, experience, imgUrl, location, name, position, qualifications, roleDesc, salaryRange, savedBy, topSkills, type, zipm ,id} = this.props.job
 
         return (
           <div className="job-view">
@@ -39,8 +40,12 @@ class JobView extends Component {
                     <div className="col-sm-12">{`$${salaryRange.min}K - $${salaryRange.max}K`}</div>
                     <div className="col-sm-12 company-desc" style={{width: '100%'}}>{renderHTML(companyDesc)}</div>
                     <div className="col-sm-12 buttons-wrapper">
-                      <Button size="big" basic color="blue">Apply</Button>
-                      <Button size="big" basic color="black">Save</Button>
+                        <Link to={`/apply/${id}`}><Button size="big" basic color="blue">Apply</Button></Link>
+                        {
+                            user.saved && user.saved.includes(id) ?
+                            <Button size="big" basic color="blue" onClick={() => handleRemoveSavedJob(id)}>Unsave</Button> :
+                            <Button size="big" basic color="blue" onClick={() => handleSaveJob(id)}>Save</Button>
+                          }
                     </div>
                   </div>
               </div>
@@ -64,11 +69,19 @@ class JobView extends Component {
 }
 
 const mapState = state => ({
-    jobs: state.jobs
+    jobs: state.jobs,
+    user: state.user
 })
 
 const mapDispatch = (dispatch) => ({
-    fetchJob: (id) => dispatch (loadJobThunk(id))
+    fetchJob: (id) => dispatch (loadJobThunk(id)),
+    handleSaveJob(id) {
+        dispatch(saveJobThunk(id))
+        dispatch(addSavedToFilteredThunk(id))
+      },
+      handleRemoveSavedJob(id) {
+        dispatch(removeSavedJobThunk(id))
+      }
 })
 
 
@@ -76,7 +89,7 @@ const mergeProps = (state, actions, ownProps) => ({
     ...state,
     ...actions,
     ...ownProps,
-    job: state.jobs?state.jobs.find (job => job.id = ownProps.match.params.id):null
+    job: state.jobs?state.jobs.find (job => job.id === ownProps.match.params.id):null
 })
 
 export default withRouter (connect (mapState, mapDispatch, mergeProps) (JobView))

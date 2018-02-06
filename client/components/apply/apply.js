@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
+import {withRouter, Link} from 'react-router-dom';
 import {loadJobThunk, applyThunk} from '../../store'
 import renderHTML from 'react-render-html';
 import {Card, Image, Button, Header, TextArea, Divider, Form} from 'semantic-ui-react'
@@ -52,8 +52,7 @@ class Apply extends Component {
                 <div className="col-sm-12">{`$${salaryRange.min}K - $${salaryRange.max}K`}</div>
                 <div className="col-sm-12 company-desc" style={{width: '100%'}}>{renderHTML(companyDesc)}</div>
                 <div className="col-sm-12 buttons-wrapper">
-                  <Button size="big" basic color="blue">Apply</Button>
-                  <Button size="big" basic color="black">Save</Button>
+                  <Link to={`/job/${id}`}><Button size="big" basic color="blue">View Description</Button></Link>
                 </div>
               </div>
           </div>
