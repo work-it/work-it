@@ -1,25 +1,36 @@
 .schedule-session {
   width: 100%;
-  padding: 10px 5px;
+  padding: 5px;
+}
+
+.schedule-session h4 {
+  font-size: 14px !important;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .schedule-session.waiting {
-  background: #f1f1f1;
+  background: linear-gradient(#f1f1f1, #e7e7e7);
+  border-top: 1px solid #ddd;
 }
 
 .schedule-session.paired {
-  background: #00ff2673;
+  background: linear-gradient(#00ff5e73, #00c44873);
+  border-top: 1px solid #01823073;
 }
 
 .schedule-session.available {
-  background:#00a7ff73;
+  background: linear-gradient(#00a7ff73, #0084cb73);
+  border-top: 1px solid #005d8f73;
 }
 
 .schedule-session.interviewProposed {
-  background: orange;
+  background: linear-gradient(#ff8c0073, #c66d0073);
+  border-top: 1px solid #b3630173;
 }
 
 .schedule-session.interviewPaired {
-  background: red;
+  background: linear-gradient(#ff000073, #c7000073);
+  border-top: 1px solid #8f010173;
 }
 

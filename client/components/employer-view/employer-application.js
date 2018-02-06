@@ -4,7 +4,7 @@ import {withRouter} from 'react-router-dom'
 import {Progress, TextArea, Form, Button} from 'semantic-ui-react'
 import {updateEmployerNotesMiddleware, archiveMiddleware, addMessageMiddleware} from '../../store';
 import UserTile from '../tile-user/tile-user'
-import './employer-application.css'
+import '../user-application/user-application.css'
 import UserChatBox from '../user-chat/user-chat-box'
 import PracticeSchedue from '../practice-schedule/practice-schedule'
 
@@ -66,14 +66,14 @@ class EmployerApplication extends Component {
           </ul>
           {
             this.state.view === 'application' ? this.getApplicationView(application) : this.getSchedulerView(application)
-              
+
           }
-          
+
           {
             this.state.view === 'application' ? this.showApplicationButtons(application) : this.showSchedulerButtons()
           }
 
-          
+
         </div>
       </div>
     )
@@ -125,7 +125,7 @@ class EmployerApplication extends Component {
                     <TextArea className="notes" placeholder="Notes" value={this.state.notes} onChange={(evt, {value}) => this.handleNotesChange(evt, value)} />
                   </Form>
                 </div>
-              </div> 
+              </div>
   }
 
   getSchedulerView (application) {
