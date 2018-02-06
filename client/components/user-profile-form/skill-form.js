@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import { updateProfileThunk } from '../../store'
 // import {withRouter} from 'react-router-dom'
-import { Form, Button, Input, Dropdown, Icon} from 'semantic-ui-react'
+import { Form, Button, Input, Dropdown, Icon, Card} from 'semantic-ui-react'
 import './user-profile-form.css'
 
 // Options for the skills dropdown menu
@@ -48,6 +48,7 @@ class SkillForm extends Component {
     const { prevClick } = this.props;
 
     return (
+      <Card className="job-panel">
       <div className="SkillForm row">
         {/* If showTopSkillsWarning is true, show the warning */}
         {showTopSkillWarning && <h3>Only 3 Top Skills Allowed. Remove A Top Skill To Add Another.</h3>}
@@ -145,6 +146,7 @@ class SkillForm extends Component {
         {/* handleNextClick takes care of calling the nextClick callback function passed down by the parent AND calls the redux thunk to save the info to the db. */}
         <Button onClick={() => this.handleNextClick()}>Next</Button>
       </div>
+      </Card>
     )
   }
 

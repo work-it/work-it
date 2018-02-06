@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import { updateProfileThunk } from '../../store'
 // import {withRouter} from 'react-router-dom'
-import { TextArea, Form, Button, Input, Icon} from 'semantic-ui-react'
+import { TextArea, Form, Button, Input, Icon, Card} from 'semantic-ui-react'
 import './user-profile-form.css'
 
 
@@ -41,6 +41,7 @@ class ProjectsForm extends Component {
     const { prevClick } = this.props;
 
     return (
+      <Card className="job-panel">
       <div className="ProjectForm row">
 
           {
@@ -94,6 +95,7 @@ class ProjectsForm extends Component {
         {/* handleNextClick takes care of calling the nextClick callback function passed down by the parent AND calls the redux thunk to save the info to the db. */}
         <Button onClick={() => this.handleNextClick()}>Next</Button>
       </div>
+      </Card>
     )
   }
 

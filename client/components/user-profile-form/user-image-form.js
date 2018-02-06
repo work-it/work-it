@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
  import {connect} from 'react-redux'
  import {withRouter} from 'react-router-dom'
-import { TextArea, Form, Button, Input, Dropdown} from 'semantic-ui-react'
+import { TextArea, Form, Button, Input, Card, Icon, Label, Divider, Image, Header} from 'semantic-ui-react'
 import { saveProfilePhoto, saveProfileVideo, uploadVideo } from '../../store'
 import './user-profile-form.css'
 
@@ -182,31 +182,39 @@ getClickEvent (e) {
 
   render() {
     const {imgUrl, videoUrl} = this.state;
-    const {nextClick} = this.props;
+    const {nextClick, prevClick} = this.props;
     console.log("got next click", nextClick, this.props)
     return (
-      <div className="userProfileForm row">
-          <Form id='form'>
-          Upload Photo: 
-            <Input id='fileInput' type='file' className="imgUrl" placeholder="Chose a photo" value={imgUrl} onChange={(evt) => this.handleStringChange('imgUrl', evt.target.value)} /> 
-           
-            <Input className="videoUrl" type='file' id='videoInput' placeholder="Add a video" value={videoUrl} onChange={(evt) => this.handleStringChange('videoUrl', evt.target.value)} />          
-            <br/>
-            or use your camera!  <Button id='photoButton' onClick={this.handleTakePhoto}>Start Camera</Button><div id='canvasDiv'></div>
-            <br/>
-            Photo: 
-            <div id='stillDiv' ></div>
-            
-            <Button id='photoSaveButton' onClick={this.handleSavePhoto}>Capture Photo</Button>
-            <br/>
-            <div id='videoDiv' ></div>
-            Video: <Button id='startVideo' onClick={this.handleStartVideo}>Start video recording</Button><div id='red'></div>
-            <Button id='stopVideoRecording' onClick={this.handleStopVideo}>Stop video recording</Button>
-            <br/>
-            <Button id='photoUploadButton' onClick={this.handleAllUpload}>Upload</Button>
-            
-            </Form>
-          <Button onClick={nextClick}>Next</Button>
+      <div >
+      <Card className="job-panel">
+        <div className="userProfileForm row">
+            <h2>Profile Builder</h2>
+            <h4> Step 2 </h4>
+            <Form id='form'>
+            Upload Photo:
+              <Input id='fileInput' type='file' className="imgUrl" placeholder="Chose a photo" value={imgUrl} onChange={(evt) => this.handleStringChange('imgUrl', evt.target.value)} />
+            Upload Video:
+              <Input className="videoUrl" type='file' id='videoInput' placeholder="Add a video" value={videoUrl} onChange={(evt) => this.handleStringChange('videoUrl', evt.target.value)} />
+              <br/>
+              or use your camera!  <Button id='photoButton' onClick={this.handleTakePhoto}>Start Camera</Button><div id='canvasDiv'></div>
+              <br/>
+              Photo:
+              <div id='stillDiv' ></div>
+
+              <Button id='photoSaveButton' onClick={this.handleSavePhoto}>Capture Photo</Button>
+              <br/>
+              <div id='videoDiv' ></div>
+              Video: <Button id='startVideo' onClick={this.handleStartVideo}>Start video recording</Button><div id='red'></div>
+              <Button id='stopVideoRecording' onClick={this.handleStopVideo}>Stop video recording</Button>
+              <br/>
+              <Button id='photoUploadButton' onClick={this.handleAllUpload}>Upload</Button>
+
+              </Form>
+              <Button onClick={prevClick}>Prev</Button>
+              <Button onClick={nextClick}>Next</Button>
+
+        </div>
+      </Card>
       </div>
     )
   }
