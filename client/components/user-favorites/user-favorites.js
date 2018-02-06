@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {fetchSavedJobsThunk} from '../../store'
 import Tile from '../tile/tile'
+import './user-favorites.css'
 
 class UserFavorites extends Component {
   constructor(props) {
@@ -21,10 +22,12 @@ class UserFavorites extends Component {
     const { savedJobs } = this.props;
 
     return (
-      <div>
-        {!!savedJobs.length && savedJobs.map(job => {
+      <div className="user-saved">
+        <div className="jobs-wrapper row">
+          {!!savedJobs.length && savedJobs.map(job => {
             return <Tile {...job} key={job.id} />
           })}
+        </div>
       </div>
     )
   }

@@ -2,10 +2,6 @@
   height: 50px;
 }
 
-.application {
-  padding-bottom: 50px;
-}
-
 .progress-labels {
   position: absolute;
   top: 0;
@@ -40,13 +36,13 @@
 .notes {
   width: 40%;
   margin: 0;
-  height: 343px;
+  height: 333px;
 }
 
 .chat-box {
   width: 100%;
   margin: 0;
-  height: 283px;
+  height: 273px;
   border: 1px solid #ccc;
   pointer-events: none;
   line-height: 24px !important;
