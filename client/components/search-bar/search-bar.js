@@ -248,7 +248,7 @@ class SearchBar extends Component {
 
   handleLogin(authShow) {
     if (this.props.isLoggedIn) {
-      this.props.history.push('/user');
+      this.props.history.push('/user/profile');
     } else {
       this.props.handleShowLogin(authShow)
     }
