@@ -140,3 +140,7 @@
 .menu-icons li {
   cursor: pointer;
 }
+
+.search-bar .ui.dropdown .menu>.item {
+  font-size: 14px;
+}

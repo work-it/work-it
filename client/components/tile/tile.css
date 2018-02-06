@@ -12,7 +12,12 @@
 }
 
 .content {
-  max-height: 368px;
+  height: 163px;
+  overflow-y: auto;
+}
+
+.content-sub-view {
+  height: 368px;
   overflow-y: auto;
 }
 
@@ -124,7 +129,7 @@
 }
 
 .tile .logo-wrapper {
-  max-height: 255px;
+  height: 255px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -136,6 +141,6 @@
 }
 
 .tile {
-  width: 20%;
+  width: 25%;
   padding: 0 20px;
 }

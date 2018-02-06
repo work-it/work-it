@@ -19,7 +19,7 @@ class JobView extends Component {
     render () {
        if (!this.props.job || !this.props.user) return null;
        const {user, handleSaveJob, handleRemoveSavedJob} = this.props;
-    
+
        console.log('props', this.props)
 
        const {comp, companyDesc, employerId, experience, imgUrl, location, name, position, qualifications, roleDesc, salaryRange, savedBy, topSkills, type, zipm ,id} = this.props.job
@@ -33,12 +33,13 @@ class JobView extends Component {
                   </div>
                   <div className="col-sm-9">
                     <div className="col-sm-12"><Header size='large' className="name">{name}</Header></div>
-                    <div className="col-sm-6"><Header size='medium' className="position">{position}</Header></div>
-                    <div className="col-sm-6"><Header textAlign='right' size='small' className="location">{location}</Header></div>
-                    <div className="col-sm-12">{type}</div>
+                    <div className="col-sm-12"><Header size='medium' className="position">{position}</Header></div>
+                    <div className="col-sm-12"><Header size='small' className="location">{location}</Header></div>
+                    <div className="col-sm-12 top-skills">{topSkills.map(skill => skill).join(', ')}</div>
+                    <div className="col-sm-12">{`${experience} - ${type}`}</div>
                     <div className="col-sm-12">{`$${salaryRange.min}K - $${salaryRange.max}K`}</div>
                     <div className="col-sm-12 company-desc" style={{width: '100%'}}>{renderHTML(companyDesc)}</div>
-                    <div className="col-sm-12">
+                    <div className="col-sm-12 buttons-wrapper">
                         <Link to={`/apply/${id}`}><Button size="big" basic color="blue">Apply</Button></Link>
                         {
                             user.saved && user.saved.includes(id) ?

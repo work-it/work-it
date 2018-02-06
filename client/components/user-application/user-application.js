@@ -49,6 +49,7 @@ class UserApplication extends Component {
         barPercent = 20;
     }
     return (
+    <div>
       <div className="application row">
         <Tile {...job} key={job.id} />
         <div className="col-sm-9">
@@ -61,22 +62,23 @@ class UserApplication extends Component {
             <li>Hired!</li>
           </ul>
           <div className="chat-note-wrapper">
-            <UserChatBox application={application} showHeader={true} />
+            <UserChatBox application={application} showHeader={false} />
             <div className="notes">
-              <h2>Notes</h2>
               <Form>
                 <TextArea className="notes" placeholder="Notes" value={this.state.notes} onChange={(evt, {value}) => this.handleNotesChange(evt, value)} />
               </Form>
             </div>
           </div>
-
-          {
-            !application.archived &&
-            <Button className="archive-btn" size="big" onClick={() => handleArchive(application.id)}>Archive</Button>
-          }
-          <Button className="archive-btn" size="big" onClick={() => handleSaveNotes(application.id, notes)}>Save Notes</Button>
+          <div className="in-progress-btns-wrapper">
+            {
+              !application.archived &&
+              <Button className="archive-btn" size="big" color="blue" onClick={() => handleArchive(application.id)}>Archive</Button>
+            }
+            <Button className="archive-btn" size="big" color="blue" onClick={() => handleSaveNotes(application.id, notes)}>Save Notes</Button>
+          </div>
         </div>
       </div>
+    </div>
     )
   }
 

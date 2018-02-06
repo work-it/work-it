@@ -34,27 +34,28 @@ class Apply extends Component {
       const { job, jobs, applyToJob} = this.props;
       if (!job) return null;
 
-      const { companyDesc, imgUrl, location, name, position, salaryRange, type, id} = job;
+      const {id, comp, companyDesc, employerId, experience, imgUrl, location, name, position, qualifications, roleDesc, salaryRange, savedBy, topSkills, type, zip} = job;
 
       return (
         <div className="job-view">
         <Card className="job-panel">
-            <div className="row">
-                <div className="col-sm-3">
-                    <Image src={imgUrl} />
+          <div className="row">
+              <div className="col-sm-3">
+                  <Image src={imgUrl} />
+              </div>
+              <div className="col-sm-9">
+                <div className="col-sm-12"><Header size='large' className="name">{name}</Header></div>
+                <div className="col-sm-12"><Header size='medium' className="position">{position}</Header></div>
+                <div className="col-sm-12"><Header size='small' className="location">{location}</Header></div>
+                <div className="col-sm-12 top-skills">{topSkills.map(skill => skill).join(', ')}</div>
+                <div className="col-sm-12">{`${experience} - ${type}`}</div>
+                <div className="col-sm-12">{`$${salaryRange.min}K - $${salaryRange.max}K`}</div>
+                <div className="col-sm-12 company-desc" style={{width: '100%'}}>{renderHTML(companyDesc)}</div>
+                <div className="col-sm-12 buttons-wrapper">
+                  <Link to={`/job/${id}`}><Button size="big" basic color="blue">View Description</Button></Link>
                 </div>
-                <div className="col-sm-9">
-                  <div className="col-sm-12"><Header size='large' className="name">{name}</Header></div>
-                  <div className="col-sm-6"><Header size='medium' className="position">{position}</Header></div>
-                  <div className="col-sm-6"><Header textAlign='right' size='small' className="location">{location}</Header></div>
-                  <div className="col-sm-12">{type}</div>
-                  <div className="col-sm-12">{`$${salaryRange.min}K - $${salaryRange.max}K`}</div>
-                  <div className="col-sm-12 company-desc" style={{width: '100%'}}>{renderHTML(companyDesc)}</div>
-                  <div className="col-sm-12">
-                    <Link to={`/job/${id}`}><Button size="big" basic color="blue">View Description</Button></Link>
-                  </div>
-                </div>
-            </div>
+              </div>
+          </div>
 
             <div className="row">
               <div className="col-sm-12 text-right">

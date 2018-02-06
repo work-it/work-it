@@ -132,6 +132,7 @@ class SearchBar extends Component {
             <Button
               className="advanced-btn"
               color='black'
+              basic
               onClick={() => this.toggleAdvanced()}>
               Filter
             </Button>
