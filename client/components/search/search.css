@@ -1,6 +1,7 @@
 .jobs-wrapper {
   padding: 50px 35px;
   display: flex;
+  flex-wrap: wrap;
 }
 
 .sort-btns {

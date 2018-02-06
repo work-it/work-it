@@ -34,7 +34,7 @@ class Apply extends Component {
       const { job, jobs, applyToJob} = this.props;
       if (!job) return null;
 
-      const {comp, companyDesc, employerId, experience, imgUrl, location, name, position, qualifications, roleDesc, salaryRange, savedBy, topSkills, type, zip} = job;
+      const {id, comp, companyDesc, employerId, experience, imgUrl, location, name, position, qualifications, roleDesc, salaryRange, savedBy, topSkills, type, zip} = job;
 
       return (
         <div className="job-view">

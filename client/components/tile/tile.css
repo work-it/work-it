@@ -129,7 +129,7 @@
 }
 
 .tile .logo-wrapper {
-  max-height: 255px;
+  height: 255px;
   display: flex;
   align-items: center;
   justify-content: center;
