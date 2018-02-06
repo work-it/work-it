@@ -17,15 +17,9 @@ class Apply extends Component {
     }
 
     componentDidMount () {
-      console.log('PROPS: ', this.props);
+      console.log('DID MOUNT: ', this.props);
       if (!this.props.job && this.props.match && this.props.match.params) {
-        this.props.fetchJob(this.props.match.params.id);
-      }
-    }
-
-    componentDidUpdate() {
-      console.log('PROPS: ', this.props);
-      if (!this.props.job && this.props.match && this.props.match.params) {
+        console.log('DID MOUNT FETCH');
         this.props.fetchJob(this.props.match.params.id);
       }
     }
