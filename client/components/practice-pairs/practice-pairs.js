@@ -5,6 +5,8 @@ import { joinPairPractice, loadOpenRooms, endOpenedRoom } from './practice-reduc
 import { loadAllUsers } from '../../store'
 import InterviewBoardContainer from '../interview-container/interview-board-container';
 import UserTile from '../tile-user/tile-user'
+import { Card, Button } from 'semantic-ui-react'
+import './practice-pairs.css'
 
 
 
@@ -24,27 +26,33 @@ class PracticePairs extends Component{
     return (
       this.props.userId && this.props.allProfiles?
         (this.props.status==='pair_in_room' || this.props.status ==='solo'?<InterviewBoardContainer/>:(
-        <div className="practice-pairs">
-
+        <div className="search">
+          <div className="jobs-wrapper row">
             {
+              this.props.openRooms.length ?
               this.props.openRooms.map(room => {
                 const user = this.props.allProfiles[room.initiator];
-                console.log("room.initiator", room.initiator)
-                  return <div key={room.name}>
-                    
-                  <a href={`/practice/${room.name}`}><UserTile fixedView={true} initView={0} footerText={this.getFooterText(room)} footer={this.getFooterFunction(room)} userId={room.initiator} {...user} /></a>
-                    {
-                 // this.props.userId === room.initiator? <button id='close' onClick={() => this.props.closeOpenedRoom(room.name)} >Close your room {room.name}</button>
-           //       :<button id='join' onClick={() => this.props.joinOpenedRoom(room.name, this.props.history)}>Join existing room {room.name}</button>
-                    }
-                  </div>
-                  }
-              )
-            }    
+                  return (
+                    <a key={room.name} className="room-link" href={`/practice/${room.name}`}><UserTile fixedView={true} initView={0} footerText={this.getFooterText(room)} footer={this.getFooterFunction(room)} userId={room.initiator} {...user} /></a>
+                    );
+                  }) :
+                  this.renderNoOpenRoomsMessage()
+            }
+          </div>
         </div>))
         : <div></div>
       )
-    
+  }
+
+  renderNoOpenRoomsMessage() {
+    return (
+      <div className="no-practice-rooms-wrapper">
+        <Card className="no-practice-rooms-card text-center">
+          <h4>There are no pair practice rooms currently open.</h4>
+          <Button className="new-room-btn" fluid={false} size="large" color="blue" >Open New Room</Button>
+        </Card>
+      </div>
+    )
   }
 
   getFooterFunction(room) {

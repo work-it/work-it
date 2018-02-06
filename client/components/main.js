@@ -75,8 +75,22 @@ class Main extends Component {
           {/* EMPLOYER ROUTES */}
           <Route exact path="/employer/:id" render={() => <EmployerView type="in-progress"/>} />
         </Switch>
+        {
+          this.showPairRoomStatus()
+        }
       </div>
     )
+  }
+
+  showPairRoomStatus() {
+    const { authShow, room, waiting, isLoggedIn } = this.props;
+    const pairStarted = isLoggedIn && room && room.initiator === isLoggedIn && !room.initiatorIn;
+
+    if (pairStarted && !waiting) {
+      notice = <div><a href={`/practice/${room?room.name:''}`}><img src='/yellow.png' width='25px'/></a></div>
+    } else if (waiting) {
+      notice = <div><a href={`/practice/${room?room.name:''}`}><img src='/green.gif' width='25px'/></a></div>
+    }
   }
 }
 
