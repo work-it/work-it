@@ -12,8 +12,14 @@ class UserFavorites extends Component {
     this.state = {}
   }
 
+  componentDidMount() {
+    if (!this.props.savedJobs && this.props.userId) {
+      this.props.handleFetchSavedJobs(this.props.userId);
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
-    if (!this.props.userId && nextProps.userId) {
+    if (!this.props.savedJobs && !this.props.userId && nextProps.userId) {
       this.props.handleFetchSavedJobs(nextProps.userId);
     }
   }
@@ -37,7 +43,7 @@ const mapState = (state) => {
   return {
     user: state.user,
     userId: state.user.id,
-    savedJobs: state.jobs.filter(job => state.user.saved.includes(job.id))
+    savedJobs: state.jobs.length && state.user.saved ? state.jobs.filter(job => state.user.saved.includes(job.id)) : []
   }
 }
 
