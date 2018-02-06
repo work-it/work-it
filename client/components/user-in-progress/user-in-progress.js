@@ -12,12 +12,15 @@ class UserInProgress extends Component {
     this.state = {}
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (!this.props.userId && nextProps.userId) {
-      this.props.fetchApplications(nextProps.userId);
-      this.props.fetchAppliedJobs(nextProps.userId);
+  componentDidMount() {
+    if (!this.props.applications.length && this.props.userId) {
+      this.props.fetchApplications(this.props.userId);
+      this.props.fetchAppliedJobs(this.props.userId);
     }
-    if (this.props.applications.length !== nextProps.applications.length) {
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.applications.length && nextProps.userId) {
       this.props.fetchApplications(nextProps.userId);
       this.props.fetchAppliedJobs(nextProps.userId);
     }
@@ -25,6 +28,7 @@ class UserInProgress extends Component {
 
   render() {
     const { type, jobs, applications, userId } = this.props;
+
     let filteredApplications;
 
     if (applications) {
