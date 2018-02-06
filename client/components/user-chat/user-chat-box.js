@@ -18,8 +18,7 @@ class UserChatBox extends Component {
     const { newMessage } = this.state;
     const { application, showHeader } = this.props;
     return (
-      <div className="chat">
-        {showHeader && <h2>Message</h2>}
+      <div className="chat-history">
         <Form>
           <div className="chat-box" >
             {application.chat ? renderHTML(application.chat) : 'No chat started...'}

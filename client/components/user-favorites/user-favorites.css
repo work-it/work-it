@@ -1,6 +1,10 @@
-.user-in-progress {
+.user-saved {
   background-image: url('/back3.jpg');
   background-repeat: repeat;
-  padding: 50px 35px 0;
   min-height: calc(100% - 62px);
+}
+
+.user-saved .jobs-wrapper {
+  position: relative;
+  top: -10px;
 }

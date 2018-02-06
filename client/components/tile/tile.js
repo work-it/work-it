@@ -127,7 +127,7 @@ class Tile extends Component {
     return (
       <Card>
         <Image className="small-logo" src={this.props.imgUrl} />
-        <Card.Content>
+        <Card.Content className="content-sub-view">
           <Card.Header>
           <span className="name">
               {name}

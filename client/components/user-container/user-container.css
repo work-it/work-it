@@ -1,0 +1,21 @@
+.user-menu {
+  margin: 0;
+  height: 50px;
+  padding-left: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.user-menu ul li {
+  padding: 7px 15px;
+  margin: 8px 0;
+  border-right: 1px solid #eee;
+  cursor: pointer;
+}
+
+.user-menu ul li a {
+  color: #2185d0 !important;
+}
+
+.user-menu ul li:last-of-type {
+  border-right: none;
+}

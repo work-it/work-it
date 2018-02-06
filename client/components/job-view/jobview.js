@@ -32,12 +32,13 @@ class JobView extends Component {
                   </div>
                   <div className="col-sm-9">
                     <div className="col-sm-12"><Header size='large' className="name">{name}</Header></div>
-                    <div className="col-sm-6"><Header size='medium' className="position">{position}</Header></div>
-                    <div className="col-sm-6"><Header textAlign='right' size='small' className="location">{location}</Header></div>
-                    <div className="col-sm-12">{type}</div>
+                    <div className="col-sm-12"><Header size='medium' className="position">{position}</Header></div>
+                    <div className="col-sm-12"><Header size='small' className="location">{location}</Header></div>
+                    <div className="col-sm-12 top-skills">{topSkills.map(skill => skill).join(', ')}</div>
+                    <div className="col-sm-12">{`${experience} - ${type}`}</div>
                     <div className="col-sm-12">{`$${salaryRange.min}K - $${salaryRange.max}K`}</div>
                     <div className="col-sm-12 company-desc" style={{width: '100%'}}>{renderHTML(companyDesc)}</div>
-                    <div className="col-sm-12">
+                    <div className="col-sm-12 buttons-wrapper">
                       <Button size="big" basic color="blue">Apply</Button>
                       <Button size="big" basic color="black">Save</Button>
                     </div>

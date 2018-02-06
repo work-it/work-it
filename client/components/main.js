@@ -11,7 +11,7 @@ import PracticeContainer from './practice-container/practice-container'
 import SearchBar from './search-bar/search-bar'
 import UserTile from './tile-user/tile-user'
 import UserProfileContainer from './user-profile-form/user-profile-container'
-import UserContainer from './user-container/user-container'
+import UserMenu from './user-container/user-container'
 import UserChat from './user-chat/user-chat'
 import JobView from './job-view/jobview'
 import UserProfile from './user-profile-form/user-profile'
@@ -42,14 +42,16 @@ class Main extends Component {
         <SearchBar history={history} logout={handleLogout} />
         {!isLoggedIn && showAuth && authView === 'signup' && <Signup />}
         {!isLoggedIn && showAuth && authView === 'login' && <Login />}
+        <Route path="/user" render={() => <UserMenu /> } />
         <Switch>
-          <Route exact path="/employer/:id" render={() => <EmployerView type="in-progress"/>} />
+          <Route path="/user/profile" render={()=><UserProfile />} />
           <Route exact path="/user/applications" render={() => <UserInProgress type="in-progress" />} />
+          <Route exact path="/user/saved" render={() => <UserFavorites /> } />
+          <Route exact path="/user/archived" render={() => <UserInProgress type="archived" />} />
           <Route exact path="/messages" render={() => <UserChat /> } />
+          <Route exact path="/employer/:id" render={() => <EmployerView type="in-progress"/>} />
           <Route path="/job/:id" render={()=><JobView />} />
           <Route path="/apply/:id" render={()=><Apply history={history} />} />
-          <Route path="/user/:id" render={()=><UserProfile />} />
-          <Route exact path="/user" render={() => <UserContainer /> } />
           <Route exact path="/inprogress" render={() => <UserInProgres /> } />
           <Route exact path="/practice" render={() => <PracticeContainer /> } />
           <Route path="/practice/:roomName" render={() => <PracticeContainer />}/>
@@ -59,7 +61,6 @@ class Main extends Component {
           <Route exact path="/search" render={() => <Search /> } />
           <Route exact path="/usertile" render={() => <UserTile /> } />
           <Route exact path="/userprofilecontainer" render={() => <UserProfileContainer /> } />
-          <Route exact path="/user/saved" render={() => <UserFavorites /> } />
         </Switch>
       </div>
     )

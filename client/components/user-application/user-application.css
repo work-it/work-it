@@ -2,16 +2,28 @@
   height: 50px;
 }
 
+.ui.progress {
+  background: #fff;
+  box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+}
+
 .application {
+  display: flex;
   padding-bottom: 50px;
 }
 
-.progress-labels {
+.application-hr {
+  margin: 50px 0;
+  border-color: #e3e3e6;
+}
+
+.application .progress-labels {
+  color: #1b1c1d;
   position: absolute;
   top: 0;
   width: 100%;
-  padding: 5px 100px;
-  font-size: 28px;
+  padding: 12px 75px;
+  font-size: 18px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -27,27 +39,46 @@
   top: 10px;
 }
 
-.ui.form textarea {
-  font-size: 14px;
+.ui.progress .bar {
+  background: #bbb;
 }
 
-.chat {
+.application .chat-history .ui.form textarea {
+  font-size: 14px;
+  border: none;
+  border-top: 1px solid #ddd;
+  border-radius: 0;
+}
+
+.application .ui.form textarea.notes {
+  font-size: 14px;
+  border: none;
+  box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+}
+
+.chat-history {
   width: 60%;
   margin: 0;
-  padding-right: 30px;
+  margin-right: 30px;
+  box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
 }
 
 .notes {
   width: 40%;
   margin: 0;
-  height: 343px;
+  height: 333px;
 }
 
-.chat-box {
+.in-progress-btns-wrapper {
+  padding-top: 10px;
+}
+
+.application .chat-box {
+  background: #fff;
   width: 100%;
   margin: 0;
-  height: 283px;
-  border: 1px solid #ccc;
+  height: 273px;
+  border: none;
   pointer-events: none;
   line-height: 24px !important;
   font-size: 14px;
