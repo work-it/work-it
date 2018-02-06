@@ -6,6 +6,7 @@ import PracticeSchedule from '../practice-schedule/practice-schedule'
 import PracticePairs from '../practice-pairs/practice-pairs'
 import PracticeHistory from '../practice-history/practice-history'
 import InterviewBoardContainer from '../interview-container/interview-board-container';
+import './practice-container.css'
 
 class PracticeContainer extends Component {
   constructor(props) {
@@ -21,7 +22,7 @@ class PracticeContainer extends Component {
   }
 
   componentWillReceiveProps (newProps) {
-    if (this.props.status !== 'solo' && newProps.status === 'solo') 
+    if (this.props.status !== 'solo' && newProps.status === 'solo')
       this.setState({view: 'pair'})
   }
 
@@ -47,7 +48,7 @@ class PracticeContainer extends Component {
         this.props.history.push('/practice')
     switch (view) {
       case 'schedule':
-        
+
         return this.renderScheduleView();
       case 'solo':
         return this.renderSoloView();

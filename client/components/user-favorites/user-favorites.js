@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
+import { Card } from 'semantic-ui-react'
 import {fetchSavedJobsThunk} from '../../store'
 import Tile from '../tile/tile'
 import './user-favorites.css'
@@ -30,10 +31,22 @@ class UserFavorites extends Component {
     return (
       <div className="user-saved">
         <div className="jobs-wrapper row">
-          {!!savedJobs.length && savedJobs.map(job => {
+          {!!savedJobs.length ? savedJobs.map(job => {
             return <Tile {...job} key={job.id} />
-          })}
+          }) :
+          this.renderNoSavedJobsCard()
+        }
         </div>
+      </div>
+    )
+  }
+
+  renderNoSavedJobsCard() {
+    return (
+      <div className="no-saved-jobs-wrapper">
+        <Card className="no-saved-jobs-card">
+          <h4>You Don't Have Any Saved Jobs.</h4>
+        </Card>
       </div>
     )
   }

@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
+import { Card } from 'semantic-ui-react'
 import { fetchApplicationsThunk, fetchAppliedJobsThunk } from '../../store'
 import UserApplication from '../user-application/user-application'
 import './user-in-progress.css'
@@ -20,7 +21,7 @@ class UserInProgress extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!this.props.applications.length && nextProps.userId) {
+    if (!this.props.applications.length && !this.props.userId && nextProps.userId) {
       this.props.fetchApplications(nextProps.userId);
       this.props.fetchAppliedJobs(nextProps.userId);
     }
@@ -46,12 +47,23 @@ class UserInProgress extends Component {
     return (
       <div className="user-in-progress">
         {
-          !!applications.length && !!jobs.length &&
+          !!filteredApplications.length && !!jobs.length ?
           filteredApplications.map(application => {
             const jobToDisplay = jobs.filter(job => job.id === application.jobId)[0];
             return <UserApplication key={`${application.id}-${userId}`} job={jobToDisplay} application={application} applicantNotes={application.applicantNotes} />
-          })
+          }) :
+          this.renderNoApplicationsCard()
         }
+      </div>
+    )
+  }
+
+  renderNoApplicationsCard() {
+    return (
+      <div className="no-applicaitons-wrapper">
+        <Card className="no-applications-card">
+          <h4>You Don't Have Any {this.props.type === 'in-progress' ? 'In Progress' : 'Archived'} Applications.</h4>
+        </Card>
       </div>
     )
   }

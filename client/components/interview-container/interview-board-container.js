@@ -6,6 +6,7 @@ import { saveState} from './save-state-reducer';
 import {fetchPractice, endOpenedRoom, leaveRoom } from '../practice-pairs/practice-reducer'
 import Questions from '../questions/questions-container';
 import Video from '../video/video';
+import {Button} from 'semantic-ui-react';
 
 
 import './interview-container.css'
@@ -24,7 +25,7 @@ class InterviewBoardContainer extends Component {
     return (
         <div className = "interview-board-container">
             <div className = "interview ">
-                <button onClick={() => this.props.status==='solo'?this.props.exitRoom(null):this.props.endRoom(this.props.room)}>End</button>
+                <Button className="end-btn" size="large"  color="blue" onClick={() => this.props.status==='solo'?this.props.exitRoom(null):this.props.endRoom(this.props.room)}>End</Button>
                 <InterviewBoard />
             </div>
 

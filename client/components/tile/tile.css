@@ -23,10 +23,11 @@
 
 .small-logo {
   width: 50px;
+  height: 50px;
   margin-left: 10px !important;
 }
 
-.jobs-wrapper .ui.card {
+.jobs-wrapper .tile .ui.card {
   max-height: 460px;
   height: 460px;
   margin-bottom: 50px;

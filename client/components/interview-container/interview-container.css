@@ -1,12 +1,21 @@
 .interview-board-container {
   flex-direction: row;
   display: flex;
-  height: calc(100% - 60px);
+  height: 100%;
   overflow: hidden;
   padding: 0;
   margin:0;
   border: 1px black
+}
 
+video {
+  width: 250px !important;
+}
+
+.end-btn {
+  position: absolute;
+  right: 515px;
+  margin-top: 15px !important;
 }
 
 .sidebar {
@@ -14,34 +23,53 @@
   flex-direction: column;
   padding: 0;
   margin: -1px;
-  min-width: 400px;
-  max-width: 400px;
+  min-width: 500px;
+  max-width: 500px;
   float: right;
 }
 
 .video {
-  height: 50%;
+  height: 187px;
   padding: 0;
+  background: #000;
+  overflow: hidden;
 }
 
 .interview {
+  width: 100%;
   padding: 0;
-  border: 1px solid lightgray;
+  border-right: 1px solid lightgray;
   overflow: hidden;
 
 }
 
 .questions {
-  height: 50%;
+  height: calc(100% - 187px);
 }
 
 .questions div {
-  height: 100%;
+  height: calc(100% - 15px);
 }
 
+.ui.tabular.menu .active.item {
+  border-radius: 0 !important;
+}
 
 .ui.attached.segment {
-  height: 100%;
+  border-bottom: none;
+  height: calc(100% - 15px);
   overflow-y: scroll;
-  padding-bottom: 50px;
+  padding: 35px 35px 50px 35px;
+}
+
+.question-buttons {
+  display: flex;
+  justify-content: center;
+  height: 50px !important;
+  padding-top: 15px;
+  background: rgba(255,255,255,0);
+}
+
+.question-buttons.ui.large.button {
+  margin: 0 5px;
 }

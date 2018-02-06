@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import { getQuestionsThunk } from '../../store'
 // import {withRouter} from 'react-router-dom'
-import { Tab } from 'semantic-ui-react'
+import { Tab, Button } from 'semantic-ui-react'
 import renderHTML from 'react-render-html'
 import Question from './question'
 
@@ -47,11 +47,11 @@ class Questions extends Component {
             {
               <div key={questions[this.state.index].id}>
                   <Question question={questions[this.state.index]} />
-                  <button onClick={() => this.handlePrevious()}>Previous</button>
-                  <button onClick={() => this.handleNext()}>Next</button>
+                  <div className="question-buttons">
+                    <Button size="large" onClick={() => this.handlePrevious()}>Previous</Button>
+                    <Button size="large" onClick={() => this.handleNext()}>Next</Button>
+                  </div>
               </div>
-
-
             }
           </div>
         )
