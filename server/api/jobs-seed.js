@@ -245,7 +245,7 @@ module.exports = defaultJobs = [{
     min: 185,
     max: 210
   },
-  imgUrl: 'https://www.fullstackacademy.com/images/fa-logo@2x.png',
+  imgUrl: '/assets/fullstack.png',
   companyDesc: '<p>	Fullstack Academy is an award-winning, immersive coding school based in New York City. Backed by Y Combinator, co-founders David Yang and Nimit Maru leveraged their experience at Yahoo, Gilt Groupe, and Bloomspot (acquired by JP Morgan Chase in 2011) to create an elite program centered on fullstack JavaScript and emerging technologies. Fullstack Academy graduates enjoy excellent outcomes, with alumni working at startups as well as technology leaders, including Google, Dropbox, and Venmo. In January 2016, Fullstack Academy launched Grace Hopper Academy, the first all-women coding bootcamp in New York City, and the first in the country to offer a deferred tuition model.</p></li></ul>',
   comp: '<ul><li>Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</li><li>Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</li><li>Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.</li><li>Pellentesque fermentum dolor. Aliquam quam lectus, facilisis auctor, ultrices ut, elementum vulputate, nunc.</li></ul>'
 }
@@ -264,7 +264,7 @@ module.exports = defaultJobs = [{
     min: 105,
     max: 115
   },
-  imgUrl: 'https://www.cognizant.com/content/dam/cognizant_foundation/Dotcomimage/COG-Logo-White.svg',
+  imgUrl: '/assets/cognizant.png',
   companyDesc: '<p>		Cognizant (NASDAQ-100: CTSH) is one of the world\'s leading professional services companies, transforming c\'​ business, operating and technology models for the digital era. Our unique industry-based, consultative approach helps clients envision, build and run more innovative and efficient businesses. Headquartered in the U.S., Cognizant is ranked 205 on the Fortune 500 and is consistently listed among the most admired companies in the world. Learn how Cognizant helps clients lead with digital at www.cognizant.com or follow us @Cognizant.</p></li></ul>',
   comp: '<ul><li>Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</li><li>Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</li><li>Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.</li><li>Pellentesque fermentum dolor. Aliquam quam lectus, facilisis auctor, ultrices ut, elementum vulputate, nunc.</li></ul>'
 }
@@ -283,7 +283,7 @@ module.exports = defaultJobs = [{
     min: 125,
     max: 145
   },
-  imgUrl: 'http://wesuite.com/wp-content/uploads/2017/05/WeSuite-logo-final.png',
+  imgUrl: '/assets/wesuite.png',
   companyDesc: '<p>	WeSuite is your sales management software solution. Created to help our Clients build strong and permanent operational methodologies throughout their company. WeSuite provides lead management, quote and proposal generation, real time reporting, in-the-field quoting and surveying, in addition to over a dozen software modules targeted for business improvement, and much more.</p></li></ul>',
   comp: '<ul><li>Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</li><li>Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</li><li>Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.</li><li>Pellentesque fermentum dolor. Aliquam quam lectus, facilisis auctor, ultrices ut, elementum vulputate, nunc.</li></ul>'
 }
