@@ -47,7 +47,8 @@ router.get('/seed', (req, res, next) => {
         .then(() =>{
           console.log('seeded!');
         })
-    });
+    })
+    .then(res.end());
   })
 })
 
