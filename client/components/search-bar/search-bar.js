@@ -194,7 +194,7 @@ class SearchBar extends Component {
       }
           
         <li>
-          <Dropdown trigger={trigger} options={options} pointing='top left' icon={null} openOnFocus={true} onChange={(event, data) => this.handleDropdown(event, data)}/>
+          <Dropdown trigger={trigger} options={options} pointing='top right' icon={null} openOnFocus={true} onChange={(event, data) => this.handleDropdown(event, data)}/>
         </li>
       </ul>
     )
