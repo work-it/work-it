@@ -2,3 +2,79 @@
   display: flex;
   flex-direction: row;
 }
+
+.practice-schedule {
+  width: 100%;
+  padding: 50px 0;
+  background-image: url('/back3.jpg');
+  background-repeat: repeat;
+}
+
+.schedule-wrapper {
+  width: 1100px !important;
+  margin: 0 auto !important;
+  padding: 35px !important;
+}
+
+.practice-schedule .header {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.practice-schedule .form-wrapper .header {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.practice-schedule .next-btn {
+  float: right;
+}
+
+.practice-schedule .prev-btn {
+  float: left;
+}
+
+.calendar-nav {
+  padding-top: 15px;
+}
+
+.form-wrapper {
+  margin-top: 0;
+}
+
+.date-picker {
+  width: 340px;
+  margin: 0 0 10px;
+  max-width: 100%;
+  -webkit-box-flex: 1;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+  outline: 0;
+  -webkit-tap-highlight-color: rgba(255,255,255,0);
+  text-align: left;
+  line-height: 1.21428571em;
+  font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+  padding: .67857143em 1em;
+  background: #fff;
+  border: 1px solid rgba(34,36,38,.15);
+  color: rgba(0,0,0,.87);
+  border-radius: .28571429rem;
+  -webkit-transition: box-shadow .1s ease,border-color .1s ease;
+  transition: box-shadow .1s ease,border-color .1s ease;
+  box-shadow: none;
+}
+
+.schedule-time-text {
+  font-size: 14px;
+}
+
+.time-start, .time-end {
+  width: 100% !important;
+  margin: 0 0 10px;
+}
+
+.add-time-btn {
+  float: right;
+  position: relative;
+  top: 5px;
+}

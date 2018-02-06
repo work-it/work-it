@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {Dropdown} from 'semantic-ui-react'
+import {Dropdown, Card, Button} from 'semantic-ui-react'
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -52,33 +52,47 @@ class PracticeSchedule extends Component {
       const filterFunc = employerId?this.employerSchedFilter:this.userSchedFilter;
       return (
         <div className="practice-schedule">
-          <h1>Available Times {`(${start} - ${end})`}</h1>
-          <div className="calendar-wrapper">
-            {
-              
-              daysToShow.map(day => {
-                let sessions = schedule.filter(session => filterFunc(session, day, employerId))
+          <Card className="schedule-wrapper">
+            <h2 className="header">Available Times <small>{`(${start} - ${end})`}</small></h2>
+            <div className="calendar-wrapper">
+              {
 
-                return <ScheduleDay key={day.date} {...day} sessions={sessions} handleClick={this.handleSessionClick} />
-              })
-            }
-          </div>
-          <div className="calendar-nav">
-            {(startDate.format('YYYYMMDD') !== moment().format('YYYYMMDD')) &&
-              <button onClick={() => this.handlePrevClick()}>Prev Week</button>}
-            <button onClick={() => this.handleNextClick()}>Next Week</button>
-          </div>
-          <div className="form-wrapper">
-            <h1>Schedule A Time</h1>
-            <DatePicker
-              selected={this.state.selectedDate}
-              onChange={this.handleDateSelect}
-            />
-            <p>Scheduled practice sessions are 1 hour long. We will add 1 hour time blocks between your selected available start and end times.</p>
-            <Dropdown placeholder="Start Time" fluid selection value={selectedTimeStart} options={times} onChange={(evt, { value }) => this.handleTimeSelect('selectedTimeStart', value)} />
-            <Dropdown placeholder="End Time" fluid selection value={selectedTimeEnd} options={times} onChange={(evt, { value }) => this.handleTimeSelect('selectedTimeEnd', value)} />
-            <button onClick={() => handleAddSession(selectedDate, selectedTimeStart, selectedTimeEnd, userId)} >Add Time</button>
-          </div>
+                daysToShow.map(day => {
+                  let sessions = schedule.filter(session => filterFunc(session, day, employerId))
+
+                  return <ScheduleDay key={day.date} {...day} sessions={sessions} handleClick={this.handleSessionClick} />
+                })
+              }
+            </div>
+            <div className="calendar-nav">
+              {(startDate.format('YYYYMMDD') !== moment().format('YYYYMMDD')) &&
+              <Button className="prev-btn" size="large" color="blue" onClick={() => this.handlePrevClick()}>Prev Week</Button>}
+              <Button className="next-btn" size="large" color="blue" onClick={() => this.handleNextClick()}>Next Week</Button>
+            </div>
+            <div className="row">
+              <div className="col-sm-12">
+                <hr />
+              </div>
+            </div>
+            <div className="form-wrapper row">
+              <h2 className="header col-sm-12">Schedule A Time</h2>
+              <p className="schedule-time-text col-sm-12">Scheduled practice sessions are 1 hour long. We will add 1 hour time blocks between your selected available start and end times.</p>
+              <div className="col-sm-4">
+                <DatePicker
+                  className="date-picker"
+                  selected={this.state.selectedDate}
+                  onChange={this.handleDateSelect}
+                />
+              </div>
+              <div className="col-sm-4">
+                <Dropdown placeholder="Start Time" className="time-start" fluid selection value={selectedTimeStart} options={times} onChange={(evt, { value }) => this.handleTimeSelect('selectedTimeStart', value)} />
+              </div>
+              <div className="col-sm-4">
+                <Dropdown placeholder="End Time" className="time-end" fluid selection value={selectedTimeEnd} options={times} onChange={(evt, { value }) => this.handleTimeSelect('selectedTimeEnd', value)} />
+              <Button size="large" color="blue" className="add-time-btn" onClick={() => handleAddSession(selectedDate, selectedTimeStart, selectedTimeEnd, userId)} >Add Time</Button>
+              </div>
+            </div>
+          </Card>
         </div>
       )
     } else return <div>Must be logged in to see schedule</div>;

@@ -84,7 +84,10 @@ const mapState = (state) => {
   return {
     isLoggedIn: !!state.user.id,
     showAuth: state.auth.show,
-    authView: state.auth.view
+    authView: state.auth.view,
+    email: state.user.email,
+    waiting: state.practice.waiting,
+    room: state.practice.room
   }
 }
 

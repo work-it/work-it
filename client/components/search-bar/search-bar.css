@@ -8,6 +8,22 @@
   box-shadow: 0 0 5px rgba(0,0,0,0.2);
 }
 
+.paired-warning {
+  width: 275px;
+  padding-right: 29px;
+  position: absolute;
+  top: 64px;
+  right: 0;
+  height: 47px;
+  padding-top: 10px;
+  background: #fff;
+  text-align: right;
+  color: #333;
+  font-family: Lato;
+  font-weight: 300;
+  font-size: 18px;
+}
+
 .search-input {
   width: 48%;
   margin-right: 2%;
@@ -25,7 +41,7 @@
 
 .menu-icons li {
   padding-left: 15px;
-  padding-right: 15px;
+  padding-right: 0;
 }
 
 .search-input-wrapper .advanced-btn {
@@ -129,4 +145,9 @@
 
 .search-bar .ui.dropdown .menu>.item {
   font-size: 14px;
+}
+
+.loading {
+  width: 38px;
+  margin-top: -7px;
 }
