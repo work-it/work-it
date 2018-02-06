@@ -26,7 +26,7 @@ class JobView extends Component {
 
         return (
           <div className="job-view">
-          <Card className="job-panel">
+            <Card className="job-panel">
               <div className="row">
                   <div className="col-sm-3">
                       <Image src={imgUrl} />

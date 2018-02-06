@@ -17,7 +17,7 @@ class PracticeMenu extends Component{
     }
     console.log("practice status", this.props.status)
   }
- 
+
 
 render (){
   const { changeView, available, changeAvailability } = this.props;
@@ -30,15 +30,14 @@ render (){
             if (this.props.status === 'solo') this.props.exitRoom(null)
            changeView('pair')
         }}>Pair</a></li>
-          
           <li><a onClick={() => changeView('schedule')}>Schedule</a></li>
           <li><a onClick={()=>  {
             this.props.soloRoom();
-            changeView('solo') 
+            changeView('solo')
           }}>Solo</a></li>
           <li><a onClick={() => changeView('history')}>History</a></li>
           <li>
-          { 
+          {
             !this.props.room.name?<a onClick={()=> this.props.openNewRoom()}>Open New Room</a>:null
           }
           </li>

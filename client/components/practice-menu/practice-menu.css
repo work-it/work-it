@@ -1,4 +1,25 @@
 .practice-menu {
-  height: 60px;
-  background: #f7f7f7;
+  margin: 0;
+  height: 50px;
+  padding-left: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.practice-menu ul {
+  margin-bottom: 0;
+}
+
+.practice-menu ul li {
+  padding: 7px 15px;
+  margin: 8px 0;
+  border-right: 1px solid #eee;
+  cursor: pointer;
+}
+
+.practice-menu ul li a {
+  color: #2185d0 !important;
+}
+
+.practice-menu ul li:last-of-type {
+  border-right: none;
 }

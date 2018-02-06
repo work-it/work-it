@@ -1,22 +1,33 @@
 .chat-view {
   width: 100%;
-  height: 100%;
+  height: calc(100% - 64px);
+  padding: 50px;
+  background-image: url('/back3.jpg');
+  background-repeat: repeat;
+}
+
+.chat-view .ui.card {
   display: flex;
   flex-direction: row;
+  height: 100%;
+}
+
+.chat-view .ui.card>:first-child {
+  border-top-right-radius: 0 !important;
 }
 
 .chat-select-wrapper {
+  border-top-right-radius: 0 !important;
   width: 20%;
   height: 100%;
   border-right: 1px solid #ddd;
-  padding: 0 20px;
 }
 
 .chat-select-wrapper ul li {
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid #eee;
-  padding: 10px 0;
+  padding: 10px 15px;
 }
 
 .chat-select-wrapper ul li:last-of-type {
@@ -32,8 +43,11 @@
 }
 
 .chat-view .name {
-  margin-top: 15px !important;
-  padding-left: 15px;
+  margin-top: 0 !important;
+}
+
+.chat-view .position {
+  padding-top: 0;
 }
 
 .chat-box-wrapper {
@@ -41,9 +55,12 @@
   height: 100%;
 }
 
-.chat-view .chat {
+.chat-view .chat-history {
   width: 100%;
+  height: 100%;
   padding-right: 0;
+  border: none;
+  box-shadow: none;
 }
 
 .chat-view .chat-box {
@@ -57,18 +74,21 @@
 }
 
 .chat-view .new-message {
-  height: 200px;
+  height: 120px;
+  border-radius: 0 !important;
+  border: none !important;
+  border-top: 1px solid #ddd !important;
 }
 
 .chat-view .ui.form {
-  height: calc(100% - 260px);
+  height: calc(100% - 120px);
 }
 
 .message-select {
   cursor: pointer;
 }
 
-.message-select.selected {
+.message-select:hover {
   cursor: pointer;
-  background: #f1f1f1;
+  background: rgba(0,0,0,0.03);
 }

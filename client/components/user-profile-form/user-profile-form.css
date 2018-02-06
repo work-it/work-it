@@ -1,3 +1,20 @@
 .text-padding {
   margin-top: 12px;
 }
+
+.type {
+  margin-top: 7px;
+}
+
+.summary {
+  padding: 15px;
+}
+
+.skills-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.skills-wrapper .ui.segment {
+  margin: 0 5px 5px 0;
+}

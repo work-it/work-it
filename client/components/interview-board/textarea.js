@@ -17,7 +17,7 @@ class TextArea extends Component {
 
     render () {
         console.log("Text in text area", this.props.text)
-        return <textarea className="texty" value={this.props.text} onChange={this.handleChange}></textarea>
+        return <textarea autoFocus className="texty" value={this.props.text} onChange={this.handleChange}></textarea>
     }
 }
 

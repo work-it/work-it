@@ -54,36 +54,22 @@
   overflow: visible;
   background: #f7f7f7;
   border-bottom: 1px solid #eee;
-  transition: all 0.5s;
-  -webkit-transition: all 0.5s;
 }
 
 .advanced {
   height: 0;
   opacity: 0;
   overflow: hidden;
-  background: #f7f7f7;
-  border-bottom: 1px solid #eee;
-  transition: all 0.5s;
-  -webkit-transition: all 0.5s;
 }
 
 .advanced .advanced-col {
   margin-top: 10px;
   padding-left: 0;
   height: 0;
-  opacity: 0;
-  overflow: hidden;
-  transition: all 0.3s ease 0.2s;
-  -webkit-transition: all 0.3s ease 0.2s;
 }
 
 .advanced.active .advanced-col {
-  height: 60px;
-  opacity: 1;
-  overflow: visible;
-  transition: all 0.3s ease 0.2s;
-  -webkit-transition: all 0.3s ease 0.2s;
+  height: 50px;
 }
 
 .advanced-col:first-of-type {

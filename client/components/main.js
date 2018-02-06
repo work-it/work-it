@@ -9,7 +9,6 @@ import Questions from './questions/questions-container'
 import Question from './questions/question'
 import PracticeContainer from './practice-container/practice-container'
 import SearchBar from './search-bar/search-bar'
-import UserTile from './tile-user/tile-user'
 import UserProfileContainer from './user-profile-form/user-profile-container'
 import UserMenu from './user-container/user-container'
 import UserChat from './user-chat/user-chat'
@@ -22,6 +21,8 @@ import UserFavorites from './user-favorites/user-favorites'
 import Apply from './apply/apply'
 import UserInProgress from './user-in-progress/user-in-progress';
 import EmployerView from './employer-view/employer-view'
+import PracticeMenu from './practice-menu/practice-menu'
+import PairPractice from './practice-pairs/practice-pairs'
 
 
 class Main extends Component {
@@ -44,23 +45,31 @@ class Main extends Component {
         {!isLoggedIn && showAuth && authView === 'login' && <Login />}
         <Route path="/user" render={() => <UserMenu /> } />
         <Switch>
+          {/* JOB ROUTES */}
+          <Route exact path="/search" render={() => <Search /> } />
+          <Route path="/job/:id" render={()=><JobView />} />
+          <Route path="/apply/:id" render={()=><Apply history={history} />} />
+
+          {/* USER ROUTES */}
           <Route path="/user/profile" render={()=><UserProfile />} />
           <Route exact path="/user/applications" render={() => <UserInProgress type="in-progress" />} />
           <Route exact path="/user/saved" render={() => <UserFavorites /> } />
           <Route exact path="/user/archived" render={() => <UserInProgress type="archived" />} />
+          <Route exact path="/userprofilecontainer" render={() => <UserProfileContainer /> } />
+
+          {/* MESSAGE ROUTES */}
           <Route exact path="/messages" render={() => <UserChat /> } />
-          <Route exact path="/employer/:id" render={() => <EmployerView type="in-progress"/>} />
-          <Route path="/job/:id" render={()=><JobView />} />
-          <Route path="/apply/:id" render={()=><Apply history={history} />} />
-          <Route exact path="/inprogress" render={() => <UserInProgres /> } />
+
+          {/* PRACTICE ROUTES */}
+          <Route exact path="/practice/pair" render={() => <PairPractice /> } />
           <Route exact path="/practice" render={() => <PracticeContainer /> } />
           <Route path="/practice/:roomName" render={() => <PracticeContainer />}/>
           <Route exact path="/questions/:id" render={() => <Question /> } />
           <Route exact path="/questions" render={() => <Questions /> } />
           <Route exact path="/whiteboard" component= { InterviewBoardContainer } />
-          <Route exact path="/search" render={() => <Search /> } />
-          <Route exact path="/usertile" render={() => <UserTile /> } />
-          <Route exact path="/userprofilecontainer" render={() => <UserProfileContainer /> } />
+
+          {/* EMPLOYER ROUTES */}
+          <Route exact path="/employer/:id" render={() => <EmployerView type="in-progress"/>} />
         </Switch>
       </div>
     )

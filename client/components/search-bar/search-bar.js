@@ -182,7 +182,7 @@ class SearchBar extends Component {
       { key: 'mail', text: 'Message', icon: 'mail outline', value: 'message' },
       { key: 'profile', text: 'Profile', icon: 'user outline', value: 'profile' },
       { key: 'logout', text: 'Logout', icon: 'sign out', value: 'logout' },
- 
+
     ]
 
     return (
@@ -193,7 +193,7 @@ class SearchBar extends Component {
         // <li><Icon name='mail outline' size='big' onClick={() => this.props.history.push('/messages')} /><span className="link-text">Message</span></li>
         // <li onClick={() => this.handleLogin(authShow)}><Icon name='user outline' size='big' /><span className="link-text">Profile</span></li>
       }
-          
+
         <li>
           <Dropdown trigger={trigger} options={options} pointing='top right' icon={null} openOnFocus={true} onChange={(event, data) => this.handleDropdown(event, data)}/>
         </li>
@@ -210,7 +210,7 @@ class SearchBar extends Component {
       this.props.history.push('/practice')
     else if (value ==='message')
       this.props.history.push('/messages')
-    else 
+    else
       this.handleLogin(this.props.authShow)
   }
 
