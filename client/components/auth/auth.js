@@ -23,7 +23,7 @@ const AuthForm = (props) => {
        <div className="close" icon='x' size='large' onClick={() => handleHideLogin(authShow)} />
         <Form onSubmit={handleSubmit} name={name}>
           <Input name="email" placeholder="Email" fluid size='big' type="text" />
-          <Input name="password" placeholder="Password (min 6 characters)" fluid big type="password" />
+          <Input name="password" placeholder="Password (min 6 characters)" fluid size='big' type="password" />
           <div className="login-btn-wrapper ">
             <Button type="submit" className="login-btn">{displayName}</Button>
           </div>

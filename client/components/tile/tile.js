@@ -48,7 +48,7 @@ class Tile extends Component {
     return (
       <Card>
         <div className="logo-wrapper">
-          <Image className="logo" src={this.props.imgUrl} />
+        <Link to={`/job/${id}`}><Image className="logo" src={this.props.imgUrl} /></Link>
         </div>
         <Card.Content>
           <Card.Header>

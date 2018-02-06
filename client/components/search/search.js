@@ -45,9 +45,10 @@ class Search extends Component {
             <Button>Distance</Button>
           </Button.Group>
           </div> */}
+          
           {
-            !!jobsToShow && jobsToShow.map(job => {
-            return <Tile {...job} key={job.id} jobs={jobs} />
+            !!jobsToShow && jobsToShow.map( (job, i) => {
+            return <Tile {...job} key={i} jobs={jobs} />
           })}
         </div>
       </div>

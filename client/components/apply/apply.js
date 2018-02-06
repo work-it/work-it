@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
+import {withRouter, Link} from 'react-router-dom';
 import {loadJobThunk, applyThunk} from '../../store'
 import renderHTML from 'react-render-html';
 import {Card, Image, Button, Header, TextArea, Divider, Form} from 'semantic-ui-react'
@@ -34,7 +34,7 @@ class Apply extends Component {
       const { job, jobs, applyToJob} = this.props;
       if (!job) return null;
 
-      const { companyDesc, imgUrl, location, name, position, salaryRange, type} = job;
+      const { companyDesc, imgUrl, location, name, position, salaryRange, type, id} = job;
 
       return (
         <div className="job-view">
@@ -51,7 +51,7 @@ class Apply extends Component {
                   <div className="col-sm-12">{`$${salaryRange.min}K - $${salaryRange.max}K`}</div>
                   <div className="col-sm-12 company-desc" style={{width: '100%'}}>{renderHTML(companyDesc)}</div>
                   <div className="col-sm-12">
-                    <Button size="big" basic color="blue">View Description</Button>
+                    <Link to={`/job/${id}`}><Button size="big" basic color="blue">View Description</Button></Link>
                   </div>
                 </div>
             </div>

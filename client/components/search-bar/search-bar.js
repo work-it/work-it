@@ -115,13 +115,13 @@ class SearchBar extends Component {
             <Input
               className="search-input"
               placeholder="Search our jobs..."
-              value={this.state.term}
+              value={this.state.term?this.state.term:''}
               onChange={(evt, {value}) => this.setState({term: value})}
             />
             <Input
               className="search-input"
               placeholder="City, State or Zip"
-              value={this.state.location}
+              value={this.state.location?this.state.location:''}
               onChange={(evt, {value}) => this.setState({location: value})}
             />
             <Button
