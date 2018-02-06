@@ -38,7 +38,7 @@ class PracticeHistory extends Component{
                 <Table color='black' id='history-table' compact>
                 <Table.Header>
                   <Table.Row>
-                    <Table.HeaderCell colSpan='2' textAlign='center'>Practice History</Table.HeaderCell>
+                    <Table.HeaderCell colSpan='2' textAlign='center'><h2>Practice History</h2></Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -51,7 +51,7 @@ class PracticeHistory extends Component{
                     <Table.Cell>{d.toLocaleString('en-US')}</Table.Cell>
                     <Table.Cell textAlign='right'><Button onClick={() => this.loadPractice(this.props.history[key])}>Review</Button></Table.Cell>
                   </Table.Row>
-                  
+
                   }
                 ) }
                 </Table.Body>

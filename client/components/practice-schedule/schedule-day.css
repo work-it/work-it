@@ -1,5 +1,23 @@
 .schedule-day {
-  width: 14%;
+  width: 14.28%;
   height: 400px;
-  border: 1px solid #aaa;
+  border: 1px solid rgba(34,36,38,.15);
+  border-right: none;
+  background: #fcfcfc;
+}
+
+.schedule-day:last-of-type {
+  border-right: 1px solid rgba(34,36,38,.15);
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.schedule-day:first-of-type {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.day-name {
+  color: #2185d0;
+  padding-top: 5px;
 }

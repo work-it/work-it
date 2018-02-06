@@ -1,12 +1,21 @@
-#history-table{
-    width: 100%;
-    margin: auto;
-    min-width: 310px;
+#table-container {
+  width: 100%;
+  padding: 50px 35px;
+  height: calc(100% - 62px);
+  background-image: url('/back3.jpg');
+  background-repeat: repeat;
 }
 
-#table-container {
-    height: 70vh;
-    width: 50%;
-    margin: auto;
-    overflow-y: scroll;
+#history-table{
+  width: 1100px;
+  padding: 35px;
+  margin: auto;
+}
+
+.ui.table thead th {
+  background: #fff !important;
+}
+
+.ui.black.table {
+  border-top: 1px solid rgba(34,36,38,.15);
 }

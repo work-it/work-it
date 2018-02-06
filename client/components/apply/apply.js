@@ -66,7 +66,7 @@ class Apply extends Component {
 
     handleApplyClick(id, employerId) {
       this.props.applyToJob(id, this.state.coverLetter, employerId);
-      this.props.history.push('/user/applications');
+      this.props.history.push('/applications');
     }
 }
 

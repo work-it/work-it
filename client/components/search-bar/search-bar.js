@@ -99,9 +99,10 @@ class SearchBar extends Component {
     let notice = null;
     const pairStarted = isLoggedIn && room&&room.initiator===isLoggedIn && !room.initiatorIn
     if (pairStarted && !waiting) {
-      notice = <li><a href={`/practice/${room?room.name:''}`}><img src='/yellow.png' width='25px'/></a></li>
+      notice = <a className="paired-warning" href={`/practice/${room?room.name:''}`}>
+      <p>Waiting to be Paired <img className="loading" src="/blocks.gif" /></p></a>
     } else if (waiting) {
-      notice = <li><a href={`/practice/${room?room.name:''}`}><img src='/green.gif' width='25px'/></a></li>
+      notice = <a className="paired-warning" href={`/practice/${room?room.name:''}`}>Paired! Click to Join!</a>
     }
     <Icon loading name='certificate' />
 
@@ -129,13 +130,13 @@ class SearchBar extends Component {
               color='blue'
               onClick={() => this.hanldeSearch()}
             >Search</Button>
-            <Button
+            {/* <Button
               className="advanced-btn"
               color='black'
               basic
               onClick={() => this.toggleAdvanced()}>
               Filter
-            </Button>
+            </Button> */}
           </div>
           <div className="links-wrapper">
              { notice }
