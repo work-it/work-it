@@ -178,6 +178,7 @@ class SearchBar extends Component {
         text: <span>Signed in as <strong>{this.props.email}</strong></span>,
         disabled: true,
       },
+      { key: 'applications', text: 'Applications', icon: 'edit', value: 'applications'},
       { key: 'code', text: 'Practice', icon: 'code', value: 'practice' },
       { key: 'mail', text: 'Message', icon: 'mail outline', value: 'message' },
       { key: 'profile', text: 'Profile', icon: 'user outline', value: 'profile' },
@@ -210,6 +211,8 @@ class SearchBar extends Component {
       this.props.history.push('/practice')
     else if (value ==='message')
       this.props.history.push('/messages')
+    else if (value==='applications')
+      this.props.history.push('/user/applications')
     else
       this.handleLogin(this.props.authShow)
   }
