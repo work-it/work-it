@@ -130,6 +130,7 @@
 }
 
 .tile .logo-wrapper {
+  padding: 15px;
   height: 255px;
   display: flex;
   align-items: center;

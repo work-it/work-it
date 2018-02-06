@@ -53,10 +53,10 @@ class UserChat extends Component {
                 }
                 return (
                 <li className={liClass} onClick={() => this.handleChangeAppIdx(idx)} key={`chat-${application.id}`}>
-                  <div className="col-sm-2">
+                  <div className="col-sm-2 logo-wrapper">
                     <img className="logo" src={imgUrl} />
                   </div>
-                  <div className="col-sm-10">
+                  <div className="col-sm-10 text-wrapper">
                     <div className="col-sm-12">
                       <span className="name">{name}</span>
                     </div>

@@ -31,7 +31,7 @@ video {
 .video {
   height: 187px;
   padding: 0;
-  background: #000;
+  background: linear-gradient(#2d2d2d, #292929);
   overflow: hidden;
 }
 
@@ -70,6 +70,6 @@ video {
   background: rgba(255,255,255,0);
 }
 
-.question-buttons.ui.large.button {
+.question-buttons .ui.large.button {
   margin: 0 5px;
 }
