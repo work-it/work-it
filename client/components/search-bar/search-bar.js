@@ -212,7 +212,7 @@ class SearchBar extends Component {
     else if (value ==='message')
       this.props.history.push('/messages')
     else if (value==='applications')
-      this.props.history.push('/user/applications')
+      this.props.history.push('/applications/in-progress')
     else
       this.handleLogin(this.props.authShow)
   }
@@ -252,7 +252,7 @@ class SearchBar extends Component {
 
   handleLogin(authShow) {
     if (this.props.isLoggedIn) {
-      this.props.history.push('/user/profile');
+      this.props.history.push('/profile');
     } else {
       this.props.handleShowLogin(authShow)
     }

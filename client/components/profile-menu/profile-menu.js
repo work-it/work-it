@@ -3,9 +3,9 @@ import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
 import UserInProgress from '../user-in-progress/user-in-progress'
 import UserFavorites from '../user-favorites/user-favorites'
-import './user-container.css'
+import '../user-container/user-container.css'
 
-class UserMenu extends Component {
+class ProfileMenu extends Component {
   constructor(props) {
     super(props);
 
@@ -20,9 +20,8 @@ class UserMenu extends Component {
         <div className="user-menu row">
           <div className="col-sm-12 text-left">
             <ul className="list-inline">
-              <li><Link to="/applications/in-progress">In Progress</Link></li>
-              <li><Link to="/applications/saved">Saved</Link></li>
-              <li><Link to="/applications/archived">Archived</Link></li>
+              <li><Link to="/profile">Profile</Link></li>
+              <li><Link to="/profile/edit">Edit</Link></li>
             </ul>
           </div>
         </div>
@@ -43,4 +42,4 @@ const mapDispatch = (dispatch) => {
   }
 }
 
-export default withRouter(connect(mapState, mapDispatch)(UserMenu))
+export default withRouter(connect(mapState, mapDispatch)(ProfileMenu))

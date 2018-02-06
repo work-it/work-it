@@ -22,6 +22,7 @@ import Apply from './apply/apply'
 import UserInProgress from './user-in-progress/user-in-progress';
 import EmployerView from './employer-view/employer-view'
 import PracticeMenu from './practice-menu/practice-menu'
+import ProfileMenu from './profile-menu/profile-menu'
 import PairPractice from './practice-pairs/practice-pairs'
 
 
@@ -43,7 +44,8 @@ class Main extends Component {
         <SearchBar history={history} logout={handleLogout} />
         {!isLoggedIn && showAuth && authView === 'signup' && <Signup />}
         {!isLoggedIn && showAuth && authView === 'login' && <Login />}
-        <Route path="/user" render={() => <UserMenu /> } />
+        <Route path="/applications" render={() => <UserMenu /> } />
+        <Route path="/profile" render={() => <ProfileMenu /> } />
         <Switch>
           {/* JOB ROUTES */}
           <Route exact path="/search" render={() => <Search /> } />
@@ -51,11 +53,13 @@ class Main extends Component {
           <Route path="/apply/:id" render={()=><Apply history={history} />} />
 
           {/* USER ROUTES */}
-          <Route path="/user/profile" render={()=><UserProfile />} />
-          <Route exact path="/user/applications" render={() => <UserInProgress type="in-progress" />} />
-          <Route exact path="/user/saved" render={() => <UserFavorites /> } />
-          <Route exact path="/user/archived" render={() => <UserInProgress type="archived" />} />
-          <Route exact path="/userprofilecontainer" render={() => <UserProfileContainer /> } />
+          <Route exact path="/applications/in-progress" render={() => <UserInProgress type="in-progress" />} />
+          <Route exact path="/applications/saved" render={() => <UserFavorites /> } />
+          <Route exact path="/applications/archived" render={() => <UserInProgress type="archived" />} />
+
+          {/* PROFILE ROUTES */}
+          <Route exact path="/profile" render={()=><UserProfile />} />
+          <Route exact path="/profile/edit" render={() => <UserProfileContainer /> } />
 
           {/* MESSAGE ROUTES */}
           <Route exact path="/messages" render={() => <UserChat /> } />
