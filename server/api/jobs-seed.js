@@ -12,7 +12,7 @@ module.exports = defaultJobs = [{
     min: 110,
     max: 130
   },
-  imgUrl: '/assets/google.jpg',
+  imgUrl: '/assets/google.png',
   companyDesc: '<p>Google aspires to be an organization that reflects the globally diverse audience that our products and technology serve. We believe that in addition to hiring the best talent, a diversity of perspectives, ideas and cultures leads to the creation of better products and services.</p>',
   roleDesc: '<p>Google\'s software engineers develop the next-generation technologies that change how billions of users connect, explore, and interact with information and one another. Our products need to handle information at massive scale, and extend well beyond web search. We\'re looking for engineers who bring fresh ideas from all areas, including information retrieval, distributed computing, large-scale system design, networking and data storage, security, artificial intelligence, natural language processing, UI design and mobile; the list goes on and is growing every day. As a software engineer, you will work on a specific project critical to Google’s needs with opportunities to switch teams and projects as you and our fast-paced business grow and evolve. We need our engineers to be versatile, display leadership qualities and be enthusiastic to take on new problems across the full-stack as we continue to push technology forward.</p>',
   qualifications: '<ul><li>BS degree in Computer Science, similar technical field of study or equivalent practical experience.</li><li>Software development experience in one or more general purpose programming languages.</li><li>Experience working with two or more from the following: web application development, Unix/Linux environments, mobile application development, distributed and parallel systems, machine learning, information retrieval, natural language processing, networking, developing large software systems, and/or security software development.</li><li>Working proficiency and communication skills in verbal and written English.</li></ul>',
@@ -37,7 +37,7 @@ module.exports = defaultJobs = [{
   qualifications: '<ul><li>BS degree in Computer Science, similar technical field of study or equivalent practical experience.</li><li>Software development experience in one or more general purpose programming languages.</li><li>Experience working with two or more from the following: web application development, Unix/Linux environments, mobile application development, distributed and parallel systems, machine learning, information retrieval, natural language processing, networking, developing large software systems, and/or security software development.</li><li>Working proficiency and communication skills in verbal and written English.</li></ul>',
   comp: '<ul><li>Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</li><li>Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</li><li>Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.</li><li>Pellentesque fermentum dolor. Aliquam quam lectus, facilisis auctor, ultrices ut, elementum vulputate, nunc.</li></ul>'
 }, {
-  employerId: '-L4C66qBcNGvZyJ7Y6et',
+  employerId: '-L4IQ_L03EcO7egUBUfS',
   name: 'IBM',
   position: 'Front End Engineer',
   location: 'New York, NY',
@@ -56,7 +56,7 @@ module.exports = defaultJobs = [{
   qualifications: '<ul><li>BS degree in Computer Science, similar technical field of study or equivalent practical experience.</li><li>Software development experience in one or more general purpose programming languages.</li><li>Experience working with two or more from the following: web application development, Unix/Linux environments, mobile application development, distributed and parallel systems, machine learning, information retrieval, natural language processing, networking, developing large software systems, and/or security software development.</li><li>Working proficiency and communication skills in verbal and written English.</li></ul>',
   comp: '<ul><li>Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</li><li>Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</li><li>Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.</li><li>Pellentesque fermentum dolor. Aliquam quam lectus, facilisis auctor, ultrices ut, elementum vulputate, nunc.</li></ul>'
 }, {
-  employerId: '-L4C66qBcNGvZyJ7Y6et',
+  employerId: '-L4IQ_L03EcO7egUBUfS',
   name: 'LinkedIn',
   position: 'Staff Software Engineer',
   location: 'New York, NY',
