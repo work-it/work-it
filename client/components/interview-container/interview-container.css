@@ -17,6 +17,10 @@ video {
   right: 515px;
   margin-top: 15px !important;
 }
+.whiteboard-action-btn {
+  position: absolute;
+  right: 515px;
+}
 
 .sidebar {
   height: 100%;
