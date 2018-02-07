@@ -56,7 +56,11 @@ const socketInit = (function initSocket ()  {
           });
         }
       })
-
+      
+      socket.on ('chat-message-added', applicationIds => {
+        console.log("applicationIds have updated chats", applicationIds)
+        socket.broadcast.emit('chat-updated', applicationIds)
+      })
       socket.on('join', (room, userId, schedToken) => {
         console.log ('---socket join received---', openRoomsByRoomName, room, userId, schedToken)
         if (room && (!openRoomsByRoomName.has(room.name) || openRoomsByRoomName.get(room.name).length <= 2)) {

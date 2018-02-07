@@ -48,7 +48,7 @@ class UserApplication extends Component {
       default:
         barPercent = 20;
     }
-    return (
+    return job ? (
     <div>
       <div className="application row">
         <Tile {...job} key={job.id} />
@@ -79,7 +79,7 @@ class UserApplication extends Component {
         </div>
       </div>
     </div>
-    )
+    ) : null;
   }
 
   handleNotesChange(evt, notes) {

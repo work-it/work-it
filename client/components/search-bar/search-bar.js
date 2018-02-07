@@ -173,7 +173,7 @@ class SearchBar extends Component {
       </span>
     )
 
-    const options = [
+    const options = !this.props.isEmployer ?[
       {
         key: 'user',
         text: <span>Signed in as <strong>{this.props.email}</strong></span>,
@@ -183,9 +183,17 @@ class SearchBar extends Component {
       { key: 'code', text: 'Practice', icon: 'code', value: 'practice' },
       { key: 'mail', text: 'Message', icon: 'mail outline', value: 'message' },
       { key: 'profile', text: 'Profile', icon: 'user outline', value: 'profile' },
-      { key: 'logout', text: 'Logout', icon: 'sign out', value: 'logout' },
+      { key: 'logout', text: 'Logout', icon: 'sign out', value: 'logout' }
 
-    ]
+    ] : [{
+          key: 'user',
+          text: <span>Signed in as <strong>{this.props.email}</strong></span>,
+          disabled: true,
+        },
+        { key: 'applications', text: 'Applications', icon: 'edit', value: 'applications'},
+        { key: 'logout', text: 'Logout', icon: 'sign out', value: 'logout' }
+
+      ] 
 
     return (
       <ul className="list-inline menu-icons text-right">
@@ -269,6 +277,7 @@ const mapState = (state) => {
   return {
     authShow: state.auth.show,
     isLoggedIn: state.user.id,
+    isEmployer: !!state.user.employer,
     email: state.user.email,
     waiting: state.practice.waiting,
     room: state.practice.room

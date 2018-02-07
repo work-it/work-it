@@ -7,7 +7,7 @@ const saltRounds = 10;
 module.exports = router
 
 router.post('/login', (req, res, next) => {
-  console.log("hit logoin")
+  console.log("hit login")
   findUser(req.body.email, 'username')
     .then (user => {
       if (user ) {

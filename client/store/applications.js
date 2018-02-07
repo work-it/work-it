@@ -9,7 +9,7 @@ const REVIEW = 'REVIEW';
 const FETCH_APPLICTIONS = 'FETCH_APPLICATIONS';
 const UPDATE_NOTES = 'UPDATE_NOTES';
 const UPDATE_EMPLOYER_NOTES = 'UPDATE_EMPLOYER_NOTES';
-const ADD_MESSAGE = 'ADD_MESSAGE';
+export const ADD_MESSAGE = 'ADD_MESSAGE';
 const ARCHIVE = 'ARCHIVE';
 const FETCH_APP_W_PROFILE = 'FETCH_APP_W_PROFILE';
 
@@ -161,7 +161,7 @@ export const addMessageMiddleware = (applicationId, message) => {
   return (dispatch, getState) => {
     let updatedMessage;
     let name = getState().user.name;
-    let updatedApplications = [...getState().applications].map(application => {
+    let updatedApplications = [...getState().applications].filter(application => application).map(application => {
       if (application.id === applicationId) {
         application.chat += `<strong>${name}: </strong> ${message}<br/>`;
         updatedMessage = application.chat;
