@@ -229,10 +229,17 @@ class VideoContainer extends Component {
   
   // Leave Room.
   leaveRoomIfJoined() {
-      console.log("Leave room called")
+      console.log("Leave room called", this.activeRoom)
     if (this.activeRoom) {
       this.activeRoom.disconnect();
     }
+    if (this.previewTracks) {
+      this.previewTracks.forEach(function(track) {
+        track.stop();
+      });
+      this.detachTracks(this.previewTracks);
+    }
+    
   }
 
 
