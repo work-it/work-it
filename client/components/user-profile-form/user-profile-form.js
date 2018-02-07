@@ -83,7 +83,7 @@ class UserProfileForm extends Component {
               <Dropdown className="experience" placeholder="Experience Level" options ={experienceOptions} fluid selection value={experience} onChange={(evt, { value }) => this.handleSelect('experience', value)} />
             </div>
             <div className = "col-sm-4">
-              <Dropdown className="type" placeholder="Job Type" options={typeOptions} selection fluid value={type}onChange={(evt, { value }) => this.handleSelect('type', value)} />
+              <Dropdown className="type" placeholder="Job Type" options={typeOptions} fluid selection value={type}onChange={(evt, { value }) => this.handleSelect('type', value)} />
             </div>
             <div className = "col-sm-2">
               <Input className="minSalary"  placeholder="$ Min Salary" fluid value={minSalary} onChange={(evt) => this.handleStringChange('minSalary', evt.target.value)} />
@@ -94,8 +94,8 @@ class UserProfileForm extends Component {
             <div className = "col-sm-12">
               <TextArea className="userDesc" placeholder="Personal Bio" value={userDesc} onChange={(evt) => this.handleStringChange('userDesc', evt.target.value)} />
             </div>
-            <div className = "col-sm-8" />
-            <div className = "col-sm-4">
+
+            <div className = "col-sm-12">
               <Button color="blue" size="big" className="save-button" floated="right" onClick={() => this.handleNextClick()}>Next</Button>
             </div>
           </Form>

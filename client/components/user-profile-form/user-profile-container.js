@@ -7,7 +7,7 @@ import SkillForm from './skill-form'
 import PastEmployerForm from './past-employer-form'
 import ProjectForm from './project-form'
 import SchoolForm from './school-form'
-import { Form, Button, Input, Dropdown, Icon, Card} from 'semantic-ui-react'
+import {Icon} from 'semantic-ui-react'
 import './user-profile-form.css'
 
 
@@ -37,17 +37,17 @@ class userProfileContainer extends Component {
     const {step} = this.state;
     let page;
 
-    if (step === 1) {page = <div><Icon name='circle'/><Icon  name='circle thin' /><Icon name='circle thin' /><Icon name='circle thin' /><Icon name='circle thin' /><Icon name='circle thin' /></div>}
+    if (step === 1) {page = <div><Icon name="circle" /><Icon  name="circle thin" /><Icon name="circle thin" /><Icon name="circle thin" /><Icon name="circle thin" /><Icon name="circle thin" /></div>}
 
-    if (step === 2) {page = <div><Icon name='circle thin' /><Icon  name='circle'/><Icon  name='circle thin' /><Icon  name='circle thin' /><Icon name='circle thin' /><Icon  name='circle thin' /></div>}
+    if (step === 2) {page = <div><Icon name="circle thin" /><Icon  name="circle" /><Icon  name="circle thin" /><Icon  name="circle thin" /><Icon name="circle thin" /><Icon  name="circle thin" /></div>}
 
-    if (step === 3) {page = <div><Icon color='blue' name='circle thin' /><Icon color='blue' name='circle thin'/><Icon  name='circle' /><Icon name='circle thin' /><Icon  name='circle thin' /><Icon  name='circle thin' /></div>}
+    if (step === 3) {page = <div><Icon name="circle thin" /><Icon name="circle thin" /><Icon  name="circle" /><Icon name="circle thin" /><Icon  name="circle thin" /><Icon  name="circle thin" /></div>}
 
-    if (step === 4) {page = <div><Icon  name='thin circle' /><Icon  name='circle thin'/><Icon  name='circle thin' /><Icon  name='circle' /><Icon name='circle thin' /><Icon  name='circle thin' /></div>}
+    if (step === 4) {page = <div><Icon  name="thin circle" /><Icon  name="circle thin" /><Icon  name="circle thin" /><Icon  name="circle" /><Icon name="circle thin" /><Icon  name="circle thin" /></div>}
 
-    if (step === 5) {page = <div><Icon name='circle thin' /><Icon  name='circle thin'/><Icon name='circle thin' /><Icon  name='circle thin' /><Icon name='circle' /><Icon  name='circle thin' /></div>}
+    if (step === 5) {page = <div><Icon name="circle thin" /><Icon  name="circle thin" /><Icon name="circle thin" /><Icon  name="circle thin" /><Icon name="circle" /><Icon  name="circle thin" /></div>}
 
-    if (step === 6) {page = <div><Icon name='circle thin' /><Icon  name='circle thin'/><Icon  name='circle thin' /><Icon name='circle thin' /><Icon name='circle thin' /><Icon name='circle' /></div>}
+    if (step === 6) {page = <div><Icon name="circle thin" /><Icon  name="circle thin" /><Icon  name="circle thin" /><Icon name="circle thin" /><Icon name="circle thin" /><Icon name="circle" /></div>}
 
       return (
         <div className="job-view userProfileContainer row">
@@ -61,7 +61,7 @@ class userProfileContainer extends Component {
 
   nextClick() {
     this.setState({step: this.state.step + 1})
-    console.log("next click called")
+    console.log('next click called')
   }
 
   prevClick() {
@@ -70,7 +70,7 @@ class userProfileContainer extends Component {
 
   renderSubView() {
     const {step} = this.state;
-    console.log("nextClick in parent",this.nextClick)
+    console.log('nextClick in parent', this.nextClick)
     switch (step) {
       case 1:
         return <UserProfileForm nextClick={this.nextClick} step={step} />
