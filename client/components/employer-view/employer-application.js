@@ -66,14 +66,11 @@ class EmployerApplication extends Component {
           </ul>
           {
             this.state.view === 'application' ? this.getApplicationView(application) : this.getSchedulerView(application)
-
           }
 
           {
             this.state.view === 'application' ? this.showApplicationButtons(application) : this.showSchedulerButtons()
           }
-
-
         </div>
       </div>
     )
@@ -83,7 +80,7 @@ class EmployerApplication extends Component {
     return <div>
       {
         !application.archived &&
-        <Button className="archive-btn" size="big" color="blue" onClick={() => handleArchive(application.id)}>Decline</Button>
+        <Button className="archive-btn" size="big" color="red" onClick={() => handleArchive(application.id)}>Decline</Button>
       }
       <Button className="archive-btn" size="big" color="blue" onClick={() => handleSaveEmployerNotes(application.id, notes)}>Save Notes</Button>
 
@@ -130,6 +127,7 @@ class EmployerApplication extends Component {
   getSchedulerView (application) {
     return <PracticeSchedue employerId={application.employerId} userId={application.userId}/>
   }
+
 }
 const mapState = (state) => {
   return {

@@ -40,7 +40,6 @@ const LOAD_SESSIONS = 'LOAD_SESSIONS';
 
  export const addSessionMiddleware = (date, start, end, intervieweeId) => {
   return (dispatch, getState) => {
-    
     const formattedDate = date.format('YYYY-MM-DD');
 
     const startHour = start.split(':')[0];
@@ -61,7 +60,7 @@ const LOAD_SESSIONS = 'LOAD_SESSIONS';
       }
       newSessions.push(newSession);
     }
-    
+
     axios.post(`/api/schedule`, newSessions)
     .then(res => res.data)
     .then(res => dispatch(addSession(res)))

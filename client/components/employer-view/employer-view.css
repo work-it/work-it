@@ -1,1 +1,34 @@
+.employer-home .job-desc-wrapper {
+  padding-left: 20px;
+  margin-bottom: 35px;
+}
 
+.employer-home .ui.card>:first-child.new {
+  position: absolute;
+  z-index: 100;
+  right: 10px;
+  width: 45px;
+  height: 30px;
+  background: #2185d0;
+  border-radius: 0 !important;
+  border-bottom-left-radius: 3px !important;
+  border-bottom-right-radius: 3px !important;
+  padding-top: 5px;
+  text-align: center;
+  color: #fff;
+}
+
+.employer-home .job-position {
+  color: #2185d0;
+  margin-bottom: 5px;
+}
+
+.employer-home .job-location {
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.employer-home .job-id {
+  color: #111;
+}
