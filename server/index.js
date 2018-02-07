@@ -1,3 +1,4 @@
+console.log("STARTING index.js")
 const path = require('path')
 const express = require('express')
 const morgan = require('morgan')
@@ -5,15 +6,20 @@ const bodyParser = require('body-parser')
 const compression = require('compression')
 const session = require('express-session')
 const passport = require('passport')
-const busboy = require('connect-busboy');;
+const busboy = require('connect-busboy');
+console.log("starting firebase store")
 //const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const FirebaseStore = require('connect-session-firebase')(session);
+console.log("starting firebase from db")
 const firebase = require('./db').firebase
 //const sessionStore = new SequelizeStore({db})
+console.log("starting session store with firebase db")
 const sessionStore = new FirebaseStore({
   database: firebase.database()
 })
+console.log("initializing port")
 const PORT = process.env.PORT || 8080
+console.log("port set to", PORT)
 const app = express()
 const socketio = require('socket.io')
 module.exports = app
@@ -105,7 +111,7 @@ const createApp = () => {
     res.status(err.status || 500).send(err.message || 'Internal server error.')
   })
 }
-
+console.log("about to start listening")
 const startListening = () => {
   // start listening (and create a 'server' object representing our server)
   const server = app.listen(PORT, () => console.log(`Mixing it up on port ${PORT}`))
@@ -119,7 +125,7 @@ const startListening = () => {
   // });
 }
 
-const syncDb = () => db.sync()
+//const syncDb = () => db.sync()
 
 // This evaluates as true when this file is run directly from the command line,
 // i.e. when we say 'node server/index.js' (or 'nodemon server/index.js', or 'nodemon server', etc)

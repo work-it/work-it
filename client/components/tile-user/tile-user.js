@@ -72,20 +72,19 @@ class UserTile extends Component {
           </Card.Meta>
           <Card.Description>
             <span className="top-skills">
-          {skillsArr
+          {skillsArr&& skillsArr
             .filter(skill => skill.topSkill === true)
             .map(skill => skill.name).join(', ')}
             </span>
             <span className="exp-type">
             {`${experience} - ${type}`}
             </span>
-            <span className="range">
+           { !this.props.fixedView? <span className="range">
               {`$${minSalary}K - $${maxSalary}K`}
-            </span>
+            </span>:null }
           </Card.Description>
         </Card.Content>
         <Card.Content extra>
-
         {
           !this.props.fixedView? (
             <div className="prev" onClick={() => this.handlePrevClick()}>
