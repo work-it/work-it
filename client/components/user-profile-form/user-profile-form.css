@@ -46,8 +46,14 @@
 .userDesc {
   height: 200px;
   font-size: 14px;
+  margin-top: 20px;
 
 }
+
+/* .ui.form textarea {
+  margin-top: 20px;
+  font-size: 14px;
+} */
 
 .ui.fluid.dropdown {
   height: 38px;
@@ -55,11 +61,24 @@
   vertical-align: top;
 }
 
-.ui.form textarea{
-  margin-top: 20px;
-  font-size: 14px;
-}
 .ui.input {
   font-size: 14px;
 }
 
+
+.camera-on, .still-pic, .user-video {
+  display: block;
+  width: 250px;
+  height: 200px;
+  background-color: #333;
+}
+
+
+#stillDiv {
+  width: 250px;
+  height: 200px;
+}
+
+.skills {
+  margin-top: 40px
+}
