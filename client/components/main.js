@@ -24,6 +24,7 @@ import EmployerView from './employer-view/employer-view'
 import PracticeMenu from './practice-menu/practice-menu'
 import ProfileMenu from './profile-menu/profile-menu'
 import PairPractice from './practice-pairs/practice-pairs'
+import UserHome from './user-home'
 
 
 class Main extends Component {
@@ -49,12 +50,14 @@ class Main extends Component {
         <Switch>
           {/* JOB ROUTES */}
           <Route exact path="/search" render={() => <Search /> } />
-          <Route path="/job/:id" render={()=><JobView />} />
-          <Route path="/apply/:id" render={()=><Apply history={history} />} />
+          <Route exact path="/search/saved" render={() => <UserFavorites /> } />
+          <Route exact path="/job/:id" render={()=><JobView />} />
+          <Route exact path="/apply/:id" render={()=><Apply history={history} />} />
+
+          <Route exact path="/" render={() => <UserHome />} />
 
           {/* USER ROUTES */}
           <Route exact path="/applications/in-progress" render={() => <UserInProgress type="in-progress" />} />
-          <Route exact path="/applications/saved" render={() => <UserFavorites /> } />
           <Route exact path="/applications/archived" render={() => <UserInProgress type="archived" />} />
 
           {/* PROFILE ROUTES */}

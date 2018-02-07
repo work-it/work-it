@@ -5,7 +5,8 @@ import _ from 'lodash'
  * ACTION TYPES
  */
 const APPLY = 'APPLY';
-const FETCH_APPLICTIONS = 'FETCH_APPLICATIONS'
+const REVIEW = 'REVIEW';
+const FETCH_APPLICTIONS = 'FETCH_APPLICATIONS';
 const UPDATE_NOTES = 'UPDATE_NOTES';
 const UPDATE_EMPLOYER_NOTES = 'UPDATE_EMPLOYER_NOTES';
 export const ADD_MESSAGE = 'ADD_MESSAGE';
@@ -20,6 +21,7 @@ const defaultApplications = [];
  * ACTION CREATORS
  */
 const apply = updateApplications => ({type: APPLY, updateApplications})
+const review = updatedApplication => ({type: REVIEW, updatedApplication})
 const fetchApplications = applications => ({type: FETCH_APPLICTIONS, applications})
 const archive = updatedApplications => ({type: ARCHIVE, updatedApplications})
 const updateNotes = updatedApplications => ({type: UPDATE_NOTES, updatedApplications})
@@ -30,6 +32,38 @@ const updateEmployerNotes = updatedApplications => ({type: UPDATE_EMPLOYER_NOTES
 /**
  * THUNK CREATORS
  */
+export const reviewApplicationThunk = () => {
+  return (dispatch, getState) => {
+    const application = getState().applications[0];
+    const appId = application.id;
+    application.status = 'review';
+    const updatedApplication = [application];
+
+    axios.put(`/api/applications/${appId}/review`)
+    .then(res => {
+      if (res.status === 200) {
+        dispatch(review(updatedApplication));
+      }
+    })
+  }
+}
+
+export const interviewApplicationThunk = () => {
+  return (dispatch, getState) => {
+    const application = getState().applications[0];
+    const appId = application.id;
+    application.status = 'interview';
+    const updatedApplication = [application];
+
+    axios.put(`/api/applications/${appId}/interview`)
+    .then(res => {
+      if (res.status === 200) {
+        dispatch(review(updatedApplication));
+      }
+    })
+  }
+}
+
 export const fetchAppsWithProfilesThunk = (employerId) => {
   return (dispatch) => {
     // Fetch jobs from server based on favorites array
@@ -146,6 +180,8 @@ export const addMessageMiddleware = (applicationId, message) => {
  */
 export default function (state = defaultApplications, action) {
   switch (action.type) {
+    case REVIEW:
+      return action.updatedApplication
     case ADD_MESSAGE:
       return action.updatedApplications
     case ARCHIVE:

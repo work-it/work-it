@@ -21,7 +21,6 @@ class UserMenu extends Component {
           <div className="col-sm-12 text-left">
             <ul className="list-inline">
               <li><Link to="/applications/in-progress">In Progress</Link></li>
-              <li><Link to="/applications/saved">Saved</Link></li>
               <li><Link to="/applications/archived">Archived</Link></li>
             </ul>
           </div>

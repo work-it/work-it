@@ -9,6 +9,7 @@ import ScheduleDay from './schedule-day'
 import './practice-schedule.css'
 import {createPairMiddleware, addSessionMiddleware, fetchSchedule} from './practice-schedule-reducer'
 import {times} from './times'
+import { interviewApplicationThunk } from '../../store/index';
 
 const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
@@ -43,7 +44,7 @@ class PracticeSchedule extends Component {
 
   render() {
     if (this.props.isLoggedIn)  {
-      const { schedule, handleAddSession, employerId, userId} = this.props;
+      const { schedule, handleAddSession, employerId, userId, isEmployer, appStatus} = this.props;
       const { startDate, daysToShow, selectedDate, selectedTimeStart, selectedTimeEnd } = this.state;
       const start = this.state.startDate.clone().format('MMM Do YYYY');
       const end = this.state.startDate.clone().add(6, 'days').format('MMM Do YYYY');
@@ -85,11 +86,11 @@ class PracticeSchedule extends Component {
                 />
               </div>
               <div className="col-sm-4">
-                <Dropdown placeholder="Start Time" className="time-start" fluid selection value={selectedTimeStart} options={times} onChange={(evt, { value }) => this.handleTimeSelect('selectedTimeStart', value)} />
+                <Dropdown placeholder="Start Time" upward={true} className="time-start" fluid selection value={selectedTimeStart} options={times} onChange={(evt, { value }) => this.handleTimeSelect('selectedTimeStart', value)} />
               </div>
               <div className="col-sm-4">
-                <Dropdown placeholder="End Time" className="time-end" fluid selection value={selectedTimeEnd} options={times} onChange={(evt, { value }) => this.handleTimeSelect('selectedTimeEnd', value)} />
-              <Button size="large" color="blue" className="add-time-btn" onClick={() => handleAddSession(selectedDate, selectedTimeStart, selectedTimeEnd, userId)} >Add Time</Button>
+                <Dropdown placeholder="End Time" upward={true} className="time-end" fluid selection value={selectedTimeEnd} options={times} onChange={(evt, { value }) => this.handleTimeSelect('selectedTimeEnd', value)} />
+              <Button size="large" color="blue" className="add-time-btn" onClick={() => handleAddSession(selectedDate, selectedTimeStart, selectedTimeEnd, userId, isEmployer, appStatus)} >Add Time</Button>
               </div>
             </div>
           </Card>
@@ -157,8 +158,9 @@ class PracticeSchedule extends Component {
 const mapState = (state) => {
   return {
     schedule: state.schedule,
-    isLoggedIn: !!state.user.id
-
+    isLoggedIn: !!state.user.id,
+    isEmployer: !!state.user.employer,
+    appStatus: state.applications[0].status
   }
 }
 
@@ -167,11 +169,15 @@ const mapDispatch = (dispatch) => {
     handleCreatePair(session) {
       dispatch(createPairMiddleware(session));
     },
-    handleAddSession(date, start, end, intervieweeId) {
+    handleAddSession(date, start, end, intervieweeId, isEmployer, appStatus) {
       dispatch(addSessionMiddleware(date, start, end, intervieweeId))
+      console.log('isEmployer', isEmployer, 'Status', appStatus);
+      if (isEmployer && appStatus === 'review') {
+        dispatch(interviewApplicationThunk())
+      }
     },
     loadSchedule () {
-      dispatch (fetchSchedule())
+      dispatch(fetchSchedule())
     }
   }
 }

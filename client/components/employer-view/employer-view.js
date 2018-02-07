@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {fetchEmployerJobsThunk, fetchAppsWithProfilesThunk} from '../../store'
+import {fetchEmployerJobsThunk, fetchAppsWithProfilesThunk, reviewApplicationThunk} from '../../store'
 import UserTile from '../tile-user/tile-user'
 import EmployerApplication from './employer-application'
 import './employer-view.css'
@@ -28,7 +28,7 @@ class EmployerView extends Component {
 
   render() {
     return (
-      <div className="employer-view">
+      <div className="user-in-progress">
        {this.renderSubView(this.state.view)}
       </div>
     )
@@ -47,22 +47,24 @@ class EmployerView extends Component {
     const { jobs, applications } = this.props;
 
     return (
-      <div>
+      <div className="employer-home">
          {
           !!jobs.length &&
           jobs.map(job => {
             return (
             <div key={`job-${job.id}`} className="row" style={{margin: 0}}>
-              <h2>{job.position}</h2>
-              <h4>{job.location}</h4>
-              <h5>Job ID: {job.id}</h5>
+              <div className="col-sm-12 job-desc-wrapper">
+                <h2 className="job-position">{job.position}</h2>
+                <h4 className="job-location">{job.location}</h4>
+                <h5 className="job-id">Job ID: {job.id}</h5>
+              </div>
               {
                 !!applications.length &&
                 applications
                   .filter(application => application.jobId === job.id)
                   .map(application => {
                     console.log('PROFILE', application.profile);
-                    return <UserTile key={`utile-${application.id}`} {...application.profile} handleViewClick={this.handleViewApplicationClick} appId={application.id} jobId={job.id} />
+                    return <UserTile key={`utile-${application.id}`} {...application.profile} {...application} handleViewClick={this.handleViewApplicationClick} employer={true} appId={application.id} jobId={job.id} />
                   })
               }
             </div>
@@ -89,7 +91,13 @@ class EmployerView extends Component {
   }
 
   handleViewApplicationClick(appId, jobId) {
+    const {applications} = this.props;
+    const status = applications[0].status;
+
     this.setState({view: 'application', jobId, appId})
+    if (status === 'apply') {
+      this.props.reviewApplication();
+    }
   }
 }
 
@@ -108,6 +116,9 @@ const mapDispatch = (dispatch) => {
     },
     fetchAppsWithProfiles(id) {
       dispatch(fetchAppsWithProfilesThunk(id))
+    },
+    reviewApplication() {
+      dispatch(reviewApplicationThunk())
     }
   }
 }

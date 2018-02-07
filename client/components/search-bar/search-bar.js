@@ -130,13 +130,13 @@ class SearchBar extends Component {
               color='blue'
               onClick={() => this.hanldeSearch()}
             >Search</Button>
-            {/* <Button
+            <Button
               className="advanced-btn"
               color='black'
               basic
-              onClick={() => this.toggleAdvanced()}>
-              Filter
-            </Button> */}
+              onClick={() => this.props.history.push('/search/saved')}>
+              View Saved
+            </Button>
           </div>
           <div className="links-wrapper">
              { notice }
