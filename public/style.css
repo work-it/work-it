@@ -25,3 +25,7 @@ form div {
   height: 400px;
   background: green;
 }
+
+* {
+  color: #1b1c1d;
+}

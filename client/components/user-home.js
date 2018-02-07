@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import './user-home.css'
 
 /**
  * COMPONENT
@@ -9,8 +10,34 @@ export const UserHome = (props) => {
   const {email} = props
 
   return (
-    <div>
-      <h3>Welcome, {email}</h3>
+    <div className="home">
+      <div className="banner">
+        <dv className="row">
+          <div className="col-sm-12">
+            <h1>Always Know Where You Stand</h1>
+          </div>
+          <div className="col-sm-12">
+            <h2>With Our Transparent Hiring Process.</h2>
+          </div>
+        </dv>
+      </div>
+      <div className="left-feature feature">
+        <div className="row">
+          <div clasName="col-sm-12">
+            <h1 className="text-center heading">Our Features</h1>
+          </div>
+          <div className="col-sm-4">
+            <div className="feature-img-1"></div>
+            <h2 className="text-center feature-title">Application Tracking</h2>
+            <h4 className="text-center">View the status of your application from apply to hire.</h4>
+          </div>
+          <div className="col-sm-4">
+            <div className="feature-img-1"></div>
+            <h2 className="text-center feature-title">Solo / Pair Practice</h2>
+            <h4 className="text-center">Practice interview questions with another user or solo.</h4>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

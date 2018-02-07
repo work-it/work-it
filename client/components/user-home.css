@@ -1,0 +1,36 @@
+.banner {
+  height: 600px;
+  background-image: url('/banner.jpg');
+  background-size: cover;
+  display: flex;
+  align-items: center;
+}
+
+.banner h1 {
+  font-size: 45px;
+}
+
+.feature {
+  margin-top: 50px;
+}
+
+.feature-img-1 {
+  height: 300px;
+  background-image: url('/applications.png');
+  background-size: cover;
+  background-position: center right;
+  box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+  border-radius: 3px;
+}
+
+.home .heading {
+  padding-bottom: 50px;
+}
+
+.home .row {
+  padding: 0 35px 50px;
+}
+
+.feature-title {
+  color: #2185d0;
+}
