@@ -85,10 +85,10 @@ class PracticeSchedule extends Component {
                 />
               </div>
               <div className="col-sm-4">
-                <Dropdown placeholder="Start Time" className="time-start" fluid selection value={selectedTimeStart} options={times} onChange={(evt, { value }) => this.handleTimeSelect('selectedTimeStart', value)} />
+                <Dropdown placeholder="Start Time" upward={true} className="time-start" fluid selection value={selectedTimeStart} options={times} onChange={(evt, { value }) => this.handleTimeSelect('selectedTimeStart', value)} />
               </div>
               <div className="col-sm-4">
-                <Dropdown placeholder="End Time" className="time-end" fluid selection value={selectedTimeEnd} options={times} onChange={(evt, { value }) => this.handleTimeSelect('selectedTimeEnd', value)} />
+                <Dropdown placeholder="End Time" upward={true} className="time-end" fluid selection value={selectedTimeEnd} options={times} onChange={(evt, { value }) => this.handleTimeSelect('selectedTimeEnd', value)} />
               <Button size="large" color="blue" className="add-time-btn" onClick={() => handleAddSession(selectedDate, selectedTimeStart, selectedTimeEnd, userId)} >Add Time</Button>
               </div>
             </div>

@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import { Button } from 'semantic-ui-react'
 import './user-home.css'
 
 /**
@@ -14,10 +15,14 @@ export const UserHome = (props) => {
       <div className="banner">
         <dv className="row">
           <div className="col-sm-12">
-            <h1>Always Know Where You Stand</h1>
+            <h1 className="text-center">Always Know Where You Stand</h1>
           </div>
           <div className="col-sm-12">
-            <h2>With Our Transparent Hiring Process.</h2>
+            <h2 className="text-center">With Our Transparent Hiring Process</h2>
+          </div>
+          <div className="col-sm-12 text-center buttons-wrapper">
+            <Button size="massive" basic color="blue">Login</Button>
+            <Button size="massive" basic color="blue">Sign Up</Button>
           </div>
         </dv>
       </div>
@@ -35,6 +40,11 @@ export const UserHome = (props) => {
             <div className="feature-img-1"></div>
             <h2 className="text-center feature-title">Solo / Pair Practice</h2>
             <h4 className="text-center">Practice interview questions with another user or solo.</h4>
+          </div>
+          <div className="col-sm-4">
+            <div className="feature-img-1"></div>
+            <h2 className="text-center feature-title">Real-time Messaging</h2>
+            <h4 className="text-center">Message directly with employers regarding your application.</h4>
           </div>
         </div>
       </div>

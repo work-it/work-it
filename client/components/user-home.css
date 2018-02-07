@@ -1,13 +1,20 @@
 .banner {
   height: 600px;
-  background-image: url('/banner.jpg');
+  background-image: url('/stock-photo-white-workspace-desk-on-top-view-571433629.jpg');
   background-size: cover;
+  background-position-y: -150px;
   display: flex;
   align-items: center;
 }
 
 .banner h1 {
   font-size: 45px;
+  text-shadow: 2px 2px 2px rgba(0,0,0,0.1);
+}
+
+.banner h2 {
+  font-size: 35px;
+  text-shadow: 2px 2px 2px rgba(0,0,0,0.1);
 }
 
 .feature {
@@ -19,7 +26,7 @@
   background-image: url('/applications.png');
   background-size: cover;
   background-position: center right;
-  box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+  box-shadow: 0 1px 3px 0 #d4d4d5;
   border-radius: 3px;
 }
 
@@ -29,8 +36,19 @@
 
 .home .row {
   padding: 0 35px 50px;
+  width: 100%;
 }
 
 .feature-title {
   color: #2185d0;
+}
+
+.home .buttons-wrapper {
+  margin-top: 20px;
+}
+
+.home .buttons-wrapper button.ui.basic.blue.button {
+  margin: 0 5px;
+  width: 110px;
+  background: #fff !important;
 }

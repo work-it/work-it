@@ -83,11 +83,11 @@ class EmployerApplication extends Component {
     return <div>
       {
         !application.archived &&
-        <Button className="archive-btn" size="big" onClick={() => handleArchive(application.id)}>Archive</Button>
+        <Button className="archive-btn" size="big" color="blue" onClick={() => handleArchive(application.id)}>Decline</Button>
       }
-      <Button className="archive-btn" size="big" onClick={() => handleSaveEmployerNotes(application.id, notes)}>Save Notes</Button>
+      <Button className="archive-btn" size="big" color="blue" onClick={() => handleSaveEmployerNotes(application.id, notes)}>Save Notes</Button>
 
-      <Button className="archive-btn" size="big" onClick={() => this.handleScheduleInterview(application.id)}>Schedule An Interview</Button>
+      <Button className="archive-btn" size="big" color="blue" onClick={() => this.handleScheduleInterview(application.id)}>Schedule An Interview</Button>
     </div>
   }
 
@@ -120,7 +120,6 @@ class EmployerApplication extends Component {
     return <div className="chat-note-wrapper">
                 <UserChatBox application={application} showHeader={true} />
                 <div className="notes">
-                  <h2>Notes</h2>
                   <Form>
                     <TextArea className="notes" placeholder="Notes" value={this.state.notes} onChange={(evt, {value}) => this.handleNotesChange(evt, value)} />
                   </Form>
