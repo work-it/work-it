@@ -27,7 +27,7 @@
 
 .userProfileForm form div {
   margin: 0;
-  margin-top: 20px;
+
 }
 
 .userProfileForm form div input, userProfileForm form div dropdown, userProfileForm form div button, userProfileForm form div experience {
@@ -43,42 +43,56 @@
   font-size: 16px;
 }
 
-.userDesc {
-  height: 200px;
-  font-size: 14px;
+.userProfileForm .ui.input{
   margin-top: 20px;
 
 }
 
-/* .ui.form textarea {
+.userProfileForm .ui.fluid.dropdown {
+  margin-top: 20px;
+}
+
+.userProfileForm .ui.form textarea.userDesc{
   margin-top: 20px;
   font-size: 14px;
-} */
+  height: 200px;
 
-.ui.fluid.dropdown {
+}
+
+.userProfileForm .ui.fluid.dropdown {
   height: 38px;
   font-size: 14px;
   vertical-align: top;
 }
 
-.ui.input {
+.userProfileForm .ui.input {
   font-size: 14px;
 }
 
 
 .camera-on, .still-pic, .user-video {
   display: block;
-  width: 250px;
-  height: 200px;
+  width: 300px;
+  height: 250px;
   background-color: #333;
 }
 
 
-#stillDiv {
-  width: 250px;
-  height: 200px;
+#stillDiv canvas{
+  width: 300px;
+  height: 230px;
 }
 
+#canvasDiv video{
+  width: 300px !important;
+  height: 250px !important;
+
+}
 .skills {
   margin-top: 40px
+}
+
+
+#fileInput {
+  display: none;
 }
