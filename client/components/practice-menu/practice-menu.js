@@ -36,11 +36,6 @@ render (){
             changeView('solo')
           }}>Solo</a></li>
           <li><a onClick={() => changeView('history')}>History</a></li>
-          <li>
-          {
-            !this.props.room.name?<a onClick={()=> this.props.openNewRoom()}>Open New Room</a>:null
-          }
-          </li>
         </ul>
       </div>
     </div>
