@@ -1,3 +1,4 @@
+console.log("STARTING index.js")
 const path = require('path')
 const express = require('express')
 const morgan = require('morgan')
@@ -5,7 +6,7 @@ const bodyParser = require('body-parser')
 const compression = require('compression')
 const session = require('express-session')
 const passport = require('passport')
-const busboy = require('connect-busboy');;
+const busboy = require('connect-busboy');
 console.log("starting firebase store")
 //const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const FirebaseStore = require('connect-session-firebase')(session);
