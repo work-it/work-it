@@ -18,3 +18,67 @@
 .skills-wrapper .ui.segment {
   margin: 0 5px 5px 0;
 }
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+
+.userProfileForm form div {
+  margin: 0;
+  margin-top: 20px;
+}
+
+.userProfileForm form div input, userProfileForm form div dropdown, userProfileForm form div button, userProfileForm form div experience {
+ height: 38px;
+}
+
+.blue-text {
+  color: #2185d0;
+}
+
+.save-button {
+  height: 38px;
+  font-size: 16px;
+}
+
+.userDesc {
+  height: 200px;
+  font-size: 14px;
+  margin-top: 20px;
+
+}
+
+/* .ui.form textarea {
+  margin-top: 20px;
+  font-size: 14px;
+} */
+
+.ui.fluid.dropdown {
+  height: 38px;
+  font-size: 14px;
+  vertical-align: top;
+}
+
+.ui.input {
+  font-size: 14px;
+}
+
+
+.camera-on, .still-pic, .user-video {
+  display: block;
+  width: 250px;
+  height: 200px;
+  background-color: #333;
+}
+
+
+#stillDiv {
+  width: 250px;
+  height: 200px;
+}
+
+.skills {
+  margin-top: 40px
+}

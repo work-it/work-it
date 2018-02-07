@@ -35,8 +35,8 @@ const AuthForm = (props) => {
               {displayFB}
         {
           name === 'login' ?
-          <div className="sign-up-link">Don't Have An Account? <a onClick={() => handleToggleType(authView)}>Sign Up</a></div> :
-          <div className="sign-up-link">Don't Have An Account? <a onClick={() => handleToggleType(authView)}>Login</a></div>
+          <div className="sign-up-link"> Don't Have An Account? <a onClick={() => handleToggleType(authView)}>Sign Up</a></div> :
+          <div className="sign-up-link"> Already Have An Account? <a onClick={() => handleToggleType(authView)}>Login</a></div>
         }
       </div>
     </div>

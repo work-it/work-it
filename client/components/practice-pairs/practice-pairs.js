@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import { joinPairPractice, loadOpenRooms, endOpenedRoom } from './practice-reducer'
+import { joinPairPractice, loadOpenRooms, endOpenedRoom, startPairPractice } from './practice-reducer'
 import { loadAllUsers } from '../../store'
 import InterviewBoardContainer from '../interview-container/interview-board-container';
 import UserTile from '../tile-user/tile-user'
@@ -49,10 +49,14 @@ class PracticePairs extends Component{
       <div className="no-practice-rooms-wrapper">
         <Card className="no-practice-rooms-card text-center">
           <h4>There are no pair practice rooms currently open.</h4>
-          <Button className="new-room-btn" fluid={false} size="large" color="blue" >Open New Room</Button>
+          <Button className="new-room-btn" fluid={false} size="large" color="blue"  onClick={() => this.handleOpenNewRoom()}>Open New Room</Button>
         </Card>
       </div>
     )
+  }
+
+  handleOpenNewRoom () {
+    this.props.openNewRoom();
   }
 
   getFooterFunction(room) {
@@ -91,6 +95,9 @@ const mapDispatch = (dispatch) => {
     },
     loadUsers() {
       dispatch(loadAllUsers())
+    },
+    openNewRoom () {
+      dispatch(startPairPractice())
     }
   }
 }

@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
  import {connect} from 'react-redux'
  import {withRouter} from 'react-router-dom'
-import { TextArea, Form, Button, Input, Dropdown} from 'semantic-ui-react'
+import { TextArea, Form, Button, Input, Card, Icon, Label, Divider, Image, Header} from 'semantic-ui-react'
 import { saveProfilePhoto, saveProfileVideo, uploadVideo } from '../../store'
 import './user-profile-form.css'
 
@@ -57,12 +57,12 @@ class UserImageForm extends Component {
   }
 
   handleStartVideo () {
-    document.getElementById('red').appendChild (this.blinkingRed)
+    document.getElementById('red').appendChild(this.blinkingRed)
     this.chunks = [];
     const options = {
-      audioBitsPerSecond : 128000,
-      videoBitsPerSecond : 2500000,
-      mimeType : 'video/webm'
+      audioBitsPerSecond: 128000,
+      videoBitsPerSecond: 2500000,
+      mimeType: 'video/webm'
     }
 
     this.mediaRecorder = new MediaRecorder(this.videoStream, options);
@@ -79,7 +79,7 @@ class UserImageForm extends Component {
   stopRecording (e) {
     console.log("data available after MediaRecorder.stop() called.", this.liveVideo);
     this.liveVideo.controls = true;
-    this.videoBlob = new Blob(this.chunks, { 'type' : 'video/webm' });
+    this.videoBlob = new Blob(this.chunks, { 'type': 'video/webm' });
     console.log("blob", this.videoBlob);
     const videoURL = window.URL.createObjectURL(this.videoBlob);
     this.liveVideo.src = videoURL;
@@ -96,13 +96,13 @@ class UserImageForm extends Component {
 
   handleAllUpload(e) {
     e.preventDefault()
-    if(this.state.imgUrl.length>0) {
+    if (this.state.imgUrl.length > 0) {
       this.props.saveProfileImg(this.state.imgUrl, document.getElementById('fileInput').files[0])
     } else if (this.state.haveSnapshot) {
       this.canvasStill.toBlob(this.blobCB)
     }
 
-    if (this.state.videoUrl.length>0) {
+    if (this.state.videoUrl.length > 0) {
       //console.log("name", this.state.videoStream, "name2", document.getElementById('videoInput').files[0].name)
       this.props.saveProfileRec(this.state.videoUrl, document.getElementById('videoInput').files[0])
     } else if (this.state.haveVideo) {
@@ -125,7 +125,7 @@ class UserImageForm extends Component {
 
     document.getElementById('stillDiv').appendChild(this.canvasStill)
     //this.stop();
-    this.setState({imgUrl:'', haveSnapshot:true});
+    this.setState({imgUrl: '', haveSnapshot: true});
 
   }
 
@@ -134,11 +134,11 @@ class UserImageForm extends Component {
   handleTakePhoto (e) {
     e.preventDefault()
     if (!this.videoStream) {
-      if (navigator.getUserMedia) navigator.getUserMedia({video:true, audio:true}, this.processStream, () => console.log("no straem"));
-      else if (navigator.oGetUserMedia) navigator.oGetUserMedia({video:true, audio:true}, this.processStream, () => console.log("no straem"));
-      else if (navigator.mozGetUserMedia) navigator.mozGetUserMedia({video:true, audio:true}, this.processStream, () => console.log("no straem"));
-      else if (navigator.webkitGetUserMedia) navigator.webkitGetUserMedia({video:true, audio:true}, this.processStream, () => console.log("no straem"));
-      else if (navigator.msGetUserMedia) navigator.msGetUserMedia({video:true, audio:true}, this.processStream, () => console.log("no straem"));
+      if (navigator.getUserMedia) navigator.getUserMedia({video: true, audio: true}, this.processStream, () => console.log("no stream"));
+      else if (navigator.oGetUserMedia) navigator.oGetUserMedia({video: true, audio: true}, this.processStream, () => console.log("no stream"));
+      else if (navigator.mozGetUserMedia) navigator.mozGetUserMedia({video: true, audio: true}, this.processStream, () => console.log("no stream"));
+      else if (navigator.webkitGetUserMedia) navigator.webkitGetUserMedia({video: true, audio: true}, this.processStream, () => console.log("no stream"));
+      else if (navigator.msGetUserMedia) navigator.msGetUserMedia({video: true, audio: true}, this.processStream, () => console.log("no stream"));
       else console.log('getUserMedia() not available from your Web browser!');
     }
   }
@@ -154,10 +154,11 @@ class UserImageForm extends Component {
     if (this.video){
       this.video.onerror = null;
       this.video.pause();
-      if (this.video.mozSrcObject)
-      this.video.mozSrcObject = null;
-      this.video.src = "";
-      this.video.srcObject = null;
+      if (this.video.mozSrcObject){
+        this.video.mozSrcObject = null;
+        this.video.src = "";
+        this.video.srcObject = null;
+      }
     }
     try {
       document.getElementById('canvasDiv').removeChild(this.video)
@@ -182,31 +183,61 @@ getClickEvent (e) {
 
   render() {
     const {imgUrl, videoUrl} = this.state;
-    const {nextClick} = this.props;
-    console.log("got next click", nextClick, this.props)
+    const {nextClick, prevClick} = this.props;
+    console.log('got next click', nextClick, this.props)
     return (
-      <div className="userProfileForm row">
-          <Form id='form'>
-          Upload Photo: 
-            <Input id='fileInput' type='file' className="imgUrl" placeholder="Chose a photo" value={imgUrl} onChange={(evt) => this.handleStringChange('imgUrl', evt.target.value)} /> 
-           
-            <Input className="videoUrl" type='file' id='videoInput' placeholder="Add a video" value={videoUrl} onChange={(evt) => this.handleStringChange('videoUrl', evt.target.value)} />          
-            <br/>
-            or use your camera!  <Button id='photoButton' onClick={this.handleTakePhoto}>Start Camera</Button><div id='canvasDiv'></div>
-            <br/>
-            Photo: 
-            <div id='stillDiv' ></div>
-            
-            <Button id='photoSaveButton' onClick={this.handleSavePhoto}>Capture Photo</Button>
-            <br/>
-            <div id='videoDiv' ></div>
-            Video: <Button id='startVideo' onClick={this.handleStartVideo}>Start video recording</Button><div id='red'></div>
-            <Button id='stopVideoRecording' onClick={this.handleStopVideo}>Stop video recording</Button>
-            <br/>
-            <Button id='photoUploadButton' onClick={this.handleAllUpload}>Upload</Button>
-            
+      <div >
+      <Card className="job-panel">
+        <div className="userProfileForm row">
+          <div className = "col-sm-12">
+            <h2>Profile Builder</h2>
+            <hr />
+            <h4> Step 2 - Add a Photo and Record a Video Inroduction </h4>
+          </div>
+
+          <Form id="form">
+
+
+              <div className = "col-sm-12">
+                <Button id="photoButton" onClick={this.handleTakePhoto}>Start Camera</Button>
+              </div>
+              <div className = "col-sm-4">
+                <div className="camera-on" id="canvasDiv" />
+              </div>
+              <div className = "col-sm-4">
+                <div className="still-pic" id="stillDiv" />
+              </div>
+              <div className = "col-sm-4">
+                <div className="user-video" id="videoDiv" />
+              </div>
+              <div className = "col-sm-12">
+                <Button id="photoSaveButton" onClick={this.handleSavePhoto}>Capture Photo</Button>
+                <Button id="startVideo" onClick={this.handleStartVideo}>Start video recording</Button>
+                <Button id="stopVideoRecording" onClick={this.handleStopVideo}>Stop video recording</Button>
+                <Button id="photoUploadButton" onClick={this.handleAllUpload}>Upload</Button>
+                <div id="red" />
+              </div>
+              <div className = "col-sm-12">
+                <hr />
+              </div>
+              <div className = "col-sm-12">
+                <h4>Already have a great headshot or video? Add it here!</h4>
+              </div>
+              <div className = "col-sm-6">
+
+                <Input id="fileInput" label="Upload Photo:" type="file" className="imgUrl" placeholder="Chose a photo" fluid value={imgUrl} onChange={(evt) => this.handleStringChange('imgUrl', evt.target.value)} />
+              </div>
+
+              <div className = "col-sm-6">
+                <Input className="videoUrl" label="Upload Video:" type="file" id="videoInput" placeholder="Add a video" fluid value={videoUrl} onChange={(evt) => this.handleStringChange('videoUrl', evt.target.value)} />
+              </div>
+              <div className = "col-sm-12">
+                <Button color="blue" size="big" className ="save-button" floated="right" onClick= {nextClick}>Next</Button>
+                <Button color="black" size="big" className="save-button" floated="right" onClick={prevClick}>Prev</Button>
+              </div>
             </Form>
-          <Button onClick={nextClick}>Next</Button>
+        </div>
+      </Card>
       </div>
     )
   }

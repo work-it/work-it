@@ -78,3 +78,7 @@ video {
 .question-buttons .ui.large.button {
   margin: 5px 10px;
 }
+
+#videos-container {
+  display: flex
+}

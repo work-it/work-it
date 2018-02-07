@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import { updateProfileThunk } from '../../store'
 // import {withRouter} from 'react-router-dom'
-import { Form, Button, Input, Dropdown, Icon} from 'semantic-ui-react'
+import { Form, Button, Input, Dropdown, Icon, Card} from 'semantic-ui-react'
 import './user-profile-form.css'
 
 // Options for the skills dropdown menu
@@ -48,103 +48,125 @@ class SkillForm extends Component {
     const { prevClick } = this.props;
 
     return (
+      <Card className="job-panel">
       <div className="SkillForm row">
+      <div className = "col-sm-12">
+        <h2>Profile Builder</h2>
+        <hr />
+        <h4> Step 3 - Add and Rank Your Skills </h4>
+      </div>
         {/* If showTopSkillsWarning is true, show the warning */}
         {showTopSkillWarning && <h3>Only 3 Top Skills Allowed. Remove A Top Skill To Add Another.</h3>}
         {/* If showDupSkillsWarning is true, show the warning */}
         {showDupSkillWarning && <h3>You Already Added This Skill.</h3>}
-        <ul>
-          {
-            /* Map over the skillsArr and only return the skills that match the condition in the if statement */
-            !!skillsArr.length &&
-            skillsArr.map((skill, idx) => {
-              if (skill.topSkill) {
-                return (
-                <li key={skill.name}>
-                  {`${skill.name} - ${skill.rank}`}
-                  <Button circular icon="star" className="remtop-btn" onClick={() => this.removeFromTop(idx)} />
-                  <Button circular icon="trash" className="remove-btn" onClick={() => this.removeSkill(idx)} />
-                  <Button circular icon="pencil" className="edit-btn" onClick={() => this.editSkill(idx)} />
-                </li>
-              )
-              }
-            })
-          }
-        </ul>
-        <hr />
-        <ul>
-          {
-            /* Map over the skillsArr and only return the skills that match the condition in the if statement */
-            !!skillsArr.length &&
-            skillsArr.map((skill, idx) => {
-              if (skill.rank === 'advanced' && !skill.topSkill) {
-                return (
+        <div className = "col-sm-3 skills">
+          <h4>Top Skills</h4>
+          <ul>
+            {
+              /* Map over the skillsArr and only return the skills that match the condition in the if statement */
+              !!skillsArr.length &&
+              skillsArr.map((skill, idx) => {
+                if (skill.topSkill) {
+                  return (
                   <li key={skill.name}>
-                  {`${skill.name} - ${skill.rank}`}
-                  <Button circular icon="empty star" className="addtop-btn" onClick={() => this.addToTop(idx)} />
-                  <Button circular icon="trash" className="remove-btn" onClick={() => this.removeSkill(idx)} />
-                  <Button circular icon="pencil" className="edit-btn" onClick={() => this.editSkill(idx)} />
-                  </li>
-                )
-              }
-            })
-          }
-        </ul>
-        <ul>
-          {
-            /* Map over the skillsArr and only return the skills that match the condition in the if statement */
-            !!skillsArr.length &&
-            skillsArr.map((skill, idx) => {
-              if (skill.rank === 'intermediate' && !skill.topSkill) {
-                return (
-                  <li key={skill.name}>
-                    {`${skill.name} - ${skill.rank}`}
-                    <Button circular icon="empty star" className="addtop-btn" onClick={() => this.addToTop(idx)} />
+                    {`${skill.name}`}
+                    <Button circular icon="star" className="remtop-btn" onClick={() => this.removeFromTop(idx)} />
                     <Button circular icon="trash" className="remove-btn" onClick={() => this.removeSkill(idx)} />
                     <Button circular icon="pencil" className="edit-btn" onClick={() => this.editSkill(idx)} />
                   </li>
                 )
-              }
-            })
-          }
-        </ul>
-        <ul>
-          {
-            /* Map over the skillsArr and only return the skills that match the condition in the if statement */
-            !!skillsArr.length &&
-            skillsArr.map((skill, idx) => {
-              if (skill.rank === 'beginner' && !skill.topSkill) {
-                return (
-                  <li key={skill.name}>
-                  {`${skill.name} - ${skill.rank}`}
-                  <Button circular icon="empty star" className="addtop-btn" onClick={() => this.addToTop(idx)} />
-                  <Button circular icon="trash" className="remove-btn" onClick={() => this.removeSkill(idx)} />
-                  <Button circular icon="pencil" className="edit-btn" onClick={() => this.editSkill(idx)} />
+                }
+              })
+            }
+          </ul>
+        </div>
+        <div className = "col-sm-3 skills">
+        <h4>Advanced</h4>
+          <ul>
+            {
+              /* Map over the skillsArr and only return the skills that match the condition in the if statement */
+              !!skillsArr.length &&
+              skillsArr.map((skill, idx) => {
+                if (skill.rank === 'advanced' && !skill.topSkill) {
+                  return (
+                    <li key={skill.name}>
+                    {`${skill.name}`}
+                    <Button circular icon="empty star" className="addtop-btn" onClick={() => this.addToTop(idx)} />
+                    <Button circular icon="trash" className="remove-btn" onClick={() => this.removeSkill(idx)} />
+                    <Button circular icon="pencil" className="edit-btn" onClick={() => this.editSkill(idx)} />
+                    </li>
+                  )
+                }
+              })
+            }
+          </ul>
+        </div>
+        <div className = "col-sm-3 skills">
+        <h4>Intermediate</h4>
+          <ul>
+            {
+              /* Map over the skillsArr and only return the skills that match the condition in the if statement */
+              !!skillsArr.length &&
+              skillsArr.map((skill, idx) => {
+                if (skill.rank === 'intermediate' && !skill.topSkill) {
+                  return (
+                    <li key={skill.name}>
+                      {`${skill.name}`}
+                      <Button circular icon="empty star" className="addtop-btn" onClick={() => this.addToTop(idx)} />
+                      <Button circular icon="trash" className="remove-btn" onClick={() => this.removeSkill(idx)} />
+                      <Button circular icon="pencil" className="edit-btn" onClick={() => this.editSkill(idx)} />
+                    </li>
+                  )
+                }
+              })
+            }
+          </ul>
+        </div>
+        <div className = "col-sm-3 skills">
+        <h4>Beginner</h4>
+          <ul>
+            {
+              /* Map over the skillsArr and only return the skills that match the condition in the if statement */
+              !!skillsArr.length &&
+              skillsArr.map((skill, idx) => {
+                if (skill.rank === 'beginner' && !skill.topSkill) {
+                  return (
+                    <li key={skill.name}>
+                    {`${skill.name}`}
+                    <Button circular icon="empty star" className="addtop-btn" onClick={() => this.addToTop(idx)} />
+                    <Button circular icon="trash" className="remove-btn" onClick={() => this.removeSkill(idx)} />
+                    <Button circular icon="pencil" className="edit-btn" onClick={() => this.editSkill(idx)} />
 
-                  </li>
-                )
-              }
-            })
-          }
-        </ul>
-        <Form>
-          <Input className="skillName" placeholder="Skill" value={skillName} onChange={(evt) => this.handleStringChange('skillName', evt.target.value)} />
+                    </li>
+                  )
+                }
+              })
+            }
+          </ul>
+        </div>
 
-          <Dropdown selection className="skillRank" placeholder="Skill Rank" value={skillRank} onChange={(evt, {value}) => this.handleStringChange('skillRank', value)} options={skillRanks} />
-          {
-            /* If editing is true, show the pencil icon and call the updateSkill function if the button is clicked
-            * If editing is false, show the add icon and call the addSkills function if the button is clicked
-            */
-            this.state.editing ?
-            <Button circular icon="pencil" className="add-btn" onClick={() => this.updateSkill()} /> :
-            <Button circular icon="plus" className="add-btn" onClick={() => this.addSkill()} />
-          }
-        </Form>
-        {/* prevClick is a callback function passed down as props from the parent. It increments the step down by 1.*/}
-        <Button onClick={prevClick}>Prev</Button>
-        {/* handleNextClick takes care of calling the nextClick callback function passed down by the parent AND calls the redux thunk to save the info to the db. */}
-        <Button onClick={() => this.handleNextClick()}>Next</Button>
+          <Form>
+          <div className = "col-sm-12">
+            <Input className="skillName" placeholder="Skill" value={skillName} onChange={(evt) => this.handleStringChange('skillName', evt.target.value)} />
+
+            <Dropdown selection className="skillRank" placeholder="Skill Rank" value={skillRank} onChange={(evt, {value}) => this.handleStringChange('skillRank', value)} options={skillRanks} />
+            {
+              /* If editing is true, show the pencil icon and call the updateSkill function if the button is clicked
+              * If editing is false, show the add icon and call the addSkills function if the button is clicked
+              */
+              this.state.editing ?
+              <Button circular icon="pencil" className="add-btn" onClick={() => this.updateSkill()} /> :
+              <Button circular icon="plus" className="add-btn" onClick={() => this.addSkill()} />
+            }
+            </div>
+            <div className = "col-sm-12">
+              <Button color="blue" size="big" className="save-button" floated="right" onClick={() => this.handleNextClick()}>Next</Button>
+              <Button color="black" size="big" className="save-button" floated="right" onClick={prevClick}>Prev</Button>
+            </div>
+          </Form>
+
       </div>
+      </Card>
     )
   }
 
