@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import {withRouter} from 'react-router-dom'
 import {getProfileThunk} from '../../store'
 import UserProfileForm from './user-profile-form'
 import UserImageForm from './user-image-form'
@@ -15,19 +16,28 @@ class userProfileContainer extends Component {
   constructor(props) {
     super(props);
 
+    // this.state = {
+    //   step: props.match && props.match.params.step?props.match.params.step:1
+    // }
     this.state = {
-      step: null
+      step: props.step
     }
 
+ 
     this.nextClick = this.nextClick.bind(this);
     this.prevClick = this.prevClick.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps && !this.state.step) {
+    // if (nextProps && !this.state.step) {
+    //   this.setState({step: nextProps.step})
+    // }
+    if (nextProps) {
       this.setState({step: nextProps.step})
     }
-
+    // if (nextProps.match && nextProps.match.params.step) {
+    //   this.setState({step:+nextProps.match.params.step})
+    // }
     if (!this.props.isLoggedIn && nextProps.isLoggedIn) {
       this.props.fetchProfile();
     }
@@ -61,16 +71,18 @@ class userProfileContainer extends Component {
 
   nextClick() {
     this.setState({step: this.state.step + 1})
-    console.log('next click called')
+    //this.props.history.push('/profile/edit/'+(this.state.step+1))
+    //console.log('next click called')
   }
 
   prevClick() {
     this.setState({step: this.state.step - 1})
+   // this.props.history.push('/profile/edit/'+(this.state.step-1))
   }
 
   renderSubView() {
     const {step} = this.state;
-    console.log('nextClick in parent', this.nextClick)
+    console.log('nextClick in parent', this.nextClick, "step", step)
     switch (step) {
       case 1:
         return <UserProfileForm nextClick={this.nextClick} step={step} />
@@ -105,4 +117,11 @@ const mapDispatch = (dispatch) => {
   }
 }
 
-export default connect(mapState, mapDispatch)(userProfileContainer)
+const mergeProps = (state, actions, ownProps) => ({
+  ...state,
+  ...actions,
+  ...ownProps,
+  //step: ownProps.match && ownProps.match.params ? +ownProps.match.params.step : 1
+})
+
+export default withRouter(connect(mapState, mapDispatch, mergeProps)(userProfileContainer))

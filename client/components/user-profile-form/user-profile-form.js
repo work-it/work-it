@@ -55,7 +55,6 @@ class UserProfileForm extends Component {
 
   render() {
     const { firstName, lastName, position, location, experience, type, minSalary, maxSalary, imgUrl, videoUrl, userDesc } = this.state;
-    const { prevClick} = this.props;
 
     return (
       <Card className="job-panel row">
@@ -106,6 +105,7 @@ class UserProfileForm extends Component {
 
   handleNextClick() {
     // increment the step in the parent
+    console.log(this.props)
     this.props.nextClick();
     // consolidate data
     let data = this.state;

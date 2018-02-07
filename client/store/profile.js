@@ -10,6 +10,7 @@ export const UPLOAD_VIDEO = 'UPLOAD_VIDEO'
 export const VIDEO_UPLOADED = 'VIDEO_UPLOADED'
 export const START_FILE_UPLOAD = 'START_FILE_UPLOAD'
 const GOT_ALL_USERS = 'GOT_ALL_USERS'
+const UPDATE_STEP = 'UPDATE_STEP'
 
 /**
  * INITIAL STATE
@@ -19,6 +20,9 @@ const defaultProfile = {}
 /**
  * ACTION CREATORS
  */
+export const updateStep = (step)  => ({
+  type: UPDATE_STEP, step
+})
 const updateProfile = data => ({type: UPDATE_PROFILE, data})
 const gotAllUsers = allUsers => ({type: GOT_ALL_USERS, allUsers})
 const getProfile = data => ({type: GET_PROFILE, data})
@@ -49,6 +53,8 @@ export const getProfileThunk = () => {
     axios.get(`/api/profiles/${userId}`)
       .then(res => {
         console.log('data', res.data)
+        if (!res.data.userId)
+          res.data.userId = userId
         dispatch(getProfile(res.data));
       })
   }
@@ -93,12 +99,16 @@ export const pushVideoToFirebase = name => (dispatch, getState) => {
 
 
 
+
 // DONT MODIFY, IT SHOULD WORK WITH WHATEVER IS PASSED IN!
 export const updateProfileThunk = (data) => {
   return (dispatch, getState) => {
     // Get user from the current redux store
     const userId = getState().user.id;
     const profile = Object.assign({}, getState().profile, data);
+    if (!profile.userId){
+      profile.userId = userId
+    }
 
     // Get profile for the current logged in user
     axios.put(`/api/profiles/${userId}`, profile)
@@ -121,9 +131,11 @@ export default function (state = defaultProfile, action) {
       return Object.assign({}, state, action.data);
     case GET_PROFILE:
       // Replace the current profile store state with the profile retrieved from Firebase
-      return action.data
+      return action.data?action.data : {}
     case GOT_ALL_USERS:
       return Object.assign({}, state, {allProfiles:action.allUsers})
+    case UPDATE_STEP:
+      return Object.assign({}, state, {step:action.step})
     default:
       return state
   }

@@ -62,7 +62,9 @@ export const fetchAppliedJobsThunk = (userId) => {
 
 export const jobSearchThunk = (term, location) => {
   return (dispatch) => {
-    axios.get(`/api/jobs/search/${location}/${term}`)
+    const url = term && location? `/api/jobs/search/${location}/${term}` : `/api/jobs/`;
+
+    axios.get(url)
       .then(res => dispatch(search(res.data)))
   }
 }

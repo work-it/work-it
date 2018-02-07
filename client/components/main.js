@@ -60,6 +60,7 @@ class Main extends Component {
           {/* PROFILE ROUTES */}
           <Route exact path="/profile" render={()=><UserProfile />} />
           <Route exact path="/profile/edit" render={() => <UserProfileContainer /> } />
+          <Route path="/profile/edit/:step" render={() => <UserProfileContainer /> } />
 
           {/* MESSAGE ROUTES */}
           <Route exact path="/messages" render={() => <UserChat /> } />

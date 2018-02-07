@@ -67,7 +67,6 @@ export const applyThunk = (id, coverLetter, employerId) => {
       coverLetter: coverLetter,
       offerLetter: ''
     }
-
     // Create a copy of the current application store and add in the new application.
     const allApplications = [...getState().applications, newApplication];
 
