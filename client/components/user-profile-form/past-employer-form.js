@@ -44,8 +44,14 @@ class PastEmployerForm extends Component {
     return (
       <Card className="job-panel">
           <div className="PastEmployersForm row">
-          <div className = "col-sm-12">
+          <div className = "col-sm-6">
             <h2>Profile Builder</h2>
+          </div>
+          <div className = "col-sm-6">
+            <Button color="blue" size="big" className="save-button" floated="right" onClick={() => this.handleNextClick()}>Next</Button>
+            <Button color="black" size="big" className="save-button" floated="right" onClick={prevClick}>Prev</Button>
+          </div>
+          <div className = "col-sm-12">
             <hr />
             <h4> Step 4 - Add Your Past Work Experience </h4>
           </div>
@@ -67,7 +73,7 @@ class PastEmployerForm extends Component {
                 <Input className="companyWebsite" placeholder="Company Website" fluid value={companyWebsite} onChange={(evt) => this.handleStringChange('companyWebsite', evt.target.value)} />
               </div>
               <div className = "col-sm-12">
-                <TextArea className="workDesc" placeholder="Description" fluid value={workDesc} onChange={(evt) => this.handleStringChange('workDesc', evt.target.value)} />
+                <TextArea className="workDesc" placeholder="Description"  value={workDesc} onChange={(evt) => this.handleStringChange('workDesc', evt.target.value)} />
               </div>
               <div className = "col-sm-12">
                 {
@@ -108,10 +114,7 @@ class PastEmployerForm extends Component {
             }
           </div>
 
-        <div className = "col-sm-12">
-        <Button color="blue" size="big" className="save-button" floated="right" onClick={() => this.handleNextClick()}>Next</Button>
-        <Button color="black" size="big" className="save-button" floated="right" onClick={prevClick}>Prev</Button>
-      </div>
+
         </div>
       </Card>
     )

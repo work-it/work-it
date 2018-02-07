@@ -35,11 +35,11 @@ class UserInProgress extends Component {
     if (applications) {
       if (type === 'in-progress') {
         filteredApplications = applications.filter(application => {
-          return !application.archived;
+          return application && !application.archived;
         })
       } else if (type === 'archived') {
         filteredApplications = applications.filter(application => {
-          return application.archived;
+          return application && application.archived;
         })
       }
     }

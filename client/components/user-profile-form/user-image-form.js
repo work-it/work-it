@@ -189,8 +189,14 @@ getClickEvent (e) {
       <div >
       <Card className="job-panel">
         <div className="userProfileForm row">
-          <div className = "col-sm-12">
+          <div className = "col-sm-6">
             <h2>Profile Builder</h2>
+          </div>
+          <div className = "col-sm-6">
+            <Button color="blue" size="big" className ="save-button" floated="right" onClick= {nextClick}>Next</Button>
+            <Button color="black" size="big" className="save-button" floated="right" onClick={prevClick}>Prev</Button>
+          </div>
+          <div className = "col-sm-12">
             <hr />
             <h4> Step 2 - Add a Photo and Record a Video Inroduction </h4>
           </div>
@@ -231,10 +237,7 @@ getClickEvent (e) {
               <div className = "col-sm-6">
                 <Input className="videoUrl" label="Upload Video:" type="file" id="videoInput" placeholder="Add a video" fluid value={videoUrl} onChange={(evt) => this.handleStringChange('videoUrl', evt.target.value)} />
               </div>
-              <div className = "col-sm-12">
-                <Button color="blue" size="big" className ="save-button" floated="right" onClick= {nextClick}>Next</Button>
-                <Button color="black" size="big" className="save-button" floated="right" onClick={prevClick}>Prev</Button>
-              </div>
+
             </Form>
         </div>
       </Card>

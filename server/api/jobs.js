@@ -89,6 +89,21 @@ router.get('/:id', (req, res, next) => {
     .catch (console.log)
 })
 
+router.get('/', (req, res, next) => {
+  firebase.database().ref('/jobs')
+  .once('value')
+  .then(ds => ds.val())
+  .then (jobs => {
+    const jobsArr = [];
+    for (let key in jobs) {
+      jobsArr.push(jobs[key])
+    }
+    return jobsArr
+  })
+  .then (jobs => res.json(jobs))
+  .catch (console.log)
+})
+
 router.get('/search/:location/:term', (req, res, next) => {
   console.log(req.params);
   let term = req.params.term;
