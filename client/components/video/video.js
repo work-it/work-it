@@ -55,6 +55,9 @@ class VideoContainer extends Component {
 
     componentWillUnmount () {
       this.leaveRoomIfJoined();
+      if (this.previewTracks) {
+        this.detachTracks(this.previewTracks)
+      }
     }
 
     pause () {
