@@ -38,7 +38,7 @@ class userProfileContainer extends Component {
     return (
       <div className="job-view userProfileContainer row">
         <div className="pagination">
-          {if(step === 0) }
+          {(step === 0) }
           Page: {step}
         </div>
         {this.renderSubView()}
@@ -59,10 +59,10 @@ class userProfileContainer extends Component {
     const {step} = this.state;
     console.log("nextClick in parent",this.nextClick)
     switch (step) {
-      case 1:
-        return <UserImageForm nextClick={this.nextClick} step={step} />
       case 2:
-        return <UserProfileForm nextClick={this.nextClick} prevClick={this.prevClick} step={step} />
+        return <UserImageForm nextClick={this.nextClick} prevClick={this.prevClick} step={step} />
+      case 1:
+        return <UserProfileForm nextClick={this.nextClick} step={step} />
       case 3:
         return <SkillForm nextClick={this.nextClick} prevClick={this.prevClick} step={step} />
       case 4:

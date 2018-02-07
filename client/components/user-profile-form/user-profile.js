@@ -1,9 +1,15 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {getProfileThunk} from '../../store'
+import {withRouter} from 'react-router-dom'
+import {getProfileThunk, updateStep} from '../../store'
 import {Card, Image, Header, Divider, Label, Icon, Segment} from 'semantic-ui-react'
 import './user-profile-form.css'
-
+const SKILLS_STEP=3;
+const PROFILE_STEP=1;
+const VIDEO_STEP=2;
+const EMPLOYERS_STEP=4;
+const PROJECTS_STEP=5;
+const SCHOOLS_STEP=6;
 
 class userProfile extends Component {
   constructor(props) {
@@ -42,17 +48,35 @@ class userProfile extends Component {
         <Card className="job-panel">
           <div className="col-sm-12">
             <div className="col-sm-3">
-                <Image src={imgUrl} />
+              {
+                imgUrl?<Image src={imgUrl} />:'No image uploaded'
+              }
+                {
+                  this.showEdit(VIDEO_STEP)
+                }
+                
             </div>
-            <div className="col-sm-9">
-              <div className="col-sm-12"><Header className="name" size='large'>{firstName + ' ' + lastName}</Header></div>
-              <div className="col-sm-12"><Header className="position" size='medium'>{position + ' ' + experience}</Header></div>
-              <div className="col-sm-12"><Header className="location" size='small'>{location}</Header></div>
-              <div className="col-sm-12 type">{type}</div>
-              <div className="col-sm-12">{`$${minSalary}K - $${maxSalary}K`}</div>
+{
+         (firstName && lastName) ?
+            <div className="col-sm-9">  
+              <div className="col-sm-12"><Header className="name" size='large'>{firstName + ' ' + lastName} </Header></div>
+              <div className="col-sm-12"><Header className="position" size='medium'>{position && experience? position + ' ' + experience: ''}</Header></div>
+              <div className="col-sm-12"><Header className="location" size='small'>{location? location: ''}</Header></div>
+              <div className="col-sm-12 type">{type? type:''}</div>
+              <div className="col-sm-12">{minSalary && maxSalary? `$${minSalary}K - $${maxSalary}K`: ''}</div>
               <div className="col-sm-12 summary">{userDesc}</div>
           </div>
 
+          :
+          <div className="col-sm-9">
+            <div className="col-sm-12">
+              <Header className="position" size="medium"> Your profile is empty.  Please, fill it out! </Header>
+               
+            {this.showEdit(PROFILE_STEP)}
+
+            </div>
+          </div>
+}
           <div className="row">
             <div className="col-sm-12"><Divider /></div>
           </div>
@@ -60,6 +84,7 @@ class userProfile extends Component {
           <div className="col-sm-3">
             <Header textAlign='left' size='large'>Skills</Header>
             <div className="skills-wrapper">
+            {this.showEdit(SKILLS_STEP)}
               {
                 skillsArr && skillsArr.map((skill) => {
                   if(skill.topSkill) {
@@ -78,6 +103,7 @@ class userProfile extends Component {
             <div className="col-sm-9">
               <div className="col-sm-12">
                 <Header textAlign='left' size='large'>Work Experience</Header>
+                {this.showEdit(EMPLOYERS_STEP)}
                 {
                       pastEmployersArr && pastEmployersArr.map((pastEmployer) => {
                         return (
@@ -109,6 +135,7 @@ class userProfile extends Component {
               </div>
               <div className="col-sm-12">
                 <Header textAlign='left' size='large'>Projects</Header>
+                {this.showEdit(PROJECTS_STEP)}
               </div>
               <div className="col-sm-12">
                 {
@@ -138,6 +165,7 @@ class userProfile extends Component {
               </div>
               <div className="col-sm-12">
                 <Header textAlign='left' size='large'>Education</Header>
+                {this.showEdit(SCHOOLS_STEP)}
               </div>
               <div className="col-sm-12">
                 {
@@ -172,13 +200,25 @@ class userProfile extends Component {
   prevClick() {
     this.setState({step: this.state.step - 1})
   }
+
+  showEdit (step) {
+    if (this.props.userId && this.props.profile && this.props.userId === this.props.profile.userId){
+      return <a onClick={() => this.setEditStep(step)}> Edit </a>
+    } 
+    return null;
+  }
+
+  setEditStep (step) {
+    this.props.setStep (step)
+  }
 }
 
 const mapState = (state) => {
   return {
     step: state.profile ? state.profile.step : 1,
     isLoggedIn: !!state.user.id,
-    profile: state.profile
+    profile: state.profile,
+    userId: state.user?state.user.id:null
   }
 }
 
@@ -186,8 +226,23 @@ const mapDispatch = (dispatch) => {
   return {
     fetchProfile() {
       dispatch(getProfileThunk())
+    },
+    setStep (step) {
+      dispatch (updateStep(step))
     }
+    
   }
 }
 
-export default connect(mapState, mapDispatch)(userProfile)
+const mergeProps = (state, actions, ownProps) => ({
+  ...state,
+  ...actions,
+  ...ownProps,
+  setStep (step) {
+    actions.setStep(step)
+    ownProps.history.push('/profile/edit')
+  }
+
+})
+
+export default withRouter(connect(mapState, mapDispatch, mergeProps)(userProfile))

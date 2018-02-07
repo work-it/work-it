@@ -73,7 +73,7 @@ class PastEmployerForm extends Component {
                 <Input className="companyWebsite" placeholder="Company Website" fluid value={companyWebsite} onChange={(evt) => this.handleStringChange('companyWebsite', evt.target.value)} />
               </div>
               <div className = "col-sm-12">
-                <TextArea className="workDesc" placeholder="Description" fluid value={workDesc} onChange={(evt) => this.handleStringChange('workDesc', evt.target.value)} />
+                <TextArea className="workDesc" placeholder="Description"  value={workDesc} onChange={(evt) => this.handleStringChange('workDesc', evt.target.value)} />
               </div>
               <div className = "col-sm-12">
                 {
