@@ -26,10 +26,10 @@ const socketInit = (function initSocket ()  {
         }
       })
 
-      socket.on ('draw', (start, end, color) => {
+      socket.on ('draw', (start, end, color, action) => {
         const roomName = openRoomsBySocketId.get(socket.id).room.name;
         console.log("-----DRAW", roomName)
-        socket.broadcast.to(roomName).emit('receivedDraw', start, end, color)
+        socket.broadcast.to(roomName).emit('receivedDraw', start, end, color, action)
       });
 
       socket.on('text', text => {

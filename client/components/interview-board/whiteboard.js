@@ -31,7 +31,7 @@ class WhiteBoard extends Component {
         const history = this.props.board.history
         if( history && history.length) {
             history.forEach (step => {
-                this.draw(step.start, step.end, step.color, false, true)
+                this.draw(step.start, step.end, step.color, false, true, step.action)
             })
         }
     }
@@ -68,12 +68,13 @@ class WhiteBoard extends Component {
      * @param {String} strokeColor color of the line
      * @param {bool} shouldBroadcast whether to emit an event for this draw
      */
-    draw(start, end, strokeColor='black', shouldBroadcast=true, skipPushHistory) {
+    draw(start, end, strokeColor='black', shouldBroadcast=true, skipPushHistory, action) {
         // Draw the line between the start and end positions
         // that is colored with the given color.
         this.ctx.beginPath();
         this.ctx.strokeStyle = strokeColor;
-        if (this.props.action === 'draw') {
+        if (!action) action = this.props.action
+        if (action === 'draw') {
             this.ctx.globalCompositeOperation='source-over'
             this.ctx.moveTo(...start);
             this.ctx.lineTo(...end);
@@ -88,9 +89,9 @@ class WhiteBoard extends Component {
         
         // If shouldBroadcast is truthy, we will emit a draw event to listeners
         // with the start, end and color data.
-        shouldBroadcast && this.props.status==='pair_in_room' && this.props.emitDraw(start, end, strokeColor);
+        shouldBroadcast && this.props.status==='pair_in_room' && this.props.emitDraw(start, end, strokeColor, this.props.action);
         //save history
-        if (!skipPushHistory) this.props.pushHistory(start, end, strokeColor)
+        if (!skipPushHistory) this.props.pushHistory(start, end, strokeColor, this.props.action)
     }
 
     resize() {
@@ -174,11 +175,11 @@ const mapState = state => ({
 })
 
 const mapDispatch = (dispatch) => ({
-    emitDraw: (start, end, color) => {
-        dispatch (emitDrawEvent(start, end, color))
+    emitDraw: (start, end, color, action) => {
+        dispatch (emitDrawEvent(start, end, color, action))
     },
-    pushHistory: (start, end, color) => {
-        dispatch (updateHistory(start, end, color))
+    pushHistory: (start, end, color, action) => {
+        dispatch (updateHistory(start, end, color, action))
     }
 })
 
