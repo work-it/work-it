@@ -10,27 +10,27 @@
 }
 
 .schedule-session.waiting {
-  background: linear-gradient(#f1f1f1, #e7e7e7);
+  background: #eaeaea;
   border-top: 1px solid #ddd;
 }
 
 .schedule-session.paired {
-  background: linear-gradient(#00ff5e73, #00c44873);
-  border-top: 1px solid #01823073;
+  background: #00ff5e73;
+  border-top: 1px solid #00d34e73;
 }
 
 .schedule-session.available {
-  background: linear-gradient(#00a7ff73, #0084cb73);
-  border-top: 1px solid #005d8f73;
+  background: #00a7ff73;
+  border-top: 1px solid #0087d073;
 }
 
 .schedule-session.interviewProposed {
-  background: linear-gradient(#ff8c0073, #c66d0073);
-  border-top: 1px solid #b3630173;
+  background: #ff8c0073;
+  border-top: 1px solid #ce720173;
 }
 
 .schedule-session.interviewPaired {
-  background: linear-gradient(#ff000073, #c7000073);
-  border-top: 1px solid #8f010173;
+  background: #ff000073;
+  border-top: 1px solid #d0000073;
 }
 

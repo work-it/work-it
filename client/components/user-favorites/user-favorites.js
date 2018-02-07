@@ -14,13 +14,13 @@ class UserFavorites extends Component {
   }
 
   componentDidMount() {
-    if (!this.props.savedJobs && this.props.userId) {
+    if (!this.props.savedJobs.length && this.props.userId) {
       this.props.handleFetchSavedJobs(this.props.userId);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!this.props.savedJobs && !this.props.userId && nextProps.userId) {
+    if (!this.props.savedJobs.length && !this.props.userId && nextProps.userId) {
       this.props.handleFetchSavedJobs(nextProps.userId);
     }
   }
@@ -31,7 +31,7 @@ class UserFavorites extends Component {
     return (
       <div className="user-saved">
         <div className="jobs-wrapper row">
-          {!!savedJobs.length ? savedJobs.map(job => {
+          {savedJobs.length ? savedJobs.map(job => {
             return <Tile {...job} key={job.id} />
           }) :
           this.renderNoSavedJobsCard()

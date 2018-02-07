@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {fetchEmployerJobsThunk, fetchAppsWithProfilesThunk} from '../../store'
 import UserTile from '../tile-user/tile-user'
+import Tile from '../tile/tile'
 import EmployerApplication from './employer-application'
 import './employer-view.css'
 
@@ -10,13 +11,7 @@ class EmployerView extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      view: 'home',
-      jobId: '',
-      appId: ''
-    }
-
-    this.handleViewApplicationClick = this.handleViewApplicationClick.bind(this);
+    this.state = {}
   }
 
   componentWillReceiveProps(nextProps) {
@@ -27,70 +22,20 @@ class EmployerView extends Component {
   }
 
   render() {
+    const { applications } = this.props;
+
     return (
-      <div className="employer-view">
-       {this.renderSubView(this.state.view)}
+      <div className="user-in-progress">
+      {
+        !!applications.length &&
+        applications.map(application => {
+          return <EmployerApplication key={`app-${application.id}`} profile={application.profile} application={application} employerNotes={application.employerNotes} />
+        })
+      }
       </div>
     )
   }
 
-  renderSubView(view) {
-    switch (view) {
-      case 'application':
-        return this.renderApplication();
-      default:
-        return this.renderHome();
-    }
-  }
-
-  renderHome() {
-    const { jobs, applications } = this.props;
-
-    return (
-      <div>
-         {
-          !!jobs.length &&
-          jobs.map(job => {
-            return (
-            <div key={`job-${job.id}`} className="row" style={{margin: 0}}>
-              <h2>{job.position}</h2>
-              <h4>{job.location}</h4>
-              <h5>Job ID: {job.id}</h5>
-              {
-                !!applications.length &&
-                applications
-                  .filter(application => application.jobId === job.id)
-                  .map(application => {
-                    console.log('PROFILE', application.profile);
-                    return <UserTile key={`utile-${application.id}`} {...application.profile} handleViewClick={this.handleViewApplicationClick} appId={application.id} jobId={job.id} />
-                  })
-              }
-            </div>
-            )
-          })
-        }
-      </div>
-    )
-  }
-
-  renderApplication(){
-    const { jobs, applications } = this.props;
-    const job = jobs.find(jobToCheck => jobToCheck.id === this.state.jobId);
-    const application = applications.find(appToCheck => appToCheck.id === this.state.appId);
-    return (
-      <div>
-        <h2>{job.position}</h2>
-        <h4>{job.location}</h4>
-        <h5>Job ID: {job.id}</h5>
-        <EmployerApplication key={`app-${application.id}`} profile={application.profile} application={application} employerNotes={application.employerNotes} />
-      </div>
-
-    )
-  }
-
-  handleViewApplicationClick(appId, jobId) {
-    this.setState({view: 'application', jobId, appId})
-  }
 }
 
 const mapState = (state) => {
