@@ -39,15 +39,15 @@ class userProfileContainer extends Component {
 
     if (step === 1) {page = <div><Icon name='circle'/><Icon  name='circle thin' /><Icon name='circle thin' /><Icon name='circle thin' /><Icon name='circle thin' /><Icon name='circle thin' /></div>}
 
-    if (step === 2) {page = <div><Icon color='blue' name='circle thin' /><Icon color='blue' name='circle'/><Icon color='blue' name='circle thin' /><Icon color='blue' name='circle thin' /><Icon color='blue' name='circle thin' /><Icon color='blue' name='circle thin' /></div>}
+    if (step === 2) {page = <div><Icon name='circle thin' /><Icon  name='circle'/><Icon  name='circle thin' /><Icon  name='circle thin' /><Icon name='circle thin' /><Icon  name='circle thin' /></div>}
 
-    if (step === 3) {page = <div><Icon color='blue' name='circle thin' /><Icon color='blue' name='circle thin'/><Icon color='blue' name='circle' /><Icon color='blue' name='circle thin' /><Icon color='blue' name='circle thin' /><Icon color='blue' name='circle thin' /></div>}
+    if (step === 3) {page = <div><Icon color='blue' name='circle thin' /><Icon color='blue' name='circle thin'/><Icon  name='circle' /><Icon name='circle thin' /><Icon  name='circle thin' /><Icon  name='circle thin' /></div>}
 
-    if (step === 4) {page = <div><Icon color='blue' name='thin circle' /><Icon color='blue' name='circle thin'/><Icon color='blue' name='circle thin' /><Icon color='blue' name='circle' /><Icon color='blue' name='circle thin' /><Icon color='blue' name='circle thin' /></div>}
+    if (step === 4) {page = <div><Icon  name='thin circle' /><Icon  name='circle thin'/><Icon  name='circle thin' /><Icon  name='circle' /><Icon name='circle thin' /><Icon  name='circle thin' /></div>}
 
-    if (step === 5) {page = <div><Icon color='blue' name='circle thin' /><Icon color='blue' name='circle thin'/><Icon color='blue' name='circle thin' /><Icon color='blue' name='circle thin' /><Icon color='blue' name='circle' /><Icon color='blue' name='circle thin' /></div>}
+    if (step === 5) {page = <div><Icon name='circle thin' /><Icon  name='circle thin'/><Icon name='circle thin' /><Icon  name='circle thin' /><Icon name='circle' /><Icon  name='circle thin' /></div>}
 
-    if (step === 6) {page = <div><Icon color='blue' name='circle thin' /><Icon color='blue' name='circle thin'/><Icon color='blue' name='circle thin' /><Icon color='blue' name='circle thin' /><Icon color='blue' name='circle thin' /><Icon color='blue' name='circle' /></div>}
+    if (step === 6) {page = <div><Icon name='circle thin' /><Icon  name='circle thin'/><Icon  name='circle thin' /><Icon name='circle thin' /><Icon name='circle thin' /><Icon name='circle' /></div>}
 
       return (
         <div className="job-view userProfileContainer row">

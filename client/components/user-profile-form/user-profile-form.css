@@ -30,7 +30,7 @@
   margin-top: 20px;
 }
 
-.userProfileForm form div input, dropdown, button, experience {
+.userProfileForm form div input, userProfileForm form div dropdown, userProfileForm form div button, userProfileForm form div experience {
  height: 38px;
 }
 
@@ -45,13 +45,21 @@
 
 .userDesc {
   height: 200px;
+  font-size: 14px;
 
 }
 
 .ui.fluid.dropdown {
   height: 38px;
+  font-size: 14px;
+  vertical-align: top;
 }
 
 .ui.form textarea{
   margin-top: 20px;
+  font-size: 14px;
 }
+.ui.input {
+  font-size: 14px;
+}
+
