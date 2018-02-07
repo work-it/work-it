@@ -16,9 +16,9 @@ export default class InterviewBoard extends Component {
     componentDidMount () {
         const c = document.getElementById('canvas');
         
-        const ctx = c.getContext("2d");
-        ctx.font = "25px Arial";
-        ctx.fillText("Hello World",10,50);
+        // const ctx = c.getContext("2d");
+        // ctx.font = "25px Arial";
+        // ctx.fillText("Hello World",10,50);
         //c.width = c.height * (c.clientWidth / c.clientHeight);
 
         const leftPane = document.getElementById('left-pane');
