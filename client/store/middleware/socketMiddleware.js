@@ -15,9 +15,9 @@ export default () => {
 
     return store => {
         //handle from server events
-        socket.on('receivedDraw', (start, end, color) => {
+        socket.on('receivedDraw', (start, end, color, action) => {
             console.log("receivedDraw emitted")
-           store.dispatch(updateWhiteboard(start, end, color));
+           store.dispatch(updateWhiteboard(start, end, color, action));
         })
 
         socket.on('receivedText', (text)=>{
@@ -71,7 +71,7 @@ export default () => {
         return next => action => {
             switch (action.type) {
                 case EMIT_DRAW_EVENT:
-                    socket.emit ('draw', action.start, action.end, action.color);
+                    socket.emit ('draw', action.start, action.end, action.color, action.action);
                     break;
                 case EMIT_TEXT_EVENT:
                     socket.emit ('text', action.text);

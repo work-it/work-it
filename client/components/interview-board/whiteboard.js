@@ -21,7 +21,6 @@ class WhiteBoard extends Component {
         this.currentMousePosition = {x: 0, y: 0};
         this.lastMousePosition = {x: 0,y: 0};
         this.mouseClickedOnCanvas = false;
-        this.currentImage = 'pencil'
     }
 
     componentDidMount() {
@@ -32,7 +31,7 @@ class WhiteBoard extends Component {
         const history = this.props.board.history
         if( history && history.length) {
             history.forEach (step => {
-                this.draw(step.start, step.end, step.color, false, true)
+                this.draw(step.start, step.end, step.color, false, true, step.action)
             })
         }
     }
@@ -44,12 +43,22 @@ class WhiteBoard extends Component {
     //     }
     // }
 
-    componentDidUpdate () {
-        const board = this.props.board;
-        if (board && board.start && board.end && board.color) {
-            this.draw (board.start, board.end, board.color, false, true)
-        }
+    componentWillReceiveProps (newProps) {
+        const board = newProps.board;
+        //update if and only if it's the board that's changng, not the action
+        if (newProps.action === this.props.action)
+            if (board && board.start && board.end && board.color) {
+                this.draw (board.start, board.end, board.color, false, true)
+            }
     }
+
+    // componentDidUpdate () {
+    //     console.log("component did update")
+    //     const board = this.props.board;
+    //     if (board && board.start && board.end && board.color) {
+    //         this.draw (board.start, board.end, board.color, false, true)
+    //     }
+    // }
 
     /**
      * Draw a line on the whiteboard.
@@ -59,21 +68,30 @@ class WhiteBoard extends Component {
      * @param {String} strokeColor color of the line
      * @param {bool} shouldBroadcast whether to emit an event for this draw
      */
-    draw(start, end, strokeColor='black', shouldBroadcast=true, skipPushHistory) {
+    draw(start, end, strokeColor='black', shouldBroadcast=true, skipPushHistory, action) {
         // Draw the line between the start and end positions
         // that is colored with the given color.
         this.ctx.beginPath();
         this.ctx.strokeStyle = strokeColor;
-        this.ctx.moveTo(...start);
-        this.ctx.lineTo(...end);
-        this.ctx.closePath();
-        this.ctx.stroke();
-    
+        if (!action) action = this.props.action
+        if (action === 'draw') {
+            this.ctx.globalCompositeOperation='source-over'
+            this.ctx.moveTo(...start);
+            this.ctx.lineTo(...end);
+            this.ctx.closePath();
+            this.ctx.stroke();
+        
+        } else {
+            this.ctx.globalCompositeOperation="destination-out";
+            this.ctx.arc(...start,25,0,Math.PI*2,false);
+            this.ctx.fill();
+        }
+        
         // If shouldBroadcast is truthy, we will emit a draw event to listeners
         // with the start, end and color data.
-        shouldBroadcast && this.props.status==='pair_in_room' && this.props.emitDraw(start, end, strokeColor);
+        shouldBroadcast && this.props.status==='pair_in_room' && this.props.emitDraw(start, end, strokeColor, this.props.action);
         //save history
-        if (!skipPushHistory) this.props.pushHistory(start, end, strokeColor)
+        if (!skipPushHistory) this.props.pushHistory(start, end, strokeColor, this.props.action)
     }
 
     resize() {
@@ -113,26 +131,12 @@ class WhiteBoard extends Component {
         } 
     }
 
-    drawImage () {
-        let imgUrl;
-        if (this.currentImage === 'pencil') {
-            imgUrl = 'http://localhost:8080/pencil.png'
-        } else {
-            imgUrl = 'http://localhost:8080/eraser.jpg'
-        }
-
-        const img = new Image();
-        img.src = imgUrl;
-        img.onload = function () {
-            this.ctx.drawImage(img, 25,25);
-        }
-    }
+    
 
     setupCanvas() {
         // Set the size of the canvas and attach a listener
         // to handle resizing.
         this.resize()
-        this.drawImage()
         this.canvas.addEventListener('resize', this.resize)
         this.canvas.addEventListener('mousedown', (function (e) {
             this.mouseClickedOnCanvas = true;
@@ -155,7 +159,7 @@ class WhiteBoard extends Component {
                 e.pageY - this.canvas.offsetTop
             ]
             this.lastMousePosition && this.currentMousePosition &&
-                this.draw(this.lastMousePosition, this.currentMousePosition, 'black', true);
+                this.draw(this.lastMousePosition, this.currentMousePosition, this.props.action==='draw'?'black':'white', true);
         }).bind(this));
     }
 
@@ -166,16 +170,16 @@ class WhiteBoard extends Component {
 }
 const mapState = state => ({
     board: state.whiteboard,
-    status: state.practice.practiceStatus
-
+    status: state.practice.practiceStatus,
+    action: state.whiteboard.action
 })
 
 const mapDispatch = (dispatch) => ({
-    emitDraw: (start, end, color) => {
-        dispatch (emitDrawEvent(start, end, color))
+    emitDraw: (start, end, color, action) => {
+        dispatch (emitDrawEvent(start, end, color, action))
     },
-    pushHistory: (start, end, color) => {
-        dispatch (updateHistory(start, end, color))
+    pushHistory: (start, end, color, action) => {
+        dispatch (updateHistory(start, end, color, action))
     }
 })
 
