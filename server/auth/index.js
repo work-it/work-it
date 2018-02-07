@@ -7,7 +7,7 @@ const saltRounds = 10;
 module.exports = router
 
 router.post('/login', (req, res, next) => {
-  console.log("hit logoin")
+  console.log("hit login")
   findUser(req.body.email, 'username')
     .then (user => {
       if (user ) {
@@ -87,7 +87,8 @@ router.get('/me', (req, res) => {
       id,
       saved: user[id].saved,
       applications: user[id].applications,
-      name: user[id].name
+      name: user[id].name,
+      employer: user[id].employer
     }
   }
 

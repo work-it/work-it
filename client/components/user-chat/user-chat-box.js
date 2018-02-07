@@ -37,6 +37,7 @@ class UserChatBox extends Component {
     if (evt.charCode === 13) {
       evt.preventDefault();
       this.setState({newMessage: ''});
+      console.log("application", this.props.application.id)
       this.props.handleAddNewMessage(this.props.application.id, this.state.newMessage);
     }
   }

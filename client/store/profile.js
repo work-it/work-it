@@ -53,7 +53,7 @@ export const getProfileThunk = () => {
     axios.get(`/api/profiles/${userId}`)
       .then(res => {
         console.log('data', res.data)
-        if (!res.data.userId)
+        if (res.data && !res.data.userId)
           res.data.userId = userId
         dispatch(getProfile(res.data));
       })
