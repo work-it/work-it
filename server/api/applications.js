@@ -126,6 +126,28 @@ router.put('/:applicationId/archive', (req, res, next) => {
     })
 })
 
+router.put('/:applicationId/review', (req, res, next) => {
+  let applicationId = req.params.applicationId;
+
+  firebase.database()
+    .ref('applications/' + applicationId)
+    .update({status: 'review'})
+    .then(() => {
+      res.sendStatus(200);
+    })
+})
+
+router.put('/:applicationId/interview', (req, res, next) => {
+  let applicationId = req.params.applicationId;
+
+  firebase.database()
+    .ref('applications/' + applicationId)
+    .update({status: 'interview'})
+    .then(() => {
+      res.sendStatus(200);
+    })
+})
+
 router.get('/employer/:employerId', (req, res, next) => {
   let employerId = req.params.employerId;
 

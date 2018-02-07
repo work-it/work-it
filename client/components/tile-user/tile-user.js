@@ -50,13 +50,14 @@ class UserTile extends Component {
 
   renderHomeView() {
     console.log(this.props)
-    const {name, position, location, experience, type, minSalary, maxSalary, imgUrl, skillsArr, handleViewClick, appId, jobId} = this.props;
+    const {name, position, location, experience, type, employer, minSalary, maxSalary, imgUrl, skillsArr, handleViewClick, appId, jobId, status} = this.props;
     return (
       <Card>
+        {status === 'apply' && employer && <div className="new">New</div>}
         <div className="logo-wrapper">
           <Image className="logo" src={imgUrl} />
         </div>
-        <Card.Content>
+        <Card.Content >
           <Card.Header>
             <span className="name">
               {name}
@@ -116,7 +117,7 @@ class UserTile extends Component {
   roleDesc(roleArr){
     let rolesDesc = ''
     roleArr.forEach(function(elem, index) {
-      rolesDesc+= '<h3> ' + elem.employerName + '</h3> <br> <h4> ' + elem.dateRange + '<h4><br><a href="' + elem.companyWebsite + '">'+ elem.companyWebsite + '</a>' + elem.workDesc
+      rolesDesc+= '<h3> ' + elem.companyName + '</h3><a href="' + elem.companyWebsite + '">'+ elem.companyWebsite + '</a> <h4>' + elem.jobTitle + '</h4> <h4> ' + elem.startDate + '-' + elem.endDate + '<h4> <p>' + elem.workDesc + '</p>'
       if(index !== roleArr.length-1){rolesDesc+= '<hr>'}
     })
     return rolesDesc
@@ -141,7 +142,7 @@ class UserTile extends Component {
   }
 
   renderDescView() {
-    const {name, userDesc, pastEmployersArr, ProjectsArr, SchoolArr, appId, jobId, handleViewClick} = this.props;
+    const {name, userDesc, pastEmployersArr, employer, status, ProjectsArr, SchoolArr, appId, jobId, handleViewClick} = this.props;
 
     const {view} = this.state;
 
@@ -168,7 +169,8 @@ class UserTile extends Component {
     return (
       <Card>
         <Image className="small-logo" src={this.props.imgUrl} />
-        <Card.Content>
+        {status === 'apply' && <div className="new">New</div>}
+        <Card.Content className="content-sub-view">
           <Card.Header>
           <span className="name">
               {name}

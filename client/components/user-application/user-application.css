@@ -41,6 +41,7 @@
 
 .ui.progress .bar {
   background: #bbb;
+  border-radius: 0;
 }
 
 .application .chat-history .ui.form textarea {
