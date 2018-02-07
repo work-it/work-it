@@ -60,17 +60,22 @@ class UserProfileForm extends Component {
     return (
       <Card className="job-panel row">
         <div className="userProfileForm ">
-          <div className = "col-sm-12">
+          <div className = "col-sm-6">
             <h2>Profile Builder</h2>
+          </div>
+          <div className = "col-sm-6">
+            <Button color="blue" size="big" className="save-button" floated="right" onClick={() => this.handleNextClick()}>Next</Button>
+          </div>
+          <div className = "col-sm-12">
             <hr />
             <h4> Step 1 - Tell Us About Yourself
             </h4>
           </div>
           <Form>
-            <div className = "col-sm-6">
+            <div className = "col-sm-6 add-space">
               <Input className="firstName" placeholder="First Name" fluid value={firstName} onChange={(evt) => this.handleStringChange('firstName', evt.target.value)} />
             </div>
-            <div className = "col-sm-6">
+            <div className = "col-sm-6 add-space">
               <Input className="lastName" placeholder="Last Name" fluid value={lastName} onChange={(evt) => this.handleStringChange('lastName', evt.target.value)} />
             </div>
             <div className = "col-sm-12">
@@ -95,9 +100,7 @@ class UserProfileForm extends Component {
               <TextArea className="userDesc" placeholder="Personal Bio" value={userDesc} onChange={(evt) => this.handleStringChange('userDesc', evt.target.value)} />
             </div>
 
-            <div className = "col-sm-12">
-              <Button color="blue" size="big" className="save-button" floated="right" onClick={() => this.handleNextClick()}>Next</Button>
-            </div>
+
           </Form>
         </div>
       </Card>
