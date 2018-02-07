@@ -80,11 +80,14 @@ class EmployerApplication extends Component {
     return <div>
       {
         !application.archived &&
-        <Button className="archive-btn" size="big" color="red" onClick={() => handleArchive(application.id)}>Decline</Button>
+        <Button className="decline-btn" size="big" color="red" onClick={() => handleArchive(application.id)}>Decline</Button>
       }
-      <Button className="archive-btn" size="big" color="blue" onClick={() => handleSaveEmployerNotes(application.id, notes)}>Save Notes</Button>
+      <Button className="save-notes-btn" size="big" color="blue" onClick={() => handleSaveEmployerNotes(application.id, notes)}>Save Notes</Button>
 
-      <Button className="archive-btn" size="big" color="blue" onClick={() => this.handleScheduleInterview(application.id)}>Schedule An Interview</Button>
+      <Button className="interview-btn" size="big" color="blue" onClick={() => this.handleScheduleInterview(application.id)}>Schedule An Interview</Button>
+
+      {application.status === 'interview' &&
+      <Button className="interview-btn" size="big" color="blue" onClick={() => this.handleScheduleInterview(application.id)}>Send Offer</Button>}
     </div>
   }
 
