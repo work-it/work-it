@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import { updateProfileThunk } from '../../store'
 // import {withRouter} from 'react-router-dom'
-import { Form, Button, Input, Dropdown, Icon, Segment, Divider, Label, Card} from 'semantic-ui-react'
+import { Form, Button, Input, Dropdown, Icon, Segment, Card} from 'semantic-ui-react'
 import './user-profile-form.css'
 
 // Options for the skills dropdown menu

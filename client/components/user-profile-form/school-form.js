@@ -150,7 +150,7 @@ class SchoolForm extends Component {
     data.step = this.props.step;
     // call the thunk to update profile in firebase
     this.props.handleProfileFormThunk(data);
-
+    this.props.history.push('/profile');
   }
 }
 
