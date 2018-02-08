@@ -160,7 +160,7 @@ const mapState = (state) => {
     schedule: state.schedule,
     isLoggedIn: !!state.user.id,
     isEmployer: !!state.user.employer,
-    appStatus: state.applications[0].status
+    appStatus: state.applications[0] && state.applications[0].status
   }
 }
 
@@ -171,7 +171,6 @@ const mapDispatch = (dispatch) => {
     },
     handleAddSession(date, start, end, intervieweeId, isEmployer, appStatus) {
       dispatch(addSessionMiddleware(date, start, end, intervieweeId))
-      console.log('isEmployer', isEmployer, 'Status', appStatus);
       if (isEmployer && appStatus === 'review') {
         dispatch(interviewApplicationThunk())
       }

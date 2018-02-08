@@ -46,9 +46,11 @@ export const videoUploaded = name => ({
 /**
  * THUNK CREATORS
  */
-export const getProfileThunk = () => {
+export const getProfileThunk = (userId) => {
   return (dispatch, getState) => {
-    const userId = getState().user.id;
+    if (!userId) {
+      userId = getState().user.id;
+    }
 
     axios.get(`/api/profiles/${userId}`)
       .then(res => {

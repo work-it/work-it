@@ -50,7 +50,7 @@ class UserTile extends Component {
 
   renderHomeView() {
     console.log(this.props)
-    const {name, position, location, experience, type, employer, minSalary, maxSalary, imgUrl, skillsArr, handleViewClick, appId, jobId, status} = this.props;
+    const {name, position, location, experience, type, employer, minSalary, maxSalary, imgUrl, skillsArr, handleViewClick, appId, jobId, status, link} = this.props;
     return (
       <Card>
         {status === 'apply' && employer && <div className="new">New</div>}
@@ -86,21 +86,22 @@ class UserTile extends Component {
           </Card.Description>
         </Card.Content>
         <Card.Content extra>
+
         {
           !this.props.fixedView? (
             <div className="prev" onClick={() => this.handlePrevClick()}>
               <i className="fa fa-chevron-left" aria-hidden="true"></i>
             </div>) : null
         }
+
         <div className="btn-group-wrapper text-center">
         {
           this.props.footer?<Button onClick={(e)=>{
             e.preventDefault();
             this.props.footer();
           }}>{this.props.footerText}</Button>:
-          <Button onClick={() => handleViewClick(appId, jobId)}>View Application</Button>
+          this.renderApplicationOrProfileLink()
         }
-
         </div>
 
         {
@@ -109,6 +110,7 @@ class UserTile extends Component {
           <i className="fa fa-chevron-right" aria-hidden="true"></i>
         </div>):null
           }
+
         </Card.Content>
       </Card>
     )
@@ -192,12 +194,23 @@ class UserTile extends Component {
         <div className="btn-group-wrapper text-center">
             <Button onClick={() => handleViewClick(appId, jobId)}>View Application</Button>
         </div>
+
         <div className="next" onClick={() => this.handleNextClick()}>
           <i className="fa fa-chevron-right" aria-hidden="true"></i>
         </div>
         </Card.Content>
       </Card>
     )
+  }
+
+  renderApplicationOrProfileLink() {
+    const {link, handleViewClick, appId, jobId, showProfile} = this.props;
+
+    if (link === 'application') {
+      return <Button onClick={() => handleViewClick(appId, jobId)}>View Application</Button>
+    } else if (link === 'profile') {
+      return <Button onClick={() => showProfile()}>View Profile</Button>
+    }
   }
 }
 

@@ -67,7 +67,7 @@ class EmployerView extends Component {
                   .filter(application => application.jobId === job.id)
                   .map(application => {
                     console.log('PROFILE', application.profile);
-                    return <UserTile key={`utile-${application.id}`} {...application.profile} {...application} handleViewClick={this.handleViewApplicationClick} employer={true} appId={application.id} jobId={job.id} />
+                    return <UserTile key={`utile-${application.id}`} {...application.profile} {...application} handleViewClick={this.handleViewApplicationClick} employer={true} appId={application.id} jobId={job.id} link={'application'} />
                   })
               }
               </div>

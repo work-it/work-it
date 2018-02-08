@@ -65,3 +65,15 @@ height: 2000px;
 background-color: white;
 }
 
+.pencil-eraser-btn {
+  width: 59px;
+  height: 29px;
+  font-size: 18px !important;
+  padding: 0 !important;
+  position: absolute;
+  right: 513px;
+  margin-top: 15px !important;
+  padding-left: 12px !important;
+  color: #000 !important;
+}
+

@@ -27,7 +27,7 @@ class InterviewBoardContainer extends Component {
         <div className = "interview-board-container">
             <div className = "interview ">
                 <Button className="end-btn" size="large"  color="blue" onClick={() => this.props.status==='solo'?this.props.exitRoom(null):this.props.endRoom(this.props.room)}>End</Button>
-                <img className='whiteboard-action-btn' width='50px' src={this.props.whiteboardAction==='erase'?'/pencil.png':'/eraser.gif'} size='tiny' onClick={() => this.props.toggleWhiteboardAction()}/>
+                {/* <img className='whiteboard-action-btn' width='50px' src={this.props.whiteboardAction==='erase'?'/pencil.png':'/eraser.gif'} size='tiny' onClick={() => this.props.toggleWhiteboardAction()}/> */}
                 <InterviewBoard />
             </div>
 
@@ -71,13 +71,6 @@ const mergeProps = (state, actions) => ({
     exitRoom: () => {
         actions.save(state.text, state.board, state.panesep);
         actions.exitPracticeRoom()
-    },
-    toggleWhiteboardAction: () => {
-        console.log("toggle triggered")
-        if (state.whiteboardAction === 'draw')
-            actions.setWhiteboardAction('erase')
-        else 
-            actions.setWhiteboardAction('draw')
     }
 })
 
