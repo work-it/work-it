@@ -12,6 +12,7 @@ const UPDATE_EMPLOYER_NOTES = 'UPDATE_EMPLOYER_NOTES';
 export const ADD_MESSAGE = 'ADD_MESSAGE';
 const ARCHIVE = 'ARCHIVE';
 const FETCH_APP_W_PROFILE = 'FETCH_APP_W_PROFILE';
+const OFFER = 'OFFER';
 
 /**
  * INITIAL STATE
@@ -22,6 +23,7 @@ const defaultApplications = [];
  */
 const apply = updateApplications => ({type: APPLY, updateApplications})
 const review = updatedApplication => ({type: REVIEW, updatedApplication})
+const offer = updatedApplication => ({type: OFFER, updatedApplication})
 const fetchApplications = applications => ({type: FETCH_APPLICTIONS, applications})
 const archive = updatedApplications => ({type: ARCHIVE, updatedApplications})
 const updateNotes = updatedApplications => ({type: UPDATE_NOTES, updatedApplications})
@@ -59,6 +61,23 @@ export const interviewApplicationThunk = () => {
     .then(res => {
       if (res.status === 200) {
         dispatch(review(updatedApplication));
+      }
+    })
+  }
+}
+
+export const sendOfferThunk = (offerLetter) => {
+  return (dispatch, getState) => {
+    const application = getState().applications[0];
+    const appId = application.id;
+    application.status = 'offer';
+    application.offer = offerLetter;
+    const updatedApplication = [application];
+
+    axios.put(`/api/applications/${appId}/offer`, {offerLetter})
+    .then(res => {
+      if (res.status === 200) {
+        dispatch(offer(updatedApplication));
       }
     })
   }
@@ -180,6 +199,8 @@ export const addMessageMiddleware = (applicationId, message) => {
  */
 export default function (state = defaultApplications, action) {
   switch (action.type) {
+    case OFFER:
+    return action.updatedApplication
     case REVIEW:
       return action.updatedApplication
     case ADD_MESSAGE:

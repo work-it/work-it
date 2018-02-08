@@ -40,12 +40,13 @@ class Main extends Component {
   }
 
   render () {
-    const {showAuth, authView, isLoggedIn, handleLogout} = this.props;
+    const {showAuth, authView, isLoggedIn, handleLogout, employer} = this.props;
     return (
       <div id = "rootDiv">
         <SearchBar history={history} logout={handleLogout} />
         {!isLoggedIn && showAuth && authView === 'signup' && <Signup />}
         {!isLoggedIn && showAuth && authView === 'login' && <Login />}
+
         <Route path="/applications" render={() => <UserMenu /> } />
         <Route path="/profile" render={() => <ProfileMenu /> } />
         <Switch>
