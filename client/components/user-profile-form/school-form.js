@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import { updateProfileThunk } from '../../store'
 // import {withRouter} from 'react-router-dom'
-import { TextArea, Form, Button, Input, Card } from 'semantic-ui-react'
+import { TextArea, Form, Button, Input, Card, Icon } from 'semantic-ui-react'
 import './user-profile-form.css'
 import history from '../../'
 
@@ -42,53 +42,64 @@ class SchoolForm extends Component {
 
     return (
       <Card className="job-panel">
-        <div className="SchoolForm row">
+        <div className="schoolForm row">
+        <div className = "col-sm-6">
+          <h2>Profile Builder</h2>
+        </div>
+        <div className = "col-sm-6">
+          <Button color="blue" size="big" className="save-button" floated="right" onClick={() => this.handleCompleteClick()}>Complete</Button>
+          <Button color="black" size="big" className="save-button" floated="right" onClick={prevClick}>Prev</Button>
+        </div>
+        <div className = "col-sm-12">
+          <hr />
+          <h4> Step 6 - Add Your Education </h4>
+        </div>
 
-            {
+        <div className = "col-sm-6 row">
+          <Form>
+            <Input className="schoolName col-sm-12" placeholder="School Name" value={schoolName} onChange={(evt) => this.handleStringChange('schoolName', evt.target.value)} />
+
+            <Input className="startDate col-sm-6" placeholder="Start Date" value={startDate} onChange={(evt) => this.handleStringChange('startDate', evt.target.value)} />
+
+            <Input className="endDate col-sm-6" placeholder="End Date" value={endDate} onChange={(evt) => this.handleStringChange('endDate', evt.target.value)} />
+
+            <TextArea className="degree col-sm-12" placeholder="Degree" value={degree} onChange={(evt) => this.handleStringChange('degree', evt.target.value)} />
+            <div className = "col-sm-12">
+              {
+                this.state.editing ?
+                <Button circular icon="pencil" className="add-btn" onClick={() => this.updateSchool()} /> :
+                <Button circular icon="plus" className="add-btn" onClick={() => this.addSchool()} />
+              }
+            </div>
+          </Form>
+         </div>
+         <div className = "col-sm-6">
+           {
               /* Map over the pastEmployerArr and return all projects*/
               !!SchoolArr.length &&
               SchoolArr.map((school, idx) => {
                   return (
-                  <ul key={school.schoolName + school.startDate + school.endDate}>
-                    <li>
-                      {`${school.schoolName}`}
-                    </li>
-                    <li>{school.startDate + ' - ' + school.endDate} </li>
-                    <li>
-                      {`${school.degree}`}
-                    </li>
-                    <li>
-                      <Button circular icon="trash" className="remove-btn" onClick={() => this.removeSchool(idx)} />
-                      <Button circular icon="pencil" className="edit-btn" onClick={() => this.editSchool(idx)} />
-                    </li>
-                  </ul>
+                  <Card key={school.schoolName + school.startDate + school.endDate}>
+                    <Card.Content>
+                      <Card.Header>
+                        <span className="name">{school.schoolName} </span>
+                      </Card.Header>
+                      <Card.Meta>
+                        <span className="location">{school.startDate + ' - ' + school.endDate}</span>
+                      </Card.Meta>
+                      <Card.Description>
+                        <span className="location">{school.degree}</span>
+                      </Card.Description>
+                    </Card.Content>
+                    <Card.Content extra>
+                      <Icon name="trash" className="remove-btn" onClick={() => this.removeSchool(idx)} />
+                      <Icon name="pencil" className="edit-btn" onClick={() => this.editSchool(idx)} />
+                      </Card.Content>
+                  </Card>
                 )
               })
             }
-
-
-          <Form>
-            <Input className="schoolName" placeholder="School Name" value={schoolName} onChange={(evt) => this.handleStringChange('schoolName', evt.target.value)} />
-
-            <Input className="startDate" placeholder="Start Date" value={startDate} onChange={(evt) => this.handleStringChange('startDate', evt.target.value)} />
-
-            <Input className="endDate" placeholder="End Date" value={endDate} onChange={(evt) => this.handleStringChange('endDate', evt.target.value)} />
-
-            <TextArea className="degree" placeholder="Degree" value={degree} onChange={(evt) => this.handleStringChange('degree', evt.target.value)} />
-
-            {
-              /* If editing is true, show the pencil icon and call the updatePastEmployer function if the button is clicked
-              * If editing is false, show the add icon and call the addPastEmployer function if the button is clicked
-              */
-              this.state.editing ?
-              <Button circular icon="pencil" className="add-btn" onClick={() => this.updateSchool()} /> :
-              <Button circular icon="plus" className="add-btn" onClick={() => this.addSchool()} />
-            }
-          </Form>
-          {/* prevClick is a callback function passed down as props from the parent. It increments the step down by 1.*/}
-          <Button onClick={prevClick}>Prev</Button>
-          {/* handleNextClick takes care of calling the nextClick callback function passed down by the parent AND calls the redux thunk to save the info to the db. */}
-          <Button onClick={() => this.handleCompleteClick()}>Complete</Button>
+          </div>
         </div>
       </Card>
     )

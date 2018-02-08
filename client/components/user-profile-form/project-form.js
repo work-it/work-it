@@ -42,58 +42,66 @@ class ProjectsForm extends Component {
 
     return (
       <Card className="job-panel">
-      <div className="ProjectForm row">
+      <div className="projectForm row">
+        <div className = "col-sm-6">
+          <h2>Profile Builder</h2>
+        </div>
+        <div className = "col-sm-6">
+          <Button color="blue" size="big" className="save-button" floated="right" onClick={() => this.handleNextClick()}>Next</Button>
+          <Button color="black" size="big" className="save-button" floated="right" onClick={prevClick}>Prev</Button>
+        </div>
+        <div className = "col-sm-12">
+          <hr />
+          <h4> Step 5 - Add Your Projects </h4>
+        </div>
+        <div className = "col-sm-6 row">
+          <Form>
+            <Input className="projectName col-sm-12" placeholder="Project Name" value={projectName} onChange={(evt) => this.handleStringChange('projectName', evt.target.value)} />
 
+            <Input className="startDate col-sm-6" placeholder="Start Date" value={startDate} onChange={(evt) => this.handleStringChange('startDate', evt.target.value)} />
+
+            <Input className="endDate col-sm-6" placeholder="End Date" value={endDate} onChange={(evt) => this.handleStringChange('endDate', evt.target.value)} />
+
+            <Input className="projectWebsite col-sm-12" placeholder="Project Website" value={projectWebsite} onChange={(evt) => this.handleStringChange('projectWebsite', evt.target.value)} />
+
+            <TextArea className="projectDesc col-sm-12" placeholder="Description" fluid value={projectDesc} onChange={(evt) => this.handleStringChange('projectDesc', evt.target.value)} />
+            <div className = "col-sm-12">
+              {
+                this.state.editing ?
+                <Button circular icon="pencil" className="add-btn" onClick={() => this.updateProject()} /> :
+                <Button circular icon="plus" className="add-btn" onClick={() => this.addProject()} />
+              }
+            </div>
+          </Form>
+        </div>
+        <div className = "col-sm-6">
           {
             /* Map over the pastEmployerArr and return all projects*/
             !!ProjectsArr.length &&
             ProjectsArr.map((project, idx) => {
                 return (
-                <ul key={project.projectName + project.startDate + project.endDate}>
-                  <li>
-                    {`${project.projectName}`}
-                  </li>
-                  <li>{project.startDate + ' - ' + project.endDate} </li>
-                  <li>
-                    {`${project.projectWebsite}`}
-                  </li>
-                  <li>
-                    {`${project.projectDesc}`}
-                  </li>
-                  <li>
-                    <Button circular icon="trash" className="remove-btn" onClick={() => this.removeProject(idx)} />
-                    <Button circular icon="pencil" className="edit-btn" onClick={() => this.editProject(idx)} />
-                  </li>
-                </ul>
+                <Card key={project.projectName + project.startDate + project.endDate}>
+                <Card.Content>
+                  <Card.Header>
+                    <span className="name">{project.projectName} </span>
+                  </Card.Header>
+                  <Card.Meta>
+                    <span className="location">{project.startDate + ' - ' + project.endDate}</span>
+                    <span className="location">{project.projectWebsite}</span>
+                  </Card.Meta>
+                  <Card.Description>
+                    <span className="location">{project.projectDesc}</span>
+                  </Card.Description>
+                </Card.Content>
+                <Card.Content extra>
+                    <Icon name="trash" className="remove-btn" onClick={() => this.removeProject(idx)} />
+                    <Icon name="pencil" className="edit-btn" onClick={() => this.editProject(idx)} />
+                  </Card.Content>
+                </Card>
               )
             })
           }
-
-
-        <Form>
-          <Input className="projectName" placeholder="Project Name" value={projectName} onChange={(evt) => this.handleStringChange('projectName', evt.target.value)} />
-
-          <Input className="startDate" placeholder="Start Date" value={startDate} onChange={(evt) => this.handleStringChange('startDate', evt.target.value)} />
-
-          <Input className="endDate" placeholder="End Date" value={endDate} onChange={(evt) => this.handleStringChange('endDate', evt.target.value)} />
-
-          <Input className="projectWebsite" placeholder="Project Website" value={projectWebsite} onChange={(evt) => this.handleStringChange('projectWebsite', evt.target.value)} />
-
-          <TextArea className="projectDesc" placeholder="Description" value={projectDesc} onChange={(evt) => this.handleStringChange('projectDesc', evt.target.value)} />
-
-          {
-            /* If editing is true, show the pencil icon and call the updatePastEmployer function if the button is clicked
-            * If editing is false, show the add icon and call the addPastEmployer function if the button is clicked
-            */
-            this.state.editing ?
-            <Button circular icon="pencil" className="add-btn" onClick={() => this.updateProject()} /> :
-            <Button circular icon="plus" className="add-btn" onClick={() => this.addProject()} />
-          }
-        </Form>
-        {/* prevClick is a callback function passed down as props from the parent. It increments the step down by 1.*/}
-        <Button onClick={prevClick}>Prev</Button>
-        {/* handleNextClick takes care of calling the nextClick callback function passed down by the parent AND calls the redux thunk to save the info to the db. */}
-        <Button onClick={() => this.handleNextClick()}>Next</Button>
+          </div>
       </div>
       </Card>
     )
