@@ -5,20 +5,20 @@ import PropTypes from 'prop-types'
 import {auth} from '../../store'
 import { Icon, Input, Label, Button, Form } from 'semantic-ui-react'
 import { FacebookLoginButton, GoogleLoginButton } from 'react-social-login-buttons'
-import {toggleShow, toggleType} from './auth-reducer'
+import {toggleShow, toggleType, hideLogin} from './auth-reducer'
 import './auth.css'
 
 /**
  * COMPONENT
  */
 const AuthForm = (props) => {
-  const {name, displayName, handleSubmit, error, handleHideLogin, authShow, handleToggleType, authView} = props
+  const {name, displayName, handleSubmit, error, handleHideLogin, authShow, handleToggleType, authView, handleCloseClick} = props
   let displayGoogle =  <a href='/auth/google'> <GoogleLoginButton text={`${displayName} with Google`}/></a>
   let displayFB = <a href='/auth/facebook'><FacebookLoginButton text={`${displayName} with Facebook`}/></a>
 
 
   return (
-    <div className="login">
+    <div className="login" id="login" onClick={(evt) => handleCloseClick(evt)}>
       <div className="login-panel">
        <div className="close" icon='x' size='large' onClick={() => handleHideLogin(authShow)} />
         <Form onSubmit={handleSubmit} name={name}>
@@ -86,6 +86,11 @@ const mapDispatch = (dispatch) => {
     },
     handleToggleType(authView) {
       dispatch(toggleType(authView));
+    },
+    handleCloseClick(evt) {
+      if (evt.target.id === 'login') {
+        dispatch(hideLogin());
+      }
     }
   }
 }

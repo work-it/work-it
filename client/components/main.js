@@ -44,8 +44,8 @@ class Main extends Component {
     return (
       <div id = "rootDiv">
         <SearchBar history={history} logout={handleLogout} />
-        {!isLoggedIn && showAuth && authView === 'signup' && <Signup />}
-        {!isLoggedIn && showAuth && authView === 'login' && <Login />}
+        {showAuth && authView === 'signup' && <Signup />}
+        {showAuth && authView === 'login' && <Login />}
 
         <Route path="/applications" render={() => <UserMenu /> } />
         <Route path="/profile" render={() => <ProfileMenu /> } />
