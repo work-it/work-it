@@ -1,12 +1,13 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {Progress, TextArea, Form, Button} from 'semantic-ui-react'
-import {updateNotesMiddleware, archiveMiddleware, addMessageMiddleware} from '../../store';
+import {Progress, TextArea, Form, Button, Card} from 'semantic-ui-react'
+import {updateNotesMiddleware, archiveMiddleware, offerLetterStatusThunk} from '../../store';
 import Tile from '../tile/tile'
 import PracticeSchedue from '../practice-schedule/practice-schedule'
 import './user-application.css'
 import UserChatBox from '../user-chat/user-chat-box'
+import renderHTML from 'react-render-html';
 
 class UserApplication extends Component {
   constructor(props) {
@@ -55,89 +56,117 @@ class UserApplication extends Component {
       <div className="application row">
         <Tile {...job} key={job.id} />
         <div className="col-sm-9">
-          <Progress percent={barPercent} />
-          <ul className="list-inline progress-labels">
-            <li>Apply</li>
-            <li>Review</li>
-            <li>Interview</li>
-            <li>Offer</li>
-            <li>Hired!</li>
-          </ul>
-
-
           {
-            this.state.view === 'application' ? this.showApplication(application) : this.showScheduler(application)
+            application.status !== 'hire' ?
+            this.renderProgress(barPercent) :
+            this.renderHiredMessage()
           }
 
-          {
-            this.state.view === 'application' ? this.showApplicationButtons(barPercent, application, notes, handleArchive, handleSaveNotes) : this.showSchedulerButtons ()
-          }
+          {this.renderSubView(application)}
 
-          
         </div>
       </div>
     </div>
     ) : null;
   }
 
-
-  showSchedulerButtons() {
-    return <Button className='archive-btn' size='big' onClick={() => this.setState({view: 'application'})}>Done</Button>
+  renderProgress(barPercent) {
+    return (
+      <div>
+        <Progress percent={barPercent} />
+        <ul className="list-inline progress-labels">
+          <li>Apply</li>
+          <li>Review</li>
+          <li>Interview</li>
+          <li>Offer</li>
+          <li>Hired!</li>
+        </ul>
+      </div>
+    )
   }
 
-  showApplication (application) {
-    return (<div className="chat-note-wrapper">
-    <UserChatBox application={application} showHeader={false} />
-    <div className="notes">
-      <Form>
-        <TextArea className="notes" placeholder="Notes" value={this.state.notes} onChange={(evt, {value}) => this.handleNotesChange(evt, value)} />
-      </Form>
-    </div>
-  </div>)
+  renderHiredMessage() {
+    return (
+      <div className="hire-message">
+        <Progress percent={100} />
+        <div className="hire-message-text">
+          <span>Congratulations. You're Hired!</span>
+        </div>
+      </div>
+    )
   }
 
-  showScheduler (application) {
-      return <PracticeSchedue employerId={application.employerId} userId={application.userId}/>
-  }
-
-  showApplicationButtons (barPercent, application, notes, handleArchive, handleSaveNotes) {
-    return (<div className="in-progress-btns-wrapper">
-            {
-              barPercent === 60?<Button className="archive-btn" size="big" color="blue" onClick={() => this.handleShowSchedule()}>Schedule an Interview</Button>:null
-            }
-            {
-              !application.archived &&
-              <Button className="archive-btn" size="big" color="blue" onClick={() => handleArchive(application.id)}>Archive</Button>
-            }
-
-            <Button className="archive-btn" size="big" color="blue" onClick={() => handleSaveNotes(application.id, notes)}>Save Notes</Button>
-          </div>)
-  }
-
-  handleNotesChange(evt, notes) {
-    this.setState({notes})
-  }
-
-  handleShowSchedule() {
-    this.setState({view:'scheduler'})
-  }
-
-  handleChatUpdate(evt, newMessage) {
-    this.setState({newMessage})
-  }
-
-  handleSubmitNewMessage(evt) {
-    if (evt.charCode === 13) {
-      evt.preventDefault();
-      this.setState({newMessage: ''});
-      this.props.handleAddNewMessage(this.props.application.id, this.state.newMessage);
+  renderSubView(application) {
+    switch (this.state.view) {
+      case 'application':
+        return this.renderApplicationView(application);
+      case 'scheduler':
+        return this.renderSchedulerView(application);
+      case 'offer':
+        return this.renderOfferView(application);
+      default:
+        return this.renderApplicationView(application);
     }
   }
-}
 
-const mapState = (state) => {
-  return {
+  renderApplicationView(application) {
+    const {notes} = this.state;
+    const {handleArchive, handleSaveNotes} = this.props;
+    return (
+      <div>
+        <div className="chat-note-wrapper">
+          <UserChatBox application={application} showHeader={false} />
+          <div className="notes">
+            <Form>
+              <TextArea className="notes" placeholder="Notes" value={this.state.notes} onChange={(evt, {value}) => this.setState({notes: value})} />
+            </Form>
+          </div>
+        </div>
+        <div className="in-progress-btns-wrapper">
+          {
+            !application.archived && application.status !== 'hire' &&
+            <Button className="archive-btn" size="big" color="red" onClick={() => handleArchive(application.id)}>Archive</Button>
+          }
+          {
+            application.status === 'offer' && <Button className="offer-btn" size="big" color="blue" onClick={() => this.setState({view: 'offer'})}>View Offer</Button>
+          }
+          {
+            application.status === 'interview' && <Button className="interview-btn" size="big" color="blue" onClick={() => this.setState({view: 'scheduler'})}>Schedule an Interview</Button>
+          }
+          <Button className="save-btn" size="big" color="blue" onClick={() => handleSaveNotes(application.id, notes)}>Save Notes</Button>
+        </div>
+      </div>
+    )
+  }
 
+  renderSchedulerView(application) {
+    return (
+      <div>
+        <PracticeSchedue employerId={application.employerId} userId={application.userId}/>
+        <div>
+          <Button className="archive-btn" size="big" onClick={() => this.setState({view: 'application'})}>Done</Button>
+        </div>
+      </div>
+    )
+  }
+
+  renderOfferView(application) {
+    return (
+      <div>
+        <Card className="offer-letter-card">
+          {renderHTML(application.offerLetter)}
+        </Card>
+        <div className="offer-letter-buttons">
+          <Button className="accept-offer-btn" size="big" color="blue" onClick={() => this.hanldeOffer('accept')}>Accept</Button>
+          <Button className="back-btn" size="big" onClick={() => this.setState({view: 'application'})}>Back</Button>
+        </div>
+      </div>
+    )
+  }
+
+  hanldeOffer(status) {
+    this.setState({view: 'application'})
+    this.props.handleOfferLetterStatus(status);
   }
 }
 
@@ -149,10 +178,10 @@ const mapDispatch = (dispatch) => {
     handleArchive(applicationId) {
       dispatch(archiveMiddleware(applicationId))
     },
-    handleAddNewMessage(applicaitonId, message) {
-      dispatch(addMessageMiddleware(applicaitonId, message))
+    handleOfferLetterStatus(status) {
+      dispatch(offerLetterStatusThunk(status))
     }
   }
 }
 
-export default withRouter(connect(mapState, mapDispatch)(UserApplication))
+export default withRouter(connect(null, mapDispatch)(UserApplication))

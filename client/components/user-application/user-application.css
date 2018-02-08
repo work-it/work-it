@@ -33,24 +33,6 @@
   min-height: 100px;
 }
 
-.archive-btn {
-  float: right;
-  position: relative;
-  top: 20px;
-}
-
-.save-notes-btn {
-  float: right;
-  position: relative;
-  top: 20px;
-}
-
-.decline-btn, .interview-btn {
-  position: relative;
-  top: 20px;
-  margin-right: 10px !important;
-}
-
 .ui.progress .bar {
   background: #bbb;
   border-radius: 0;
@@ -83,7 +65,7 @@
 }
 
 .in-progress-btns-wrapper {
-  padding-top: 10px;
+  padding-top: 20px;
 }
 
 .application .chat-box {
@@ -111,4 +93,58 @@
 .new-message {
   height: 60px;
   font-size: 14px;
+}
+
+.in-progress-btns-wrapper .decline-btn {
+  float: left;
+  margin-right: 10px !important;
+}
+
+.in-progress-btns-wrapper .archive-btn {
+  float: left;
+  margin-right: 10px !important;
+}
+
+.in-progress-btns-wrapper .offer-btn {
+  float: left;
+  margin-right: 10px !important;
+}
+
+.in-progress-btns-wrapper .interview-btn {
+  float: left;
+  margin-right: 10px !important;
+}
+
+.in-progress-btns-wrapper .save-btn {
+  float: right;
+}
+
+.ui.card.offer-letter-card {
+  min-height: 333px;
+  padding: 35px !important;
+}
+
+.hire-message .ui.progress .bar {
+  background: #2185d0;
+}
+
+.hire-message .hire-message-text {
+  position: absolute;
+  top: 5px;
+  width: 97%;
+  text-align: center;
+  font-size: 30px;
+  color: #fff;
+}
+
+.ui.button.decline-offer-btn, .ui.button.accept-offer-btn {
+  margin-right: 10px;
+}
+
+.ui.button.decline-offer-btn {
+  float: right;
+}
+
+.offer-letter-buttons {
+  margin-top: 20px;
 }
