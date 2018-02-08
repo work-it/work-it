@@ -100,7 +100,7 @@ class userProfile extends Component {
           <div className="col-sm-4">
               {this.showEdit(SKILLS_STEP)}
           </div>
-          <div className="col-sm-3">
+          <div className="col-sm-12">
             <div className="skills-wrapper">
               {
                 skillsArr && skillsArr.map((skill) => {
