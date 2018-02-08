@@ -160,6 +160,23 @@ router.put('/:applicationId/offer', (req, res, next) => {
     })
 })
 
+router.put('/:applicationId/offer-status', (req, res, next) => {
+  let applicationId = req.params.applicationId;
+  let status = req.body.status;
+  const updates = {offerStatus: status};
+
+  if (status === 'accept') {
+    updates.status = 'hire';
+  }
+
+  firebase.database()
+    .ref('applications/' + applicationId)
+    .update(updates)
+    .then(() => {
+      res.sendStatus(200);
+    })
+})
+
 router.get('/employer/:employerId', (req, res, next) => {
   let employerId = req.params.employerId;
 

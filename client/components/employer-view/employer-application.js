@@ -16,12 +16,12 @@ class EmployerApplication extends Component {
     this.state = {
       notes: '',
       view: 'application',
-      offerLetter: '<p>Offer Letter to Applicant</p>'
+      offerLetter: ''
     }
   }
 
   componentWillMount() {
-    this.setState({notes: this.props.application.employerNotes})
+    this.setState({notes: this.props.application.employerNotes, offerLetter: this.props.application.offerLetter})
   }
 
   componentWillReceiveProps(nextProps) {
@@ -55,17 +55,44 @@ class EmployerApplication extends Component {
       <div className="application row">
         <UserTile {...profile} key={`profile-${profile.id}`} />
         <div className="col-sm-9">
-          <Progress percent={barPercent} />
-          <ul className="list-inline progress-labels">
-            <li>Apply</li>
-            <li>Review</li>
-            <li>Interview</li>
-            <li>Offer</li>
-            <li>Hired!</li>
-          </ul>
+          {
+            application.status !== 'hire' ?
+            this.renderProgress(barPercent) :
+            this.renderHiredMessage()
+          }
 
           {this.renderSubView(application)}
 
+        </div>
+      </div>
+    )
+  }
+
+  renderProgress(barPercent) {
+    return (
+      <div>
+        <Progress percent={barPercent} />
+        <ul className="list-inline progress-labels">
+          <li>Apply</li>
+          <li>Review</li>
+          <li>Interview</li>
+          <li>Offer</li>
+          <li>Hired!</li>
+        </ul>
+      </div>
+    )
+  }
+
+  renderHiredMessage() {
+    const {profile} = this.props;
+    const firstName = profile.firstName;
+    const lastName = profile.lastName;
+
+    return (
+      <div className="hire-message">
+        <Progress percent={100} />
+        <div className="hire-message-text">
+          {`${firstName} ${lastName} has accepted your offer!`}
         </div>
       </div>
     )
@@ -98,18 +125,18 @@ class EmployerApplication extends Component {
             </Form>
           </div>
         </div>
-        <div>
+        <div className="in-progress-btns-wrapper">
           {
-            !application.archived &&
+            !application.archived && application.status !== 'hire' &&
             <Button className="decline-btn" size="big" color="red" onClick={() => handleArchive(application.id)}>Decline</Button>
           }
-          <Button className="save-notes-btn" size="big" color="blue" onClick={() => handleSaveEmployerNotes(application.id, notes)}>Save Notes</Button>
+          <Button className="save-btn" size="big" color="blue" onClick={() => handleSaveEmployerNotes(application.id, notes)}>Save Notes</Button>
 
           {application.status === 'review' &&
           <Button className="interview-btn" size="big" color="blue" onClick={() => this.setState({view: 'scheduler'})}>Schedule An Interview</Button>}
 
           {application.status === 'interview' &&
-          <Button className="interview-btn" size="big" color="blue" onClick={() => this.setState({view: 'offer'})}>Send Offer</Button>}
+          <Button className="offer-btn" size="big" color="blue" onClick={() => this.setState({view: 'offer'})}>Send Offer</Button>}
         </div>
       </div>
     )
