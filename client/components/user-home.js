@@ -31,13 +31,6 @@ export const UserHome = (props) => {
               </div>
             }
             </div>
-            <div className="col-sm-12">
-              <h2 className="text-center">with our transparent hiring process</h2>
-            </div>
-            <div className="col-sm-12 text-center buttons-wrapper">
-                  <Button size="massive" basic color="blue" onClick={() => handleHomeLogin()}>Login</Button>
-                  <Button size="massive" basic color="black" onClick={() => handleHomeSignup()}>Sign Up</Button>
-              </div>
           </div>
         </div>
         <div className="left-feature feature">

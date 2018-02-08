@@ -2,12 +2,8 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {getProfileThunk, updateStep} from '../../store'
-<<<<<<< HEAD
 import {Card, Image, Header, Divider, Label, Icon, Segment, Container, Button} from 'semantic-ui-react'
-=======
-import {Card, Image, Header, Divider, Label, Icon, Segment, Container} from 'semantic-ui-react'
 import renderHTML from 'react-render-html';
->>>>>>> master
 import './user-profile-form.css'
 const SKILLS_STEP = 3;
 const PROFILE_STEP = 1;
@@ -63,7 +59,7 @@ class userProfile extends Component {
               {
                 videoUrl?<Button onClick={() =>this.toggleVideo()}>{this.state.profile==='img'?'Video Introduction':'Profile Photo'}</Button>:null
               }
-              
+
                <div className="float-this">{
                   this.showEdit(VIDEO_STEP)
                 }</div>
