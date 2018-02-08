@@ -32,3 +32,13 @@
 .employer-home .job-id {
   color: #111;
 }
+
+.employer-home .send-btn, .employer-home .back-btn {
+  margin-right: 10px;
+  margin-top: 20px;
+}
+
+.employer-home .ui.form textarea.offer-letter {
+  height: 334px;
+  font-size: 14px;
+}
