@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 import { updateProfileThunk } from '../../store'
 // import {withRouter} from 'react-router-dom'
 import { TextArea, Form, Button, Input, Icon, Divider, Card} from 'semantic-ui-react'
+import TinyMCE from 'react-tinymce';
+import renderHTML from 'react-render-html';
 import './user-profile-form.css'
 
 
@@ -17,7 +19,7 @@ class PastEmployerForm extends Component {
       startDate: '',
       endDate: '',
       companyWebsite: '',
-      workDesc:  '',
+      workDesc:  'Description',
       editing: false, // Shows the pencil icon with the editPastEmployer function rather than the add icon with the addPastEmployer function
       editingIdx: null // Keeps track of which PastEmployer we are trying to edit
     }
@@ -68,7 +70,14 @@ class PastEmployerForm extends Component {
 
                 <Input className="companyWebsite col-sm-12" placeholder="Company Website" fluid value={companyWebsite} onChange={(evt) => this.handleStringChange('companyWebsite', evt.target.value)} />
 
-                <TextArea className="workDesc col-sm-12" placeholder="Description" value={workDesc} onChange={(evt) => this.handleStringChange('workDesc', evt.target.value)} />
+                <TinyMCE
+                className="workDesc col-sm-12"
+                content={this.state.workDesc}
+                config={{
+                plugins: 'autolink link image lists print preview advlist',
+                toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | advlist'
+              }}
+              onChange={evt => this.handleStringChange("workDesc", evt.target.getContent())} />
 
               <div className = "col-sm-12">
                 {
@@ -96,7 +105,7 @@ class PastEmployerForm extends Component {
                         <span className="location">{pastEmployer.companyWebsite}</span>
                       </Card.Meta>
                       <Card.Description>
-                        <span className="location">{pastEmployer.workDesc}</span>
+                        <span className="location">{renderHTML(pastEmployer.workDesc)}</span>
                       </Card.Description>
 
                     </Card.Content>

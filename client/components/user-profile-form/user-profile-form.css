@@ -99,5 +99,24 @@
 
 
 .float-this {
-  float: right;
+  position: absolute;
+  top: 5px;
+  right: 20px;
+}
+
+
+.projectForm div.ui.input{
+  padding: 0;
+  margin-left:0;
+  margin-right:0;
+}
+
+.projectForm div.ui.input.startDate {
+  padding-right:15px;
+}
+
+
+.projectForm div.ui.selection.dropdown {
+  padding:0;
+  margin:0;
 }

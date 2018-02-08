@@ -5,6 +5,7 @@ import {loadJobThunk, applyThunk} from '../../store'
 import renderHTML from 'react-render-html';
 import {Card, Image, Button, Header, TextArea, Divider, Form} from 'semantic-ui-react'
 import Tile from '../tile/tile';
+import TinyMCE from 'react-tinymce';
 import './apply.css';
 
 class Apply extends Component {
@@ -12,7 +13,7 @@ class Apply extends Component {
         super(props);
 
         this.state = {
-          coverLetter: ''
+          coverLetter: 'Statement of Interest / Cover Letter'
         }
     }
 
@@ -54,7 +55,15 @@ class Apply extends Component {
             <div className="row">
               <div className="col-sm-12 text-right">
                 <Form>
-                  <TextArea className="cover-letter" value={this.state.coverLetter} onChange={(evt, {value}) => this.setState({coverLetter: value})} placeholder="Statement of Interest / Cover Letter" />
+                <TinyMCE
+                  className="offer-letter"
+                  content={this.state.coverLetter}
+                  config={{
+                    height: '223',
+                    plugins: 'autolink link image lists print preview',
+                    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright'
+                  }}
+                  onChange={evt => this.setState({coverLetter: evt.target.getContent()})}/>
                 </Form>
                 <Button className="apply-btn" size="big" color="blue" onClick={() => this.handleApplyClick(job.id, job.employerId)}>Apply</Button>
               </div>

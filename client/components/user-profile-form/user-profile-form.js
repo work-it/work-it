@@ -3,7 +3,9 @@ import {connect} from 'react-redux'
 // import {withRouter} from 'react-router-dom'
 import { TextArea, Form, Button, Input, Dropdown, Card} from 'semantic-ui-react'
 import { updateProfileThunk } from '../../store'
+import TinyMCE from 'react-tinymce';
 import './user-profile-form.css'
+
 
 
 const experienceOptions = [
@@ -33,7 +35,7 @@ class UserProfileForm extends Component {
         maxSalary: '',
         imgUrl: '',
         videoUrl: '',
-        userDesc: '',
+        userDesc: 'Add a Description',
       }
   }
 
@@ -96,7 +98,17 @@ class UserProfileForm extends Component {
               <Input className="maxSalary"  placeholder="$ Max Salary" fluid value={maxSalary} onChange={(evt) => this.handleStringChange('maxSalary', evt.target.value)} />
             </div>
             <div className = "col-sm-12">
-              <TextArea className="userDesc" placeholder="Personal Bio" value={userDesc} onChange={(evt) => this.handleStringChange('userDesc', evt.target.value)} />
+
+              <TinyMCE
+                className="offer-letter"
+                content={this.state.userDesc}
+                config={{
+                height: '200',
+                plugins: 'autolink link image lists print preview advlist',
+                toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | advlist'
+              }}
+              onChange={evt => this.handleStringChange("userDesc", evt.target.getContent())}
+            />
             </div>
 
 
