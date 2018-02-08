@@ -19,7 +19,7 @@ class PastEmployerForm extends Component {
       startDate: '',
       endDate: '',
       companyWebsite: '',
-      workDesc:  'Description',
+      workDesc:  '',
       editing: false, // Shows the pencil icon with the editPastEmployer function rather than the add icon with the addPastEmployer function
       editingIdx: null // Keeps track of which PastEmployer we are trying to edit
     }
@@ -70,14 +70,7 @@ class PastEmployerForm extends Component {
 
                 <Input className="companyWebsite col-sm-12" placeholder="Company Website" fluid value={companyWebsite} onChange={(evt) => this.handleStringChange('companyWebsite', evt.target.value)} />
 
-                <TinyMCE
-                className="workDesc col-sm-12"
-                content={this.state.workDesc}
-                config={{
-                plugins: 'autolink link image lists print preview advlist',
-                toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | advlist'
-              }}
-              onChange={evt => this.handleStringChange("workDesc", evt.target.getContent())} />
+                <TextArea className="workDesc" placeholder="Job Description" value={workDesc} onChange={(evt) => this.handleStringChange('workDesc', evt.target.value)} />
 
               <div className = "col-sm-12">
                 {

@@ -104,14 +104,17 @@
   right: 20px;
 }
 
-
-.projectForm div.ui.input{
+.projectForm div.ui.input,
+.pastEmployersForm div.ui.input,
+.schoolForm div.ui.input{
   padding: 0;
   margin-left:0;
   margin-right:0;
 }
 
-.projectForm div.ui.input.startDate {
+.projectForm div.ui.input.startDate,
+.pastEmployersForm div.ui.input.startDate,
+.schoolForm div.ui.input.startDate{
   padding-right:15px;
 }
 
@@ -119,4 +122,20 @@
 .projectForm div.ui.selection.dropdown {
   padding:0;
   margin:0;
+}
+
+#rootDiv > div.job-view.userProfileContainer.row > div.ui.card.job-panel.row > div > form > div.col-sm-12.userDesc {
+  margin-top: 20px;
+}
+
+.skillForm div.ui.selection.dropdown.skillRank {
+  padding:0;
+  margin-left:0;
+  height: 38px;
+  font-size: 14px;
+}
+
+
+div.ui.blue.large.inverted.segment.the-skill{
+
 }

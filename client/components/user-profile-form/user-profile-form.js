@@ -97,10 +97,10 @@ class UserProfileForm extends Component {
             <div className = "col-sm-2">
               <Input className="maxSalary"  placeholder="$ Max Salary" fluid value={maxSalary} onChange={(evt) => this.handleStringChange('maxSalary', evt.target.value)} />
             </div>
-            <div className = "col-sm-12">
+            <div className = "col-sm-12 userDesc">
 
               <TinyMCE
-                className="offer-letter"
+                className="user-Desc"
                 content={this.state.userDesc}
                 config={{
                 height: '200',

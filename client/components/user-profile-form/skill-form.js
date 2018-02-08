@@ -97,7 +97,7 @@ class SkillForm extends Component {
                   if (skill.rank === 'advanced' && !skill.topSkill) {
                     return (
                       <Segment.Group  horizontal key={skill.name}>
-                        <Segment inverted color="blue" size="large">{skill.name}</Segment>
+                        <Segment className="the-skill" inverted color="blue" size="large">{skill.name}</Segment>
                         <Segment className="skill-menu" textAlign="center" >
                           <Icon name="empty star" size="large" className="addtop-btn" onClick={() => this.addToTop(idx)} />
                         </Segment>
@@ -122,7 +122,7 @@ class SkillForm extends Component {
                 if (skill.rank === 'intermediate' && !skill.topSkill) {
                   return (
                     <Segment.Group  horizontal key={skill.name}>
-                      <Segment inverted secondary color="black" size="large">{skill.name}</Segment>
+                      <Segment className="the-skill" inverted secondary color="black" size="large">{skill.name}</Segment>
                       <Segment className="skill-menu" textAlign="center" >
                         <Icon name="empty star" size="large" className="addtop-btn" onClick={() => this.addToTop(idx)} />
                       </Segment>
@@ -147,7 +147,7 @@ class SkillForm extends Component {
                 if (skill.rank === 'beginner' && !skill.topSkill) {
                   return (
                     <Segment.Group  horizontal key={skill.name}>
-                      <Segment inverted tertiary color="green" size="large">{skill.name}</Segment>
+                      <Segment className="the-skill" inverted tertiary color="green" size="large">{skill.name}</Segment>
                       <Segment className="skill-menu" textAlign="center" >
                         <Icon name="empty star" size="large" className="addtop-btn" onClick={() => this.addToTop(idx)} />
                       </Segment>
@@ -175,7 +175,7 @@ class SkillForm extends Component {
                 if (skill.topSkill) {
                   return (
                     <Segment.Group  horizontal key={skill.name}>
-                      <Segment inverted color="yellow" size="large">{skill.name}</Segment>
+                      <Segment className="the-skill" inverted color="yellow" size="large">{skill.name}</Segment>
                       <Segment className="skill-menu" textAlign="center" >
                         <Icon name="star" size="large" className="remtop-btn" onClick={() => this.removeFromTop(idx)} />
                       </Segment>
