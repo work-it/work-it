@@ -42,3 +42,7 @@
   height: 334px;
   font-size: 14px;
 }
+
+.employer-home .employer-jobs-wrapper {
+  display: flex;
+}

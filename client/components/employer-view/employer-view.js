@@ -19,14 +19,23 @@ class EmployerView extends Component {
     this.handleViewApplicationClick = this.handleViewApplicationClick.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log("comp will receive props", this.props.userId, nextProps.userId)
-    if (!this.props.userId && nextProps.userId) {
-      this.props.fetchEmployerJobs(nextProps.userId);
-      this.props.fetchAppsWithProfiles(nextProps.userId);
+  componentDidMount () {
+    console.log ("Mounting......")
+    if (this.props.userId) {
+      this.props.fetchEmployerJobs(this.props.userId);
+      this.props.fetchAppsWithProfiles(this.props.userId);
 
     }
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   console.log("comp will receive props", this.props.userId, nextProps.userId)
+  //   if (!this.props.userId && nextProps.userId) {
+  //     this.props.fetchEmployerJobs(nextProps.userId);
+  //     this.props.fetchAppsWithProfiles(nextProps.userId);
+
+  //   }
+  // }
 
   render() {
     return (
@@ -60,7 +69,7 @@ class EmployerView extends Component {
                 <h4 className="job-location">{job.location}</h4>
                 <h5 className="job-id">Job ID: {job.id}</h5>
               </div>
-              <div className="row">
+              <div className="employer-jobs-wrapper row">
               {
                 !!applications.length &&
                 applications
@@ -96,13 +105,23 @@ class EmployerView extends Component {
     )
   }
 
+  renderNoApplicationsCard() {
+    return (
+      <div className="no-applicaitons-wrapper">
+        <Card className="no-applications-card">
+          <h4>You Don't Have Any {this.props.type === 'in-progress' ? 'In Progress' : 'Archived'} Applications.</h4>
+        </Card>
+      </div>
+    )
+  }
+
   handleViewApplicationClick(appId, jobId) {
     const {applications} = this.props;
-    const status = applications[0].status;
+    const status = applications.find(application => application.id === appId).status;
 
     this.setState({view: 'application', jobId, appId})
     if (status === 'apply') {
-      this.props.reviewApplication();
+      this.props.reviewApplication(appId);
     }
   }
 }
@@ -123,8 +142,8 @@ const mapDispatch = (dispatch) => {
     fetchAppsWithProfiles(id) {
       dispatch(fetchAppsWithProfilesThunk(id))
     },
-    reviewApplication() {
-      dispatch(reviewApplicationThunk())
+    reviewApplication(appId) {
+      dispatch(reviewApplicationThunk(appId))
     }
   }
 }
