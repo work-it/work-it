@@ -147,7 +147,7 @@ class SchoolForm extends Component {
     // consolidate data and prepare it to be sent to the redux thunk.
     let data = { SchoolArr: this.state.SchoolArr };
     console.log(data)
-    data.step = this.props.step;
+    data.step = 1;
     // call the thunk to update profile in firebase
     this.props.handleProfileFormThunk(data);
     this.props.history.push('/profile');

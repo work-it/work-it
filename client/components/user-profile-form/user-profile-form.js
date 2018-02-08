@@ -35,7 +35,7 @@ class UserProfileForm extends Component {
         maxSalary: '',
         imgUrl: '',
         videoUrl: '',
-        userDesc: 'Add a Description',
+        userDesc: 'Add a description',
       }
   }
 
