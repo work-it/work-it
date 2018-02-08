@@ -9,7 +9,7 @@ import './user-home.css'
  * COMPONENT
  */
 export const UserHome = (props) => {
-  const {handleHomeLogin, handleHomeSignup} = props
+  const {handleHomeLogin, handleHomeSignup, isLoggedIn} = props
 
   return (
     <div className="home">
@@ -22,8 +22,13 @@ export const UserHome = (props) => {
             <h2 className="text-center">with our transparent hiring process</h2>
           </div>
           <div className="col-sm-12 text-center buttons-wrapper">
+            {
+              !isLoggedIn &&
+              <div>
                 <Button size="massive" basic color="blue" onClick={() => handleHomeLogin()}>Login</Button>
                 <Button size="massive" basic color="black" onClick={() => handleHomeSignup()}>Sign Up</Button>
+              </div>
+            }
             </div>
         </div>
       </div>
@@ -58,7 +63,8 @@ export const UserHome = (props) => {
  */
 const mapState = (state) => {
   return {
-    email: state.user.email
+    email: state.user.email,
+    isLoggedIn: !!state.user.id
   }
 }
 

@@ -4,6 +4,8 @@ import { saveState } from '../../components/interview-container/save-state-reduc
 import { NOTIFY_OF_UPDATE, fetchSchedule} from '../../components/practice-schedule/practice-schedule-reducer'
 import { videoUploaded, UPLOAD_VIDEO, START_FILE_UPLOAD, VIDEO_UPLOADED, pushVideoToFirebase, ADD_MESSAGE, fetchAppsWithProfilesThunk,fetchApplicationsThunk, REVIEW} from '../index'
 import { JOIN_ROOM, START_PAIR, loadOpenRooms, CLOSE_ROOM, START_SOLO, continueSolo, roomWaiting, endOpenedRoom, LEAVE_ROOM, roomClosed } from '../../components/practice-pairs/practice-reducer';
+import { hideLogin } from '../../components/auth/auth-reducer'
+import { GET_USER } from '../user'
 
 import io from 'socket.io-client';
 const socket = io (window.location.origin);
@@ -58,7 +60,7 @@ export default () => {
                 if (currentApplicationIds.includes(applicationId)) {
                     if (isEmployer)
                         store.dispatch(fetchAppsWithProfilesThunk(userId))
-                    else 
+                    else
                         store.dispatch(fetchApplicationsThunk(userId))
                 }
             })
@@ -74,7 +76,7 @@ export default () => {
                    // console.log("found application that needs to be updated")
                     if (isEmployer)
                         store.dispatch(fetchAppsWithProfilesThunk(userId))
-                    else 
+                    else
                         store.dispatch(fetchApplicationsThunk(userId))
                 }
             })
@@ -86,7 +88,7 @@ export default () => {
             if (session.userOne === userId || session.userTwo === userId || session.intervieweeId === userId) {
                 store.dispatch(fetchSchedule());
             }
-            
+
         })
 
         socket.on('more-data', function (data){
@@ -96,11 +98,11 @@ export default () => {
             } else {
                 var place = data['place'] * 524288; //The Next Blocks Starting Position
                 var NewFile; //The Variable that will hold the new Block of Data
-                if(SelectedFile.webkitSlice) 
+                if(SelectedFile.webkitSlice)
                     NewFile = SelectedFile.webkitSlice(place, place + Math.min(524288, (SelectedFile.size-place)));
                 else if (SelectedFile.mozSlice)
                     NewFile = SelectedFile.mozSlice(place, place + Math.min(524288, (SelectedFile.size-place)));
-                else 
+                else
                     NewFile = SelectedFile.slice(place, place + Math.min(524288, (SelectedFile.size-place)));
                 console.log("Got NewFile to read", NewFile, place)
                 reader.readAsBinaryString(NewFile);
@@ -162,10 +164,13 @@ export default () => {
                     break;
                 case REVIEW:
                     //console.log("updatedApplications in review", action.updatedApplication)
-                    socket.emit ('application-status-update', action.updatedApplication.map(application => application.id))
+                    socket.emit ('application-status-update', action.updatedApplications.map(application => application.id))
                     break;
                 case NOTIFY_OF_UPDATE:
                     socket.emit ('schedule-update', action.session)
+                    break;
+                case GET_USER:
+                    store.dispatch(hideLogin());
                     break;
 
             }

@@ -14,6 +14,7 @@ const ARCHIVE = 'ARCHIVE';
 const FETCH_APP_W_PROFILE = 'FETCH_APP_W_PROFILE';
 const OFFER = 'OFFER';
 const OFFER_STATUS = 'OFFER_STATUS';
+const INTERVIEW = 'INTERVIEW';
 
 /**
  * INITIAL STATE
@@ -23,9 +24,10 @@ const defaultApplications = [];
  * ACTION CREATORS
  */
 const apply = updateApplications => ({type: APPLY, updateApplications})
-const review = updatedApplication => ({type: REVIEW, updatedApplication})
-const offer = updatedApplication => ({type: OFFER, updatedApplication})
-const offerStatus = updatedApplication => ({type: OFFER_STATUS, updatedApplication})
+const review = updatedApplications => ({type: REVIEW, updatedApplications})
+const interview = updatedApplications => ({type: INTERVIEW, updatedApplications})
+const offer = updatedApplications => ({type: OFFER, updatedApplications})
+const offerStatus = updatedApplications => ({type: OFFER_STATUS, updatedApplications})
 const fetchApplications = applications => ({type: FETCH_APPLICTIONS, applications})
 const archive = updatedApplications => ({type: ARCHIVE, updatedApplications})
 const updateNotes = updatedApplications => ({type: UPDATE_NOTES, updatedApplications})
@@ -36,69 +38,77 @@ const updateEmployerNotes = updatedApplications => ({type: UPDATE_EMPLOYER_NOTES
 /**
  * THUNK CREATORS
  */
-export const offerLetterStatusThunk = (status) => {
+export const offerLetterStatusThunk = (status, id) => {
   return (dispatch, getState) => {
-    const application = getState().applications[0];
-    const appId = application.id;
-    application.offerStatus = status;
-    if (status === 'accept') {
-      application.status = 'hire';
-    }
-    const updatedApplication = [application];
+    let updatedApplications = [...getState().applications].map(application => {
+      if (application.id === id) {
+        application.offerStatus = status;
+        if (status === 'accept') {
+          application.status = 'hire';
+        }
+      }
+      return application;
+    })
 
-    axios.put(`/api/applications/${appId}/offer-status`, {status})
+    axios.put(`/api/applications/${id}/offer-status`, {status})
     .then(res => {
       if (res.status === 200) {
-        dispatch(offerStatus(updatedApplication));
+        dispatch(offerStatus(updatedApplications));
       }
     })
   }
 }
 
-export const reviewApplicationThunk = () => {
+export const reviewApplicationThunk = (id) => {
   return (dispatch, getState) => {
-    const application = getState().applications[0];
-    const appId = application.id;
-    application.status = 'review';
-    const updatedApplication = [application];
+    let updatedApplications = [...getState().applications].map(application => {
+      if (application.id === id) {
+        application.status = 'review';
+      }
+      return application;
+    })
 
-    axios.put(`/api/applications/${appId}/review`)
+    axios.put(`/api/applications/${id}/review`)
     .then(res => {
       if (res.status === 200) {
-        dispatch(review(updatedApplication));
+        dispatch(review(updatedApplications));
       }
     })
   }
 }
 
-export const interviewApplicationThunk = () => {
+export const interviewApplicationThunk = (id) => {
   return (dispatch, getState) => {
-    const application = getState().applications[0];
-    const appId = application.id;
-    application.status = 'interview';
-    const updatedApplication = [application];
+    let updatedApplications = [...getState().applications].map(application => {
+      if (application.id === id) {
+        application.status = 'interview';
+      }
+      return application;
+    })
 
-    axios.put(`/api/applications/${appId}/interview`)
+    axios.put(`/api/applications/${id}/interview`)
     .then(res => {
       if (res.status === 200) {
-        dispatch(review(updatedApplication));
+        dispatch(interview(updatedApplications));
       }
     })
   }
 }
 
-export const sendOfferThunk = (offerLetter) => {
+export const sendOfferThunk = (offerLetter, id) => {
   return (dispatch, getState) => {
-    const application = getState().applications[0];
-    const appId = application.id;
-    application.status = 'offer';
-    application.offer = offerLetter;
-    const updatedApplication = [application];
+    let updatedApplications = [...getState().applications].map(application => {
+      if (application.id === id) {
+        application.status = 'offer';
+        application.offer = offerLetter;
+      }
+      return application;
+    })
 
-    axios.put(`/api/applications/${appId}/offer`, {offerLetter})
+    axios.put(`/api/applications/${id}/offer`, {offerLetter})
     .then(res => {
       if (res.status === 200) {
-        dispatch(offer(updatedApplication));
+        dispatch(offer(updatedApplications));
       }
     })
   }
@@ -220,12 +230,14 @@ export const addMessageMiddleware = (applicationId, message) => {
  */
 export default function (state = defaultApplications, action) {
   switch (action.type) {
+    case INTERVIEW:
+      return action.updatedApplications
     case OFFER_STATUS:
-      return action.updatedApplication
+      return action.updatedApplications
     case OFFER:
-      return action.updatedApplication
+      return action.updatedApplications
     case REVIEW:
-      return action.updatedApplication
+      return action.updatedApplications
     case ADD_MESSAGE:
       return action.updatedApplications
     case ARCHIVE:

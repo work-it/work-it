@@ -1,5 +1,6 @@
 import axios from 'axios'
 import history from '../history'
+import { hideLogin } from '../components/auth/auth-reducer'
 
 /**
  * ACTION TYPES
@@ -81,6 +82,7 @@ export const auth = (email, password, method) =>
     console.log("about to hit axios", email, password, method)
     axios.post(`/auth/${method}`, { email, password })
       .then(res => {
+        dispatch(hideLogin())
         dispatch(getUser(res.data))
         history.push('/home')
       }, authError => { // rare example: a good use case for parallel (non-catch) error handler
