@@ -219,7 +219,7 @@ class userProfile extends Component {
   }
 
   showEdit (step) {
-    if (this.props.userId && this.props.profile && this.props.userId === this.props.profile.userId){
+    if (this.props.userId && this.props.profile && this.props.userId === this.props.profile.userId && !this.props.isEmployer){
       return <Icon name="pencil" color="grey"onClick={() => this.setEditStep(step)} />
     }
     return null;
@@ -235,7 +235,8 @@ const mapState = (state) => {
     step: state.profile ? state.profile.step : 1,
     isLoggedIn: !!state.user.id,
     profile: state.profile,
-    userId: state.user?state.user.id:null
+    userId: state.user?state.user.id:null,
+    isEmployer: state.user&&state.user.employer
   }
 }
 
