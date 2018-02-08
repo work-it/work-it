@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import { updateProfileThunk } from '../../store'
 // import {withRouter} from 'react-router-dom'
-import { Form, Button, Input, Dropdown, Icon, Card} from 'semantic-ui-react'
+import { Form, Button, Input, Dropdown, Icon, Segment, Divider, Label, Card} from 'semantic-ui-react'
 import './user-profile-form.css'
 
 // Options for the skills dropdown menu
@@ -49,23 +49,123 @@ class SkillForm extends Component {
 
     return (
       <Card className="job-panel">
-      <div className="SkillForm row">
-      <div className = "col-sm-6">
-        <h2>Profile Builder</h2>
-      </div>
-      <div className = "col-sm-6">
-        <Button color="blue" size="big" className="save-button" floated="right" onClick={() => this.handleNextClick()}>Next</Button>
-        <Button color="black" size="big" className="save-button" floated="right" onClick={prevClick}>Prev</Button>
-      </div>
-    <div className = "col-sm-12">
-        <hr />
-        <h4> Step 3 - Add and Rank Your Skills </h4>
-      </div>
-        {/* If showTopSkillsWarning is true, show the warning */}
-        {showTopSkillWarning && <h3>Only 3 Top Skills Allowed. Remove A Top Skill To Add Another.</h3>}
-        {/* If showDupSkillsWarning is true, show the warning */}
-        {showDupSkillWarning && <h3>You Already Added This Skill.</h3>}
-        <div className = "col-sm-3 skills">
+      <div className="skillForm row">
+        <div className = "col-sm-6">
+          <h2>Profile Builder</h2>
+        </div>
+        <div className = "col-sm-6">
+          <Button color="blue" size="big" className="save-button" floated="right" onClick={() => this.handleNextClick()}>Next</Button>
+          <Button color="black" size="big" className="save-button" floated="right" onClick={prevClick}>Prev</Button>
+        </div>
+        <div className = "col-sm-12">
+          <hr />
+          <h4> Step 3 - Add and Rank Your Skills </h4>
+        </div>
+        <div className = "col-sm-12">
+          {/* If showTopSkillsWarning is true, show the warning */}
+          {showTopSkillWarning && <h3>Only 3 Top Skills Allowed. Remove A Top Skill To Add Another.</h3>}
+          {/* If showDupSkillsWarning is true, show the warning */}
+          {showDupSkillWarning && <h3>You Already Added This Skill.</h3>}
+        </div>
+
+        <div className = "col-sm-4 skills">
+        <h4>Add a Skill</h4>
+          <Form>
+            <Input className="skillName" placeholder="Skill" fluid value={skillName} onChange={(evt) => this.handleStringChange('skillName', evt.target.value)} />
+
+            <Dropdown selection className="skillRank" placeholder="Skill Rank"  value={skillRank} onChange={(evt, {value}) => this.handleStringChange('skillRank', value)} options={skillRanks} />
+            {
+              /* If editing is true, show the pencil icon and call the updateSkill function if the button is clicked
+              * If editing is false, show the add icon and call the addSkills function if the button is clicked
+              */
+              this.state.editing ?
+              <Button circular icon="pencil"  className="add-btn" onClick={() => this.updateSkill()} /> :
+              <Button circular icon="plus" className="add-btn"  onClick={() => this.addSkill()} />
+            }
+          </Form>
+        </div>
+
+
+        <div className = "col-sm-4 skills">
+
+          <h4>Advanced</h4>
+
+              {
+                /* Map over the skillsArr and only return the skills that match the condition in the if statement */
+                !!skillsArr.length &&
+                skillsArr.map((skill, idx) => {
+                  if (skill.rank === 'advanced' && !skill.topSkill) {
+                    return (
+                      <Segment.Group  horizontal key={skill.name}>
+                        <Segment inverted color="blue" size="large">{skill.name}</Segment>
+                        <Segment className="skill-menu" textAlign="center" >
+                          <Icon name="empty star" size="large" className="addtop-btn" onClick={() => this.addToTop(idx)} />
+                        </Segment>
+                        <Segment className="skill-menu" textAlign="center" >
+                          <Icon name="trash" size="large" className="remove-btn" onClick={() => this.removeSkill(idx)} />
+                        </Segment>
+                        <Segment className="skill-menu" textAlign="center" >
+                          <Icon name="pencil" size="large" className="edit-btn" onClick={() => this.editSkill(idx)} />
+                        </Segment>
+                      </Segment.Group>
+                    )
+                  }
+                })
+              }
+
+        <h4>Intermediate</h4>
+
+            {
+              /* Map over the skillsArr and only return the skills that match the condition in the if statement */
+              !!skillsArr.length &&
+              skillsArr.map((skill, idx) => {
+                if (skill.rank === 'intermediate' && !skill.topSkill) {
+                  return (
+                    <Segment.Group  horizontal key={skill.name}>
+                      <Segment inverted secondary color="black" size="large">{skill.name}</Segment>
+                      <Segment className="skill-menu" textAlign="center" >
+                        <Icon name="empty star" size="large" className="addtop-btn" onClick={() => this.addToTop(idx)} />
+                      </Segment>
+                      <Segment className="skill-menu" textAlign="center" >
+                        <Icon name="trash" size="large" className="remove-btn" onClick={() => this.removeSkill(idx)} />
+                      </Segment>
+                      <Segment className="skill-menu" textAlign="center" >
+                        <Icon name="pencil" size="large" className="edit-btn" onClick={() => this.editSkill(idx)} />
+                      </Segment>
+                    </Segment.Group>
+                  )
+                }
+              })
+            }
+
+        <h4>Beginner</h4>
+
+            {
+              /* Map over the skillsArr and only return the skills that match the condition in the if statement */
+              !!skillsArr.length &&
+              skillsArr.map((skill, idx) => {
+                if (skill.rank === 'beginner' && !skill.topSkill) {
+                  return (
+                    <Segment.Group  horizontal key={skill.name}>
+                      <Segment inverted tertiary color="green" size="large">{skill.name}</Segment>
+                      <Segment className="skill-menu" textAlign="center" >
+                        <Icon name="empty star" size="large" className="addtop-btn" onClick={() => this.addToTop(idx)} />
+                      </Segment>
+                      <Segment className="skill-menu" textAlign="center" >
+                        <Icon name="trash" size="large" className="remove-btn" onClick={() => this.removeSkill(idx)} />
+                      </Segment>
+                      <Segment className="skill-menu" textAlign="center" >
+                        <Icon name="pencil" size="large" className="edit-btn" onClick={() => this.editSkill(idx)} />
+                      </Segment>
+                    </Segment.Group>
+
+                  )
+                }
+              })
+            }
+
+        </div>
+        <div className = "col-sm-4 skills">
           <h4>Top Skills</h4>
           <ul>
             {
@@ -74,100 +174,26 @@ class SkillForm extends Component {
               skillsArr.map((skill, idx) => {
                 if (skill.topSkill) {
                   return (
-                  <li key={skill.name}>
-                    {`${skill.name}`}
-                    <Button circular icon="star" className="remtop-btn" onClick={() => this.removeFromTop(idx)} />
-                    <Button circular icon="trash" className="remove-btn" onClick={() => this.removeSkill(idx)} />
-                    <Button circular icon="pencil" className="edit-btn" onClick={() => this.editSkill(idx)} />
-                  </li>
+                    <Segment.Group  horizontal key={skill.name}>
+                      <Segment inverted color="yellow" size="large">{skill.name}</Segment>
+                      <Segment className="skill-menu" textAlign="center" >
+                        <Icon name="star" size="large" className="remtop-btn" onClick={() => this.removeFromTop(idx)} />
+                      </Segment>
+                      <Segment className="skill-menu" textAlign="center" >
+                        <Icon name="trash" size="large" className="remove-btn" onClick={() => this.removeSkill(idx)} />
+                      </Segment>
+                      <Segment className="skill-menu" textAlign="center" >
+                        <Icon name="pencil" size="large" className="edit-btn" onClick={() => this.editSkill(idx)} />
+                      </Segment>
+                    </Segment.Group>
                 )
                 }
               })
             }
           </ul>
         </div>
-        <div className = "col-sm-3 skills">
-        <h4>Advanced</h4>
-          <ul>
-            {
-              /* Map over the skillsArr and only return the skills that match the condition in the if statement */
-              !!skillsArr.length &&
-              skillsArr.map((skill, idx) => {
-                if (skill.rank === 'advanced' && !skill.topSkill) {
-                  return (
-                    <li key={skill.name}>
-                    {`${skill.name}`}
-                    <Button circular icon="empty star" className="addtop-btn" onClick={() => this.addToTop(idx)} />
-                    <Button circular icon="trash" className="remove-btn" onClick={() => this.removeSkill(idx)} />
-                    <Button circular icon="pencil" className="edit-btn" onClick={() => this.editSkill(idx)} />
-                    </li>
-                  )
-                }
-              })
-            }
-          </ul>
-        </div>
-        <div className = "col-sm-3 skills">
-        <h4>Intermediate</h4>
-          <ul>
-            {
-              /* Map over the skillsArr and only return the skills that match the condition in the if statement */
-              !!skillsArr.length &&
-              skillsArr.map((skill, idx) => {
-                if (skill.rank === 'intermediate' && !skill.topSkill) {
-                  return (
-                    <li key={skill.name}>
-                      {`${skill.name}`}
-                      <Button circular icon="empty star" className="addtop-btn" onClick={() => this.addToTop(idx)} />
-                      <Button circular icon="trash" className="remove-btn" onClick={() => this.removeSkill(idx)} />
-                      <Button circular icon="pencil" className="edit-btn" onClick={() => this.editSkill(idx)} />
-                    </li>
-                  )
-                }
-              })
-            }
-          </ul>
-        </div>
-        <div className = "col-sm-3 skills">
-        <h4>Beginner</h4>
-          <ul>
-            {
-              /* Map over the skillsArr and only return the skills that match the condition in the if statement */
-              !!skillsArr.length &&
-              skillsArr.map((skill, idx) => {
-                if (skill.rank === 'beginner' && !skill.topSkill) {
-                  return (
-                    <li key={skill.name}>
-                    {`${skill.name}`}
-                    <Button circular icon="empty star" className="addtop-btn" onClick={() => this.addToTop(idx)} />
-                    <Button circular icon="trash" className="remove-btn" onClick={() => this.removeSkill(idx)} />
-                    <Button circular icon="pencil" className="edit-btn" onClick={() => this.editSkill(idx)} />
-
-                    </li>
-                  )
-                }
-              })
-            }
-          </ul>
-        </div>
-
-          <Form>
-          <div className = "col-sm-12">
-            <Input className="skillName" placeholder="Skill" value={skillName} onChange={(evt) => this.handleStringChange('skillName', evt.target.value)} />
-
-            <Dropdown selection className="skillRank" placeholder="Skill Rank" value={skillRank} onChange={(evt, {value}) => this.handleStringChange('skillRank', value)} options={skillRanks} />
-            {
-              /* If editing is true, show the pencil icon and call the updateSkill function if the button is clicked
-              * If editing is false, show the add icon and call the addSkills function if the button is clicked
-              */
-              this.state.editing ?
-              <Button circular icon="pencil" className="add-btn" onClick={() => this.updateSkill()} /> :
-              <Button circular icon="plus" className="add-btn" onClick={() => this.addSkill()} />
-            }
-            </div>
-          </Form>
-
       </div>
+
       </Card>
     )
   }
