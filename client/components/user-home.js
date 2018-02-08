@@ -2,18 +2,19 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import { Button } from 'semantic-ui-react'
+import { homeLogin, homeSignup } from './auth/auth-reducer'
 import './user-home.css'
 
 /**
  * COMPONENT
  */
 export const UserHome = (props) => {
-  const {email} = props
+  const {handleHomeLogin, handleHomeSignup} = props
 
   return (
     <div className="home">
       <div className="banner">
-        <dv className="row banner-text">
+        <div className="row banner-text">
           <div className="col-sm-12">
             <h1 className="text-center">Always know where you stand</h1>
           </div>
@@ -21,14 +22,14 @@ export const UserHome = (props) => {
             <h2 className="text-center">with our transparent hiring process</h2>
           </div>
           <div className="col-sm-12 text-center buttons-wrapper">
-                <Button size="massive" basic color="blue">Login</Button>
-                <Button size="massive" basic color="black">Sign Up</Button>
+                <Button size="massive" basic color="blue" onClick={() => handleHomeLogin()}>Login</Button>
+                <Button size="massive" basic color="black" onClick={() => handleHomeSignup()}>Sign Up</Button>
             </div>
-        </dv>
+        </div>
       </div>
       <div className="left-feature feature">
         <div className="row">
-          <div clasName="col-sm-12">
+          <div className="col-sm-12">
             <h1 className="text-center heading">Our Features</h1>
           </div>
           <div className="col-sm-4">
@@ -61,7 +62,18 @@ const mapState = (state) => {
   }
 }
 
-export default connect(mapState)(UserHome)
+const mapDispatch = (dispatch) => {
+  return {
+    handleHomeLogin() {
+      dispatch(homeLogin());
+    },
+    handleHomeSignup() {
+      dispatch(homeSignup());
+    }
+  }
+}
+
+export default connect(mapState, mapDispatch)(UserHome)
 
 /**
  * PROP TYPES
