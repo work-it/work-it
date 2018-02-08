@@ -22,7 +22,7 @@
 }
 
 .feature-img-1 {
-  height: 300px;
+  height: 215px;
   background-image: url('/applications.png');
   background-size: cover;
   background-position: center right;
@@ -31,8 +31,8 @@
 }
 
 .feature-img-3 {
-  height: 300px;
-  background-image: url('/messaging.jpg');
+  height: 215px;
+  background-image: url('/messaging.png');
   background-size: cover;
   background-position: center left;
   box-shadow: 0 1px 3px 0 #d4d4d5;
