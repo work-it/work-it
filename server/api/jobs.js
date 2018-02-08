@@ -19,6 +19,7 @@ router.get('/employer/:id', (req, res, next) => {
     })
     .then(jobs => {
       let jobsToReturn = [];
+      console.log("Got jobs for employer", jobs)
       for (let key in jobs) {
         if (jobs.hasOwnProperty(key)) {
           // Destructure object full of jobs into a useable array

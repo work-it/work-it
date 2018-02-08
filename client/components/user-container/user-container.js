@@ -20,7 +20,12 @@ class UserMenu extends Component {
         <div className="user-menu row">
           <div className="col-sm-12 text-left">
             <ul className="list-inline">
-              <li><Link to="/applications/in-progress">In Progress</Link></li>
+              <li>
+              {
+                this.props.isEmployer?<Link to="/applications/employer">In Progress</Link>:<Link to="/applications/in-progress">In Progress</Link>
+              }
+              
+              </li>
               <li><Link to="/applications/archived">Archived</Link></li>
             </ul>
           </div>
@@ -32,7 +37,7 @@ class UserMenu extends Component {
 
 const mapState = (state) => {
   return {
-
+    isEmployer: state.user.employer
   }
 }
 

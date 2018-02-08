@@ -221,7 +221,11 @@ class SearchBar extends Component {
     else if (value ==='message')
       this.props.history.push('/messages')
     else if (value==='applications')
-      this.props.history.push('/applications/in-progress')
+      if (this.props.isEmployer){
+        this.props.history.push('/applications/employer')
+      } else {
+        this.props.history.push('/applications/in-progress')
+      }
     else
       this.handleLogin(this.props.authShow)
   }
