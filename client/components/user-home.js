@@ -13,7 +13,7 @@ export const UserHome = (props) => {
   return (
     <div className="home">
       <div className="banner">
-        <dv className="row">
+        <dv className="row banner-text">
           <div className="col-sm-12">
             <h1 className="text-center">Always Know Where You Stand</h1>
           </div>
@@ -21,9 +21,9 @@ export const UserHome = (props) => {
             <h2 className="text-center">With Our Transparent Hiring Process</h2>
           </div>
           <div className="col-sm-12 text-center buttons-wrapper">
-            <Button size="massive" basic color="blue">Login</Button>
-            <Button size="massive" basic color="blue">Sign Up</Button>
-          </div>
+                <Button size="massive" basic color="blue">Login</Button>
+                <Button size="massive" basic color="black">Sign Up</Button>
+            </div>
         </dv>
       </div>
       <div className="left-feature feature">

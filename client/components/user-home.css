@@ -1,7 +1,8 @@
 .banner {
   height: 600px;
-  background-image: url('/stock-photo-white-workspace-desk-on-top-view-571433629.jpg');
+  background-image: url('/workit-hero.jpg');
   background-size: cover;
+  background-repeat: no-repeat;
   background-position-y: -150px;
   display: flex;
   align-items: center;
@@ -9,12 +10,14 @@
 
 .banner h1 {
   font-size: 45px;
-  text-shadow: 2px 2px 2px rgba(0,0,0,0.1);
+  color: #fff;
 }
 
 .banner h2 {
-  font-size: 35px;
-  text-shadow: 2px 2px 2px rgba(0,0,0,0.1);
+  font-size: 40px;
+  font-weight: 200;
+  color: #fff;
+  margin-left: 20px;
 }
 
 .feature {
@@ -22,7 +25,7 @@
 }
 
 .feature-img-1 {
-  height: 215px;
+  height: 250px;
   background-image: url('/applications.png');
   background-size: cover;
   background-position: center right;
@@ -31,7 +34,7 @@
 }
 
 .feature-img-3 {
-  height: 215px;
+  height: 250px;
   background-image: url('/messaging.png');
   background-size: cover;
   background-position: center left;
@@ -57,7 +60,19 @@
 }
 
 .home .buttons-wrapper button.ui.basic.blue.button {
-  margin: 0 5px;
+  margin: 0 15px;
   width: 110px;
-  background: #fff !important;
+}
+
+.banner-text.row {
+  margin: -50px 0 0;
+  background-image: url('/blue-banner.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 50px 0;
+}
+
+.banner .buttons-wrapper {
+  position: absolute;
+  margin-top: 192px;
 }
