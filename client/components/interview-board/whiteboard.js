@@ -8,7 +8,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { emitDrawEvent, updateHistory } from './whiteboard-reducer'
+import { Icon, Button } from 'semantic-ui-react'
+import { emitDrawEvent, updateHistory, setAction } from './whiteboard-reducer'
 import './interview-board.css'
 
 class WhiteBoard extends Component {
@@ -80,13 +81,13 @@ class WhiteBoard extends Component {
             this.ctx.lineTo(...end);
             this.ctx.closePath();
             this.ctx.stroke();
-        
+
         } else {
             this.ctx.globalCompositeOperation="destination-out";
             this.ctx.arc(...start,25,0,Math.PI*2,false);
             this.ctx.fill();
         }
-        
+
         // If shouldBroadcast is truthy, we will emit a draw event to listeners
         // with the start, end and color data.
         shouldBroadcast && this.props.status==='pair_in_room' && this.props.emitDraw(start, end, strokeColor, this.props.action);
@@ -99,11 +100,11 @@ class WhiteBoard extends Component {
         // Unscale the canvas (if it was previously scaled)
             console.log(this.canvas.clientWidth, this.canvas.clientHeight)
             this.ctx.setTransform(1, 0, 0, 1, 0, 0);
-        
+
             // The device pixel ratio is the multiplier between CSS pixels
             // and device pixels
             const pixelRatio = window.devicePixelRatio || 1;
-            
+
             // Allocate backing store large enough to give us a 1:1 device pixel
             // to canvas pixel ratio.
             const w = this.canvas.clientWidth * pixelRatio,
@@ -113,25 +114,25 @@ class WhiteBoard extends Component {
                 // Resizing the canvas destroys the current content.
                 // So, save it...
                 const imgData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height)
-        
+
                 this.canvas.width = w; this.canvas.height = h;
-        
+
                 // ...then restore it.
                 this.ctx.putImageData(imgData, 0, 0)
             }
-        
+
             // Scale the canvas' internal coordinate system by the device pixel
             // ratio to ensure that 1 canvas unit = 1 css pixel, even though our
             // backing store is larger.
             this.ctx.scale(pixelRatio, pixelRatio);
-        
+
             this.ctx.lineWidth = 5
             this.ctx.lineJoin = 'round';
             this.ctx.lineCap = 'round';
-        } 
+        }
     }
 
-    
+
 
     setupCanvas() {
         // Set the size of the canvas and attach a listener
@@ -149,7 +150,7 @@ class WhiteBoard extends Component {
         this.canvas.addEventListener('mouseup', (function (e) {
             this.mouseClickedOnCanvas = false;
         }).bind(this))
-    
+
         this.canvas.addEventListener('mousemove', (function (e) {
             if (!this.mouseClickedOnCanvas) return;
             if (!e.buttons) return;
@@ -164,14 +165,24 @@ class WhiteBoard extends Component {
     }
 
     render() {
-        return <canvas id='canvas' className = "mycanvas"></canvas>
+        return (
+          <div>
+            {
+              this.props.whiteboardAction === 'erase' ?
+              <Button className="pencil-eraser-btn" onClick={() => this.props.toggleWhiteboardAction()}><Icon name="pencil"  /></Button> :
+              <Button className="pencil-eraser-btn" onClick={() => this.props.toggleWhiteboardAction()}><Icon name="eraser"  /></Button>
+            }
+            <canvas id="canvas" className = "mycanvas" />
+          </div>
+        )
     }
-    
+
 }
 const mapState = state => ({
     board: state.whiteboard,
     status: state.practice.practiceStatus,
-    action: state.whiteboard.action
+    action: state.whiteboard.action,
+    whiteboardAction: state.whiteboard.action
 })
 
 const mapDispatch = (dispatch) => ({
@@ -180,7 +191,20 @@ const mapDispatch = (dispatch) => ({
     },
     pushHistory: (start, end, color, action) => {
         dispatch (updateHistory(start, end, color, action))
-    }
+    },
+    setWhiteboardAction: (action) => dispatch( setAction (action))
 })
 
-export default withRouter(connect( mapState, mapDispatch)( WhiteBoard ));
+const mergeProps = (state, actions) => ({
+  ...state,
+  ...actions,
+  toggleWhiteboardAction: () => {
+      console.log("toggle triggered")
+      if (state.whiteboardAction === 'draw')
+          actions.setWhiteboardAction('erase')
+      else
+          actions.setWhiteboardAction('draw')
+  }
+})
+
+export default withRouter(connect( mapState, mapDispatch, mergeProps)( WhiteBoard ));

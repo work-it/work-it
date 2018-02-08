@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {Progress, TextArea, Form, Button} from 'semantic-ui-react'
+import {Progress, TextArea, Form, Button, Card} from 'semantic-ui-react'
 import {updateEmployerNotesMiddleware, archiveMiddleware, sendOfferThunk} from '../../store';
 import UserTile from '../tile-user/tile-user'
+import UserProfile from '../user-profile-form/user-profile'
 import '../user-application/user-application.css'
 import UserChatBox from '../user-chat/user-chat-box'
 import PracticeSchedule from '../practice-schedule/practice-schedule'
@@ -18,6 +19,8 @@ class EmployerApplication extends Component {
       view: 'application',
       offerLetter: ''
     }
+
+    this.showProfile = this.showProfile.bind(this);
   }
 
   componentWillMount() {
@@ -32,6 +35,7 @@ class EmployerApplication extends Component {
 
   render() {
     const { application, profile } = this.props;
+    const { view } = this.state;
     let barPercent;
 
     switch (application.status) {
@@ -53,7 +57,7 @@ class EmployerApplication extends Component {
 
     return (
       <div className="application row">
-        <UserTile {...profile} key={`profile-${profile.id}`} />
+        <UserTile {...profile} key={`profile-${profile.id}`} link={'profile'} showProfile={this.showProfile} />
         <div className="col-sm-9">
           {
             application.status !== 'hire' ?
@@ -106,6 +110,8 @@ class EmployerApplication extends Component {
         return this.renderSchedulerView(application);
       case 'offer':
         return this.renderOfferView();
+      case 'profile':
+        return this.renderProfileView();
       default:
         return this.renderApplicationView(application);
     }
@@ -172,9 +178,26 @@ class EmployerApplication extends Component {
     )
   }
 
+  renderProfileView() {
+    const { application } = this.props;
+
+    return (
+      <div>
+        <Card>
+          {application.coverLetter}
+        </Card>
+        <UserProfile userId={ application.userId } />
+      </div>
+    )
+  }
+
   handleOfferLetter() {
     this.setState({view: 'application'});
     this.props.handleOfferLetterSubmit(this.state.offerLetter);
+  }
+
+  showProfile() {
+    this.setState({view: 'profile'})
   }
 }
 

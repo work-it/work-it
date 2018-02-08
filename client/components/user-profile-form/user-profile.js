@@ -24,9 +24,11 @@ class userProfile extends Component {
   }
 
   componentDidMount() {
-    //if (!this.props.profile && this.props.userId) {
+    if (this.props.userId) {
+      this.props.fetchProfile(this.props.userId);
+    } else {
       this.props.fetchProfile();
-    //}
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -239,8 +241,8 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    fetchProfile() {
-      dispatch(getProfileThunk())
+    fetchProfile(userId) {
+      dispatch(getProfileThunk(userId))
     },
     setStep (step) {
       dispatch (updateStep(step))
