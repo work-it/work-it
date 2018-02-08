@@ -56,15 +56,38 @@ router.put('/', (req, res, next) => {
                         return firebase.database().ref('/schedule/'+sessionId)
                         .update({userTwo: userId})     
                         .then(() => {
-            
-                            openSess[sessionId].userTwo = userId;
+                            const userSess = openSess[sessionId]
+                            userSess.userTwo = userId;
                             //send email notifications
-                            sendEmailToUser(openSess[sessionId].userOne, openSess[sessionId])
-                            sendEmailToUser(openSess[sessionId].userTwo, openSess[sessionId])
+                            sendEmailToUser(userSess.userOne, userSess)
+                            sendEmailToUser(userSess.userTwo, userSess)
 
-                           
-                            console.log("session updated....", openSess)
-                            return openSess;
+                            //if it's the user accepting interview, remove all other sessions for that employerId and interiveweeId
+                            if (userSess.intervieweeId === userId) {
+                                const employerId = userSess.userOne;
+                                return firebase.database().ref('/schedule/').once('value').then(ds=>ds.val())
+                                .then(allSessions => {
+                                    const sessionsToRemove = []
+                                    for (let key in allSessions) {
+                                        const s = allSessions[key];
+                                        if (s.userOne === employerId && s.intervieweeId === userId && s.id !== userSess.id) {
+                                            sessionsToRemove.push(s)
+                                        }
+                                    }
+                                    const promiseSess = sessionsToRemove.map (sess => firebase.database().ref('/schedule/'+sess.id).remove())
+                                    return Promise.all(promiseSess);
+                                })
+                                .then (removed => {
+                                    console.log(" Extra Sessions removed")
+                                    return openSess;
+                                })
+                                .catch (console.log)
+
+                            } else {
+                                console.log("session updated....", userSess)
+                                return openSess;
+                            }
+                           // return openSess;
                         })
                     } else {
                         console.log("Session not found", session.id)
