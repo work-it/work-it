@@ -32,6 +32,7 @@ class Main extends Component {
     super(props)
 
     this.state = {}
+    this.getApplicationsComponent = this.getApplicationsComponent.bind(this)
   }
 
   componentDidMount() {
@@ -56,9 +57,16 @@ class Main extends Component {
 
           <Route exact path="/" render={() => <UserHome />} />
 
-          {/* USER ROUTES */}
-          <Route exact path="/applications/in-progress" render={() => <UserInProgress type="in-progress" />} />
-          <Route exact path="/applications/archived" render={() => <UserInProgress type="archived" />} />
+          {/* APPLICATION ROUTES */}
+          {
+            // this.props.employer?
+            //   (<Route exact path="/applications/in-progress" render={ () => <EmployerView type="in-progress"/> } />)
+            //   :
+            //   (<Route exact path="/applications/in-progress" render={ () => <UserInProgress type="in-progress"/> } />)
+          }
+
+          <Route exact path="/applications/in-progress" render={ () => <UserInProgress type="in-progress"/>} />
+          <Route exact path="/applications/archived" render={() =><UserInProgress type="archived" />} />
 
           {/* PROFILE ROUTES */}
           <Route exact path="/profile" render={()=><UserProfile />} />
@@ -77,10 +85,14 @@ class Main extends Component {
           <Route exact path="/whiteboard" component= { InterviewBoardContainer } />
 
           {/* EMPLOYER ROUTES */}
-          <Route exact path="/employer/:id" render={() => <EmployerView type="in-progress"/>} />
+          <Route exact path="/applications/employer" render={ () => <EmployerView type="in-progress"/> } />
         </Switch>
       </div>
     )
+  }
+
+  getApplicationsComponent () {
+    return  this.props.employer?(<EmployerView type="in-progress"/>):(<UserInProgress type="in-progress"/>)
   }
 }
 
@@ -91,7 +103,8 @@ const mapState = (state) => {
     authView: state.auth.view,
     email: state.user.email,
     waiting: state.practice.waiting,
-    room: state.practice.room
+    room: state.practice.room,
+    employer: state.user.employer
   }
 }
 

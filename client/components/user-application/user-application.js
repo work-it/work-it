@@ -4,6 +4,7 @@ import {withRouter} from 'react-router-dom'
 import {Progress, TextArea, Form, Button} from 'semantic-ui-react'
 import {updateNotesMiddleware, archiveMiddleware, addMessageMiddleware} from '../../store';
 import Tile from '../tile/tile'
+import PracticeSchedue from '../practice-schedule/practice-schedule'
 import './user-application.css'
 import UserChatBox from '../user-chat/user-chat-box'
 
@@ -13,7 +14,8 @@ class UserApplication extends Component {
 
     this.state = {
       notes: '',
-      newMessage: ''
+      newMessage: '',
+      view: 'application'
     }
   }
 
@@ -61,29 +63,63 @@ class UserApplication extends Component {
             <li>Offer</li>
             <li>Hired!</li>
           </ul>
-          <div className="chat-note-wrapper">
-            <UserChatBox application={application} showHeader={false} />
-            <div className="notes">
-              <Form>
-                <TextArea className="notes" placeholder="Notes" value={this.state.notes} onChange={(evt, {value}) => this.handleNotesChange(evt, value)} />
-              </Form>
-            </div>
-          </div>
-          <div className="in-progress-btns-wrapper">
-            {
-              !application.archived &&
-              <Button className="archive-btn" size="big" color="blue" onClick={() => handleArchive(application.id)}>Archive</Button>
-            }
-            <Button className="archive-btn" size="big" color="blue" onClick={() => handleSaveNotes(application.id, notes)}>Save Notes</Button>
-          </div>
+
+
+          {
+            this.state.view === 'application' ? this.showApplication(application) : this.showScheduler(application)
+          }
+
+          {
+            this.state.view === 'application' ? this.showApplicationButtons(barPercent, application, notes, handleArchive, handleSaveNotes) : this.showSchedulerButtons ()
+          }
+
+          
         </div>
       </div>
     </div>
     ) : null;
   }
 
+
+  showSchedulerButtons() {
+    return <Button className='archive-btn' size='big' onClick={() => this.setState({view: 'application'})}>Done</Button>
+  }
+
+  showApplication (application) {
+    return (<div className="chat-note-wrapper">
+    <UserChatBox application={application} showHeader={false} />
+    <div className="notes">
+      <Form>
+        <TextArea className="notes" placeholder="Notes" value={this.state.notes} onChange={(evt, {value}) => this.handleNotesChange(evt, value)} />
+      </Form>
+    </div>
+  </div>)
+  }
+
+  showScheduler (application) {
+      return <PracticeSchedue employerId={application.employerId} userId={application.userId}/>
+  }
+
+  showApplicationButtons (barPercent, application, notes, handleArchive, handleSaveNotes) {
+    return (<div className="in-progress-btns-wrapper">
+            {
+              barPercent === 60?<Button className="archive-btn" size="big" color="blue" onClick={() => this.handleShowSchedule()}>Schedule an Interview</Button>:null
+            }
+            {
+              !application.archived &&
+              <Button className="archive-btn" size="big" color="blue" onClick={() => handleArchive(application.id)}>Archive</Button>
+            }
+
+            <Button className="archive-btn" size="big" color="blue" onClick={() => handleSaveNotes(application.id, notes)}>Save Notes</Button>
+          </div>)
+  }
+
   handleNotesChange(evt, notes) {
     this.setState({notes})
+  }
+
+  handleShowSchedule() {
+    this.setState({view:'scheduler'})
   }
 
   handleChatUpdate(evt, newMessage) {

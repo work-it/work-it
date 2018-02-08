@@ -39,7 +39,7 @@ const renderDetails = (type, start, userOne, userTwo, testUser) => {
     return (
       <div>
         <h4>{startLocalTwelveHour}</h4>
-        <h4>Interview Invite</h4>
+        <h4>Invited</h4>
         
       </div>
     )
@@ -47,7 +47,7 @@ const renderDetails = (type, start, userOne, userTwo, testUser) => {
     return (
       <div>
         <h4>{startLocalTwelveHour}</h4>
-        <h4>Interview Scheduled</h4>
+        <h4>Interview</h4>
         
       </div>
     )
@@ -67,16 +67,18 @@ waiting: YOU have set those times as available and you are waiting for a partner
 available: ANOTHER USER has set those times as available and you can choose to pair with them.
 paired: YOU and ANOTHER USER have been paired together for that time. It doesn’t show paired partners if you aren’t one of the pairs.
   */
+  console.log("props.session", props.session)
   if (userOne===myUserId && !userTwo && !intervieweeId) {
     type = 'waiting';
     classFortype += type;
-  } else if (userOne===myUserId || userTwo===myUserId && !intervieweeId) {
+  } else if ( !intervieweeId && (userOne===myUserId || userTwo===myUserId) && userOne && userTwo) {
+    console.log("userOne", userOne, "userTwo", userTwo, "interviewee", intervieweeId)
     type = 'paired';
     classFortype += type;
-  } else if (intervieweeId===myUserId && !userTwo) {
+  } else if ( (intervieweeId===myUserId && !userTwo) || (userOne===myUserId && !userTwo && intervieweeId)) {
     type = 'interviewProposed';
     classFortype += type
-  } else if (intervieweeId===myUserId && userTwo === myUserId) {
+  } else if (intervieweeId===myUserId && userOne && userTwo) {
     type = 'interviewPaired';
     classFortype += type
   }
