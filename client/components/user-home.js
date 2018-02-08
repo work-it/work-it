@@ -15,10 +15,10 @@ export const UserHome = (props) => {
       <div className="banner">
         <dv className="row banner-text">
           <div className="col-sm-12">
-            <h1 className="text-center">Always Know Where You Stand</h1>
+            <h1 className="text-center">Always know where you stand</h1>
           </div>
           <div className="col-sm-12">
-            <h2 className="text-center">With Our Transparent Hiring Process</h2>
+            <h2 className="text-center">with our transparent hiring process</h2>
           </div>
           <div className="col-sm-12 text-center buttons-wrapper">
                 <Button size="massive" basic color="blue">Login</Button>
