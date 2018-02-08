@@ -283,7 +283,7 @@ class SkillForm extends Component {
     this.props.nextClick();
     // consolidate data and prepare it to be sent to the redux thunk.
     let data = { skillsArr: this.state.skillsArr };
-    data.step = this.props.step;
+    data.step = this.props.step + 1;
     // call the thunk to update profile in firebase
     this.props.handleProfileFormThunk(data);
   }

@@ -162,7 +162,7 @@ class PastEmployerForm extends Component {
     this.props.nextClick();
     // consolidate data and prepare it to be sent to the redux thunk.
     let data = { pastEmployersArr: this.state.pastEmployersArr };
-    data.step = this.props.step;
+    data.step = this.props.step + 1;
     // call the thunk to update profile in firebase
     this.props.handleProfileFormThunk(data);
   }
