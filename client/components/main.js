@@ -117,15 +117,24 @@ const mapDispatch = (dispatch) => {
     loadInitialData() {
       dispatch(me())
     },
-    handleLogout() {
-      dispatch(logout())
+    handleLogout(history) {
+      dispatch(logout(history))
     }
   }
 }
 
+const mergeProps = (state, actions, ownProps) => ({
+  ...state,
+  ...actions,
+  ...ownProps,
+  handleLogout () {
+    actions.handleLogout(ownProps.history)
+  }
+})
+
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes
-export default withRouter(connect(mapState, mapDispatch)(Main))
+export default withRouter(connect(mapState, mapDispatch, mergeProps)(Main))
 
 /**
  * PROP TYPES

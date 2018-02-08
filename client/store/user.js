@@ -1,5 +1,5 @@
 import axios from 'axios'
-import history from '../history'
+//import history from '../history'
 import { hideLogin } from '../components/auth/auth-reducer'
 
 /**
@@ -69,7 +69,6 @@ export const removeSavedJobThunk = (id) => {
     })
   }
 }
-
 export const me = () =>
   dispatch =>
     axios.get('/auth/me')
@@ -77,25 +76,25 @@ export const me = () =>
         dispatch(getUser(res.data || defaultUser)))
       .catch(err => console.log(err))
 
-export const auth = (email, password, method) =>
+export const auth = (email, password, method, history) =>
   dispatch => {
     console.log("about to hit axios", email, password, method)
     axios.post(`/auth/${method}`, { email, password })
       .then(res => {
         dispatch(hideLogin())
         dispatch(getUser(res.data))
-        history.push('/home')
+        history.push('/')
       }, authError => { // rare example: a good use case for parallel (non-catch) error handler
         dispatch(getUser({error: authError}))
       })
       .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr))
     }
-export const logout = () =>
+export const logout = (history) =>
   dispatch =>
     axios.post('/auth/logout')
       .then(_ => {
         dispatch(removeUser())
-        history.push('/login')
+        history.push('/')
       })
       .catch(err => console.log(err))
 

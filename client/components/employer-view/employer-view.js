@@ -19,14 +19,23 @@ class EmployerView extends Component {
     this.handleViewApplicationClick = this.handleViewApplicationClick.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log("comp will receive props", this.props.userId, nextProps.userId)
-    if (!this.props.userId && nextProps.userId) {
-      this.props.fetchEmployerJobs(nextProps.userId);
-      this.props.fetchAppsWithProfiles(nextProps.userId);
+  componentDidMount () {
+    console.log ("Mounting......")
+    if (this.props.userId) {
+      this.props.fetchEmployerJobs(this.props.userId);
+      this.props.fetchAppsWithProfiles(this.props.userId);
 
     }
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   console.log("comp will receive props", this.props.userId, nextProps.userId)
+  //   if (!this.props.userId && nextProps.userId) {
+  //     this.props.fetchEmployerJobs(nextProps.userId);
+  //     this.props.fetchAppsWithProfiles(nextProps.userId);
+
+  //   }
+  // }
 
   render() {
     return (

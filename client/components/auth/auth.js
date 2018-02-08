@@ -74,12 +74,8 @@ const mapSignup = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    handleSubmit (evt) {
-      evt.preventDefault()
-      const formName = evt.target.name
-      const email = evt.target.email.value
-      const password = evt.target.password.value
-      dispatch(auth(email, password, formName))
+    handleSubmit (formName, email, password, history) {
+      dispatch(auth(email, password, formName, history))
     },
     handleHideLogin(authShow) {
       dispatch(toggleShow(authShow))
@@ -95,8 +91,21 @@ const mapDispatch = (dispatch) => {
   }
 }
 
-export const Login = withRouter(connect(mapLogin, mapDispatch)(AuthForm))
-export const Signup = withRouter(connect(mapSignup, mapDispatch)(AuthForm))
+const mergeProps = (state, actions, ownProps ) => ({
+  ...state,
+  ...actions,
+  ...ownProps,
+  handleSubmit: (evt) => {
+      evt.preventDefault()
+      const formName = evt.target.name
+      const email = evt.target.email.value
+      const password = evt.target.password.value
+      actions.handleSubmit(formName, email, password, ownProps.history)
+  }
+})
+
+export const Login = withRouter(connect(mapLogin, mapDispatch, mergeProps)(AuthForm))
+export const Signup = withRouter(connect(mapSignup, mapDispatch, mergeProps)(AuthForm))
 
 /**
  * PROP TYPES
