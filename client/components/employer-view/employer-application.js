@@ -2,13 +2,14 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {Progress, TextArea, Form, Button, Card} from 'semantic-ui-react'
-import {updateEmployerNotesMiddleware, archiveMiddleware, sendOfferThunk} from '../../store';
+import {updateEmployerNotesMiddleware, archiveMiddleware, sendOfferThunk} from '../../store'
 import UserTile from '../tile-user/tile-user'
 import UserProfile from '../user-profile-form/user-profile'
 import '../user-application/user-application.css'
 import UserChatBox from '../user-chat/user-chat-box'
 import PracticeSchedule from '../practice-schedule/practice-schedule'
-import TinyMCE from 'react-tinymce';
+import TinyMCE from 'react-tinymce'
+import renderHTML from 'react-render-html'
 
 class EmployerApplication extends Component {
   constructor(props) {
@@ -151,7 +152,7 @@ class EmployerApplication extends Component {
   renderSchedulerView(application) {
       return (
         <div>
-          <PracticeSchedule employerId={application.employerId} userId={application.userId} />
+          <PracticeSchedule employerId={application.employerId} userId={application.userId} appId={application.id} />
           <div>
             <Button className="archive-btn" size="big" onClick={() => this.setState({view: 'application'})}>Done</Button>
           </div>
@@ -160,6 +161,9 @@ class EmployerApplication extends Component {
   }
 
   renderOfferView() {
+    const { application } = this.props;
+    const appId = application.id;
+
     return (
       <div>
         <TinyMCE
@@ -172,7 +176,7 @@ class EmployerApplication extends Component {
           }}
           onChange={evt => this.setState({offerLetter: evt.target.getContent()})}
         />
-        <Button className="send-btn" size="big" color="blue" onClick={() => this.handleOfferLetter()}>Send</Button>
+        <Button className="send-btn" size="big" color="blue" onClick={() => this.handleOfferLetter(appId)}>Send</Button>
         <Button className="back-btn" size="big" onClick={() => this.setState({view: 'application'})}>Back</Button>
       </div>
     )
@@ -182,18 +186,20 @@ class EmployerApplication extends Component {
     const { application } = this.props;
 
     return (
-      <div>
-        <Card>
-          {application.coverLetter}
+      <div className="employer-profile-view">
+        <Card className="cover-letter">
+          <h4 className="text-center">Cover Letter / Statement of Interest</h4>
+          {renderHTML(application.coverLetter)}
         </Card>
         <UserProfile userId={ application.userId } />
+        <Button className="back-btn" size="big" onClick={() => this.setState({view: 'application'})}>Back</Button>
       </div>
     )
   }
 
-  handleOfferLetter() {
+  handleOfferLetter(appId) {
     this.setState({view: 'application'});
-    this.props.handleOfferLetterSubmit(this.state.offerLetter);
+    this.props.handleOfferLetterSubmit(this.state.offerLetter, appId);
   }
 
   showProfile() {
@@ -209,8 +215,8 @@ const mapDispatch = (dispatch) => {
     handleArchive(applicationId) {
       dispatch(archiveMiddleware(applicationId))
     },
-    handleOfferLetterSubmit(offerLetter) {
-      dispatch(sendOfferThunk(offerLetter))
+    handleOfferLetterSubmit(offerLetter, appId) {
+      dispatch(sendOfferThunk(offerLetter, appId))
     }
   }
 }
