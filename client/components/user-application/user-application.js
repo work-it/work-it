@@ -157,16 +157,16 @@ class UserApplication extends Component {
           {renderHTML(application.offerLetter)}
         </Card>
         <div className="offer-letter-buttons">
-          <Button className="accept-offer-btn" size="big" color="blue" onClick={() => this.hanldeOffer('accept')}>Accept</Button>
+          <Button className="accept-offer-btn" size="big" color="blue" onClick={() => this.hanldeOffer('accept', application.id)}>Accept</Button>
           <Button className="back-btn" size="big" onClick={() => this.setState({view: 'application'})}>Back</Button>
         </div>
       </div>
     )
   }
 
-  hanldeOffer(status) {
+  hanldeOffer(status, appId) {
     this.setState({view: 'application'})
-    this.props.handleOfferLetterStatus(status);
+    this.props.handleOfferLetterStatus(status, appId);
   }
 }
 
@@ -178,8 +178,8 @@ const mapDispatch = (dispatch) => {
     handleArchive(applicationId) {
       dispatch(archiveMiddleware(applicationId))
     },
-    handleOfferLetterStatus(status) {
-      dispatch(offerLetterStatusThunk(status))
+    handleOfferLetterStatus(status, appId) {
+      dispatch(offerLetterStatusThunk(status, appId))
     }
   }
 }

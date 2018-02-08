@@ -9,26 +9,27 @@ import './user-home.css'
 /**
  * COMPONENT
  */
-class UserHome extends Component {
-  constructor (props)  {
-    super (props)
-  }
+export const UserHome = (props) => {
+  const {handleHomeLogin, handleHomeSignup, isLoggedIn} = props
 
-  componentDidMount () {
-    console.log ("Mounted UserHome");
-  }
-
-  render () {
-
-  
-    const {handleHomeLogin, handleHomeSignup} = this.props
-
-    return (
-      <div className="home">
-        <div className="banner">
-          <div className="row banner-text">
-            <div className="col-sm-12">
-              <h1 className="text-center">Always know where you stand</h1>
+  return (
+    <div className="home">
+      <div className="banner">
+        <div className="row banner-text">
+          <div className="col-sm-12">
+            <h1 className="text-center">Always know where you stand</h1>
+          </div>
+          <div className="col-sm-12">
+            <h2 className="text-center">with our transparent hiring process</h2>
+          </div>
+          <div className="col-sm-12 text-center buttons-wrapper">
+            {
+              !isLoggedIn &&
+              <div>
+                <Button size="massive" basic color="blue" onClick={() => handleHomeLogin()}>Login</Button>
+                <Button size="massive" basic color="black" onClick={() => handleHomeSignup()}>Sign Up</Button>
+              </div>
+            }
             </div>
             <div className="col-sm-12">
               <h2 className="text-center">with our transparent hiring process</h2>
@@ -64,14 +65,14 @@ class UserHome extends Component {
       </div>
     )
   }
-}
 
 /**
  * CONTAINER
  */
 const mapState = (state) => {
   return {
-    email: state.user.email
+    email: state.user.email,
+    isLoggedIn: !!state.user.id
   }
 }
 

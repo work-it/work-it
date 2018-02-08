@@ -148,3 +148,12 @@
 .offer-letter-buttons {
   margin-top: 20px;
 }
+
+.employer-profile-view .cover-letter {
+  padding: 35px;
+}
+
+.employer-profile-view .job-view {
+  padding: 10px 15px !important;
+}
+
