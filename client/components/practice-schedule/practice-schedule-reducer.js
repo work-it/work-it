@@ -16,6 +16,7 @@ import { create } from 'domain';
 const CREATE_PAIR = 'CREATE_PAIR';
 const ADD_SESSION = 'ADD_SESSION';
 const LOAD_SESSIONS = 'LOAD_SESSIONS';
+export const NOTIFY_OF_UPDATE = 'NOTIFY_OF_UPDATE'
 
 /**
  * ACTION CREATORS
@@ -24,6 +25,7 @@ const LOAD_SESSIONS = 'LOAD_SESSIONS';
  const createPair = (updatedSchedule) => ({type: CREATE_PAIR, updatedSchedule});
  const addSession = (updatedSchedule) => ({type: ADD_SESSION , updatedSchedule})
  const loadSessions = (sessions) => ({type: LOAD_SESSIONS, sessions})
+ const notifyOfUpdate = session => ({type: NOTIFY_OF_UPDATE, session})
 
  export const createPairMiddleware = (session) => {
    return (dispatch, getState) => {
@@ -32,7 +34,9 @@ const LOAD_SESSIONS = 'LOAD_SESSIONS';
     .then(res => {
       if (!res.err) {
         console.log("res", res[session.id]);
-        dispatch(createPair(res[session.id]))
+        //dispatch(createPair(res[session.id]))
+        dispatch(notifyOfUpdate(session))
+        dispatch(fetchSchedule())
       }
     })
    }

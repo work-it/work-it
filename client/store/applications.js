@@ -5,7 +5,7 @@ import _ from 'lodash'
  * ACTION TYPES
  */
 const APPLY = 'APPLY';
-const REVIEW = 'REVIEW';
+export const REVIEW = 'REVIEW';
 const FETCH_APPLICTIONS = 'FETCH_APPLICATIONS';
 const UPDATE_NOTES = 'UPDATE_NOTES';
 const UPDATE_EMPLOYER_NOTES = 'UPDATE_EMPLOYER_NOTES';
@@ -40,10 +40,11 @@ export const reviewApplicationThunk = () => {
     const appId = application.id;
     application.status = 'review';
     const updatedApplication = [application];
-
+    console.log ("applciation", application, "appId", appId)
     axios.put(`/api/applications/${appId}/review`)
     .then(res => {
       if (res.status === 200) {
+        console.log("upating application from applicaiton.js store", updatedApplication)
         dispatch(review(updatedApplication));
       }
     })

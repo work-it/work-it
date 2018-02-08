@@ -49,7 +49,7 @@ class PracticeSchedule extends Component {
       const start = this.state.startDate.clone().format('MMM Do YYYY');
       const end = this.state.startDate.clone().add(6, 'days').format('MMM Do YYYY');
 
-      console.log("employerId", employerId)
+      //console.log("employerId", employerId)
       const filterFunc = employerId?this.employerSchedFilter:this.userSchedFilter;
       return (
         <div className="practice-schedule">
