@@ -69,7 +69,6 @@ export const removeSavedJobThunk = (id) => {
     })
   }
 }
-
 export const me = () =>
   dispatch =>
     axios.get('/auth/me')
