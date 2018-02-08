@@ -18,6 +18,7 @@
   font-weight: 200;
   color: #fff;
   margin-left: 20px;
+  padding-top: 10px
 }
 
 .feature {
@@ -59,13 +60,15 @@
   margin-top: 20px;
 }
 
-.home .buttons-wrapper button.ui.basic.blue.button {
+.home .buttons-wrapper button.ui.basic.blue.button,
+.home .buttons-wrapper button.ui.basic.black.button {
   margin: 0 15px;
-  width: 110px;
+  font-size: 24px;
+  width: 152px;
 }
 
 .banner-text.row {
-  margin: -50px 0 0;
+  margin: -75px 0 0;
   background-image: url('/blue-banner.png');
   background-size: cover;
   background-repeat: no-repeat;
