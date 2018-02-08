@@ -30,8 +30,10 @@
 
 }
 
-.userProfileForm form div input, userProfileForm form div dropdown, userProfileForm form div button, userProfileForm form div experience {
- height: 38px;
+.userProfileForm form div input, userProfileForm form div dropdown, userProfileForm form div button, userProfileForm form div experience,
+.skillForm form div input,  .pastEmployersForm form div input, .projectForm form div input, .schoolForm form div input {
+  height: 38px;
+  font-size: 14px;
 }
 
 .blue-text {
@@ -43,24 +45,27 @@
   font-size: 16px;
 }
 
-.userProfileForm .ui.input{
+.userProfileForm .ui.input, .skillForm .ui.input, .pastEmployersForm .ui.input, .projectForm .ui.input, .schoolForm .ui.input {
   margin-top: 20px;
-
+  margin-left: 0;
+  font-size: 14px;
 }
 
 .userProfileForm .ui.fluid.dropdown {
   margin-top: 20px;
 }
 
-.userProfileForm .ui.form textarea.userDesc{
+.userProfileForm .ui.form textarea.userDesc,
+.pastEmployersForm .ui.form textarea.workDesc,
+.projectForm .ui.form textarea.projectDesc,
+.schoolForm .ui.form textarea.degree {
   margin-top: 20px;
   font-size: 14px;
   height: 200px;
 
 }
 
-.userProfileForm .ui.fluid.dropdown {
-  height: 38px;
+.userProfileForm .ui.fluid.dropdown, skillForm {
   font-size: 14px;
   vertical-align: top;
 }
@@ -92,7 +97,8 @@
   margin-top: 40px
 }
 
-
 #fileInput {
   display: none;
 }
+
+
