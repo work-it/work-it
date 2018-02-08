@@ -61,6 +61,16 @@ const socketInit = (function initSocket ()  {
         console.log("applicationIds have updated chats", applicationIds)
         socket.broadcast.emit('chat-updated', applicationIds)
       })
+
+      socket.on('schedule-update', session => {
+        console.log("socket.io ====> got schedule to update", session)
+        socket.broadcast.emit('update-schedule', session)
+      })
+
+      socket.on ('application-status-update', applicationIds => {
+        console.log("application status is being updated", applicationIds)
+        socket.broadcast.emit('applications-updated', applicationIds)
+      })
       socket.on('join', (room, userId, schedToken) => {
         console.log ('---socket join received---', openRoomsByRoomName, room, userId, schedToken)
         if (room && (!openRoomsByRoomName.has(room.name) || openRoomsByRoomName.get(room.name).length <= 2)) {
