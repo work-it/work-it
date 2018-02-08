@@ -2,9 +2,8 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {getProfileThunk, updateStep} from '../../store'
-import {Card, Image, Header, Divider, Label, Icon, Segment, Container} from 'semantic-ui-react'
+import {Card, Image, Header, Divider, Label, Icon, Segment, Container, Button} from 'semantic-ui-react'
 import renderHTML from 'react-render-html';
-
 import './user-profile-form.css'
 const SKILLS_STEP = 3;
 const PROFILE_STEP = 1;
