@@ -1,7 +1,8 @@
 import { updateWhiteboard,  clearWhiteboard, EMIT_DRAW_EVENT} from '../../components/interview-board/whiteboard-reducer';
 import { updateTextarea, clearTextarea,  EMIT_TEXT_EVENT} from '../../components/interview-board/textarea-reducer';
 import { saveState } from '../../components/interview-container/save-state-reducer'
-import { videoUploaded, UPLOAD_VIDEO, START_FILE_UPLOAD, VIDEO_UPLOADED, pushVideoToFirebase, ADD_MESSAGE, fetchAppsWithProfilesThunk, fetchApplicationsThunk} from '../index'
+import { NOTIFY_OF_UPDATE, fetchSchedule} from '../../components/practice-schedule/practice-schedule-reducer'
+import { videoUploaded, UPLOAD_VIDEO, START_FILE_UPLOAD, VIDEO_UPLOADED, pushVideoToFirebase, ADD_MESSAGE, fetchAppsWithProfilesThunk,fetchApplicationsThunk, REVIEW} from '../index'
 import { JOIN_ROOM, START_PAIR, loadOpenRooms, CLOSE_ROOM, START_SOLO, continueSolo, roomWaiting, endOpenedRoom, LEAVE_ROOM, roomClosed } from '../../components/practice-pairs/practice-reducer';
 
 import io from 'socket.io-client';
@@ -61,6 +62,31 @@ export default () => {
                         store.dispatch(fetchApplicationsThunk(userId))
                 }
             })
+        })
+
+        socket.on ('applications-updated', applicationIds => {
+            console.log("got application to update", applicationIds)
+            const currentApplicationIds = store.getState().applications.map(application => application.id);
+            const isEmployer = store.getState().user.employer;
+            const userId = store.getState().user.id
+            applicationIds.forEach(applicationId => {
+                if (currentApplicationIds.includes(applicationId)) {
+                   // console.log("found application that needs to be updated")
+                    if (isEmployer)
+                        store.dispatch(fetchAppsWithProfilesThunk(userId))
+                    else 
+                        store.dispatch(fetchApplicationsThunk(userId))
+                }
+            })
+        })
+
+        socket.on ('update-schedule', session => {
+            //console.log ("updating schedule", session);
+            const userId = store.getState().user.id
+            if (session.userOne === userId || session.userTwo === userId || session.intervieweeId === userId) {
+                store.dispatch(fetchSchedule());
+            }
+            
         })
 
         socket.on('more-data', function (data){
@@ -133,6 +159,14 @@ export default () => {
                 case ADD_MESSAGE:
                     console.log ("adding message")
                     socket.emit ('chat-message-added', action.updatedApplications.map(application => application.id))
+                    break;
+                case REVIEW:
+                    //console.log("updatedApplications in review", action.updatedApplication)
+                    socket.emit ('application-status-update', action.updatedApplication.map(application => application.id))
+                    break;
+                case NOTIFY_OF_UPDATE:
+                    socket.emit ('schedule-update', action.session)
+                    break;
 
             }
             next (action);
