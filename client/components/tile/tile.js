@@ -44,7 +44,8 @@ class Tile extends Component {
   }
 
   renderHomeView() {
-    const {userId, user, id, savedBy, name, position, location, experience, type, salaryRange, topSkills, handleSaveJob, handleRemoveSavedJob} = this.props;
+    const {userId, user, id, savedBy, name, position, location, experience, type, salaryRange, topSkills, handleSaveJob, handleRemoveSavedJob, insideUserApplication} = this.props;
+    //console.log("insideUserApplicaiton", insideUserApplication)
     return (
       <Card>
         <div className="logo-wrapper">
@@ -83,11 +84,11 @@ class Tile extends Component {
         <div className="btn-group-wrapper text-center">
           <Button.Group className="btn-group">
             <Link to={`/job/${id}`}><Button >View</Button></Link>
-            <Link to={`/apply/${id}`}><Button>Apply</Button></Link>
+            {!insideUserApplication ? <Link to={`/apply/${id}`}><Button>Apply</Button></Link> : null}
             {
-              user.saved && user.saved.includes(id) ?
+              !insideUserApplication? (user.saved && user.saved.includes(id) ?
               <Button onClick={() => handleRemoveSavedJob(id)}>Unsave</Button> :
-              <Button onClick={() => handleSaveJob(id)}>Save</Button>
+              <Button onClick={() => handleSaveJob(id)}>Save</Button>) : null
             }
 
           </Button.Group>
@@ -101,7 +102,7 @@ class Tile extends Component {
   }
 
   renderDescView() {
-    const {savedBy, userId, user, id, name, companyDesc, roleDesc, qualifications, comp, handleSaveJob, handleRemoveSavedJob} = this.props;
+    const {savedBy, userId, user, id, name, companyDesc, roleDesc, qualifications, comp, handleSaveJob, handleRemoveSavedJob, insideUserApplication} = this.props;
     const {view} = this.state;
 
     let title
@@ -149,11 +150,11 @@ class Tile extends Component {
         <div className="btn-group-wrapper text-center">
           <Button.Group className="btn-group">
           <Link to={`/job/${id}`}><Button >View</Button></Link>
-          <Link to={`/apply/${id}`}><Button>Apply</Button></Link>
+          {!insideUserApplication?<Link to={`/apply/${id}`}><Button>Apply</Button></Link> : null}
             {
-              user.saved && user.saved.includes(id) ?
+              !insideUserApplication? (user.saved && user.saved.includes(id) ?
               <Button onClick={() => handleRemoveSavedJob(id)}>Unsave</Button> :
-              <Button onClick={() => handleSaveJob(id)}>Save</Button>
+              <Button onClick={() => handleSaveJob(id)}>Save</Button>) : null
             }
           </Button.Group>
         </div>

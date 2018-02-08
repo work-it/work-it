@@ -112,7 +112,7 @@ class UserProfileForm extends Component {
     this.props.nextClick();
     // consolidate data
     let data = this.state;
-    data.step = this.props.step;
+    data.step = this.props.step + 1;
     // call the thunk to update profile in firebase
     this.props.handleProfileFormThunk(data);
   }

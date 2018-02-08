@@ -64,7 +64,7 @@ class ProjectsForm extends Component {
 
             <Input className="projectWebsite col-sm-12" placeholder="Project Website" value={projectWebsite} onChange={(evt) => this.handleStringChange('projectWebsite', evt.target.value)} />
 
-            <TextArea className="projectDesc col-sm-12" placeholder="Description" fluid value={projectDesc} onChange={(evt) => this.handleStringChange('projectDesc', evt.target.value)} />
+            <TextArea className="projectDesc col-sm-12" placeholder="Description" value={projectDesc} onChange={(evt) => this.handleStringChange('projectDesc', evt.target.value)} />
             <div className = "col-sm-12">
               {
                 this.state.editing ?
@@ -152,7 +152,7 @@ class ProjectsForm extends Component {
     this.props.nextClick();
     // consolidate data and prepare it to be sent to the redux thunk.
     let data = { ProjectsArr: this.state.ProjectsArr };
-    data.step = this.props.step;
+    data.step = this.props.step + 1;
     // call the thunk to update profile in firebase
     this.props.handleProfileFormThunk(data);
   }

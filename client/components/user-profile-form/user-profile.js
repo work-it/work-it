@@ -2,14 +2,14 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {getProfileThunk, updateStep} from '../../store'
-import {Card, Image, Header, Divider, Label, Icon, Segment} from 'semantic-ui-react'
+import {Card, Image, Header, Divider, Label, Icon, Segment, Container} from 'semantic-ui-react'
 import './user-profile-form.css'
-const SKILLS_STEP=3;
-const PROFILE_STEP=1;
-const VIDEO_STEP=2;
-const EMPLOYERS_STEP=4;
-const PROJECTS_STEP=5;
-const SCHOOLS_STEP=6;
+const SKILLS_STEP = 3;
+const PROFILE_STEP = 1;
+const VIDEO_STEP = 2;
+const EMPLOYERS_STEP = 4;
+const PROJECTS_STEP = 5;
+const SCHOOLS_STEP = 6;
 
 class userProfile extends Component {
   constructor(props) {
@@ -44,47 +44,53 @@ class userProfile extends Component {
     if (!this.props.profile) return null;
     const {firstName, lastName, position, location, experience, type, minSalary, maxSalary, imgUrl, videoUrl, userDesc, skillsArr, pastEmployersArr, ProjectsArr, SchoolArr} = this.props.profile
     return (
-      <div className="job-view">
+      <div className="job-view row">
         <Card className="job-panel">
           <div className="col-sm-12">
             <div className="col-sm-3">
               {
                 imgUrl?<Image src={imgUrl} />:'No image uploaded'
               }
-                {
+               <div className="float-this">{
                   this.showEdit(VIDEO_STEP)
-                }
-                
+                }</div>
+
             </div>
 {
          (firstName && lastName) ?
-            <div className="col-sm-9">  
+            <div className="col-sm-9">
               <div className="col-sm-12"><Header className="name" size='large'>{firstName + ' ' + lastName} </Header></div>
               <div className="col-sm-12"><Header className="position" size='medium'>{position && experience? position + ' ' + experience: ''}</Header></div>
               <div className="col-sm-12"><Header className="location" size='small'>{location? location: ''}</Header></div>
               <div className="col-sm-12 type">{type? type:''}</div>
               <div className="col-sm-12">{minSalary && maxSalary? `$${minSalary}K - $${maxSalary}K`: ''}</div>
               <div className="col-sm-12 summary">{userDesc}</div>
+              <div className="col-sm-12"><Divider /></div>
           </div>
 
           :
           <div className="col-sm-9">
-            <div className="col-sm-12">
+            <div className="col-sm-11">
               <Header className="position" size="medium"> Your profile is empty.  Please, fill it out! </Header>
-               
-            {this.showEdit(PROFILE_STEP)}
-
             </div>
+            <div className="col-sm-1">
+              {this.showEdit(PROFILE_STEP)}
+            </div>
+
+            <div className="col-sm-12"><Divider /></div>
           </div>
 }
-          <div className="row">
-            <div className="col-sm-12"><Divider /></div>
+
+        <div className="col-sm-3">
+          <div className="col-sm-2">
+            <Header textAlign='left' size='large'>Skills</Header>
+          </div>
+          <div className="col-sm-1">
+              {this.showEdit(SKILLS_STEP)}
           </div>
 
           <div className="col-sm-3">
-            <Header textAlign='left' size='large'>Skills</Header>
             <div className="skills-wrapper">
-            {this.showEdit(SKILLS_STEP)}
               {
                 skillsArr && skillsArr.map((skill) => {
                   if(skill.topSkill) {
@@ -99,11 +105,16 @@ class userProfile extends Component {
                 })
               }
             </div>
+            </div>
           </div>
             <div className="col-sm-9">
-              <div className="col-sm-12">
+              <div className="col-sm-11">
                 <Header textAlign='left' size='large'>Work Experience</Header>
-                {this.showEdit(EMPLOYERS_STEP)}
+              </div>
+              <div className="col-sm-1">
+                { this.showEdit(EMPLOYERS_STEP) }
+              </div>
+              <div className="col-sm-12">
                 {
                       pastEmployersArr && pastEmployersArr.map((pastEmployer) => {
                         return (
@@ -133,9 +144,11 @@ class userProfile extends Component {
               <div className="col-sm-12">
                 <Divider />
               </div>
-              <div className="col-sm-12">
+              <div className="col-sm-11">
                 <Header textAlign='left' size='large'>Projects</Header>
-                {this.showEdit(PROJECTS_STEP)}
+              </div>
+              <div className="col-sm-1">
+              <Container textAlign="right">{this.showEdit(PROJECTS_STEP)}</Container>
               </div>
               <div className="col-sm-12">
                 {
@@ -163,9 +176,11 @@ class userProfile extends Component {
               <div className="col-sm-12">
                 <Divider />
               </div>
-              <div className="col-sm-12">
+              <div className="col-sm-11">
                 <Header textAlign='left' size='large'>Education</Header>
-                {this.showEdit(SCHOOLS_STEP)}
+              </div>
+              <div className="col-sm-1">
+                <Container textAlign="right">{this.showEdit(SCHOOLS_STEP)}</Container>
               </div>
               <div className="col-sm-12">
                 {
@@ -203,8 +218,8 @@ class userProfile extends Component {
 
   showEdit (step) {
     if (this.props.userId && this.props.profile && this.props.userId === this.props.profile.userId){
-      return <a onClick={() => this.setEditStep(step)}> Edit </a>
-    } 
+      return <Icon name="pencil" color="grey"onClick={() => this.setEditStep(step)} />
+    }
     return null;
   }
 
@@ -230,7 +245,7 @@ const mapDispatch = (dispatch) => {
     setStep (step) {
       dispatch (updateStep(step))
     }
-    
+
   }
 }
 

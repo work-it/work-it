@@ -184,7 +184,7 @@ getClickEvent (e) {
   render() {
     const {imgUrl, videoUrl} = this.state;
     const {nextClick, prevClick} = this.props;
-    console.log('got next click', nextClick, this.props)
+    //console.log('got next click', nextClick, this.props)
     return (
       <div >
       <Card className="job-panel">

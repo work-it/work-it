@@ -116,7 +116,7 @@ class UserTile extends Component {
 
   roleDesc(roleArr){
     let rolesDesc = ''
-    roleArr.forEach(function(elem, index) {
+    roleArr && roleArr.forEach(function(elem, index) {
       rolesDesc+= '<h3> ' + elem.companyName + '</h3><a href="' + elem.companyWebsite + '">'+ elem.companyWebsite + '</a> <h4>' + elem.jobTitle + '</h4> <h4> ' + elem.startDate + '-' + elem.endDate + '<h4> <p>' + elem.workDesc + '</p>'
       if(index !== roleArr.length-1){rolesDesc+= '<hr>'}
     })
@@ -125,8 +125,8 @@ class UserTile extends Component {
 
   projDesc(projArr){
     let projDesc = ''
-    projArr.forEach(function(elem, index) {
-      projDesc+= '<h3> ' + elem.projName + '</h3> <br> <h4> ' + elem.projDateRange + '<h4><br><a href="' + elem.projWebsite + '">'+ elem.projWebsite + '</a>' + elem.projDesc
+    projArr && projArr.forEach(function(elem, index) {
+      projDesc+= '<h3> ' + elem.projectName + '</h3> <br> <h4> ' + elem.startDate+' - ' +elem.endDate + '<h4><br><a href="' + elem.projectWebsite + '">'+ elem.projectWebsite + '</a>' + elem.projectDesc
       if(index !== projArr.length-1){projDesc+= '<hr>'}
     })
     return projDesc
@@ -134,13 +134,12 @@ class UserTile extends Component {
 
   eduDesc(eduArr){
     let eduDesc = ''
-    eduArr.forEach(function(elem, index) {
-      eduDesc+= '<h3> ' + elem.schoolName + '</h3> <br> <h4> ' + elem.schoolDateRange + '<h4><br><h5>' + elem.degree + '</h5>'
+    eduArr && eduArr.forEach(function(elem, index) {
+      eduDesc+= '<h3> ' + elem.schoolName + '</h3> <br> <h4> ' + elem.startDate+' - ' +elem.endDate+ '<h4><br><h5>' + elem.degree + '</h5>'
       if(index !== eduArr.length-1){eduDesc+= '<hr>'}
     })
     return eduDesc
   }
-
   renderDescView() {
     const {name, userDesc, pastEmployersArr, employer, status, ProjectsArr, SchoolArr, appId, jobId, handleViewClick} = this.props;
 

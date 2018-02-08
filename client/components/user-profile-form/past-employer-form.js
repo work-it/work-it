@@ -68,7 +68,7 @@ class PastEmployerForm extends Component {
 
                 <Input className="companyWebsite col-sm-12" placeholder="Company Website" fluid value={companyWebsite} onChange={(evt) => this.handleStringChange('companyWebsite', evt.target.value)} />
 
-                <TextArea className="workDesc col-sm-12" placeholder="Description"  fluid value={workDesc} onChange={(evt) => this.handleStringChange('workDesc', evt.target.value)} />
+                <TextArea className="workDesc col-sm-12" placeholder="Description" value={workDesc} onChange={(evt) => this.handleStringChange('workDesc', evt.target.value)} />
 
               <div className = "col-sm-12">
                 {
@@ -162,7 +162,7 @@ class PastEmployerForm extends Component {
     this.props.nextClick();
     // consolidate data and prepare it to be sent to the redux thunk.
     let data = { pastEmployersArr: this.state.pastEmployersArr };
-    data.step = this.props.step;
+    data.step = this.props.step + 1;
     // call the thunk to update profile in firebase
     this.props.handleProfileFormThunk(data);
   }

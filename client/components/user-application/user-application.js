@@ -54,7 +54,7 @@ class UserApplication extends Component {
     return job ? (
     <div>
       <div className="application row">
-        <Tile {...job} key={job.id} />
+        <Tile {...job} key={job.id} insideUserApplication={true}/>
         <div className="col-sm-9">
           {
             application.status !== 'hire' ?
