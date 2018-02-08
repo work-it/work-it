@@ -167,9 +167,11 @@ class WhiteBoard extends Component {
     render() {
         return (
           <div>
-              <Button className="pencil-eraser-btn" onClick={() => this.props.toggleWhiteboardAction('pencil')}><Icon name="draw"  /></Button> 
-              <Button className="pencil-eraser-btn" onClick={() => this.props.toggleWhiteboardAction('eraser')}><Icon name="erase"  /></Button> 
-                <canvas id="canvas" className = "mycanvas" />
+              <Button className="pencil-btn" color={this.props.whiteboardAction === 'draw' && 'blue'} onClick={() => this.props.toggleWhiteboardAction('draw')}><Icon name="pencil"  /></Button>
+
+              <Button className="eraser-btn" color={this.props.whiteboardAction === 'eraser' && 'blue'} onClick={() => this.props.toggleWhiteboardAction('eraser')}><Icon name="erase"  /></Button>
+
+              <canvas id="canvas" className = "mycanvas" />
           </div>
         )
     }
