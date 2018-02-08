@@ -28,10 +28,10 @@ export const clearWhiteboard = () => {
     })
 }
 
-export const updateWhiteboard = (start, end, color) => {
+export const updateWhiteboard = (start, end, color, action) => {
     return ({
         type: UPDATE_DRAW_EVENT,
-        start, end, color
+        start, end, color, action
     })
 }
 
@@ -54,6 +54,7 @@ export default (state = defaultState, action ) => {
     switch (action.type) {
         case UPDATE_DRAW_EVENT: //this triggeres update in middleware
         case UPDATE_HISTORY: //this does not
+        //do not update action when history updates
             const event = {
                 start: action.start,
                 end: action.end,
