@@ -2,8 +2,12 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {getProfileThunk, updateStep} from '../../store'
+<<<<<<< HEAD
+import {Card, Image, Header, Divider, Label, Icon, Segment, Container, Button} from 'semantic-ui-react'
+=======
 import {Card, Image, Header, Divider, Label, Icon, Segment, Container} from 'semantic-ui-react'
 import renderHTML from 'react-render-html';
+>>>>>>> master
 import './user-profile-form.css'
 const SKILLS_STEP = 3;
 const PROFILE_STEP = 1;
@@ -17,7 +21,8 @@ class userProfile extends Component {
     super(props);
 
     this.state = {
-      step: null
+      step: null,
+      profile: 'img'
     }
 
     this.nextClick = this.nextClick.bind(this);
@@ -46,14 +51,19 @@ class userProfile extends Component {
     const {step} = this.state;
     if (!this.props.profile) return null;
     const {firstName, lastName, position, location, experience, type, minSalary, maxSalary, imgUrl, videoUrl, userDesc, skillsArr, pastEmployersArr, ProjectsArr, SchoolArr} = this.props.profile
+      console.log("video URL exists", videoUrl)
     return (
       <div className="job-view row">
         <Card className="job-panel">
           <div className="col-sm-12">
             <div className="col-sm-3">
               {
-                imgUrl?<Image src={imgUrl} />:'No image uploaded'
+                this.state.profile==='img'?(imgUrl?<Image src={imgUrl} />:'No image uploaded'):(videoUrl?<video src={videoUrl} controls/>:null)
               }
+              {
+                videoUrl?<Button onClick={() =>this.toggleVideo()}>{this.state.profile==='img'?'Video Introduction':'Profile Photo'}</Button>:null
+              }
+              
                <div className="float-this">{
                   this.showEdit(VIDEO_STEP)
                 }</div>
@@ -83,7 +93,6 @@ class userProfile extends Component {
             <div className="col-sm-12"><Divider /></div>
           </div>
 }
-
         <div className="col-sm-3">
           <div className="col-sm-8">
             <Header textAlign='left' size='large'>Skills</Header>
@@ -91,7 +100,6 @@ class userProfile extends Component {
           <div className="col-sm-4">
               {this.showEdit(SKILLS_STEP)}
           </div>
-
           <div className="col-sm-12">
             <div className="skills-wrapper">
               {
@@ -217,6 +225,10 @@ class userProfile extends Component {
 
   prevClick() {
     this.setState({step: this.state.step - 1})
+  }
+
+  toggleVideo () {
+    this.setState ({profile: this.state.profile==='video'?'img':'video'})
   }
 
   showEdit (step) {

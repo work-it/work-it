@@ -167,12 +167,9 @@ class WhiteBoard extends Component {
     render() {
         return (
           <div>
-            {
-              this.props.whiteboardAction === 'erase' ?
-              <Button className="pencil-eraser-btn" onClick={() => this.props.toggleWhiteboardAction()}><Icon name="pencil"  /></Button> :
-              <Button className="pencil-eraser-btn" onClick={() => this.props.toggleWhiteboardAction()}><Icon name="eraser"  /></Button>
-            }
-            <canvas id="canvas" className = "mycanvas" />
+              <Button className="pencil-eraser-btn" onClick={() => this.props.toggleWhiteboardAction('pencil')}><Icon name="draw"  /></Button> 
+              <Button className="pencil-eraser-btn" onClick={() => this.props.toggleWhiteboardAction('eraser')}><Icon name="erase"  /></Button> 
+                <canvas id="canvas" className = "mycanvas" />
           </div>
         )
     }
@@ -198,12 +195,8 @@ const mapDispatch = (dispatch) => ({
 const mergeProps = (state, actions) => ({
   ...state,
   ...actions,
-  toggleWhiteboardAction: () => {
-      console.log("toggle triggered")
-      if (state.whiteboardAction === 'draw')
-          actions.setWhiteboardAction('erase')
-      else
-          actions.setWhiteboardAction('draw')
+  toggleWhiteboardAction: (action) => {
+    actions.setWhiteboardAction(action)
   }
 })
 
