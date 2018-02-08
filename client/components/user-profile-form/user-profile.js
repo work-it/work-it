@@ -68,7 +68,12 @@ class userProfile extends Component {
 {
          (firstName && lastName) ?
             <div className="col-sm-9">
-              <div className="col-sm-12"><Header className="name" size='large'>{firstName + ' ' + lastName} </Header></div>
+
+              <div className="col-sm-11"><Header className="name" size='large'>{firstName + ' ' + lastName} </Header></div>
+              <div className="col-sm-1">
+              { this.showEdit(PROFILE_STEP) }
+              </div>
+
               <div className="col-sm-12"><Header className="position" size='medium'>{position && experience? position + ' ' + experience: ''}</Header></div>
               <div className="col-sm-12"><Header className="location" size='small'>{location? location: ''}</Header></div>
               <div className="col-sm-12 type">{type? type:''}</div>
