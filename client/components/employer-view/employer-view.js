@@ -54,12 +54,13 @@ class EmployerView extends Component {
           !!jobs.length &&
           jobs.map(job => {
             return (
-            <div key={`job-${job.id}`} className="row" style={{margin: 0}}>
-              <div className="col-sm-12 job-desc-wrapper">
+            <div key={`job-${job.id}`} style={{margin: 0}}>
+              <div className="job-desc-wrapper row">
                 <h2 className="job-position">{job.position}</h2>
                 <h4 className="job-location">{job.location}</h4>
                 <h5 className="job-id">Job ID: {job.id}</h5>
               </div>
+              <div className="row">
               {
                 !!applications.length &&
                 applications
@@ -69,6 +70,7 @@ class EmployerView extends Component {
                     return <UserTile key={`utile-${application.id}`} {...application.profile} {...application} handleViewClick={this.handleViewApplicationClick} employer={true} appId={application.id} jobId={job.id} />
                   })
               }
+              </div>
             </div>
             )
           })
@@ -82,10 +84,12 @@ class EmployerView extends Component {
     const job = jobs.find(jobToCheck => jobToCheck.id === this.state.jobId);
     const application = applications.find(appToCheck => appToCheck.id === this.state.appId);
     return (
-      <div>
-        <h2>{job.position}</h2>
-        <h4>{job.location}</h4>
-        <h5>Job ID: {job.id}</h5>
+      <div className="employer-home">
+        <div className="job-desc-wrapper row">
+          <h2 className="job-position">{job.position}</h2>
+          <h4 className="job-location">{job.location}</h4>
+          <h5 className="job-id">Job ID: {job.id}</h5>
+        </div>
         <EmployerApplication key={`app-${application.id}`} profile={application.profile} application={application} employerNotes={application.employerNotes} />
       </div>
 

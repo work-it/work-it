@@ -2,11 +2,12 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {Progress, TextArea, Form, Button} from 'semantic-ui-react'
-import {updateEmployerNotesMiddleware, archiveMiddleware, addMessageMiddleware} from '../../store';
+import {updateEmployerNotesMiddleware, archiveMiddleware, sendOfferThunk} from '../../store';
 import UserTile from '../tile-user/tile-user'
 import '../user-application/user-application.css'
 import UserChatBox from '../user-chat/user-chat-box'
-import PracticeSchedue from '../practice-schedule/practice-schedule'
+import PracticeSchedule from '../practice-schedule/practice-schedule'
+import TinyMCE from 'react-tinymce';
 
 class EmployerApplication extends Component {
   constructor(props) {
@@ -14,8 +15,8 @@ class EmployerApplication extends Component {
 
     this.state = {
       notes: '',
-      newMessage: '',
-      view: 'application'
+      view: 'application',
+      offerLetter: '<p>Offer Letter to Applicant</p>'
     }
   }
 
@@ -30,8 +31,7 @@ class EmployerApplication extends Component {
   }
 
   render() {
-    const { job, application, handleSaveEmployerNotes, handleArchive, profile } = this.props;
-    const { notes, newMessage } = this.state;
+    const { application, profile } = this.props;
     let barPercent;
 
     switch (application.status) {
@@ -51,7 +51,6 @@ class EmployerApplication extends Component {
         barPercent = 20;
     }
 
-    console.log("view: ", this.state.view)
     return (
       <div className="application row">
         <UserTile {...profile} key={`profile-${profile.id}`} />
@@ -64,77 +63,91 @@ class EmployerApplication extends Component {
             <li>Offer</li>
             <li>Hired!</li>
           </ul>
-          {
-            this.state.view === 'application' ? this.getApplicationView(application) : this.getSchedulerView(application)
-          }
 
-          {
-            this.state.view === 'application' ? this.showApplicationButtons(application) : this.showSchedulerButtons()
-          }
+          {this.renderSubView(application)}
+
         </div>
       </div>
     )
   }
 
-  showApplicationButtons (application) {
-    return <div>
-      {
-        !application.archived &&
-        <Button className="decline-btn" size="big" color="red" onClick={() => handleArchive(application.id)}>Decline</Button>
-      }
-      <Button className="save-notes-btn" size="big" color="blue" onClick={() => handleSaveEmployerNotes(application.id, notes)}>Save Notes</Button>
-
-      <Button className="interview-btn" size="big" color="blue" onClick={() => this.handleScheduleInterview(application.id)}>Schedule An Interview</Button>
-
-      {application.status === 'interview' &&
-      <Button className="interview-btn" size="big" color="blue" onClick={() => this.handleScheduleInterview(application.id)}>Send Offer</Button>}
-    </div>
-  }
-
-  showSchedulerButtons() {
-    return <Button className='archive-btn' size='big' onClick={() => this.setState({view: 'application'})}>Done</Button>
-  }
-
-  handleNotesChange(evt, notes) {
-    this.setState({notes})
-  }
-
-  handleChatUpdate(evt, newMessage) {
-    this.setState({newMessage})
-  }
-
-  handleScheduleInterview(applicaitonId) {
-    this.setState({view: 'scheduler'})
-  }
-
-  handleSubmitNewMessage(evt) {
-    if (evt.charCode === 13) {
-      evt.preventDefault();
-      this.setState({newMessage: ''});
-      this.props.handleAddNewMessage(this.props.application.id, this.state.newMessage);
+  renderSubView(application) {
+    switch (this.state.view) {
+      case 'application':
+        return this.renderApplicationView(application);
+      case 'scheduler':
+        return this.renderSchedulerView(application);
+      case 'offer':
+        return this.renderOfferView();
+      default:
+        return this.renderApplicationView(application);
     }
   }
 
+  renderApplicationView(application) {
+    const {handleSaveEmployerNotes, handleArchive} = this.props;
+    const {notes} = this.state;
 
-  getApplicationView (application) {
-    return <div className="chat-note-wrapper">
-                <UserChatBox application={application} showHeader={true} />
-                <div className="notes">
-                  <Form>
-                    <TextArea className="notes" placeholder="Notes" value={this.state.notes} onChange={(evt, {value}) => this.handleNotesChange(evt, value)} />
-                  </Form>
-                </div>
-              </div>
+    return (
+      <div>
+        <div className="chat-note-wrapper">
+          <UserChatBox application={application} showHeader={true} />
+          <div className="notes">
+            <Form>
+              <TextArea className="notes" placeholder="Notes" value={this.state.notes} onChange={(evt, {value}) => this.setState({notes: value})} />
+            </Form>
+          </div>
+        </div>
+        <div>
+          {
+            !application.archived &&
+            <Button className="decline-btn" size="big" color="red" onClick={() => handleArchive(application.id)}>Decline</Button>
+          }
+          <Button className="save-notes-btn" size="big" color="blue" onClick={() => handleSaveEmployerNotes(application.id, notes)}>Save Notes</Button>
+
+          {application.status === 'review' &&
+          <Button className="interview-btn" size="big" color="blue" onClick={() => this.setState({view: 'scheduler'})}>Schedule An Interview</Button>}
+
+          {application.status === 'interview' &&
+          <Button className="interview-btn" size="big" color="blue" onClick={() => this.setState({view: 'offer'})}>Send Offer</Button>}
+        </div>
+      </div>
+    )
   }
 
-  getSchedulerView (application) {
-    return <PracticeSchedue employerId={application.employerId} userId={application.userId}/>
+  renderSchedulerView(application) {
+      return (
+        <div>
+          <PracticeSchedule employerId={application.employerId} userId={application.userId} />
+          <div>
+            <Button className="archive-btn" size="big" onClick={() => this.setState({view: 'application'})}>Done</Button>
+          </div>
+        </div>
+      )
   }
 
-}
-const mapState = (state) => {
-  return {
+  renderOfferView() {
+    return (
+      <div>
+        <TinyMCE
+          className="offer-letter"
+          content={this.state.offerLetter}
+          config={{
+            height: '223',
+            plugins: 'autolink link image lists print preview',
+            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright'
+          }}
+          onChange={evt => this.setState({offerLetter: evt.target.getContent()})}
+        />
+        <Button className="send-btn" size="big" color="blue" onClick={() => this.handleOfferLetter()}>Send</Button>
+        <Button className="back-btn" size="big" onClick={() => this.setState({view: 'application'})}>Back</Button>
+      </div>
+    )
+  }
 
+  handleOfferLetter() {
+    this.setState({view: 'application'});
+    this.props.handleOfferLetterSubmit(this.state.offerLetter);
   }
 }
 
@@ -146,10 +159,10 @@ const mapDispatch = (dispatch) => {
     handleArchive(applicationId) {
       dispatch(archiveMiddleware(applicationId))
     },
-    handleAddNewMessage(applicaitonId, message) {
-      dispatch(addMessageMiddleware(applicaitonId, message))
+    handleOfferLetterSubmit(offerLetter) {
+      dispatch(sendOfferThunk(offerLetter))
     }
   }
 }
 
-export default withRouter(connect(mapState, mapDispatch)(EmployerApplication))
+export default withRouter(connect(null, mapDispatch)(EmployerApplication))
