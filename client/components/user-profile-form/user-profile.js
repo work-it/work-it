@@ -2,7 +2,12 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {getProfileThunk, updateStep} from '../../store'
+<<<<<<< HEAD
 import {Card, Image, Header, Divider, Label, Icon, Segment, Container, Button} from 'semantic-ui-react'
+=======
+import {Card, Image, Header, Divider, Label, Icon, Segment, Container} from 'semantic-ui-react'
+import renderHTML from 'react-render-html';
+>>>>>>> master
 import './user-profile-form.css'
 const SKILLS_STEP = 3;
 const PROFILE_STEP = 1;
@@ -72,7 +77,7 @@ class userProfile extends Component {
               <div className="col-sm-12"><Header className="location" size='small'>{location? location: ''}</Header></div>
               <div className="col-sm-12 type">{type? type:''}</div>
               <div className="col-sm-12">{minSalary && maxSalary? `$${minSalary}K - $${maxSalary}K`: ''}</div>
-              <div className="col-sm-12 summary">{userDesc}</div>
+              <div className="col-sm-12 summary">{renderHTML(userDesc)}</div>
               <div className="col-sm-12"><Divider /></div>
           </div>
 
@@ -89,10 +94,10 @@ class userProfile extends Component {
           </div>
 }
         <div className="col-sm-3">
-          <div className="col-sm-2">
+          <div className="col-sm-8">
             <Header textAlign='left' size='large'>Skills</Header>
           </div>
-          <div className="col-sm-1">
+          <div className="col-sm-4">
               {this.showEdit(SKILLS_STEP)}
           </div>
           <div className="col-sm-3">
@@ -228,7 +233,7 @@ class userProfile extends Component {
 
   showEdit (step) {
     if (this.props.userId && this.props.profile && this.props.userId === this.props.profile.userId && !this.props.isEmployer){
-      return <Icon name="pencil" color="grey"onClick={() => this.setEditStep(step)} />
+      return <Icon name="pencil" inverted color="grey" onClick={() => this.setEditStep(step)} />
     }
     return null;
   }
