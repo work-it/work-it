@@ -19,7 +19,7 @@ export default () => {
     return store => {
         //handle from server events
         socket.on('receivedDraw', (start, end, color, action) => {
-            console.log("receivedDraw emitted")
+            console.log("receivedDraw emitted", start, end, color, action)
            store.dispatch(updateWhiteboard(start, end, color, action));
         })
 
