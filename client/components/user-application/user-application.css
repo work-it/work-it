@@ -36,11 +36,24 @@
 .archive-btn {
   float: right;
   position: relative;
-  top: 10px;
+  top: 20px;
+}
+
+.save-notes-btn {
+  float: right;
+  position: relative;
+  top: 20px;
+}
+
+.decline-btn, .interview-btn {
+  position: relative;
+  top: 20px;
+  margin-right: 10px !important;
 }
 
 .ui.progress .bar {
   background: #bbb;
+  border-radius: 0;
 }
 
 .application .chat-history .ui.form textarea {

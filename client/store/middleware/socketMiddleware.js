@@ -1,7 +1,7 @@
 import { updateWhiteboard,  clearWhiteboard, EMIT_DRAW_EVENT} from '../../components/interview-board/whiteboard-reducer';
 import { updateTextarea, clearTextarea,  EMIT_TEXT_EVENT} from '../../components/interview-board/textarea-reducer';
 import { saveState } from '../../components/interview-container/save-state-reducer'
-import { videoUploaded, UPLOAD_VIDEO, START_FILE_UPLOAD, VIDEO_UPLOADED, pushVideoToFirebase} from '../index'
+import { videoUploaded, UPLOAD_VIDEO, START_FILE_UPLOAD, VIDEO_UPLOADED, pushVideoToFirebase, ADD_MESSAGE, fetchAppsWithProfilesThunk, fetchApplicationsThunk} from '../index'
 import { JOIN_ROOM, START_PAIR, loadOpenRooms, CLOSE_ROOM, START_SOLO, continueSolo, roomWaiting, endOpenedRoom, LEAVE_ROOM, roomClosed } from '../../components/practice-pairs/practice-reducer';
 
 import io from 'socket.io-client';
@@ -15,9 +15,9 @@ export default () => {
 
     return store => {
         //handle from server events
-        socket.on('receivedDraw', (start, end, color) => {
+        socket.on('receivedDraw', (start, end, color, action) => {
             console.log("receivedDraw emitted")
-           store.dispatch(updateWhiteboard(start, end, color));
+           store.dispatch(updateWhiteboard(start, end, color, action));
         })
 
         socket.on('receivedText', (text)=>{
@@ -49,6 +49,20 @@ export default () => {
             store.dispatch(loadOpenRooms())
         })
 
+        socket.on ('chat-updated', applicationIds => {
+            const currentApplicationIds = store.getState().applications.map(application => application.id);
+            const isEmployer = store.getState().user.employer;
+            const userId = store.getState().user.id
+            applicationIds.forEach(applicationId => {
+                if (currentApplicationIds.includes(applicationId)) {
+                    if (isEmployer)
+                        store.dispatch(fetchAppsWithProfilesThunk(userId))
+                    else 
+                        store.dispatch(fetchApplicationsThunk(userId))
+                }
+            })
+        })
+
         socket.on('more-data', function (data){
             //UpdateBar(data['Percent']);
             if (data.percent === 100) {
@@ -71,7 +85,7 @@ export default () => {
         return next => action => {
             switch (action.type) {
                 case EMIT_DRAW_EVENT:
-                    socket.emit ('draw', action.start, action.end, action.color);
+                    socket.emit ('draw', action.start, action.end, action.color, action.action);
                     break;
                 case EMIT_TEXT_EVENT:
                     socket.emit ('text', action.text);
@@ -116,6 +130,9 @@ export default () => {
                     console.log("action in video uploaded", action.name)
                     store.dispatch(pushVideoToFirebase(action.name))
                     break
+                case ADD_MESSAGE:
+                    console.log ("adding message")
+                    socket.emit ('chat-message-added', action.updatedApplications.map(application => application.id))
 
             }
             next (action);

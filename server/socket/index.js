@@ -26,10 +26,10 @@ const socketInit = (function initSocket ()  {
         }
       })
 
-      socket.on ('draw', (start, end, color) => {
+      socket.on ('draw', (start, end, color, action) => {
         const roomName = openRoomsBySocketId.get(socket.id).room.name;
         console.log("-----DRAW", roomName)
-        socket.broadcast.to(roomName).emit('receivedDraw', start, end, color)
+        socket.broadcast.to(roomName).emit('receivedDraw', start, end, color, action)
       });
 
       socket.on('text', text => {
@@ -56,7 +56,11 @@ const socketInit = (function initSocket ()  {
           });
         }
       })
-
+      
+      socket.on ('chat-message-added', applicationIds => {
+        console.log("applicationIds have updated chats", applicationIds)
+        socket.broadcast.emit('chat-updated', applicationIds)
+      })
       socket.on('join', (room, userId, schedToken) => {
         console.log ('---socket join received---', openRoomsByRoomName, room, userId, schedToken)
         if (room && (!openRoomsByRoomName.has(room.name) || openRoomsByRoomName.get(room.name).length <= 2)) {

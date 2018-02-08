@@ -184,40 +184,78 @@ router.get('/applied/:userid', (req, res, next) => {
   firebase.database()
     .ref('users/' + userId)
     .once('value')
-    .then(snapshot => {
-      return snapshot.val().applications;
-    })
+    .then(snapshot => snapshot.val().applications)
     .then(applicationsArr => {
-      // Loop through ids and fetch job by each key and return to client
-      return new Promise((resolve) => {
-        if (!applicationsArr.length) return resolve(jobsToLookup)
-        applicationsArr.forEach(applicationKey => {
-          firebase.database()
-            .ref('applications/' + applicationKey)
-            .once('value')
-            .then(snapshot => {
-              jobsToLookup.push(snapshot.val().jobId)
-              // Once we have pushed all the jobs into the return array, send to client
-              if (jobsToLookup.length === applicationsArr.length) {
-                return resolve(jobsToLookup);
-              }
-            })
-        })
+      // 1. Loop through application ids and fetch corresponding applications
+      if (!applicationsArr || !applicationsArr.length) return Promise.all([]);
+      const applicatonsPromise = applicationsArr.map (applicationKey => {
+        return firebase.database().ref('applications/'+applicationKey).once('value').then(snapshot => snapshot.val())
       })
+      return Promise.all(applicatonsPromise)
     })
-    .then(jobsToLookUp => {
-      if (!jobsToLookUp.length) res.send([]);
-      jobsToLookUp.forEach(jobKey => {
-        firebase.database()
-          .ref('jobs/' + jobKey)
-          .once('value')
-          .then(snapshot => {
-            jobsToReturn.push(snapshot.val())
-            // Once we have pushed all the jobs into the return array, send to client
-            if (jobsToReturn.length === jobsToLookUp.length) {
-              res.send(jobsToReturn);
-            }
-          })
+    .then (applications => {
+      //2.  filter  out null applications
+      applications = applications.filter (app => app);
+      console.log("filtered applications in jobs.js", applications);
+      //3.  look up jobs
+      const jobPromises = applications.map (application => {
+        console.log("application.jobId", application.jobId)
+        return firebase.database().ref('/jobs/'+application.jobId).once('value').then(snapshot => snapshot.val())
       })
+      return Promise.all (jobPromises)
     })
+    .then(jobs => {
+      jobs = jobs.filter(job => job)
+      //console.log("sending jobs", jobs)
+      res.json(jobs);
+    })
+    .catch (console.log)
+    
+
+
+
+      // return new Promise((resolve) => {
+        
+      //   applicationsArr.forEach(applicationKey => {
+      //     firebase.database()
+      //       .ref('applications/' + applicationKey)
+      //       .once('value')
+      //       .then(snapshot => {
+      //         jobsToLookup.push(snapshot.val().jobId)
+      //         // Once we have pushed all the jobs into the return array, send to client
+      //         if (jobsToLookup.length === applicationsArr.length) {
+      //           return resolve(jobsToLookup);
+      //         }
+      //       })
+      //   })
+      // })
+   // })
+    // .then(jobsToLookUp => {
+    //   console.log("jobs.js got jobs to look up", jobsToLookUp)
+    //   if (!jobsToLookUp.length) res.send([]);
+    //   const lookupJobsArr = jobsToLookup.map(jobKey => {
+    //     return firebase.database().ref('/jobs/'+jobKey).once('value').then(snapshot => snapshot.val())
+    //   })
+
+    //   Promise.all(lookupJobsArr)
+    //   .then(jobs => {
+    //     jobs = jobs.filter(job => job)
+    //     res.json(jobs);
+    //   })
+    //   .catch (console.log)
+
+    //   // jobsToLookUp.forEach(jobKey => {
+      //   firebase.database()
+      //     .ref('jobs/' + jobKey)
+      //     .once('value')
+      //     .then(snapshot => {
+      //       if (snapshot.val())
+      //         jobsToReturn.push(snapshot.val())
+      //       // Once we have pushed all the jobs into the return array, send to client
+      //       if (jobsToReturn.length === jobsToLookUp.length) {
+      //         res.send(jobsToReturn);
+      //       }
+      //     })
+      // })
+    //})
 })

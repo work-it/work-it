@@ -24,9 +24,9 @@ class userProfile extends Component {
   }
 
   componentDidMount() {
-    if (!this.props.profile && this.props.userId) {
+    //if (!this.props.profile && this.props.userId) {
       this.props.fetchProfile();
-    }
+    //}
   }
 
   componentWillReceiveProps(nextProps) {
