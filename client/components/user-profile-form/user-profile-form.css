@@ -97,8 +97,7 @@
   margin-top: 40px
 }
 
-#fileInput {
-  display: none;
+
+.float-this {
+  float: right;
 }
-
-
