@@ -180,7 +180,7 @@ class userProfile extends Component {
                 <Header textAlign='left' size='large'>Education</Header>
               </div>
               <div className="col-sm-1">
-                <Container textAlight="right">{this.showEdit(SCHOOLS_STEP)}</Container>
+                <Container textAlign="right">{this.showEdit(SCHOOLS_STEP)}</Container>
               </div>
               <div className="col-sm-12">
                 {

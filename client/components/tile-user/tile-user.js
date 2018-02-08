@@ -140,7 +140,6 @@ class UserTile extends Component {
     })
     return eduDesc
   }
-
   renderDescView() {
     const {name, userDesc, pastEmployersArr, employer, status, ProjectsArr, SchoolArr, appId, jobId, handleViewClick} = this.props;
 
