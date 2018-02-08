@@ -78,7 +78,7 @@ paired: YOU and ANOTHER USER have been paired together for that time. It doesnâ€
   } else if ( (intervieweeId===myUserId && !userTwo) || (userOne===myUserId && !userTwo && intervieweeId)) {
     type = 'interviewProposed';
     classFortype += type
-  } else if (intervieweeId===myUserId && userOne && userTwo) {
+  } else if ( ((intervieweeId===myUserId && userTwo === myUserId) && userOne) || (userOne === myUserId && userTwo === intervieweeId && userTwo)) {
     type = 'interviewPaired';
     classFortype += type
   }
