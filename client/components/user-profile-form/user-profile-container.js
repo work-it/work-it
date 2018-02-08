@@ -82,7 +82,7 @@ class userProfileContainer extends Component {
 
   renderSubView() {
     const {step} = this.state;
-    console.log('nextClick in parent', this.nextClick, "step", step)
+    console.log( "step", step)
     switch (step) {
       case 1:
         return <UserProfileForm nextClick={this.nextClick} step={step} />
