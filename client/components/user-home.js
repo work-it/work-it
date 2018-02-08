@@ -42,7 +42,7 @@ export const UserHome = (props) => {
             <h4 className="text-center">Practice interview questions with another user or solo.</h4>
           </div>
           <div className="col-sm-4">
-            <div className="feature-img-1"></div>
+            <div className="feature-img-3"></div>
             <h2 className="text-center feature-title">Real-time Messaging</h2>
             <h4 className="text-center">Message directly with employers regarding your application.</h4>
           </div>
