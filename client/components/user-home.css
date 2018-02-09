@@ -25,30 +25,8 @@
   margin-top: 50px;
 }
 
-.feature-img-1 {
-  height: 250px;
-  background-image: url('/applications.png');
-  background-size: cover;
-  background-position: center right;
-  box-shadow: 0 1px 3px 0 #d4d4d5;
-  border-radius: 3px;
-}
-
-.feature-img-2 {
-  height: 250px;
-  background-image: url('/practice.jpg');
-  background-size: cover;
-  background-position: center right;
-  box-shadow: 0 1px 3px 0 #d4d4d5;
-  border-radius: 3px;
-}
-
-.feature-img-3 {
-  height: 250px;
-  background-image: url('/messaging.png');
-  background-size: cover;
-  background-position: center left;
-  box-shadow: 0 1px 3px 0 #d4d4d5;
+.feature-img {
+  box-shadow: 0 2px 5px 0 #c4c4c5;
   border-radius: 3px;
 }
 

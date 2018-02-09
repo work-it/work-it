@@ -39,17 +39,17 @@ export const UserHome = (props) => {
               <h1 className="text-center heading">Our Features</h1>
             </div>
             <div className="col-sm-4">
-              <div className="feature-img-1"></div>
+              <img className="img-responsive feature-img" src="/JobProgress.jpg" />
               <h2 className="text-center feature-title">Application Tracking</h2>
               <h4 className="text-center">View the status of your application from apply to hire.</h4>
             </div>
             <div className="col-sm-4">
-              <div className="feature-img-2"></div>
+              <img className="img-responsive feature-img" src="/PairProgramming.jpg" />
               <h2 className="text-center feature-title">Solo / Pair Practice</h2>
               <h4 className="text-center">Practice interview questions with another user or solo.</h4>
             </div>
             <div className="col-sm-4">
-              <div className="feature-img-3"></div>
+              <img className="img-responsive feature-img" src="/chat2.jpg" />
               <h2 className="text-center feature-title">Real-time Messaging</h2>
               <h4 className="text-center">Message directly with employers regarding your application.</h4>
             </div>
