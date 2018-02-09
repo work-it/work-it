@@ -4,6 +4,7 @@ import React, {Component} from 'react'
 import { TextArea, Form, Button, Input, Card, Icon, Label, Divider, Image, Header} from 'semantic-ui-react'
 import { saveProfilePhoto, saveProfileVideo, uploadVideo } from '../../store'
 import './user-profile-form.css'
+import Reader from '../../utils/Reader'
 
 class UserImageForm extends Component {
   constructor(props) {
@@ -33,7 +34,9 @@ class UserImageForm extends Component {
         imgUrl: '',
         videoUrl: '',
         haveSnapshot: false,
-        haveVideo: false
+        haveVideo: false,
+        photoPreview: '',
+        videoPreview: ''
       }
       this.stopRecording = this.stopRecording.bind(this)
       this.pushChunks = this.pushChunks.bind(this);
@@ -47,7 +50,13 @@ class UserImageForm extends Component {
       this.blobCB = this.blobCB.bind(this)
       this.uploadButton;
   }
-  handleStringChange(key, val){
+  handleStringChange(key, val, evt, type){
+    if (type === 'photo-preveiw') {
+      this.handlePhotoPreview(evt);
+    } else if (type === 'video-preview') {
+      this.handleVideoPreview(evt);
+    }
+
     //console.log('handlig change', key, val)
     this.setState({[key]:val})
   }
@@ -55,6 +64,22 @@ class UserImageForm extends Component {
     this.setState({[filterType]: value}, () => {
       console.log(this.state);
     })
+  }
+
+  handlePhotoPreview(event) {
+    let file = event.target.files[0];
+    console.log(file);
+
+    Reader(file, e => {
+      this.setState({ photoPreview:  e.target.result });
+    });
+  }
+
+  handleVideoPreview(event) {
+    let file = event.target.files[0];
+
+    const video = URL.createObjectURL(file);
+    this.setState({videoPreview: video});
   }
 
   handleStartVideo () {
@@ -130,8 +155,6 @@ class UserImageForm extends Component {
 
   }
 
-
-
   handleTakePhoto (e) {
     e.preventDefault()
     if (!this.videoStream) {
@@ -203,8 +226,6 @@ getClickEvent (e) {
           </div>
 
           <Form id="form">
-
-
               <div className = "col-sm-12">
                 <Button id="photoButton" onClick={this.handleTakePhoto}>Start Camera</Button>
               </div>
@@ -212,10 +233,14 @@ getClickEvent (e) {
                 <div className="camera-on" id="canvasDiv" />
               </div>
               <div className = "col-sm-4">
-                <div className="still-pic" id="stillDiv" />
+                <div className="still-pic" id="stillDiv" >
+                  <img className={this.state.imagePreview !== '' ? 'img-preview' : 'hide'} src={this.state.photoPreview} />
+                </div>
               </div>
               <div className = "col-sm-4">
-                <div className="user-video" id="videoDiv" />
+                <div className="user-video" id="videoDiv" >
+                  <video className={this.state.videoPreview !== '' ? '' : 'hide'} width="300" src={this.state.videoPreview} controls />
+                </div>
               </div>
               <div className = "col-sm-12 camera-buttons-wrapper">
                 <Button id="photoSaveButton" onClick={this.handleSavePhoto}>Capture Photo</Button>
@@ -232,13 +257,13 @@ getClickEvent (e) {
               </div>
               <div className = "col-sm-6">
 
-                <Input id="fileInput" label="Photo Path:" type="file" className="imgUrl" placeholder="Chose a photo" fluid value={imgUrl} onChange={(evt) => this.handleStringChange('imgUrl', evt.target.value)} />
+                <Input id="fileInput" label="Photo Path:" type="file" className="imgUrl" placeholder="Chose a photo" fluid value={imgUrl} onChange={(evt) => this.handleStringChange('imgUrl', evt.target.value, evt, 'photo-preveiw')} />
                 <Button id="selectPhoto" className={this.state.imgUrl !== '' && 'hide'} onClick={() => {document.getElementById('fileInput').click()}}>Select Photo</Button>
                 <span id="photoPath" className={this.state.imgUrl === '' ? 'hide' : ''}>{this.state.imgUrl}</span>
               </div>
 
               <div className = "col-sm-6">
-                <Input className="videoUrl" label="Video Path:" type="file" id="videoInput" placeholder="Add a video" fluid value={videoUrl} onChange={(evt) => this.handleStringChange('videoUrl', evt.target.value)} />
+                <Input className="videoUrl" label="Video Path:" type="file" id="videoInput" placeholder="Add a video" fluid value={videoUrl} onChange={(evt) => this.handleStringChange('videoUrl', evt.target.value, evt, 'video-preview')} />
                 <Button id="selectVideo" className={this.state.videoUrl !== '' && 'hide'} onClick={() => {document.getElementById('videoInput').click()}}>Select Video</Button>
                 <span id="videoPath" className={this.state.videoUrl === '' ? 'hide' : ''}>{this.state.videoUrl}</span>
               </div>
