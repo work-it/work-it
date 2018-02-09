@@ -37,7 +37,7 @@ twilioClient: {
         webApiKey: 'WEB_API_KEY',
     }
     
-    ```
+```
   
   We are using Twilio for our video conferensing portion, so you will need to register with twilio and receive your credentials to be able to use live video conferencing.
   
