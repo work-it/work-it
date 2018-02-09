@@ -36,6 +36,7 @@ twilioClient: {
     firebase: {
         webApiKey: 'WEB_API_KEY',
     }
+    
     ```
   
   We are using Twilio for our video conferensing portion, so you will need to register with twilio and receive your credentials to be able to use live video conferencing.
@@ -57,13 +58,16 @@ twilioClient: {
   "auth_provider_x509_cert_url": "AUTH_PROVIDER_X509_CERT_URL",
   "client_x509_cert_url": "CLIENT_X509_CERT_URL"
 }
+
 ```
 
 6.  Create tempImages directory in your project root - it will be used to save video and image files you upload or record for your profile.
 
 After you complete the above steps, you can
+
 ```
 npm run start-dev 
+
 ```
 to allow webpack to run once, and after that you can run it in production mode.
 
