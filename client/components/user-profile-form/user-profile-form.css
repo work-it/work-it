@@ -74,6 +74,63 @@
   font-size: 14px;
 }
 
+#stillDiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.userProfileForm video {
+  width: 300px !important;
+}
+
+#fileInput {
+  display: none;
+}
+
+#videoInput {
+  display: none;
+}
+
+#photoButton {
+  margin: 10px 0;
+}
+
+.userProfileForm .camera-buttons-wrapper {
+  margin: 10px 0 5px;
+}
+
+#photoUploadButton {
+  display: none;
+}
+
+#form > div:nth-child(8) > div, #form > div:nth-child(9) > div {
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+.hide {
+  display: none !important;
+}
+
+#selectPhoto, #selectVideo {
+  position: absolute;
+  margin-top: -32px;
+  margin-left: 110px;
+}
+
+#photoPath, #videoPath {
+  position: absolute;
+  margin-top: -28px;
+  margin-left: 110px;
+  font-size: 14px;
+}
+
+#videoDiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .camera-on, .still-pic, .user-video {
   display: block;
