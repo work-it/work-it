@@ -113,6 +113,11 @@
   display: none !important;
 }
 
+.img-preview {
+  max-height: 250px;
+  max-width: 300px;
+}
+
 #selectPhoto, #selectVideo {
   position: absolute;
   margin-top: -32px;
