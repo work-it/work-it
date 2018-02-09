@@ -28,14 +28,13 @@ class EmployerView extends Component {
     }
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   console.log("comp will receive props", this.props.userId, nextProps.userId)
-  //   if (!this.props.userId && nextProps.userId) {
-  //     this.props.fetchEmployerJobs(nextProps.userId);
-  //     this.props.fetchAppsWithProfiles(nextProps.userId);
-
-  //   }
-  // }
+  componentWillReceiveProps(nextProps) {
+    console.log("comp will receive props", this.props.userId, nextProps.userId)
+    if (!this.props.userId && nextProps.userId) {
+      this.props.fetchEmployerJobs(nextProps.userId);
+      this.props.fetchAppsWithProfiles(nextProps.userId);
+    }
+  }
 
   render() {
     return (

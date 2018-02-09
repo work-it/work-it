@@ -83,7 +83,10 @@ export const auth = (email, password, method, history) =>
       .then(res => {
         dispatch(hideLogin())
         dispatch(getUser(res.data))
-        history.push('/')
+        if(method==='login')
+          history.push('/')
+        else 
+          history.push('/profile/edit')
       }, authError => { // rare example: a good use case for parallel (non-catch) error handler
         dispatch(getUser({error: authError}))
       })

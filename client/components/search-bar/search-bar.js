@@ -78,8 +78,8 @@ class SearchBar extends Component {
     const URLparams = new URLSearchParams(this.props.location.search);
     const term = URLparams.get('term');
     const location = URLparams.get('location');
-    if (term && location) {
-      this.setState({ term, location });
+    if (term && location && term!=='null' && location !== 'null') {
+      this.setState({ term, location }); 
     }
   }
 
@@ -88,11 +88,10 @@ class SearchBar extends Component {
     const URLterm = new URLSearchParams(this.props.location.search).get('term');
     const nextURLlocation = new URLSearchParams(nextProps.location.search).get('location');
     const URLlocation = new URLSearchParams(this.props.location.search).get('location');
-    if ((nextURLterm !== URLterm) || (nextURLlocation !== URLlocation)) {
+    if ((nextURLterm !== URLterm && nextURLterm && nextURLterm !== 'null') || (nextURLlocation !== URLlocation&& nextURLlocation && nextURLlocation !== 'null')) {
       this.setState({term: nextURLterm, location: nextURLlocation});
     }
   }
-
   render() {
     const { advanced, experience, type, zip, radius, exclude } = this.state;
     const { authShow, room, waiting, isLoggedIn } = this.props;

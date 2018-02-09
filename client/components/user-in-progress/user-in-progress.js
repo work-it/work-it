@@ -50,7 +50,8 @@ class UserInProgress extends Component {
           !!filteredApplications.length && !!jobs.length ?
           filteredApplications.map(application => {
             const jobToDisplay = jobs.filter(job => job.id === application.jobId)[0];
-            return <UserApplication key={`${application.id}-${userId}`} job={jobToDisplay} application={application} applicantNotes={application.applicantNotes} />
+            const key = Math.floor(Math.random()*100000000000000000);
+            return <UserApplication key={key} job={jobToDisplay} application={application} applicantNotes={application.applicantNotes} />
           }) :
           this.renderNoApplicationsCard()
         }

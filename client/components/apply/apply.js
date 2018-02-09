@@ -74,8 +74,8 @@ class Apply extends Component {
     }
 
     handleApplyClick(id, employerId) {
-      this.props.applyToJob(id, this.state.coverLetter, employerId);
-      this.props.history.push('/applications/in-progress');
+      this.props.applyToJob(id, this.state.coverLetter, employerId, this.props.history);
+      
     }
 }
 
@@ -85,7 +85,7 @@ const mapState = state => ({
 
 const mapDispatch = (dispatch) => ({
     fetchJob: (id) => dispatch(loadJobThunk(id)),
-    applyToJob: (id, coverLetter, employerId) => dispatch(applyThunk(id, coverLetter, employerId))
+    applyToJob: (id, coverLetter, employerId, history) => dispatch(applyThunk(id, coverLetter, employerId, history))
 })
 
 
