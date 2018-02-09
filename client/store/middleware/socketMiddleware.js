@@ -2,7 +2,7 @@ import { updateWhiteboard,  clearWhiteboard, EMIT_DRAW_EVENT} from '../../compon
 import { updateTextarea, clearTextarea,  EMIT_TEXT_EVENT} from '../../components/interview-board/textarea-reducer';
 import { saveState } from '../../components/interview-container/save-state-reducer'
 import { NOTIFY_OF_UPDATE, fetchSchedule} from '../../components/practice-schedule/practice-schedule-reducer'
-import { videoUploaded, UPLOAD_VIDEO, START_FILE_UPLOAD, VIDEO_UPLOADED, pushVideoToFirebase, ADD_MESSAGE, fetchAppsWithProfilesThunk,fetchApplicationsThunk, REVIEW, INTERVIEW, OFFER, OFFER_STATUS} from '../index'
+import { videoUploaded, UPLOAD_VIDEO, START_FILE_UPLOAD, VIDEO_UPLOADED, pushVideoToFirebase, ADD_MESSAGE, fetchEmployerJobsThunk, fetchAppsWithProfilesThunk,fetchApplicationsThunk, REVIEW, INTERVIEW, OFFER, OFFER_STATUS, APPLY} from '../index'
 import { JOIN_ROOM, START_PAIR, loadOpenRooms, CLOSE_ROOM, START_SOLO, continueSolo, roomWaiting, endOpenedRoom, LEAVE_ROOM, roomClosed } from '../../components/practice-pairs/practice-reducer';
 import { hideLogin } from '../../components/auth/auth-reducer'
 import { GET_USER } from '../user'
@@ -91,6 +91,16 @@ export default () => {
 
         })
 
+        socket.on('update-applications', function (employerIds) {
+            const userId = store.getState().user.id
+            console.log("should update be triggered for employer?", employerIds, userId)
+            if (employerIds.includes(userId)) {
+                store.dispatch(fetchEmployerJobsThunk(userId))
+                store.dispatch(fetchAppsWithProfilesThunk(userId))
+            }
+                  
+        })
+
         socket.on('more-data', function (data){
             //UpdateBar(data['Percent']);
             if (data.percent === 100) {
@@ -171,6 +181,11 @@ export default () => {
                     break;
                 case GET_USER:
                     store.dispatch(hideLogin());
+                    break;
+                case APPLY:
+                    const empIdMap = action.updateApplications.map(app=>app.employerId)
+                    console.log("sending empId notification", empIdMap)
+                    socket.emit ('applied', empIdMap)
                     break;
 
             }

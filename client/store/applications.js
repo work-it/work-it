@@ -4,7 +4,7 @@ import _ from 'lodash'
 /**
  * ACTION TYPES
  */
-const APPLY = 'APPLY';
+export const APPLY = 'APPLY';
 export const REVIEW = 'REVIEW';
 const FETCH_APPLICTIONS = 'FETCH_APPLICATIONS';
 const UPDATE_NOTES = 'UPDATE_NOTES';
@@ -135,7 +135,7 @@ export const fetchApplicationsThunk = (userId) => {
 }
 
 
-export const applyThunk = (id, coverLetter, employerId) => {
+export const applyThunk = (id, coverLetter, employerId, history) => {
   return (dispatch, getState) => {
     // Get the user id.
     const userId = getState().user.id;
@@ -160,6 +160,7 @@ export const applyThunk = (id, coverLetter, employerId) => {
       if (res.status === 200) {
         // Call action creator to update the redux store on successful post.
         dispatch(apply(allApplications))
+        history.push('/applications/in-progress');
       }
     })
   }

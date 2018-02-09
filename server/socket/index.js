@@ -67,6 +67,11 @@ const socketInit = (function initSocket ()  {
         socket.broadcast.emit('update-schedule', session)
       })
 
+      socket.on('applied', employerIds => {
+        console.log("socket.io ====> got application to update", employerIds)
+        socket.broadcast.emit('update-applications', employerIds)
+      })
+
       socket.on ('application-status-update', applicationIds => {
         console.log("application status is being updated", applicationIds)
         socket.broadcast.emit('applications-updated', applicationIds)

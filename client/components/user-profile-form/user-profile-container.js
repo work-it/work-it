@@ -23,12 +23,19 @@ class userProfileContainer extends Component {
       step: props.step
     }
 
+    console.log("Constructor called")
  
     this.nextClick = this.nextClick.bind(this);
     this.prevClick = this.prevClick.bind(this);
   }
 
+  componentDidMount() {
+    console.log("COMPONENT DID MOUNT");
+    if (this.props.isLoggedIn)
+      this.props.fetchProfile();
+  }
   componentWillReceiveProps(nextProps) {
+    console.log("RENDERING PROFILE CONTAINER");
     // if (nextProps && !this.state.step) {
     //   this.setState({step: nextProps.step})
     // }
