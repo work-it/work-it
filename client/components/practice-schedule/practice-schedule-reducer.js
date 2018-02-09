@@ -67,7 +67,10 @@ export const NOTIFY_OF_UPDATE = 'NOTIFY_OF_UPDATE'
 
     axios.post(`/api/schedule`, newSessions)
     .then(res => res.data)
-    .then(res => dispatch(addSession(res)))
+    .then(res => {
+      dispatch(addSession(res))
+      dispatch(notifyOfUpdate())
+    })
     .catch (console.log)
   }
 }

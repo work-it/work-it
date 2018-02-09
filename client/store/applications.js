@@ -12,9 +12,9 @@ const UPDATE_EMPLOYER_NOTES = 'UPDATE_EMPLOYER_NOTES';
 export const ADD_MESSAGE = 'ADD_MESSAGE';
 const ARCHIVE = 'ARCHIVE';
 const FETCH_APP_W_PROFILE = 'FETCH_APP_W_PROFILE';
-const OFFER = 'OFFER';
-const OFFER_STATUS = 'OFFER_STATUS';
-const INTERVIEW = 'INTERVIEW';
+export const OFFER = 'OFFER';
+export const OFFER_STATUS = 'OFFER_STATUS';
+export const INTERVIEW = 'INTERVIEW';
 
 /**
  * INITIAL STATE
@@ -40,7 +40,7 @@ const updateEmployerNotes = updatedApplications => ({type: UPDATE_EMPLOYER_NOTES
  */
 export const offerLetterStatusThunk = (status, id) => {
   return (dispatch, getState) => {
-    let updatedApplications = [...getState().applications].map(application => {
+    let updatedApplications = [...getState().applications].filter(app=>app).map(application => {
       if (application.id === id) {
         application.offerStatus = status;
         if (status === 'accept') {

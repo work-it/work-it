@@ -2,7 +2,7 @@ import { updateWhiteboard,  clearWhiteboard, EMIT_DRAW_EVENT} from '../../compon
 import { updateTextarea, clearTextarea,  EMIT_TEXT_EVENT} from '../../components/interview-board/textarea-reducer';
 import { saveState } from '../../components/interview-container/save-state-reducer'
 import { NOTIFY_OF_UPDATE, fetchSchedule} from '../../components/practice-schedule/practice-schedule-reducer'
-import { videoUploaded, UPLOAD_VIDEO, START_FILE_UPLOAD, VIDEO_UPLOADED, pushVideoToFirebase, ADD_MESSAGE, fetchAppsWithProfilesThunk,fetchApplicationsThunk, REVIEW} from '../index'
+import { videoUploaded, UPLOAD_VIDEO, START_FILE_UPLOAD, VIDEO_UPLOADED, pushVideoToFirebase, ADD_MESSAGE, fetchAppsWithProfilesThunk,fetchApplicationsThunk, REVIEW, INTERVIEW, OFFER, OFFER_STATUS} from '../index'
 import { JOIN_ROOM, START_PAIR, loadOpenRooms, CLOSE_ROOM, START_SOLO, continueSolo, roomWaiting, endOpenedRoom, LEAVE_ROOM, roomClosed } from '../../components/practice-pairs/practice-reducer';
 import { hideLogin } from '../../components/auth/auth-reducer'
 import { GET_USER } from '../user'
@@ -68,7 +68,7 @@ export default () => {
 
         socket.on ('applications-updated', applicationIds => {
             console.log("got application to update", applicationIds)
-            const currentApplicationIds = store.getState().applications.map(application => application.id);
+            const currentApplicationIds = store.getState().applications.filter(app=>app).map(application => application.id);
             const isEmployer = store.getState().user.employer;
             const userId = store.getState().user.id
             applicationIds.forEach(applicationId => {
@@ -85,7 +85,7 @@ export default () => {
         socket.on ('update-schedule', session => {
             //console.log ("updating schedule", session);
             const userId = store.getState().user.id
-            if (session.userOne === userId || session.userTwo === userId || session.intervieweeId === userId) {
+            if (!session || session.userOne === userId || session.userTwo === userId || session.intervieweeId === userId) {
                 store.dispatch(fetchSchedule());
             }
 
@@ -162,7 +162,7 @@ export default () => {
                     console.log ("adding message")
                     socket.emit ('chat-message-added', action.updatedApplications.map(application => application.id))
                     break;
-                case REVIEW:
+                case REVIEW: case INTERVIEW: case OFFER: case OFFER_STATUS:
                     //console.log("updatedApplications in review", action.updatedApplication)
                     socket.emit ('application-status-update', action.updatedApplications.map(application => application.id))
                     break;

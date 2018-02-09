@@ -20,7 +20,7 @@ class PracticeMenu extends Component{
 
 
 render (){
-  const { changeView, available, changeAvailability } = this.props;
+  const { changeView, available, changeAvailability, openNewRoom } = this.props;
   return (
     <div className="practice-menu">
       <div className="col-sm-6 text-left">
@@ -36,6 +36,9 @@ render (){
             changeView('solo')
           }}>Solo</a></li>
           <li><a onClick={() => changeView('history')}>History</a></li>
+          {
+            !(this.props.room && this.props.room.name)?<li><a onClick={() => openNewRoom()}>Open New Room</a></li>:null
+          }
         </ul>
       </div>
     </div>

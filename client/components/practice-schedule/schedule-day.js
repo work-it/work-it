@@ -13,7 +13,10 @@ const ScheduleDay = (props) => {
       <h4 className="text-center day-name">{name}</h4>
       <h5 className="text-center">{moment(date).format('MMM Do YYYY')}</h5>
       {
-        !!sessions.length && sessions.map(session => {
+
+        !!sessions.length && sessions.filter(session => {
+          return ( (session.userOne && !session.userTwo )|| session.userOne=== props.userId ||  session.userTwo === props.userId)
+        }).map(session => {
           return <ScheduleSession key={Math.floor(Math.random()*1000000000000)} session={session} date={date} handleClick={props.handleClick} />
         })
       }
@@ -23,7 +26,7 @@ const ScheduleDay = (props) => {
 
 const mapState = (state) => {
   return {
-
+    userId: state.user.id
   }
 }
 

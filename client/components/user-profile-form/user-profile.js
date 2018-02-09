@@ -47,7 +47,6 @@ class userProfile extends Component {
     const {step} = this.state;
     if (!this.props.profile) return null;
     const {firstName, lastName, position, location, experience, type, minSalary, maxSalary, imgUrl, videoUrl, userDesc, skillsArr, pastEmployersArr, ProjectsArr, SchoolArr} = this.props.profile
-      console.log("video URL exists", videoUrl)
     return (
       <div className="job-view row">
         <Card className="job-panel">

@@ -97,7 +97,7 @@ class userProfileContainer extends Component {
       case 6:
         return <SchoolForm  prevClick={this.prevClick} history={this.props.history} step={step} />
       default:
-        return <UserProfileForm />
+        return <UserProfileForm nextClick={this.nextClick} step={1}/>
     }
   }
 }
