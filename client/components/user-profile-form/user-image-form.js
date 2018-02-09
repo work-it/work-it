@@ -45,6 +45,7 @@ class UserImageForm extends Component {
       this.handleStartVideo = this.handleStartVideo.bind(this)
       this.stop = this.stop.bind(this)
       this.blobCB = this.blobCB.bind(this)
+      this.uploadButton;
   }
   handleStringChange(key, val){
     //console.log('handlig change', key, val)
@@ -193,7 +194,7 @@ getClickEvent (e) {
             <h2>Profile Builder</h2>
           </div>
           <div className = "col-sm-6">
-            <Button color="blue" size="big" className ="save-button" floated="right" onClick= {nextClick}>Next</Button>
+            <Button color="blue" size="big" className ="save-button" floated="right" onClick= {() => this.handleNextClick()}>Next</Button>
             <Button color="black" size="big" className="save-button" floated="right" onClick={prevClick}>Prev</Button>
           </div>
           <div className = "col-sm-12">
@@ -216,7 +217,7 @@ getClickEvent (e) {
               <div className = "col-sm-4">
                 <div className="user-video" id="videoDiv" />
               </div>
-              <div className = "col-sm-12">
+              <div className = "col-sm-12 camera-buttons-wrapper">
                 <Button id="photoSaveButton" onClick={this.handleSavePhoto}>Capture Photo</Button>
                 <Button id="startVideo" onClick={this.handleStartVideo}>Start video recording</Button>
                 <Button id="stopVideoRecording" onClick={this.handleStopVideo}>Stop video recording</Button>
@@ -231,11 +232,15 @@ getClickEvent (e) {
               </div>
               <div className = "col-sm-6">
 
-                <Input id="fileInput" label="Upload Photo:" type="file" className="imgUrl" placeholder="Chose a photo" fluid value={imgUrl} onChange={(evt) => this.handleStringChange('imgUrl', evt.target.value)} />
+                <Input id="fileInput" label="Photo Path:" type="file" className="imgUrl" placeholder="Chose a photo" fluid value={imgUrl} onChange={(evt) => this.handleStringChange('imgUrl', evt.target.value)} />
+                <Button id="selectPhoto" className={this.state.imgUrl !== '' && 'hide'} onClick={() => {document.getElementById('fileInput').click()}}>Select Photo</Button>
+                <span id="photoPath" className={this.state.imgUrl === '' ? 'hide' : ''}>{this.state.imgUrl}</span>
               </div>
 
               <div className = "col-sm-6">
-                <Input className="videoUrl" label="Upload Video:" type="file" id="videoInput" placeholder="Add a video" fluid value={videoUrl} onChange={(evt) => this.handleStringChange('videoUrl', evt.target.value)} />
+                <Input className="videoUrl" label="Video Path:" type="file" id="videoInput" placeholder="Add a video" fluid value={videoUrl} onChange={(evt) => this.handleStringChange('videoUrl', evt.target.value)} />
+                <Button id="selectVideo" className={this.state.videoUrl !== '' && 'hide'} onClick={() => {document.getElementById('videoInput').click()}}>Select Video</Button>
+                <span id="videoPath" className={this.state.videoUrl === '' ? 'hide' : ''}>{this.state.videoUrl}</span>
               </div>
 
             </Form>
@@ -243,6 +248,11 @@ getClickEvent (e) {
       </Card>
       </div>
     )
+  }
+
+  handleNextClick() {
+    document.getElementById('photoUploadButton').click();
+    this.props.nextClick()
   }
 }
 
