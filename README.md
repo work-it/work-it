@@ -62,9 +62,9 @@ twilioClient: {
 6.  Create tempImages directory in your project root - it will be used to save video and image files you upload or record for your profile.
 
 After you complete the above steps, you can
-
+```
 npm run start-dev 
-
+```
 to allow webpack to run once, and after that you can run it in production mode.
 
 ## Contribute
