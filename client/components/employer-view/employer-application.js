@@ -28,12 +28,6 @@ class EmployerApplication extends Component {
     this.setState({notes: this.props.application.employerNotes, offerLetter: this.props.application.offerLetter})
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.employerNotes !== this.props.employerNotes) {
-      alert('Notes Saved!');
-    }
-  }
-
   render() {
     const { application, profile } = this.props;
     const { view } = this.state;
